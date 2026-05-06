@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/my_home_page.dart';
 import 'package:taiyishenshu/pages/rectangle_pan.dart';
 
 class NavigatorGenerator {
-  static final RouteObserver<PageRoute> routeObserver =
-      RouteObserver<PageRoute>();
-  static Logger logger = Logger();
-  static final routes = {
-    // "/taiyishenshu": (context, {arguments}) => MyHomePage(title: "太乙神数"),
-    "/taiyishenshu": (context, {arguments}) => const RectanglePanel(),
-    // "/taiyishenshu": (context, {arguments}) => BeautyPage(),
-  };
+static final RouteObserver<PageRoute> routeObserver = 
+RouteObserver<PageRoute>();
+static Logger logger = Logger();
+static final routes = {
+"/taiyishenshu": (context, {arguments}) => const TaiYiPanPage(),
+"/taiyishenshu/legacy": (context, {arguments}) => const RectanglePanel(),
+"/taiyishenshu/demo": (context, {arguments}) => MyHomePage(title: "太乙神数"),
+};
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final String? name = settings.name;
