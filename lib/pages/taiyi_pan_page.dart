@@ -7,6 +7,7 @@ import '../taiyi/pan_data_model.dart';
 import '../taiyi/pan_enums.dart';
 import '../theme/taiyi_classic_theme.dart';
 import '../widgets/taiyi_pan_grid.dart';
+import '../widgets/taiyi_pan_grid_v2.dart';
 import '../widgets/pan_info_panel.dart';
 
 class TaiYiPanPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class TaiYiPanPage extends StatefulWidget {
 class _TaiYiPanPageState extends State<TaiYiPanPage> {
   final _controller = TaiYiPanController();
   EnumTaiYiGong? _selectedGong;
+  bool _useV2 = false;
 
   late DateTime _selectedDate;
   late TaiYiSchool _selectedSchool;
@@ -134,15 +136,25 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   Widget _buildContent(bool isWide, PanDataModel panData) {
     final screenWidth = MediaQuery.of(context).size.width;
     final gridWidth = isWide ? screenWidth * 0.6 : screenWidth - 24;
-    final grid = TaiYiPanGrid(
-      panData: panData,
-      totalWidth: gridWidth.clamp(320.0, 900.0),
-      onGongTap: (gong) {
-        setState(() {
-          _selectedGong = _selectedGong == gong ? null : gong;
-        });
-      },
-    );
+    final grid = _useV2
+        ? TaiYiPanGridV2(
+            panData: panData,
+            totalWidth: gridWidth.clamp(320.0, 900.0),
+            onGongTap: (gong) {
+              setState(() {
+                _selectedGong = _selectedGong == gong ? null : gong;
+              });
+            },
+          )
+        : TaiYiPanGrid(
+            panData: panData,
+            totalWidth: gridWidth.clamp(320.0, 900.0),
+            onGongTap: (gong) {
+              setState(() {
+                _selectedGong = _selectedGong == gong ? null : gong;
+              });
+            },
+          );
     final info = PanInfoPanel(
       panData: panData,
       selectedGong: _selectedGong,
@@ -263,6 +275,41 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
             );
           }),
+          const SizedBox(width: 4),
+          const VerticalDivider(width: 1, thickness: 1, color: TaiYiClassicTheme.goldLeaf),
+          const SizedBox(width: 4),
+          Text(
+            '样式',
+            style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+          ),
+          ChoiceChip(
+            label: const Text('经典'),
+            selected: !_useV2,
+            onSelected: (val) {
+              if (val) setState(() => _useV2 = false);
+            },
+            selectedColor: TaiYiClassicTheme.darkWood,
+            labelStyle: TextStyle(
+              fontSize: 12,
+              color: !_useV2 ? TaiYiClassicTheme.paleGold : TaiYiClassicTheme.inkBlack,
+            ),
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+          ),
+          ChoiceChip(
+            label: const Text('罗盘'),
+            selected: _useV2,
+            onSelected: (val) {
+              if (val) setState(() => _useV2 = true);
+            },
+            selectedColor: TaiYiClassicTheme.darkWood,
+            labelStyle: TextStyle(
+              fontSize: 12,
+              color: _useV2 ? TaiYiClassicTheme.paleGold : TaiYiClassicTheme.inkBlack,
+            ),
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+          ),
         ],
       ),
     );

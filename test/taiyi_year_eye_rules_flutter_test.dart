@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:taiyishenshu/enums/eight_door.dart';
 import 'package:taiyishenshu/enums/gong.dart';
 import 'package:taiyishenshu/taiyi/taiyi.dart';
 
@@ -62,5 +63,110 @@ void main() {
         });
       }
     }
+  });
+
+  group('Year host guest rules', () {
+    test('jingMirror 2024 host/guest counts and generals', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2024, 1, 1),
+        school: TaiYiSchool.jingMirror,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.renPan.tianMuName, '坤');
+      expect(pan.renPan.shiJiName, '亥');
+      expect(pan.hostGuest.hostCount, 38);
+      expect(pan.hostGuest.guestCount, 25);
+      expect(pan.hostGuest.hostPalace, EnumTaiYiGong.Kun);
+      expect(pan.hostGuest.guestPalace, EnumTaiYiGong.Qian);
+
+      expect(pan.tianPan.hostGeneralGong, EnumTaiYiGong.Kan);
+      expect(pan.tianPan.hostDeputyGeneralGong, EnumTaiYiGong.Zhen);
+      expect(pan.tianPan.guestGeneralGong, EnumTaiYiGong.Center);
+      expect(pan.tianPan.guestDeputyGeneralGong, EnumTaiYiGong.Center);
+    });
+
+    test('tongZong 2024 host/guest counts and generals', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2024, 1, 1),
+        school: TaiYiSchool.tongZong,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.renPan.tianMuName, '坤');
+      expect(pan.renPan.shiJiName, '亥');
+      expect(pan.hostGuest.hostCount, 38);
+      expect(pan.hostGuest.guestCount, 25);
+      expect(pan.hostGuest.hostPalace, EnumTaiYiGong.Kun);
+      expect(pan.hostGuest.guestPalace, EnumTaiYiGong.Qian);
+
+      expect(pan.tianPan.hostGeneralGong, EnumTaiYiGong.Kan);
+      expect(pan.tianPan.hostDeputyGeneralGong, EnumTaiYiGong.Zhen);
+      expect(pan.tianPan.guestGeneralGong, EnumTaiYiGong.Center);
+      expect(pan.tianPan.guestDeputyGeneralGong, EnumTaiYiGong.Center);
+    });
+
+    test('jingMirror 2026 guest count', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2026, 1, 1),
+        school: TaiYiSchool.jingMirror,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.renPan.shiJiName, '艮');
+      expect(pan.hostGuest.guestCount, 3);
+    });
+
+    test('tongZong 2026 guest count', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2026, 1, 1),
+        school: TaiYiSchool.tongZong,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.hostGuest.hostCount, 16);
+      expect(pan.renPan.shiJiName, '艮');
+      expect(pan.hostGuest.guestCount, 3);
+    });
+  });
+
+  group('Year eight doors', () {
+    test('jingMirror 2024 value door layout', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2024, 1, 1),
+        school: TaiYiSchool.jingMirror,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.taiYiPalace, EnumTaiYiGong.Li);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Li], EnumEightDoor.Shang);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Kun], EnumEightDoor.Du);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Dui], EnumEightDoor.Jing);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Qian], EnumEightDoor.Si);
+      expect(
+          pan.eightDoorsByPalace[EnumTaiYiGong.Kan], EnumEightDoor.JingMen);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Gen], EnumEightDoor.Kai);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Zhen], EnumEightDoor.Xiu);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Xun], EnumEightDoor.Sheng);
+    });
+
+    test('tongZong 2024 value door layout', () {
+      final pan = const TaiYiPanCalculator().calculate(
+        dateTime: DateTime(2024, 1, 1),
+        school: TaiYiSchool.tongZong,
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(pan.taiYiPalace, EnumTaiYiGong.Li);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Li], EnumEightDoor.Shang);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Kun], EnumEightDoor.Du);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Dui], EnumEightDoor.Jing);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Qian], EnumEightDoor.Si);
+      expect(
+          pan.eightDoorsByPalace[EnumTaiYiGong.Kan], EnumEightDoor.JingMen);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Gen], EnumEightDoor.Kai);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Zhen], EnumEightDoor.Xiu);
+      expect(pan.eightDoorsByPalace[EnumTaiYiGong.Xun], EnumEightDoor.Sheng);
+    });
   });
 }

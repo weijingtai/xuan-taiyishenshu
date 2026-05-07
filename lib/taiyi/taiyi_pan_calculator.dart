@@ -106,6 +106,8 @@ final rule = _RuleProfile.forSchool(school);
       rule: rule,
     );
     final eightDoorsByPalace = _calculateEightDoors(
+      accumulatedYear: accumulatedYear,
+      chartType: chartType,
       taiYiPalace: taiYiPalace,
       rule: rule,
     );
@@ -130,12 +132,14 @@ final rule = _RuleProfile.forSchool(school);
       rule: rule,
     );
     final tianPan = _buildTianPan(
+      accumulatedYear: accumulatedYear,
       taiYiPalace: taiYiPalace,
       wenChangPalace: wenChangPalace,
       hostGuest: hostGuest,
       rule: rule,
     );
     final shenPan = _buildShenPan(
+      accumulatedYear: accumulatedYear,
       dateTime: dateTime,
       taiYiPalace: taiYiPalace,
       rule: rule,
@@ -186,6 +190,9 @@ return PanDataModel(
       taiYiPalace: taiYiPalace,
       wenChangPalace: wenChangPalace,
       jiShenPalace: jiShenPalace,
+      schoolBase: rule.isAncientSchool
+          ? '${rule.school.label}基数: ${rule.ancientBase}'
+          : '${rule.school.label}起算年: ${rule.contemporaryEpochYear}',
       palaces: palaces,
       eightDoorsByPalace: eightDoorsByPalace,
       unplacedItems: List.unmodifiable(unplacedItems),
@@ -371,6 +378,8 @@ return PanDataModel(
   }
 
   Map<EnumTaiYiGong, EnumEightDoor> _calculateEightDoors({
+    required int accumulatedYear,
+    required TaiYiChartType chartType,
     required EnumTaiYiGong taiYiPalace,
     required _RuleProfile rule,
   }) {
@@ -381,6 +390,33 @@ return PanDataModel(
       }
       return Map.unmodifiable(result);
     }
+
+    if (_usesSharedYearEyeRules(rule, chartType)) {
+      const eightDoorClockwisePalaces = [
+        EnumTaiYiGong.Qian,
+        EnumTaiYiGong.Kan,
+        EnumTaiYiGong.Gen,
+        EnumTaiYiGong.Zhen,
+        EnumTaiYiGong.Xun,
+        EnumTaiYiGong.Li,
+        EnumTaiYiGong.Kun,
+        EnumTaiYiGong.Dui,
+      ];
+      final normalizedRemainder =
+          _positiveModulo(accumulatedYear, 240, zeroAsMod: true);
+      final valueDoorIndex = (normalizedRemainder - 1) ~/ 30;
+      final startDoor = eightDoorOrder[valueDoorIndex];
+      final startDoorIndex = eightDoorOrder.indexOf(startDoor);
+      final startPalaceIndex = eightDoorClockwisePalaces.indexOf(taiYiPalace);
+      for (var i = 0; i < eightDoorClockwisePalaces.length; i++) {
+        result[eightDoorClockwisePalaces[
+                _positiveModulo(startPalaceIndex + i, eightDoorClockwisePalaces.length)]] =
+            eightDoorOrder[
+                _positiveModulo(startDoorIndex + i, eightDoorOrder.length)];
+      }
+      return Map.unmodifiable(result);
+    }
+
     final start = taiYiPalaceOrder.indexOf(taiYiPalace);
     for (var i = 0; i < taiYiPalaceOrder.length; i++) {
       result[taiYiPalaceOrder[
@@ -390,7 +426,7 @@ return PanDataModel(
     return Map.unmodifiable(result);
   }
 
-  HostGuestDataModel _calculateHostGuest({
+HostGuestDataModel _calculateHostGuest({
     required int juNumber,
     required EnumTaiYiGong taiYiPalace,
     required EnumTaiYiGong wenChangPalace,
@@ -400,30 +436,69 @@ return PanDataModel(
   }) {
     final wenChangDeity = _findWenChangDeity(juNumber);
     final wenChangPos = _sixteenGodPosition(wenChangDeity);
-    final taiYiPos = _palaceToDeityPosition(taiYiPalace);
-    final stopPos = _findStopPosition(taiYiPos);
+    final taiYiPos = _palaceToZhengDeityPosition(taiYiPalace);
+    final shiJiDeity = _findShiJiDeity(juNumber);
+    final shiJiPos = _sixteenGodPosition(shiJiDeity);
+    final hostResult = _samePalaceCountWithDetail(
+          startDeity: wenChangDeity,
+          startPos: wenChangPos,
+          taiYiPalace: taiYiPalace,
+          taiYiPos: taiYiPos,
+          schoolLabel: rule.school.label,
+        ) ??
+        _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.label);
+    final guestResult = _samePalaceCountWithDetail(
+          startDeity: shiJiDeity,
+          startPos: shiJiPos,
+          taiYiPalace: taiYiPalace,
+          taiYiPos: taiYiPos,
+          schoolLabel: rule.school.label,
+        ) ??
+        _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.label);
 
-    final hostCount = _walkAndSum(wenChangPos, stopPos);
-    final guestCount = _calculateGuestCount(wenChangDeity, taiYiPos, stopPos, rule, juNumber);
-
-    final dingRemainder = _positiveModulo(hostCount, 10);
-    final dingCount = dingRemainder == 0 ? 10 : dingRemainder;
-    final dingPalace = _calculateGeneralGong(dingCount, rule);
-    final (dingMuPalace, dingMuName) = _calculateDingMuPalace(
+    final dingMuName = _calculateDingMuPosition(
       yearBranch: yearBranch,
-      taiYiPalace: taiYiPalace,
-      rule: rule,
+      wenChangDeity: wenChangDeity,
     );
+    final dingMuPos = _sixteenGodPosition(dingMuName);
+    final dingMuPalace = _deityToPalace(dingMuName);
+    final dingResult = _samePalaceCountWithDetail(
+          startDeity: dingMuName,
+          startPos: dingMuPos,
+          taiYiPalace: taiYiPalace,
+          taiYiPos: taiYiPos,
+          schoolLabel: rule.school.label,
+        ) ??
+        _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.label);
+    final dingCount = dingResult.count;
+    final dingPalace = dingMuPalace;
+
+    final schoolBase = rule.isAncientSchool
+        ? '${rule.school.label}基数: ${rule.ancientBase}'
+        : '${rule.school.label}起算年: ${rule.contemporaryEpochYear}';
+
     return HostGuestDataModel(
-      hostCount: hostCount,
-      guestCount: guestCount,
+      hostCount: hostResult.count,
+      guestCount: guestResult.count,
       dingCount: dingCount,
       hostPalace: taiYiPalace,
       guestPalace: wenChangPalace,
       dingPalace: dingPalace,
       dingMuPalace: dingMuPalace,
       dingMuName: dingMuName,
-      method: rule.methodNote,
+      method: '$schoolBase · ${rule.methodNote}',
+      hostCountDetail: HostCountDetail(
+        isZhengGong: !_isJianShen(wenChangDeity),
+        detail: hostResult.detail,
+      ),
+      guestCountDetail: HostCountDetail(
+        isZhengGong: !_isJianShen(shiJiDeity),
+        detail: guestResult.detail,
+      ),
+      dingCountDetail: HostCountDetail(
+        isZhengGong: !_isJianShen(dingMuName),
+        detail: dingResult.detail,
+      ),
     );
   }
 
@@ -565,6 +640,152 @@ return PanDataModel(
         rule.school == TaiYiSchool.tongZong;
   }
 
+  static const _countingSequence = [
+    '\u4e7e',
+    '\u4ea5',
+    '\u5b50',
+    '\u4e11',
+    '\u826e',
+    '\u5bc5',
+    '\u536f',
+    '\u8fb0',
+    '\u5dfd',
+    '\u5df3',
+    '\u5348',
+    '\u672a',
+    '\u5764',
+    '\u7533',
+    '\u9149',
+    '\u620c',
+  ];
+
+  static const _countingPalaceNumbers = {
+    '\u4e7e': 1,
+    '\u5b50': 8,
+    '\u826e': 3,
+    '\u536f': 4,
+    '\u5dfd': 9,
+    '\u5348': 2,
+    '\u5764': 7,
+    '\u9149': 6,
+  };
+
+  String _countingPositionForPalace(EnumTaiYiGong palace) {
+    return switch (palace) {
+      EnumTaiYiGong.Qian => '\u4e7e',
+      EnumTaiYiGong.Li => '\u5348',
+      EnumTaiYiGong.Gen => '\u826e',
+      EnumTaiYiGong.Zhen => '\u536f',
+      EnumTaiYiGong.Xun => '\u5dfd',
+      EnumTaiYiGong.Dui => '\u9149',
+      EnumTaiYiGong.Kun => '\u5764',
+      EnumTaiYiGong.Kan => '\u5b50',
+      EnumTaiYiGong.Center => '\u4e2d',
+    };
+  }
+
+  int _calculateSharedYearCount({
+    required String startPosition,
+    required String endPosition,
+  }) {
+    final startIndex = _countingSequence.indexOf(startPosition);
+    final endIndex = _countingSequence.indexOf(endPosition);
+    if (startIndex == -1 || endIndex == -1) return 0;
+
+    if (startPosition == endPosition) {
+      return _countingPalaceNumbers[startPosition] ??
+          (_countingPalaceNumbers.containsKey(startPosition) ? 0 : 1);
+    }
+
+    var sum = 0;
+    if (!_countingPalaceNumbers.containsKey(startPosition)) {
+      sum += 1;
+    }
+
+    var index = startIndex;
+    while (index != endIndex) {
+      final position = _countingSequence[index];
+      sum += _countingPalaceNumbers[position] ?? 0;
+      index = (index + 1) % _countingSequence.length;
+    }
+    return sum;
+  }
+
+  static const _taiSuiHeShen = {
+    '\u5b50': '\u4e11',
+    '\u4e11': '\u5b50',
+    '\u5bc5': '\u4ea5',
+    '\u4ea5': '\u5bc5',
+    '\u536f': '\u620c',
+    '\u620c': '\u536f',
+    '\u8fb0': '\u9149',
+    '\u9149': '\u8fb0',
+    '\u5df3': '\u7533',
+    '\u7533': '\u5df3',
+    '\u5348': '\u672a',
+    '\u672a': '\u5348',
+  };
+
+  String _calculateSharedYearDingMuPosition({
+    required String yearBranch,
+    required String tianMuPosition,
+  }) {
+    final heShen = _taiSuiHeShen[yearBranch];
+    final taiSuiIndex = _countingSequence.indexOf(yearBranch);
+    final heShenIndex = heShen == null ? -1 : _countingSequence.indexOf(heShen);
+    final tianMuIndex = _countingSequence.indexOf(tianMuPosition);
+    if (taiSuiIndex == -1 || heShenIndex == -1 || tianMuIndex == -1) {
+      return tianMuPosition;
+    }
+    final delta = taiSuiIndex - heShenIndex;
+    return _countingSequence[
+        _positiveModulo(tianMuIndex + delta, _countingSequence.length)];
+  }
+
+  int _normalizeCountToTen(int count) {
+    final remainder = count % 10;
+    return remainder == 0 ? 10 : remainder;
+  }
+
+  int _guestOrDingGeneralNumber(int count) {
+    final ones = count % 10;
+    if (ones != 0) return ones;
+    final remainder = count % 9;
+    return remainder == 0 ? 9 : remainder;
+  }
+
+  EnumTaiYiGong _generalNumberToGong(int number) {
+    return switch (number) {
+      1 || 10 => EnumTaiYiGong.Qian,
+      2 => EnumTaiYiGong.Li,
+      3 => EnumTaiYiGong.Gen,
+      4 => EnumTaiYiGong.Zhen,
+      5 => EnumTaiYiGong.Center,
+      6 => EnumTaiYiGong.Dui,
+      7 => EnumTaiYiGong.Kun,
+      8 => EnumTaiYiGong.Kan,
+      9 => EnumTaiYiGong.Xun,
+      _ => EnumTaiYiGong.Center,
+    };
+  }
+
+  EnumTaiYiGong _palaceFromSteppedCycle({
+    required int accumulatedYear,
+    required int cycle,
+    required int stepYears,
+    required String startPosition,
+    bool reverse = false,
+  }) {
+    final remainder = _positiveModulo(accumulatedYear, cycle, zeroAsMod: true);
+    final steps = (remainder - 1) ~/ stepYears;
+    final startIndex = _countingSequence.indexOf(startPosition);
+    if (startIndex == -1) return EnumTaiYiGong.Center;
+    final offset = reverse ? -steps : steps;
+    final position = _countingSequence[
+        _positiveModulo(startIndex + offset, _countingSequence.length)];
+    return _positionToPalace(position);
+  }
+
   static const _jianShenDeities = {'寅', '申', '巳', '亥', '辰', '戌', '丑', '未'};
 
   static bool _isJianShen(String deity) => _jianShenDeities.contains(deity);
@@ -573,68 +794,86 @@ return PanDataModel(
     return _sixteenGodSequence[(pos - 1) % 16];
   }
 
-  int _palaceToDeityPosition(EnumTaiYiGong palace) {
-    for (var i = 0; i < sixteenDeities.length; i++) {
-      if (branchPalace[sixteenDeities[i]] == palace) {
-        return i + 1;
-      }
-    }
-    return 1;
+  int _palaceToZhengDeityPosition(EnumTaiYiGong palace) {
+    return switch (palace) {
+      EnumTaiYiGong.Qian => 15,
+      EnumTaiYiGong.Kan => 1,
+      EnumTaiYiGong.Gen => 3,
+      EnumTaiYiGong.Zhen => 5,
+      EnumTaiYiGong.Xun => 7,
+      EnumTaiYiGong.Li => 9,
+      EnumTaiYiGong.Kun => 11,
+      EnumTaiYiGong.Dui => 13,
+      _ => 1,
+    };
   }
 
-  int _palaceOrderForDeity(String deity) {
-    final palace = branchPalace[deity];
-    return palace?.order ?? 0;
+  static const List<int> _zhengDeityPositions = [1, 3, 5, 7, 9, 11, 13, 15];
+
+  bool _isZhengDeity(int pos) => _zhengDeityPositions.contains(pos);
+
+  int _hostGuestPalaceNumber(EnumTaiYiGong palace) {
+    return palace.order >= 5 ? palace.order + 1 : palace.order;
   }
 
-  int _findStopPosition(int taiYiPos) {
-    int pos = taiYiPos - 1;
-    if (pos < 1) pos = 16;
-    while (_isJianShen(_deityAtPosition(pos))) {
-      pos -= 1;
-      if (pos < 1) pos = 16;
-    }
-    return pos;
-  }
-
-  int _walkAndSum(int startPos, int stopPos) {
-    int sum = 0;
-    int startStep = startPos >= 9 ? 1 : 0;
-    int cur = startPos >= 9 ? 1 : startPos;
-    for (var i = 0; i < 16; i++) {
-      if (cur == stopPos) break;
-      final deity = _deityAtPosition(cur);
-      if (!_isJianShen(deity)) {
-        final num = _palaceOrderForDeity(deity);
-        sum += (num == 0) ? 8 : num;
-      } else if (i == 0 && startStep == 1) {
-        sum += 1;
-      }
-      cur += 1;
-      if (cur > 16) cur = 1;
-    }
-    return sum;
-  }
-
-  int _calculateGuestCount(
-      String wenChangDeity, int taiYiPos, int stopPos, _RuleProfile rule, int juNumber) {
-    final shiJiDeity = _findShiJiDeity(juNumber);
-    final shiJiPos = _sixteenGodPosition(shiJiDeity);
-    return _walkAndSum(shiJiPos, stopPos);
-  }
-
-  (EnumTaiYiGong, String?) _calculateDingMuPalace({
-    required String yearBranch,
+  ({int count, String detail})? _samePalaceCountWithDetail({
+    required String startDeity,
+    required int startPos,
     required EnumTaiYiGong taiYiPalace,
-    required _RuleProfile rule,
+    required int taiYiPos,
+    required String schoolLabel,
   }) {
-    final taiSuiPos = _sixteenGodPosition(yearBranch);
+    final startPalace = _deityToPalace(startDeity);
+    if (startPalace != taiYiPalace) return null;
+
+    if (startPos == taiYiPos) {
+      final count = _hostGuestPalaceNumber(taiYiPalace);
+      return (
+        count: count,
+        detail: '$schoolLabel: ${startDeity}(同宫同神取宫数$count) = $count',
+      );
+    }
+
+    return (
+      count: 1,
+      detail: '$schoolLabel: ${startDeity}(同宫不同神取1) = 1',
+    );
+  }
+
+  ({int count, String detail}) _walkAndSumWithDetail(int startPos, int taiYiPos, String schoolLabel) {
+    int sum = 0;
+    final steps = <String>[];
+    int cur = startPos;
+    final isJianStart = _isJianShen(_deityAtPosition(cur));
+    if (isJianStart) {
+      sum += 1;
+      steps.add('1(间神起)');
+    }
+    for (var i = 0; i < 16; i++) {
+      if (cur == taiYiPos) break;
+      final deity = _deityAtPosition(cur);
+      if (_isZhengDeity(cur)) {
+        final palace = _deityToPalace(deity);
+        final num = _hostGuestPalaceNumber(palace);
+        sum += num;
+        steps.add('$deity($num)');
+      }
+      cur = cur % 16 + 1;
+    }
+    return (count: sum, detail: '$schoolLabel: ${steps.join(" + ")} = $sum');
+  }
+
+  String _calculateDingMuPosition({
+    required String yearBranch,
+    required String wenChangDeity,
+  }) {
     final heShenBranch = _branchComplement(yearBranch);
+    final taiSuiPos = _sixteenGodPosition(yearBranch);
     final heShenPos = _sixteenGodPosition(heShenBranch);
-    final dingMuPos = _positiveModulo(taiSuiPos + heShenPos - 2, 16) + 1;
-    final deityName = _sixteenGodByPosition(dingMuPos);
-    final gong = _deityToPalace(deityName);
-    return (gong, deityName);
+    final wenChangPos = _sixteenGodPosition(wenChangDeity);
+    final shift = taiSuiPos - heShenPos;
+    final dingMuPos = _positiveModulo(wenChangPos + shift - 1, 16) + 1;
+    return _sixteenGodByPosition(dingMuPos);
   }
 
   static const _sixteenGodSequence = [
@@ -818,13 +1057,10 @@ return PanDataModel(
         methodNote: rule.methodNote,
       );
     }
-    final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
-    final startIndex = sequence.indexOf(rule.usesTwelveJiShen ? '寅' : '艮');
-    final wenChangIndex =
-        sequence.indexOf(sixteenDeities.contains('申') ? '申' : '寅');
-    final jiShenIndex = sequence
-        .indexOf(twelveBranches[_positiveModulo(jiShenPalace.index - 4, 12)]);
-    final tianMuIndex = _positiveModulo(
+final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
+  final wenChangIndex =
+      sequence.indexOf(sixteenDeities.contains('申') ? '申' : '寅');
+  final tianMuIndex = _positiveModulo(
         wenChangIndex + (rule.school == TaiYiSchool.jingMirror ? 8 : 3),
         sequence.length);
     final shiJiIndex = _positiveModulo(tianMuIndex + 4, sequence.length);
@@ -854,17 +1090,20 @@ return PanDataModel(
   }
 
   TianPanModel _buildTianPan({
+    required int accumulatedYear,
     required EnumTaiYiGong taiYiPalace,
     required EnumTaiYiGong wenChangPalace,
     required HostGuestDataModel hostGuest,
     required _RuleProfile rule,
   }) {
-    final hostGeneralGong = _calculateGeneralGong(hostGuest.hostCount, rule);
-    final guestGeneralGong = _calculateGeneralGong(hostGuest.guestCount, rule);
+    final hostGeneralNumber = _normalizeCountToTen(hostGuest.hostCount);
+    final guestGeneralNumber = _normalizeCountToTen(hostGuest.guestCount);
+    final hostGeneralGong = _calculateGeneralGong(hostGeneralNumber, rule);
+    final guestGeneralGong = _calculateGeneralGong(guestGeneralNumber, rule);
     final hostDeputyGeneralGong =
-        _calculateDeputyGeneralGong(hostGeneralGong, rule);
+        _calculateDeputyGeneralGong(hostGeneralNumber, rule);
     final guestDeputyGeneralGong =
-        _calculateDeputyGeneralGong(guestGeneralGong, rule);
+        _calculateDeputyGeneralGong(guestGeneralNumber, rule);
 
     EnumTaiYiGong? dingGeneralGong;
     EnumTaiYiGong? dingDeputyGeneralGong;
@@ -876,25 +1115,26 @@ return PanDataModel(
     EnumTaiYiGong? xiaoYouGong;
     EnumTaiYiGong? feiFuGong;
 
-    final dingCount = _positiveModulo(hostGuest.hostCount, 10);
-    dingGeneralGong = dingCount == 0
-        ? EnumTaiYiGong.Center
-        : _calculateGeneralGong(dingCount == 0 ? 10 : dingCount, rule);
-    dingDeputyGeneralGong = _calculateDeputyGeneralGong(dingGeneralGong, rule);
+    final dingGeneralNumber = _guestOrDingGeneralNumber(hostGuest.dingCount);
+    dingGeneralGong = _calculateGeneralGong(dingGeneralNumber, rule);
+    dingDeputyGeneralGong =
+        _calculateGuestOrDingDeputyGeneralGong(dingGeneralNumber);
 
     if (rule.school == TaiYiSchool.jingMirror) {
-      junJiGong = _calculateJunJi(rule);
-      chenJiGong = _calculateChenJi(rule);
-      minJiGong = _calculateMinJi(rule);
-      wuFuGong = _calculateWuFu(rule);
-      daYouGong = taiYiPalace;
-      xiaoYouGong = _calculateXiaoYou(rule);
+      junJiGong = _calculateJunJi(accumulatedYear, rule);
+      chenJiGong = _calculateChenJi(accumulatedYear, rule);
+      minJiGong = _calculateMinJi(accumulatedYear, rule);
+      wuFuGong = _calculateWuFu(accumulatedYear, rule);
+      daYouGong = _calculateDaYou(accumulatedYear, rule);
+      xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
       feiFuGong = _calculateFeiFu(taiYiPalace, rule);
     } else if (rule.school == TaiYiSchool.tongZong) {
-      junJiGong = _calculateJunJi(rule);
-      chenJiGong = _calculateChenJi(rule);
-      minJiGong = _calculateMinJi(rule);
-      wuFuGong = _calculateWuFu(rule);
+      junJiGong = _calculateJunJi(accumulatedYear, rule);
+      chenJiGong = _calculateChenJi(accumulatedYear, rule);
+      minJiGong = _calculateMinJi(accumulatedYear, rule);
+      wuFuGong = _calculateWuFu(accumulatedYear, rule);
+      daYouGong = _calculateDaYou(accumulatedYear, rule);
+      xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
     }
 
     return TianPanModel(
@@ -917,18 +1157,22 @@ return PanDataModel(
   }
 
   ShenPanModel _buildShenPan({
+    required int accumulatedYear,
     required DateTime dateTime,
     required EnumTaiYiGong taiYiPalace,
     required _RuleProfile rule,
   }) {
     final yearBranch = twelveBranches[_positiveModulo(dateTime.year - 4, 12)];
+    final heShenBranch = _branchComplement(yearBranch);
     final taiSuiGong = branchPalace[yearBranch] ?? EnumTaiYiGong.Kan;
+    final heShenGong = _deityToPalace(heShenBranch);
     final suiPoGongIndex = (taiYiPalaceOrder.indexOf(taiSuiGong) + 6) % 9;
     final suiPoGong = taiYiPalaceOrder[suiPoGongIndex];
     return ShenPanModel(
       taiSuiGong: taiSuiGong,
       suiPoGong: suiPoGong,
-      zhiFuGong: taiYiPalace,
+      zhiFuGong: gongClash[taiYiPalace] ?? taiYiPalace,
+      heShenGong: heShenGong,
       methodNote: '神盘 MVP 近似',
     );
   }
@@ -1015,42 +1259,76 @@ return PanDataModel(
   }
 
   EnumTaiYiGong _calculateGeneralGong(int count, _RuleProfile rule) {
-    final digit = _positiveModulo(count, 10);
-    if (digit == 1 || digit == 9) return EnumTaiYiGong.Qian;
-    if (digit == 2 || digit == 8) return EnumTaiYiGong.Kan;
-    if (digit == 3 || digit == 7) return EnumTaiYiGong.Gen;
-    if (digit == 4 || digit == 6) return EnumTaiYiGong.Zhen;
-    if (digit == 5) return EnumTaiYiGong.Li;
-    return EnumTaiYiGong.Center;
+    return _generalNumberToGong(_normalizeCountToTen(count));
   }
 
   EnumTaiYiGong _calculateDeputyGeneralGong(
-      EnumTaiYiGong generalGong, _RuleProfile rule) {
-    final index = taiYiPalaceOrder.indexOf(generalGong);
-    return taiYiPalaceOrder[
-        _positiveModulo(index + 1, taiYiPalaceOrder.length)];
+      int generalNumber, _RuleProfile rule) {
+    final deputyNumber = _normalizeCountToTen(generalNumber * 3);
+    return _generalNumberToGong(deputyNumber);
   }
 
-  EnumTaiYiGong? _calculateJunJi(_RuleProfile rule) {
-    return EnumTaiYiGong.Kan;
+  EnumTaiYiGong _calculateGuestOrDingDeputyGeneralGong(int generalNumber) {
+    final deputyNumber = (generalNumber * 3) % 10;
+    return _generalNumberToGong(deputyNumber == 0 ? 10 : deputyNumber);
   }
 
-  EnumTaiYiGong? _calculateChenJi(_RuleProfile rule) {
-    return EnumTaiYiGong.Kun;
+  EnumTaiYiGong? _calculateJunJi(int accumulatedYear, _RuleProfile rule) {
+    return _palaceFromSteppedCycle(
+      accumulatedYear: accumulatedYear,
+      cycle: 360,
+      stepYears: 30,
+      startPosition: '\u5348',
+    );
   }
 
-  EnumTaiYiGong? _calculateMinJi(_RuleProfile rule) {
-    return EnumTaiYiGong.Dui;
+  EnumTaiYiGong? _calculateChenJi(int accumulatedYear, _RuleProfile rule) {
+    return _palaceFromSteppedCycle(
+      accumulatedYear: accumulatedYear,
+      cycle: 360,
+      stepYears: 30,
+      startPosition: '\u5348',
+    );
   }
 
-  EnumTaiYiGong? _calculateWuFu(_RuleProfile rule) {
-    return EnumTaiYiGong.Qian;
+  EnumTaiYiGong? _calculateMinJi(int accumulatedYear, _RuleProfile rule) {
+    return _palaceFromSteppedCycle(
+      accumulatedYear: accumulatedYear,
+      cycle: 270,
+      stepYears: 30,
+      startPosition: '\u620c',
+    );
   }
 
-  EnumTaiYiGong? _calculateXiaoYou(_RuleProfile rule) {
-    final index = taiYiPalaceOrder.indexOf(EnumTaiYiGong.Qian);
-    return taiYiPalaceOrder[
-        _positiveModulo(index - 1, taiYiPalaceOrder.length)];
+  EnumTaiYiGong? _calculateWuFu(int accumulatedYear, _RuleProfile rule) {
+    const sequence = [
+      EnumTaiYiGong.Qian,
+      EnumTaiYiGong.Gen,
+      EnumTaiYiGong.Xun,
+      EnumTaiYiGong.Kun,
+      EnumTaiYiGong.Center,
+    ];
+    final remainder = _positiveModulo(accumulatedYear, 225, zeroAsMod: true);
+    final index = (remainder - 1) ~/ 45;
+    return sequence[index];
+  }
+
+  EnumTaiYiGong? _calculateDaYou(int accumulatedYear, _RuleProfile rule) {
+    return _palaceFromSteppedCycle(
+      accumulatedYear: accumulatedYear,
+      cycle: 288,
+      stepYears: 36,
+      startPosition: '\u4ea5',
+    );
+  }
+
+  EnumTaiYiGong? _calculateXiaoYou(int accumulatedYear, _RuleProfile rule) {
+    return _palaceFromSteppedCycle(
+      accumulatedYear: accumulatedYear,
+      cycle: 24,
+      stepYears: 1,
+      startPosition: '\u5dfd',
+    );
   }
 
   EnumTaiYiGong? _calculateFeiFu(EnumTaiYiGong taiYiPalace, _RuleProfile rule) {
@@ -1237,7 +1515,7 @@ class _RuleProfile {
           ancientEpochYear: 1303,
           contemporaryEpochYear: 0,
           taiYiPalaceFormula: _TaiYiPalaceFormula.jingMirror,
-          taiYiPalaceShift: 1,
+          taiYiPalaceShift: 0,
           usesWenChangStayRule: true,
           usesTwelveJiShen: false,
           fixedEightDoors: false,

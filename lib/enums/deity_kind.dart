@@ -34,7 +34,7 @@ enum EnumDeityKind {
   zhuQue('朱雀'),
   baiHu('白虎'),
   xuanWu('玄武'),
-  heShen('河神'),
+  heShen('合神'),
   fengBo('风伯'),
   yuShi('雨师'),
   feiLu('飞禄'),

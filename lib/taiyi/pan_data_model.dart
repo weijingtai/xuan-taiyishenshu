@@ -194,6 +194,7 @@ class HostCountDetail {
     this.isDuanShu,
     this.isHe,
     this.isBuHe,
+    this.detail,
   });
 
   /// 是否为正宫算（非间神算）。
@@ -211,12 +212,16 @@ class HostCountDetail {
   /// 是否不和。
   final bool? isBuHe;
 
+  /// 计算过程明细字符串。
+  final String? detail;
+
   Map<String, Object?> toJson() => {
     'isZhengGong': isZhengGong,
     'isChangShu': isChangShu,
     'isDuanShu': isDuanShu,
     'isHe': isHe,
     'isBuHe': isBuHe,
+    'detail': detail,
   };
 }
 
@@ -278,6 +283,7 @@ class PanDataModel {
     required this.tianPan,
     required this.shenPan,
     required this.geJu,
+    this.schoolBase,
     this.unplacedItems = const [],
     this.classicReferences = const [],
     this.warnings = const [],
@@ -311,6 +317,9 @@ class PanDataModel {
 
   /// 计神所在宫。
   final EnumTaiYiGong jiShenPalace;
+
+  /// 流派积年基数描述，如"金镜派基数: 1937281"。
+  final String? schoolBase;
 
   /// 九宫完整结果（兼容旧 UI）。
   final List<PalaceDataModel> palaces;
@@ -365,6 +374,7 @@ class PanDataModel {
     'taiYiPalace': taiYiPalace.id,
     'wenChangPalace': wenChangPalace.id,
     'jiShenPalace': jiShenPalace.id,
+    'schoolBase': schoolBase,
     'palaces': palaces.map((item) => item.toJson()).toList(),
     'eightDoorsByPalace': eightDoorsByPalace.map(
       (key, value) => MapEntry(key.id, value.id),

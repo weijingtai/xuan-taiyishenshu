@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../enums/deity_kind.dart';
 import '../../enums/gong.dart';
+import '../../enums/god.dart';
 import '../../taiyi/pan_data_model.dart';
 
 /// 太乙排盘放射状布局（仿古式）
@@ -197,8 +198,8 @@ class _TaiYiPanPainter extends CustomPainter {
 
     // 6. 绘制文本
     _drawInnerGridText(canvas, size, offI, cellI);
-    _drawMiddleRingText(canvas, size, offM, offI, Wm);
-    _drawOuterRingText(canvas, size, 0, offM, W);
+    _drawMiddleRingText(canvas, size, offM, offI, Wm, Wi);
+    _drawOuterRingText(canvas, size, 0, offM, W, Wm);
   }
 
   void _drawInnerGridText(Canvas canvas, Size size, double offI, double cellI) {
@@ -232,15 +233,15 @@ class _TaiYiPanPainter extends CustomPainter {
     }
   }
 
-  void _drawMiddleRingText(Canvas canvas, Size size, double offM, double offI, double Wm) {
-    final textStyle = GoogleFonts.notoSerif(
-      fontSize: (offI - offM) * 0.5,
+  void _drawMiddleRingText(Canvas canvas, Size size, double offM, double offI, double Wm, double Wi) {
+    final singleNameStyle = GoogleFonts.notoSerif(
+      fontSize: (offI - offM) * 0.35,
       color: Colors.black87,
     );
-    final circlePaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
+    final godNameStyle = GoogleFonts.notoSerif(
+      fontSize: (offI - offM) * 0.22,
+      color: Colors.black87,
+    );
 
     for (int i = 0; i < 16; i++) {
       int side = i ~/ 4;
@@ -249,35 +250,46 @@ class _TaiYiPanPainter extends CustomPainter {
       double cx = 0;
       double cy = 0;
       
+      double xCenter = (offM + (idx + 0.5) * Wm / 4 + offI + (idx + 0.5) * Wi / 4) / 2;
+      
       if (side == 0) { // Top
-        cx = offM + (idx + 0.5) * Wm / 4;
+        cx = xCenter;
         cy = (offM + offI) / 2;
       } else if (side == 1) { // Right
         cx = size.width - (offM + offI) / 2;
-        cy = offM + (idx + 0.5) * Wm / 4;
+        cy = xCenter;
       } else if (side == 2) { // Bottom
-        cx = size.width - (offM + (idx + 0.5) * Wm / 4);
+        cx = size.width - xCenter;
         cy = size.width - (offM + offI) / 2;
       } else { // Left
         cx = (offM + offI) / 2;
-        cy = size.width - (offM + (idx + 0.5) * Wm / 4);
+        cy = size.width - xCenter;
+      }
+
+      final singleName = ring16Gods[i];
+      String godName = "";
+      try {
+        godName = EnumTaiYiSixteenGods.values.firstWhere((e) => e.singleName == singleName).name;
+      } catch (e) {
+        // Fallback or ignore if not found
       }
 
       final textPainter = TextPainter(
-        text: TextSpan(text: ring16Gods[i], style: textStyle),
+        text: TextSpan(
+          children: [
+            TextSpan(text: singleName, style: singleNameStyle),
+            if (godName.isNotEmpty) TextSpan(text: '\n$godName', style: godNameStyle),
+          ],
+        ),
+        textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
       );
       textPainter.layout();
       textPainter.paint(canvas, Offset(cx - textPainter.width / 2, cy - textPainter.height / 2));
-
-      // 为八宫的正位加上红圈 (偶数下标：0巽, 2午, 4坤, 6酉, 8乾, 10子, 12艮, 14卯)
-      if (i % 2 == 0) {
-        canvas.drawCircle(Offset(cx, cy), (offI - offM) * 0.40, circlePaint);
-      }
     }
   }
 
-  void _drawOuterRingText(Canvas canvas, Size size, double offO, double offM, double W) {
+  void _drawOuterRingText(Canvas canvas, Size size, double offO, double offM, double W, double Wm) {
     final textStyle = GoogleFonts.notoSerif(
       fontSize: (offM - offO) * 0.18,
       color: Colors.black87,
@@ -292,18 +304,20 @@ class _TaiYiPanPainter extends CustomPainter {
       double cx = 0;
       double cy = 0;
       
+      double xCenter = ((idx + 0.5) * W / 4 + offM + (idx + 0.5) * Wm / 4) / 2;
+
       if (side == 0) { // Top
-        cx = (idx + 0.5) * W / 4;
+        cx = xCenter;
         cy = offM / 2;
       } else if (side == 1) { // Right
         cx = W - offM / 2;
-        cy = (idx + 0.5) * W / 4;
+        cy = xCenter;
       } else if (side == 2) { // Bottom
-        cx = W - (idx + 0.5) * W / 4;
+        cx = W - xCenter;
         cy = W - offM / 2;
       } else { // Left
         cx = offM / 2;
-        cy = W - (idx + 0.5) * W / 4;
+        cy = W - xCenter;
       }
 
       // 如果有多个神煞，按空格拆分为多行显示

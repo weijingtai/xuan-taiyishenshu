@@ -126,6 +126,7 @@ class PanInfoPanel extends StatelessWidget {
       ('太乙宫', panData.taiYiPalace.gua.name),
       ('文昌宫', panData.renPan.tianMuName ?? panData.renPan.tianMuGong.gua.name),
       ('计神宫', panData.renPan.jiShenName ?? panData.renPan.jiShenGong.gua.name),
+      if (panData.schoolBase != null) ('基数', panData.schoolBase!),
       ('时间', '${dt.year}/${dt.month}/${dt.day} ${dt.hour}时'),
     ];
     return Column(
@@ -240,6 +241,8 @@ class PanInfoPanel extends StatelessWidget {
               children: [
                 if (detail.isZhengGong)
                   _miniTag('正宫', TaiYiClassicTheme.jadeGreen),
+                if (!detail.isZhengGong)
+                  _miniTag('间神起', TaiYiClassicTheme.cinnabar),
                 if (detail.isChangShu == true)
                   _miniTag('长数', TaiYiClassicTheme.waterBlue),
                 if (detail.isDuanShu == true)
@@ -250,6 +253,17 @@ class PanInfoPanel extends StatelessWidget {
                   _miniTag('不和', TaiYiClassicTheme.cinnabar),
               ],
             ),
+            if (detail.detail != null) ...[
+              const SizedBox(height: 2),
+              Text(
+                detail.detail!,
+                style: GoogleFonts.longCang(
+                  fontSize: 10,
+                  color: TaiYiClassicTheme.inkWash,
+                  height: 1.2,
+                ),
+              ),
+            ],
           ],
         ],
       ),

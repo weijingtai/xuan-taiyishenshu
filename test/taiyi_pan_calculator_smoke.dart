@@ -138,15 +138,27 @@ Future<void> main() async {
     expectedJiShen: EnumTaiYiGong.Kun,
     expectedShiJi: EnumTaiYiGong.Gen,
   );
-  expectYearRenPan_tongZong(
-    2024,
-    expectedTianMuName: '坤',
-    expectedJiShenName: '戌',
-    expectedShiJiName: '亥',
-    expectedTianMu: EnumTaiYiGong.Kun,
-    expectedJiShen: EnumTaiYiGong.Qian,
-    expectedShiJi: EnumTaiYiGong.Qian,
-  );
+expectYearRenPan_tongZong(
+  2024,
+  expectedTianMuName: '坤',
+  expectedJiShenName: '戌',
+  expectedShiJiName: '亥',
+  expectedTianMu: EnumTaiYiGong.Kun,
+  expectedJiShen: EnumTaiYiGong.Qian,
+  expectedShiJi: EnumTaiYiGong.Qian,
+);
+
+  // 2024 统宗 主客算验证
+  {
+    final pan2024 = calculator.calculate(
+      dateTime: DateTime(2024, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+    final hg = pan2024.hostGuest;
+    assert(hg.hostCount == 38, '主算应为38，实际=${hg.hostCount}');
+    assert(hg.guestCount == 25, '客算应为25，实际=${hg.guestCount}');
+  }
 
   // var threwUnsupportedError = false;
   // try {
