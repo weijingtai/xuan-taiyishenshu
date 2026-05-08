@@ -401,6 +401,14 @@ class PanInfoPanel extends StatelessWidget {
       if (tp.daYouGong != null) ('大游', tp.daYouGong!.gua.name),
       if (tp.xiaoYouGong != null) ('小游', tp.xiaoYouGong!.gua.name),
       if (tp.feifFuGong != null) ('飞符', tp.feifFuGong!.gua.name),
+      if (tp.siShenGong != null)
+        ('四神', '${tp.siShenGong!.gua.name}${tp.siShenRuGongNianShu != null ? " 入${tp.siShenRuGongNianShu}年" : ""}'),
+      if (tp.tianYiGong2 != null)
+        ('天乙', '${tp.tianYiGong2!.gua.name}${tp.tianYiRuGongNianShu != null ? " 入${tp.tianYiRuGongNianShu}年" : ""}'),
+      if (tp.diYiGong != null)
+        ('地乙', '${tp.diYiGong!.gua.name}${tp.diYiRuGongNianShu != null ? " 入${tp.diYiRuGongNianShu}年" : ""}'),
+      if (tp.zhiFuGong2 != null)
+        ('值符', '${tp.zhiFuGong2!.gua.name}${tp.zhiFuRuGongNianShu != null ? " 入${tp.zhiFuRuGongNianShu}年" : ""}'),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,9 +433,14 @@ class PanInfoPanel extends StatelessWidget {
       if (sp.zhuQueGong != null) ('朱雀', sp.zhuQueGong!.gua.name),
       if (sp.baiHuGong != null) ('白虎', sp.baiHuGong!.gua.name),
       if (sp.xuanWuGong != null) ('玄武', sp.xuanWuGong!.gua.name),
-      if (sp.heShenGong != null) ('河神', sp.heShenGong!.gua.name),
+      if (sp.heShenGong != null) ('合神', sp.heShenGong!.gua.name),
       if (sp.fengBoGong != null) ('风伯', sp.fengBoGong!.gua.name),
       if (sp.yuShiGong != null) ('雨师', sp.yuShiGong!.gua.name),
+      if (sp.qingLongQiGong != null) ('青龙旗', sp.qingLongQiGong!.gua.name),
+      if (sp.heiQiGong != null)
+        ('太阴黑旗', '${sp.heiQiGong!.gua.name}${sp.heiQiRuGongNianShu != null ? " 入${sp.heiQiRuGongNianShu}年" : ""}'),
+      if (sp.chiQiGong != null) ('宫气赤旗', sp.chiQiGong!.gua.name),
+      if (sp.guiShenZhiShiGong != null) ('贵神值事', sp.guiShenZhiShiGong!.gua.name),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -37,6 +37,13 @@ enum EnumDeityKind {
   heShen('合神'),
   fengBo('风伯'),
   yuShi('雨师'),
+  tianYi('天乙'),
+  diYi('地乙'),
+  siShen('四神'),
+  qingLongQi('青龙旗'),
+  heiQi('太阴黑旗'),
+  chiQi('宫气赤旗'),
+  guiShenZhiShi('贵神值事'),
   feiLu('飞禄'),
   feiMa('飞马'),
   heiFu('黑符');

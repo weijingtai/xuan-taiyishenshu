@@ -168,3 +168,48 @@ const Map<String, EnumTaiYiGong> siShenFixedPalace = {
   '白虎': EnumTaiYiGong.Dui,
   '玄武': EnumTaiYiGong.Kan,
 };
+
+const List<String> sishen12Gong = [
+  '一', '二', '三', '四', '五', '六', '七', '八', '九', '離', '坤', '艮'
+];
+
+const List<String> tianYi12Gong = [
+  '六', '七', '八', '九', '離', '坤', '艮', '一', '二', '三', '四', '五'
+];
+
+const List<String> diYi12Gong = [
+  '九', '離', '坤', '艮', '一', '二', '三', '四', '五', '六', '七', '八'
+];
+
+const List<String> zhiFu12Gong = [
+  '五', '六', '七', '八', '九', '離', '坤', '艮', '一', '二', '三', '四'
+];
+
+const List<String> heiQi12Chen = [
+  '亥', '戌', '酉', '申', '未', '午', '巳', '辰', '卯', '寅', '丑', '子'
+];
+
+const List<String> chiQi4Gong = ['亥', '申', '巳', '寅'];
+
+const Map<int, int> guiShenZhiShiMap = {1: 1, 9: 2, 8: 3, 7: 4, 6: 5, 5: 6, 4: 7, 3: 8, 2: 9};
+
+const List<String> guiShenNames9 = [
+  '', '太乙', '摄提', '太阴', '黄龙', '青龙', '太阴', '黄龙', '青龙', '太乙'
+];
+
+const List<int> guiShenPalaceOrder = [5, 6, 7, 8, 9, 1, 2, 3, 4];
+
+const Map<String, EnumTaiYiGong> gongNumber12ToPalace = {
+  '一': EnumTaiYiGong.Qian,
+  '二': EnumTaiYiGong.Li,
+  '三': EnumTaiYiGong.Gen,
+  '四': EnumTaiYiGong.Zhen,
+  '五': EnumTaiYiGong.Center,
+  '六': EnumTaiYiGong.Dui,
+  '七': EnumTaiYiGong.Kun,
+  '八': EnumTaiYiGong.Kan,
+  '九': EnumTaiYiGong.Xun,
+  '離': EnumTaiYiGong.Li,
+  '坤': EnumTaiYiGong.Kun,
+  '艮': EnumTaiYiGong.Gen,
+};

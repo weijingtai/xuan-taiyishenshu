@@ -131,6 +131,37 @@ void main() {
     expect(pan.hostGuest.guestCount, 3);
     expect(pan.hostGuest.dingCount, 22);
   });
+
+  test('tongZong 2004 siShen/tianYi/diYi/zhiFu', () {
+    final pan = const TaiYiPanCalculator().calculate(
+      dateTime: DateTime(2004, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+
+    expect(pan.tianPan.siShenGong, EnumTaiYiGong.Kun);
+    expect(pan.tianPan.siShenRuGongNianShu, 3);
+    expect(pan.tianPan.tianYiGong2, EnumTaiYiGong.Zhen);
+    expect(pan.tianPan.tianYiRuGongNianShu, 3);
+    expect(pan.tianPan.diYiGong, EnumTaiYiGong.Kun);
+    expect(pan.tianPan.diYiRuGongNianShu, 3);
+    expect(pan.tianPan.zhiFuGong2, EnumTaiYiGong.Gen);
+    expect(pan.tianPan.zhiFuRuGongNianShu, 3);
+  });
+
+  test('tongZong 2004 three qi and guiShen', () {
+    final pan = const TaiYiPanCalculator().calculate(
+      dateTime: DateTime(2004, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+
+    expect(pan.shenPan.qingLongQiGong, EnumTaiYiGong.Kun);
+    expect(pan.shenPan.heiQiGong, EnumTaiYiGong.Gen);
+    expect(pan.shenPan.heiQiRuGongNianShu, 3);
+    expect(pan.shenPan.chiQiGong, EnumTaiYiGong.Kun);
+    expect(pan.shenPan.guiShenZhiShiGong, EnumTaiYiGong.Xun);
+  });
   });
 
   group('Year eight doors', () {

@@ -3,10 +3,6 @@ import '../enums/gong.dart';
 import '../enums/taiyi_enum_extensions.dart';
 import 'tian_pan_model.dart';
 
-/// 神盘数据模型。
-///
-/// 神盘承载太岁、岁破、直符、四神（青龙/朱雀/白虎/玄武）等
-/// 年神/时神。金镜派额外排河神、风伯、雨师。
 class ShenPanModel {
   const ShenPanModel({
     required this.taiSuiGong,
@@ -19,43 +15,35 @@ class ShenPanModel {
     this.heShenGong,
     this.fengBoGong,
     this.yuShiGong,
+    this.qingLongQiGong,
+    this.heiQiGong,
+    this.chiQiGong,
+    this.guiShenZhiShiGong,
+    this.heiQiRuGongNianShu,
     this.methodNote,
   });
 
-  /// 太岁所在宫（当年地支宫）。
   final EnumTaiYiGong taiSuiGong;
-
-  /// 岁破所在宫（太岁对冲宫）。
   final EnumTaiYiGong suiPoGong;
-
-  /// 直符所在宫（太乙所在宫，三派同）。
   final EnumTaiYiGong zhiFuGong;
 
-  /// 青龙所在宫。
   final EnumTaiYiGong? qingLongGong;
-
-  /// 朱雀所在宫。
   final EnumTaiYiGong? zhuQueGong;
-
-  /// 白虎所在宫。
   final EnumTaiYiGong? baiHuGong;
-
-  /// 玄武所在宫。
   final EnumTaiYiGong? xuanWuGong;
-
-  /// 河神所在宫（金镜派排）。
   final EnumTaiYiGong? heShenGong;
-
-  /// 风伯所在宫（金镜派排）。
   final EnumTaiYiGong? fengBoGong;
-
-  /// 雨师所在宫（金镜派排）。
   final EnumTaiYiGong? yuShiGong;
 
-  /// 计算方法说明。
+  final EnumTaiYiGong? qingLongQiGong;
+  final EnumTaiYiGong? heiQiGong;
+  final EnumTaiYiGong? chiQiGong;
+  final EnumTaiYiGong? guiShenZhiShiGong;
+
+  final int? heiQiRuGongNianShu;
+
   final String? methodNote;
 
-  /// 将神盘所有已落宫星神转为 DeityPlacement 列表。
   List<DeityPlacement> toPlacements() {
     final placements = <DeityPlacement>[
       DeityPlacement(kind: EnumDeityKind.taiSui, gong: taiSuiGong),
@@ -75,6 +63,14 @@ class ShenPanModel {
         DeityPlacement(kind: EnumDeityKind.fengBo, gong: fengBoGong!),
       if (yuShiGong != null)
         DeityPlacement(kind: EnumDeityKind.yuShi, gong: yuShiGong!),
+      if (qingLongQiGong != null)
+        DeityPlacement(kind: EnumDeityKind.qingLongQi, gong: qingLongQiGong!),
+      if (heiQiGong != null)
+        DeityPlacement(kind: EnumDeityKind.heiQi, gong: heiQiGong!),
+      if (chiQiGong != null)
+        DeityPlacement(kind: EnumDeityKind.chiQi, gong: chiQiGong!),
+      if (guiShenZhiShiGong != null)
+        DeityPlacement(kind: EnumDeityKind.guiShenZhiShi, gong: guiShenZhiShiGong!),
     ];
     return placements;
   }
@@ -90,6 +86,11 @@ class ShenPanModel {
     'heShenGong': heShenGong?.id,
     'fengBoGong': fengBoGong?.id,
     'yuShiGong': yuShiGong?.id,
+    'qingLongQiGong': qingLongQiGong?.id,
+    'heiQiGong': heiQiGong?.id,
+    'chiQiGong': chiQiGong?.id,
+    'guiShenZhiShiGong': guiShenZhiShiGong?.id,
+    'heiQiRuGongNianShu': heiQiRuGongNianShu,
     'methodNote': methodNote,
   };
 }

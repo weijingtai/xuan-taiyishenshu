@@ -979,25 +979,10 @@ HostGuestDataModel _calculateHostGuest({
   }
 
   EnumTaiYiGong _deityToPalace(String deity) {
-    return switch (deity) {
-      '子' => EnumTaiYiGong.Kan,
-      '丑' => EnumTaiYiGong.Gen,
-      '艮' => EnumTaiYiGong.Gen,
-      '寅' => EnumTaiYiGong.Gen,
-      '卯' => EnumTaiYiGong.Zhen,
-      '辰' => EnumTaiYiGong.Xun,
-      '巽' => EnumTaiYiGong.Xun,
-      '巳' => EnumTaiYiGong.Xun,
-      '午' => EnumTaiYiGong.Li,
-      '未' => EnumTaiYiGong.Kun,
-      '坤' => EnumTaiYiGong.Kun,
-      '申' => EnumTaiYiGong.Kun,
-      '酉' => EnumTaiYiGong.Dui,
-      '戌' => EnumTaiYiGong.Qian,
-      '乾' => EnumTaiYiGong.Qian,
-      '亥' => EnumTaiYiGong.Qian,
-      _ => EnumTaiYiGong.Center,
-    };
+    if (gongNumber12ToPalace.containsKey(deity)) {
+      return gongNumber12ToPalace[deity]!;
+    }
+    return branchPalace[deity] ?? _intercardinalPalace(deity);
   }
 
   List<PanComputedItem> _buildBuiltInItems({
@@ -1161,56 +1146,85 @@ final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
     final guestDeputyGeneralGong =
         _calculateDeputyGeneralGong(guestGeneralNumber, rule);
 
-    EnumTaiYiGong? dingGeneralGong;
-    EnumTaiYiGong? dingDeputyGeneralGong;
-    EnumTaiYiGong? junJiGong;
-    EnumTaiYiGong? chenJiGong;
-    EnumTaiYiGong? minJiGong;
-    EnumTaiYiGong? wuFuGong;
-    EnumTaiYiGong? daYouGong;
-    EnumTaiYiGong? xiaoYouGong;
-    EnumTaiYiGong? feiFuGong;
+  EnumTaiYiGong? dingGeneralGong;
+  EnumTaiYiGong? dingDeputyGeneralGong;
+  EnumTaiYiGong? junJiGong;
+  EnumTaiYiGong? chenJiGong;
+  EnumTaiYiGong? minJiGong;
+  EnumTaiYiGong? wuFuGong;
+  EnumTaiYiGong? daYouGong;
+  EnumTaiYiGong? xiaoYouGong;
+  EnumTaiYiGong? feiFuGong;
+  EnumTaiYiGong? siShenGong;
+  EnumTaiYiGong? tianYiGong2;
+  EnumTaiYiGong? diYiGong;
+  EnumTaiYiGong? zhiFuGong2;
+  int? siShenRuGongNianShu;
+  int? tianYiRuGongNianShu;
+  int? diYiRuGongNianShu;
+  int? zhiFuRuGongNianShu;
 
-    final dingGeneralNumber = _guestOrDingGeneralNumber(hostGuest.dingCount);
-    dingGeneralGong = _calculateGeneralGong(dingGeneralNumber, rule);
-    dingDeputyGeneralGong =
-        _calculateGuestOrDingDeputyGeneralGong(dingGeneralNumber);
+  final dingGeneralNumber = _guestOrDingGeneralNumber(hostGuest.dingCount);
+  dingGeneralGong = _calculateGeneralGong(dingGeneralNumber, rule);
+  dingDeputyGeneralGong =
+      _calculateGuestOrDingDeputyGeneralGong(dingGeneralNumber);
 
-    if (rule.school == TaiYiSchool.jingMirror) {
-      junJiGong = _calculateJunJi(accumulatedYear, rule);
-      chenJiGong = _calculateChenJi(accumulatedYear, rule);
-      minJiGong = _calculateMinJi(accumulatedYear, rule);
-      wuFuGong = _calculateWuFu(accumulatedYear, rule);
-      daYouGong = _calculateDaYou(accumulatedYear, rule);
-      xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
-      feiFuGong = _calculateFeiFu(taiYiPalace, rule);
-    } else if (rule.school == TaiYiSchool.tongZong) {
-      junJiGong = _calculateJunJi(accumulatedYear, rule);
-      chenJiGong = _calculateChenJi(accumulatedYear, rule);
-      minJiGong = _calculateMinJi(accumulatedYear, rule);
-      wuFuGong = _calculateWuFu(accumulatedYear, rule);
-      daYouGong = _calculateDaYou(accumulatedYear, rule);
-      xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
-    }
+  if (rule.school == TaiYiSchool.jingMirror) {
+    junJiGong = _calculateJunJi(accumulatedYear, rule);
+    chenJiGong = _calculateChenJi(accumulatedYear, rule);
+    minJiGong = _calculateMinJi(accumulatedYear, rule);
+    wuFuGong = _calculateWuFu(accumulatedYear, rule);
+    daYouGong = _calculateDaYou(accumulatedYear, rule);
+    xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
+    feiFuGong = _calculateFeiFu(taiYiPalace, rule);
+  } else if (rule.school == TaiYiSchool.tongZong) {
+    junJiGong = _calculateJunJi(accumulatedYear, rule);
+    chenJiGong = _calculateChenJi(accumulatedYear, rule);
+    minJiGong = _calculateMinJi(accumulatedYear, rule);
+    wuFuGong = _calculateWuFu(accumulatedYear, rule);
+    daYouGong = _calculateDaYou(accumulatedYear, rule);
+    xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
 
-    return TianPanModel(
-      taiYiGong: taiYiPalace,
-      hostGeneralGong: hostGeneralGong,
-      guestGeneralGong: guestGeneralGong,
-      hostDeputyGeneralGong: hostDeputyGeneralGong,
-      guestDeputyGeneralGong: guestDeputyGeneralGong,
-      dingGeneralGong: dingGeneralGong,
-      dingDeputyGeneralGong: dingDeputyGeneralGong,
-      junJiGong: junJiGong,
-      chenJiGong: chenJiGong,
-      minJiGong: minJiGong,
-      wuFuGong: wuFuGong,
-      daYouGong: daYouGong,
-      xiaoYouGong: xiaoYouGong,
-      feifFuGong: feiFuGong,
-      methodNote: '主客大将参将已实现；三基五福大游小游为 MVP 近似',
-    );
+    final ji = accumulatedYear;
+    final gongIdx = ((ji - 1) % 36) ~/ 3;
+    var nianShu = ji % 36 % 3;
+    if (nianShu == 0) nianShu = 3;
+    siShenGong = _deityToPalace(sishen12Gong[gongIdx]);
+    siShenRuGongNianShu = nianShu;
+    tianYiGong2 = _deityToPalace(tianYi12Gong[gongIdx]);
+    tianYiRuGongNianShu = nianShu;
+    diYiGong = _deityToPalace(diYi12Gong[gongIdx]);
+    diYiRuGongNianShu = nianShu;
+    zhiFuGong2 = _deityToPalace(zhiFu12Gong[gongIdx]);
+    zhiFuRuGongNianShu = nianShu;
   }
+
+  return TianPanModel(
+    taiYiGong: taiYiPalace,
+    hostGeneralGong: hostGeneralGong,
+    guestGeneralGong: guestGeneralGong,
+    hostDeputyGeneralGong: hostDeputyGeneralGong,
+    guestDeputyGeneralGong: guestDeputyGeneralGong,
+    dingGeneralGong: dingGeneralGong,
+    dingDeputyGeneralGong: dingDeputyGeneralGong,
+    junJiGong: junJiGong,
+    chenJiGong: chenJiGong,
+    minJiGong: minJiGong,
+    wuFuGong: wuFuGong,
+    daYouGong: daYouGong,
+    xiaoYouGong: xiaoYouGong,
+    feifFuGong: feiFuGong,
+    siShenGong: siShenGong,
+    tianYiGong2: tianYiGong2,
+    diYiGong: diYiGong,
+    zhiFuGong2: zhiFuGong2,
+    siShenRuGongNianShu: siShenRuGongNianShu,
+    tianYiRuGongNianShu: tianYiRuGongNianShu,
+    diYiRuGongNianShu: diYiRuGongNianShu,
+    zhiFuRuGongNianShu: zhiFuRuGongNianShu,
+    methodNote: '主客大将参将已实现；三基五福大游小游为 MVP 近似',
+  );
+}
 
   ShenPanModel _buildShenPan({
     required int accumulatedYear,
@@ -1222,16 +1236,62 @@ final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
     final heShenBranch = _branchComplement(yearBranch);
     final taiSuiGong = branchPalace[yearBranch] ?? EnumTaiYiGong.Kan;
     final heShenGong = _deityToPalace(heShenBranch);
-    final suiPoGongIndex = (taiYiPalaceOrder.indexOf(taiSuiGong) + 6) % 9;
-    final suiPoGong = taiYiPalaceOrder[suiPoGongIndex];
-    return ShenPanModel(
-      taiSuiGong: taiSuiGong,
-      suiPoGong: suiPoGong,
-      zhiFuGong: gongClash[taiYiPalace] ?? taiYiPalace,
-      heShenGong: heShenGong,
-      methodNote: '神盘 MVP 近似',
-    );
+  final suiPoGongIndex = (taiYiPalaceOrder.indexOf(taiSuiGong) + 6) % 9;
+  final suiPoGong = taiYiPalaceOrder[suiPoGongIndex];
+
+  EnumTaiYiGong? qingLongQiGong;
+  EnumTaiYiGong? heiQiGong;
+  EnumTaiYiGong? chiQiGong;
+  EnumTaiYiGong? guiShenZhiShiGong;
+  int? heiQiRuGongNianShu;
+
+  if (rule.school == TaiYiSchool.tongZong) {
+    final ji = accumulatedYear;
+    qingLongQiGong = taiSuiGong;
+
+    final heiQiIdx = ((ji - 1) % 360) % 36 ~/ 3;
+    heiQiGong = _deityToPalace(heiQi12Chen[heiQiIdx]);
+    final heiQiNianShu = ji % 360 % 36 % 3;
+    heiQiRuGongNianShu = heiQiNianShu == 0 ? 3 : heiQiNianShu;
+
+    final chiQiIdx = ji % 40 % 4;
+    chiQiGong = _deityToPalace(chiQi4Gong[chiQiIdx]);
+
+    final zhiShiRaw = (ji % 360 % 60 + 3) % 9;
+    final zhiShiIdx = zhiShiRaw == 0 ? 9 : zhiShiRaw;
+    final guiShenNum = guiShenZhiShiMap[zhiShiIdx] ?? 1;
+    final palaceNum = guiShenPalaceOrder[guiShenNum - 1];
+    guiShenZhiShiGong = _gongNumberToPalace(palaceNum);
   }
+
+  return ShenPanModel(
+    taiSuiGong: taiSuiGong,
+    suiPoGong: suiPoGong,
+    zhiFuGong: gongClash[taiYiPalace] ?? taiYiPalace,
+    heShenGong: heShenGong,
+    qingLongQiGong: qingLongQiGong,
+    heiQiGong: heiQiGong,
+    chiQiGong: chiQiGong,
+    guiShenZhiShiGong: guiShenZhiShiGong,
+    heiQiRuGongNianShu: heiQiRuGongNianShu,
+    methodNote: '神盘 MVP 近似',
+  );
+}
+
+EnumTaiYiGong _gongNumberToPalace(int num) {
+  return switch (num) {
+    1 => EnumTaiYiGong.Qian,
+    2 => EnumTaiYiGong.Li,
+    3 => EnumTaiYiGong.Gen,
+    4 => EnumTaiYiGong.Zhen,
+    5 => EnumTaiYiGong.Center,
+    6 => EnumTaiYiGong.Dui,
+    7 => EnumTaiYiGong.Kun,
+    8 => EnumTaiYiGong.Kan,
+    9 => EnumTaiYiGong.Xun,
+    _ => EnumTaiYiGong.Center,
+  };
+}
 
   GeJuResultModel _buildGeJu({
     required EnumTaiYiGong taiYiPalace,
