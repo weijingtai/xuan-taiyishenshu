@@ -394,9 +394,11 @@ class PanInfoPanel extends StatelessWidget {
       ('客参将', tp.guestDeputyGeneralGong.gua.name),
       if (tp.dingGeneralGong != null) ('定大将', tp.dingGeneralGong!.gua.name),
       if (tp.dingDeputyGeneralGong != null) ('定参将', tp.dingDeputyGeneralGong!.gua.name),
-      if (tp.junJiGong != null) ('君基', tp.junJiGong!.gua.name),
-      if (tp.chenJiGong != null) ('臣基', tp.chenJiGong!.gua.name),
-      if (tp.minJiGong != null) ('民基', tp.minJiGong!.gua.name),
+    if (tp.junJiGong != null)
+      ('君基', '${tp.junJiGong!.gua.name}${tp.junJiRuGongNianShu != null ? " 入${tp.junJiRuGongNianShu}年" : ""}'),
+    if (tp.chenJiGong != null)
+      ('臣基', '${tp.chenJiGong!.gua.name}${tp.chenJiRuGongNianShu != null ? " 入${tp.chenJiRuGongNianShu}年" : ""}'),
+    if (tp.minJiGong != null) ('民基', tp.minJiGong!.gua.name),
       if (tp.wuFuGong != null) ('五福', tp.wuFuGong!.gua.name),
       if (tp.daYouGong != null) ('大游', tp.daYouGong!.gua.name),
       if (tp.xiaoYouGong != null) ('小游', tp.xiaoYouGong!.gua.name),

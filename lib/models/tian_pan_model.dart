@@ -22,11 +22,13 @@ class TianPanModel {
     this.tianYiGong2,
     this.diYiGong,
     this.zhiFuGong2,
-    this.siShenRuGongNianShu,
-    this.tianYiRuGongNianShu,
-    this.diYiRuGongNianShu,
-    this.zhiFuRuGongNianShu,
-    this.methodNote,
+  this.junJiRuGongNianShu,
+  this.chenJiRuGongNianShu,
+  this.siShenRuGongNianShu,
+  this.tianYiRuGongNianShu,
+  this.diYiRuGongNianShu,
+  this.zhiFuRuGongNianShu,
+  this.methodNote,
   });
 
   final EnumTaiYiGong taiYiGong;
@@ -49,6 +51,8 @@ class TianPanModel {
   final EnumTaiYiGong? diYiGong;
   final EnumTaiYiGong? zhiFuGong2;
 
+  final int? junJiRuGongNianShu;
+  final int? chenJiRuGongNianShu;
   final int? siShenRuGongNianShu;
   final int? tianYiRuGongNianShu;
   final int? diYiRuGongNianShu;
@@ -112,7 +116,9 @@ class TianPanModel {
     'tianYiGong2': tianYiGong2?.id,
     'diYiGong': diYiGong?.id,
     'zhiFuGong2': zhiFuGong2?.id,
-    'siShenRuGongNianShu': siShenRuGongNianShu,
+    'junJiRuGongNianShu': junJiRuGongNianShu,
+  'chenJiRuGongNianShu': chenJiRuGongNianShu,
+  'siShenRuGongNianShu': siShenRuGongNianShu,
     'tianYiRuGongNianShu': tianYiRuGongNianShu,
     'diYiRuGongNianShu': diYiRuGongNianShu,
     'zhiFuRuGongNianShu': zhiFuRuGongNianShu,

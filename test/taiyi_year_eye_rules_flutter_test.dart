@@ -132,6 +132,20 @@ void main() {
     expect(pan.hostGuest.dingCount, 22);
   });
 
+  test('tongZong 2026 three ji (jun/chen/min bases)', () {
+    final pan = const TaiYiPanCalculator().calculate(
+      dateTime: DateTime(2026, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+
+    expect(pan.tianPan.junJiGong, EnumTaiYiGong.Xun);
+    expect(pan.tianPan.junJiRuGongNianShu, 13);
+    expect(pan.tianPan.chenJiGong, EnumTaiYiGong.Kan);
+    expect(pan.tianPan.chenJiRuGongNianShu, 1);
+    expect(pan.tianPan.minJiGong, EnumTaiYiGong.Xun);
+  });
+
   test('tongZong 2004 siShen/tianYi/diYi/zhiFu', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2004, 1, 1),
@@ -162,6 +176,20 @@ void main() {
     expect(pan.shenPan.chiQiGong, EnumTaiYiGong.Kun);
     expect(pan.shenPan.guiShenZhiShiGong, EnumTaiYiGong.Xun);
   });
+  });
+
+  test('tongZong 2004 three ji (jun/chen/min bases)', () {
+    final pan = const TaiYiPanCalculator().calculate(
+      dateTime: DateTime(2004, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+
+    expect(pan.tianPan.junJiGong, EnumTaiYiGong.Xun);
+    expect(pan.tianPan.junJiRuGongNianShu, 21);
+    expect(pan.tianPan.chenJiGong, EnumTaiYiGong.Xun);
+    expect(pan.tianPan.chenJiRuGongNianShu, 3);
+    expect(pan.tianPan.minJiGong, EnumTaiYiGong.Li);
   });
 
   group('Year eight doors', () {

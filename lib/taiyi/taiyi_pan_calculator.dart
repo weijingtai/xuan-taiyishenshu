@@ -1163,6 +1163,8 @@ final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
   int? tianYiRuGongNianShu;
   int? diYiRuGongNianShu;
   int? zhiFuRuGongNianShu;
+  int? junJiRuGongNianShu;
+  int? chenJiRuGongNianShu;
 
   final dingGeneralNumber = _guestOrDingGeneralNumber(hostGuest.dingCount);
   dingGeneralGong = _calculateGeneralGong(dingGeneralNumber, rule);
@@ -1177,16 +1179,18 @@ final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
     daYouGong = _calculateDaYou(accumulatedYear, rule);
     xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
     feiFuGong = _calculateFeiFu(taiYiPalace, rule);
-  } else if (rule.school == TaiYiSchool.tongZong) {
-    junJiGong = _calculateJunJi(accumulatedYear, rule);
-    chenJiGong = _calculateChenJi(accumulatedYear, rule);
-    minJiGong = _calculateMinJi(accumulatedYear, rule);
-    wuFuGong = _calculateWuFu(accumulatedYear, rule);
-    daYouGong = _calculateDaYou(accumulatedYear, rule);
-    xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
+    } else if (rule.school == TaiYiSchool.tongZong) {
+      final ji = accumulatedYear;
+      junJiGong = _calculateJunJiTongZong(ji);
+      junJiRuGongNianShu = _calculateJunJiRuGongNianShu(ji);
+      chenJiGong = _calculateChenJiTongZong(ji);
+      chenJiRuGongNianShu = _calculateChenJiRuGongNianShu(ji);
+      minJiGong = _calculateMinJiTongZong(ji);
+      wuFuGong = _calculateWuFu(accumulatedYear, rule);
+      daYouGong = _calculateDaYou(accumulatedYear, rule);
+      xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
 
-    final ji = accumulatedYear;
-    final gongIdx = ((ji - 1) % 36) ~/ 3;
+      final gongIdx = ((ji - 1) % 36) ~/ 3;
     var nianShu = ji % 36 % 3;
     if (nianShu == 0) nianShu = 3;
     siShenGong = _deityToPalace(sishen12Gong[gongIdx]);
@@ -1222,6 +1226,8 @@ final sequence = rule.usesTwelveJiShen ? twelveDeities : sixteenDeities;
     tianYiRuGongNianShu: tianYiRuGongNianShu,
     diYiRuGongNianShu: diYiRuGongNianShu,
     zhiFuRuGongNianShu: zhiFuRuGongNianShu,
+    junJiRuGongNianShu: junJiRuGongNianShu,
+    chenJiRuGongNianShu: chenJiRuGongNianShu,
     methodNote: '主客大将参将已实现；三基五福大游小游为 MVP 近似',
   );
 }
@@ -1389,6 +1395,39 @@ EnumTaiYiGong _gongNumberToPalace(int num) {
     return _generalNumberToGong(deputyNumber == 0 ? 10 : deputyNumber);
   }
 
+  EnumTaiYiGong _calculateJunJiTongZong(int ji) {
+    final steps = ((ji - 1) % 360) ~/ 30;
+    final startIdx = twelveBranches.indexOf('\u5348');
+    final chen = twelveBranches[(startIdx + steps) % 12];
+    return branchPalace[chen] ?? EnumTaiYiGong.Center;
+  }
+
+  int _calculateJunJiRuGongNianShu(int ji) {
+    var n = ji % 360 % 30;
+    if (n == 0) n = 30;
+    return n;
+  }
+
+  EnumTaiYiGong _calculateChenJiTongZong(int ji) {
+    final steps = ((ji - 1) % 360 % 36) ~/ 3;
+    final startIdx = twelveBranches.indexOf('\u5348');
+    final chen = twelveBranches[(startIdx + steps) % 12];
+    return branchPalace[chen] ?? EnumTaiYiGong.Center;
+  }
+
+  int _calculateChenJiRuGongNianShu(int ji) {
+    var n = ji % 360 % 36 % 3;
+    if (n == 0) n = 3;
+    return n;
+  }
+
+  EnumTaiYiGong _calculateMinJiTongZong(int ji) {
+    final steps = (ji - 1) % 360 % 12;
+    final startIdx = twelveBranches.indexOf('\u620c');
+    final chen = twelveBranches[(startIdx + steps) % 12];
+    return branchPalace[chen] ?? EnumTaiYiGong.Center;
+  }
+
   EnumTaiYiGong? _calculateJunJi(int accumulatedYear, _RuleProfile rule) {
     return _palaceFromSteppedCycle(
       accumulatedYear: accumulatedYear,
@@ -1417,6 +1456,8 @@ EnumTaiYiGong _gongNumberToPalace(int num) {
   }
 
   EnumTaiYiGong? _calculateWuFu(int accumulatedYear, _RuleProfile rule) {
+    // 五福起乾，按乾→艮→巽→坤→中宮，45年一移宮，225年一周。
+    // 公式：(积数 - 136) % 225 ÷ 45 = 所走宫数
     const sequence = [
       EnumTaiYiGong.Qian,
       EnumTaiYiGong.Gen,
@@ -1424,27 +1465,35 @@ EnumTaiYiGong _gongNumberToPalace(int num) {
       EnumTaiYiGong.Kun,
       EnumTaiYiGong.Center,
     ];
-    final remainder = _positiveModulo(accumulatedYear, 225, zeroAsMod: true);
-    final index = (remainder - 1) ~/ 45;
+    final cyclePos = _positiveModulo(accumulatedYear - 136, 225);
+    final index = cyclePos ~/ 45;
     return sequence[index];
   }
 
   EnumTaiYiGong? _calculateDaYou(int accumulatedYear, _RuleProfile rule) {
-    return _palaceFromSteppedCycle(
-      accumulatedYear: accumulatedYear,
-      cycle: 288,
-      stepYears: 36,
-      startPosition: '\u4ea5',
-    );
+    // 大游起七宫坤，按七→八→九→一→二→三→四→六顺行，不入中五宫，36年一移宫，288年一周。
+    // 公式：(积数 - 145) % 288 ÷ 36 = 所走宫数
+    const daYouOrder = [
+      EnumTaiYiGong.Kun,  // 七
+      EnumTaiYiGong.Kan,  // 八
+      EnumTaiYiGong.Xun,  // 九
+      EnumTaiYiGong.Qian, // 一
+      EnumTaiYiGong.Li,   // 二
+      EnumTaiYiGong.Gen,  // 三
+      EnumTaiYiGong.Zhen, // 四
+      EnumTaiYiGong.Dui,  // 六
+    ];
+    final cyclePos = _positiveModulo(accumulatedYear - 145, 288);
+    final steps = cyclePos ~/ 36;
+    return daYouOrder[steps % daYouOrder.length];
   }
 
   EnumTaiYiGong? _calculateXiaoYou(int accumulatedYear, _RuleProfile rule) {
-    return _palaceFromSteppedCycle(
-      accumulatedYear: accumulatedYear,
-      cycle: 24,
-      stepYears: 1,
-      startPosition: '\u5dfd',
-    );
+    // 小游起一宫乾，按一→二→三→四→六→七→八→九顺行，不入中五宫，3年一移宫，24年一周。
+    // 公式：(积数 - 1) % 24 ÷ 3 = 所走宫数
+    final cyclePos = (accumulatedYear - 1) % 24;
+    final steps = cyclePos ~/ 3;
+    return taiYiPalaceOrder[steps % taiYiPalaceOrder.length];
   }
 
   EnumTaiYiGong? _calculateFeiFu(EnumTaiYiGong taiYiPalace, _RuleProfile rule) {
