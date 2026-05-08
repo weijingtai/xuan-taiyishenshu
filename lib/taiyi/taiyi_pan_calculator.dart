@@ -3,9 +3,11 @@ import '../enums/eight_door.dart';
 import '../enums/geju.dart';
 import '../enums/god.dart';
 import '../enums/gong.dart';
+import '../enums/gui_shen.dart';
 import '../enums/taiyi_enum_extensions.dart';
 import '../models/custom_deity_definition.dart';
 import '../models/geju_model.dart';
+import '../models/gui_shen_model.dart';
 import '../models/pan_computed_item.dart';
 import '../models/ren_pan_model.dart';
 import '../models/shen_pan_model.dart';
@@ -180,6 +182,8 @@ final rule = _RuleProfile.forSchool(school);
       ..sort(_compareComputedItem);
     final palaces = _buildPalaces(items: placedItems);
 
+    final guiShen = _buildGuiShen(accumulatedSeqValue);
+
 return PanDataModel(
       input: input,
       algorithmVersion: algorithmVersion,
@@ -207,6 +211,7 @@ return PanDataModel(
       shenPan: shenPan,
       geJu: geJu,
       yearJi: yearJi,
+      guiShen: guiShen,
     );
   }
 

@@ -28,6 +28,8 @@ class PanInfoPanel extends StatelessWidget {
           _buildBasicInfo(),
           const SizedBox(height: 12),
           _buildHostGuest(),
+          const SizedBox(height: 8),
+          _buildYinYangShu(),
           const SizedBox(height: 12),
           _buildEightDoors(),
           const SizedBox(height: 12),
@@ -186,6 +188,190 @@ class PanInfoPanel extends StatelessWidget {
             const SizedBox(width: 6),
             Expanded(child: _hostGuestCard('定', hg.dingCount, hg.dingPalace, hg.dingCountDetail)),
           ],
+        ),
+      ],
+    );
+  }
+
+  // ── 太乙阴阳数 ────────────────────────────────────────────────
+
+  static const _yangGongSet = {
+    EnumTaiYiGong.Zhen,  // 三
+    EnumTaiYiGong.Xun,   // 四
+    EnumTaiYiGong.Gen,   // 八
+    EnumTaiYiGong.Li,    // 九
+  };
+
+  bool _isYangGong(EnumTaiYiGong g) => _yangGongSet.contains(g);
+
+  (String, Color, String) _yinYangCategory(int count, EnumTaiYiGong palace) {
+    if (palace == EnumTaiYiGong.Center) return ('五宫', Colors.grey, '中宫不参与阴阳判断');
+    final isYang = _isYangGong(palace);
+    final yangLabel = isYang ? '阳宫' : '阴宫';
+    final units = count % 10 == 0 ? 10 : count % 10;
+    final isOdd = units % 2 == 1;
+
+    if (isYang && (units == 3 || units == 9))
+      return ('重阳', const Color(0xFFC23B22), '$yangLabel·算得$units·三九自临，重阳数');
+    if (!isYang && (units == 2 || units == 6))
+      return ('重阴', const Color(0xFF1565C0), '$yangLabel·算得$units·二六自临，重阴数');
+    if (!isYang && (units == 1 || units == 7))
+      return ('阴中重阳', const Color(0xFFBF5700), '$yangLabel·算得$units·一七自临，阴中重阳数');
+    if (isYang && (units == 4 || units == 8))
+      return ('阳中重阴', const Color(0xFF6A1B9A), '$yangLabel·算得$units·四八自临，阳中重阴数');
+    if (!isYang && units == 1)
+      return ('上和', const Color(0xFF2E7D32), '$yangLabel·算得$units·一配阴宫，上和之数');
+    if (isYang && (units == 4 || units == 8))
+      return ('上和', const Color(0xFF2E7D32), '$yangLabel·算得$units·四八配阳宫，上和之数');
+    if (!isYang && (units == 2 || units == 6))
+      return ('次和', const Color(0xFF388E3C), '$yangLabel·算得$units·二六配阴宫，次和之数');
+    if (isYang && (units == 3 || units == 9))
+      return ('次和', const Color(0xFF388E3C), '$yangLabel·算得$units·三九配阳宫，次和之数');
+    const heNumbers = [12, 16, 21, 27, 34, 38];
+    if (heNumbers.contains(count))
+      return ('下和', const Color(0xFF4CAF50), '$yangLabel·算得$count·下和之数');
+    if (isYang && isOdd)
+      return ('不和', const Color(0xFF7B0000), '$yangLabel·算得$units奇数·阳宫不和');
+    if (!isYang && !isOdd)
+      return ('不和', const Color(0xFF7B0000), '$yangLabel·算得$units偶数·阴宫不和');
+    return (isYang ? '阳和' : '阴和', const Color(0xFF2E7D32), '$yangLabel·奇偶阴阳相配，和数');
+  }
+
+  Widget _buildYinYangShu() {
+    final hg = panData.hostGuest;
+    final rows = [
+      ('主', hg.hostCount, hg.hostPalace),
+      ('客', hg.guestCount, hg.guestPalace),
+      ('定', hg.dingCount, hg.dingPalace),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionTitle('太乙阴阳数', color: const Color(0xFF8B5E3C)),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF8F0),
+            border: Border.all(color: const Color(0xFF8B5E3C).withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 宫位阴阳说明
+              Wrap(
+                spacing: 6,
+                runSpacing: 4,
+                children: [
+                  _miniTag('阳宫·洛书三四八九', const Color(0xFFC23B22)),
+                  _miniTag('阴宫·洛书一二六七', const Color(0xFF1565C0)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              // 三算阴阳数判断
+              ...rows.map((r) {
+                final (label, count, palace) = r;
+                if (palace == EnumTaiYiGong.Center) return const SizedBox.shrink();
+                final (cat, color, desc) = _yinYangCategory(count, palace);
+                final isYang = _isYangGong(palace);
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 算标签
+                      Container(
+                        width: 28,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        decoration: BoxDecoration(
+                          color: label == '主'
+                              ? TaiYiClassicTheme.cinnabar.withOpacity(0.1)
+                              : label == '客'
+                                  ? TaiYiClassicTheme.waterBlue.withOpacity(0.1)
+                                  : TaiYiClassicTheme.jadeGreen.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${label}算',
+                            style: GoogleFonts.maShanZheng(
+                              fontSize: 11,
+                              color: label == '主'
+                                  ? TaiYiClassicTheme.cinnabar
+                                  : label == '客'
+                                      ? TaiYiClassicTheme.waterBlue
+                                      : TaiYiClassicTheme.jadeGreen,
+                              height: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                // 宫名+阴阳
+                                Text(
+                                  '${palace.gua.name}宫(${isYang ? "阳" : "阴"})',
+                                  style: GoogleFonts.notoSerif(
+                                    fontSize: 12,
+                                    color: TaiYiClassicTheme.inkBlack,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                // 数值
+                                Text(
+                                  '= $count',
+                                  style: GoogleFonts.notoSerif(
+                                    fontSize: 13,
+                                    color: TaiYiClassicTheme.inkBlack,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                // 分类标签
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                  decoration: BoxDecoration(
+                                    color: color.withOpacity(0.12),
+                                    border: Border.all(color: color.withOpacity(0.5)),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    cat,
+                                    style: GoogleFonts.maShanZheng(
+                                      fontSize: 12,
+                                      color: color,
+                                      height: 1,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              desc,
+                              style: GoogleFonts.longCang(
+                                fontSize: 10,
+                                color: TaiYiClassicTheme.inkWash,
+                                height: 1.3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ],
     );

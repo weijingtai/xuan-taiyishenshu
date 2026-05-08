@@ -18,9 +18,13 @@ class TaiYiClassicTheme {
   static const gongBorderNear = BorderSide(color: inkWash, width: 1);
   static const gongBorderNormal = BorderSide(color: lightWood, width: 1);
 
+  /// 阳宫白色，阴宫浅灰，符合太乙阴阳数「阳白阴灰」规范。
+  static const Color yangGongBg = Color(0xFFFFFFFF);       // 阳宫：白色
+  static const Color yinGongBg  = Color(0xFFEEEEEE);       // 阴宫：浅灰
+
   static BoxDecoration gongDecoration({required bool isYangYin, required bool isNear}) {
     return BoxDecoration(
-      color: isYangYin ? ricePaper : paleGold.withOpacity(0.3),
+      color: isYangYin ? yangGongBg : yinGongBg,
       border: isNear
           ? Border.all(color: inkWash, width: 1)
           : Border.all(color: inkBlack, width: 2),
