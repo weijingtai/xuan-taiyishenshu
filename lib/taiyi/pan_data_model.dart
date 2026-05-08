@@ -3,6 +3,7 @@ import '../enums/gong.dart';
 import '../enums/taiyi_enum_extensions.dart';
 import '../models/di_pan_model.dart';
 import '../models/geju_model.dart';
+import '../models/gui_shen_model.dart';
 import '../models/ming_pan_model.dart';
 import '../models/pan_computed_item.dart';
 import '../models/ren_pan_model.dart';
@@ -289,6 +290,7 @@ class PanDataModel {
     this.warnings = const [],
     this.mingPan,
     this.yearJi,
+    this.guiShen,
   });
 
   /// 本次起盘的输入快照。
@@ -363,6 +365,9 @@ class PanDataModel {
   /// 仅年家太乙时存在此字段，包含入纪元数、入局数、太乙行宫等核心参数。
   final YearJiDataModel? yearJi;
 
+  /// 太乙贵神排盘结果。
+  final GuiShenModel? guiShen;
+
   /// 转为可持久化的 JSON 结构，供占卜历史保存。
   Map<String, Object?> toJson() => {
     'input': input.toJson(),
@@ -391,5 +396,6 @@ class PanDataModel {
     'geJu': geJu.toJson(),
     'mingPan': mingPan?.toJson(),
     'yearJi': yearJi?.toJson(),
+    'guiShen': guiShen?.toJson(),
   };
 }

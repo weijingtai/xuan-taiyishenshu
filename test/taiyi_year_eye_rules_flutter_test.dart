@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:taiyishenshu/enums/eight_door.dart';
 import 'package:taiyishenshu/enums/gong.dart';
+import 'package:taiyishenshu/enums/gui_shen.dart';
 import 'package:taiyishenshu/taiyi/taiyi.dart';
 
 void main() {
@@ -229,6 +230,30 @@ void main() {
       expect(pan.eightDoorsByPalace[EnumTaiYiGong.Gen], EnumEightDoor.Kai);
       expect(pan.eightDoorsByPalace[EnumTaiYiGong.Zhen], EnumEightDoor.Xiu);
       expect(pan.eightDoorsByPalace[EnumTaiYiGong.Xun], EnumEightDoor.Sheng);
-    });
   });
+});
+
+group('Year guiShen (tongZong)', () {
+  test('tongZong 2005 guiShen layout', () {
+    final pan = const TaiYiPanCalculator().calculate(
+      dateTime: DateTime(2005, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+
+    final gs = pan.guiShen;
+    expect(gs, isNotNull);
+    expect(gs!.zhiShiGuiShen, EnumGuiShen.zhaoYao);
+    expect(gs.zhiShiIndex, 7);
+    expect(gs.of(EnumTaiYiGong.Center), EnumGuiShen.zhaoYao);
+    expect(gs.of(EnumTaiYiGong.Dui), EnumGuiShen.tianFu);
+    expect(gs.of(EnumTaiYiGong.Kun), EnumGuiShen.qingLong);
+    expect(gs.of(EnumTaiYiGong.Kan), EnumGuiShen.xianChi);
+    expect(gs.of(EnumTaiYiGong.Xun), EnumGuiShen.taiYin);
+    expect(gs.of(EnumTaiYiGong.Qian), EnumGuiShen.tianYi);
+    expect(gs.of(EnumTaiYiGong.Li), EnumGuiShen.taiYi);
+    expect(gs.of(EnumTaiYiGong.Gen), EnumGuiShen.shetiTi);
+    expect(gs.of(EnumTaiYiGong.Zhen), EnumGuiShen.xuanYuan);
+  });
+});
 }
