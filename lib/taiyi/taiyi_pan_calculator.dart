@@ -230,29 +230,80 @@ return PanDataModel(
       case TaiYiChartType.year:
         return accumulatedYear;
       case TaiYiChartType.month:
-        return accumulatedYear * 12 + dateTime.month;
+        return _accumulatedMonth(accumulatedYear, dateTime, rule);
       case TaiYiChartType.day:
-        final winterSolstice = _dateOfWinterSolstice(dateTime.year);
-        final winterSolsticeDoy =
-            winterSolstice.difference(DateTime(dateTime.year)).inDays + 1;
-        final dayOffset = _dayOfYear(dateTime) - winterSolsticeDoy;
-        final winterAccumulatedDays =
-            (accumulatedYear * rule.tropicalYear).round();
-        return winterAccumulatedDays +
-            (dayOffset < 0
-                ? dayOffset + (rule.tropicalYear * 12).round()
-                : dayOffset);
+        return _accumulatedDay(accumulatedYear, dateTime, rule);
       case TaiYiChartType.hour:
-        final ws = _dateOfWinterSolstice(dateTime.year);
-        final wsDoy = ws.difference(DateTime(dateTime.year)).inDays + 1;
-        final offset = _dayOfYear(dateTime) - wsDoy;
-        final winterDays = (accumulatedYear * rule.tropicalYear).round();
-        final accDays = winterDays +
-            (offset < 0 ? offset + (rule.tropicalYear * 12).round() : offset);
-        return accDays * 12 + _chineseHourIndex(dateTime);
+        return _accumulatedHour(accumulatedYear, dateTime, rule);
       case TaiYiChartType.ke:
         throw UnsupportedError('刻家暂未实现。');
     }
+  }
+
+  int _accumulatedMonth(int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
+    final tianZhengMonth = _toTianZhengMonth(dateTime.month);
+    if (rule.zhangSui > 0 && rule.zhangYue > 0) {
+      final jiYue = (accumulatedYear * rule.zhangYue) ~/ rule.zhangSui;
+      return jiYue + tianZhengMonth;
+    }
+    return (accumulatedYear - 1) * 12 + tianZhengMonth;
+  }
+
+  int _toTianZhengMonth(int solarMonth) {
+    return switch (solarMonth) {
+      1 => 3,
+      2 => 4,
+      3 => 5,
+      4 => 6,
+      5 => 7,
+      6 => 8,
+      7 => 9,
+      8 => 10,
+      9 => 11,
+      10 => 12,
+      11 => 1,
+      12 => 2,
+      _ => 1,
+    };
+  }
+
+  int _accumulatedDay(int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
+    final dongZhi = _dateOfWinterSolstice(dateTime.year);
+    final dongZhiDoy = dongZhi.difference(DateTime(dateTime.year)).inDays + 1;
+    final currentDoy = _dayOfYear(dateTime);
+    int daysSinceDongZhi = currentDoy - dongZhiDoy;
+    if (daysSinceDongZhi < 0) {
+      daysSinceDongZhi += (rule.tropicalYear * 12).round();
+    }
+    final dongZhiJiRi = ((accumulatedYear - 1) * rule.tropicalYear).round();
+    return dongZhiJiRi + daysSinceDongZhi;
+  }
+
+  int _accumulatedHour(int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
+    final dongZhi = _dateOfWinterSolstice(dateTime.year);
+    final xiaZhi = _dateOfSummerSolstice(dateTime.year);
+    final dongZhiDoy = dongZhi.difference(DateTime(dateTime.year)).inDays + 1;
+    final xiaZhiDoy = xiaZhi.difference(DateTime(dateTime.year)).inDays + 1;
+    final currentDoy = _dayOfYear(dateTime);
+    int zhiDoy;
+    if (currentDoy >= xiaZhiDoy) {
+      zhiDoy = xiaZhiDoy;
+    } else {
+      zhiDoy = dongZhiDoy;
+    }
+    int daysSinceZhi = currentDoy - zhiDoy;
+    if (daysSinceZhi < 0) {
+      daysSinceZhi += 365;
+    }
+    final zhiJiRi = ((accumulatedYear - 1) * rule.tropicalYear).round();
+    final erZhiJiRi = zhiJiRi + daysSinceZhi;
+    final erZhiJiShi = (erZhiJiRi - 1) * 12;
+    final shiZhi = ((dateTime.hour + 1) ~/ 2) % 12;
+    return erZhiJiShi + shiZhi;
+  }
+
+  DateTime _dateOfSummerSolstice(int year) {
+    return DateTime(year, 6, 21);
   }
 
   int _computeJuNumberFromAccumulatedValue(int seqValue) {
@@ -434,27 +485,27 @@ HostGuestDataModel _calculateHostGuest({
     required _RuleProfile rule,
     required DunType dunType,
   }) {
-    final wenChangDeity = _findWenChangDeity(juNumber);
-    final wenChangPos = _sixteenGodPosition(wenChangDeity);
-    final taiYiPos = _palaceToZhengDeityPosition(taiYiPalace);
-    final shiJiDeity = _findShiJiDeity(juNumber);
-    final shiJiPos = _sixteenGodPosition(shiJiDeity);
-    final hostResult = _samePalaceCountWithDetail(
-          startDeity: wenChangDeity,
-          startPos: wenChangPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
-        ) ??
-        _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.label);
-    final guestResult = _samePalaceCountWithDetail(
-          startDeity: shiJiDeity,
-          startPos: shiJiPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
-        ) ??
-        _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.label);
+  final wenChangDeity = _findWenChangDeity(juNumber);
+  final wenChangPos = _sixteenGodPosition(wenChangDeity);
+  final taiYiPos = _palaceToZhengDeityPosition(taiYiPalace);
+  final shiJiDeity = _findShiJiDeity(juNumber);
+  final shiJiPos = _sixteenGodPosition(shiJiDeity);
+  final hostResult = _samePalaceCountWithDetail(
+    startDeity: wenChangDeity,
+    startPos: wenChangPos,
+    taiYiPalace: taiYiPalace,
+    taiYiPos: taiYiPos,
+    schoolLabel: rule.school.label,
+  ) ??
+      _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.label);
+  final guestResult = _samePalaceCountWithDetail(
+    startDeity: shiJiDeity,
+    startPos: shiJiPos,
+    taiYiPalace: taiYiPalace,
+    taiYiPos: taiYiPos,
+    schoolLabel: rule.school.label,
+  ) ??
+      _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.label);
 
     final dingMuName = _calculateDingMuPosition(
       yearBranch: yearBranch,
@@ -462,14 +513,14 @@ HostGuestDataModel _calculateHostGuest({
     );
     final dingMuPos = _sixteenGodPosition(dingMuName);
     final dingMuPalace = _deityToPalace(dingMuName);
-    final dingResult = _samePalaceCountWithDetail(
-          startDeity: dingMuName,
-          startPos: dingMuPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
-        ) ??
-        _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.label);
+  final dingResult = _samePalaceCountWithDetail(
+    startDeity: dingMuName,
+    startPos: dingMuPos,
+    taiYiPalace: taiYiPalace,
+    taiYiPos: taiYiPos,
+    schoolLabel: rule.school.label,
+  ) ??
+      _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.label);
     final dingCount = dingResult.count;
     final dingPalace = dingMuPalace;
 
@@ -481,8 +532,8 @@ HostGuestDataModel _calculateHostGuest({
       hostCount: hostResult.count,
       guestCount: guestResult.count,
       dingCount: dingCount,
-      hostPalace: taiYiPalace,
-      guestPalace: wenChangPalace,
+    hostPalace: _deityToPalace(wenChangDeity),
+    guestPalace: _deityToPalace(shiJiDeity),
       dingPalace: dingPalace,
       dingMuPalace: dingMuPalace,
       dingMuName: dingMuName,
@@ -830,29 +881,34 @@ HostGuestDataModel _calculateHostGuest({
       final count = _hostGuestPalaceNumber(taiYiPalace);
       return (
         count: count,
-        detail: '$schoolLabel: ${startDeity}(同宫同神取宫数$count) = $count',
+        detail: '$schoolLabel: $startDeity(同宫同神取宫数$count) = $count',
       );
     }
 
     return (
       count: 1,
-      detail: '$schoolLabel: ${startDeity}(同宫不同神取1) = 1',
+      detail: '$schoolLabel: $startDeity(同宫不同神取1) = 1',
     );
   }
 
   ({int count, String detail}) _walkAndSumWithDetail(int startPos, int taiYiPos, String schoolLabel) {
     int sum = 0;
     final steps = <String>[];
-    int cur = startPos;
-    final isJianStart = _isJianShen(_deityAtPosition(cur));
-    if (isJianStart) {
+    final startDeity = _deityAtPosition(startPos);
+    if (_isZhengDeity(startPos)) {
+      final palace = _deityToPalace(startDeity);
+      final num = _hostGuestPalaceNumber(palace);
+      sum += num;
+      steps.add('$startDeity($num)');
+    } else {
       sum += 1;
       steps.add('1(间神起)');
     }
+    int cur = startPos % 16 + 1;
     for (var i = 0; i < 16; i++) {
       if (cur == taiYiPos) break;
-      final deity = _deityAtPosition(cur);
       if (_isZhengDeity(cur)) {
+        final deity = _deityAtPosition(cur);
         final palace = _deityToPalace(deity);
         final num = _hostGuestPalaceNumber(palace);
         sum += num;
@@ -1473,6 +1529,8 @@ class _RuleProfile {
     required this.hostGuestBase,
     required this.methodNote,
     required this.warnings,
+    this.zhangSui = 0,
+    this.zhangYue = 0,
   });
 
   final TaiYiSchool school;
@@ -1489,25 +1547,29 @@ class _RuleProfile {
   final int hostGuestBase;
   final String methodNote;
   final List<String> warnings;
+  final int zhangSui;
+  final int zhangYue;
 
   factory _RuleProfile.forSchool(TaiYiSchool school) {
     return switch (school) {
       TaiYiSchool.jingMirror => const _RuleProfile(
-          school: TaiYiSchool.jingMirror,
-          isAncientSchool: true,
-          ancientBase: 1937281,
-          ancientEpochYear: 724,
-          contemporaryEpochYear: 0,
-          taiYiPalaceFormula: _TaiYiPalaceFormula.jingMirror,
-          taiYiPalaceShift: 0,
-          usesWenChangStayRule: true,
-          usesTwelveJiShen: false,
-          fixedEightDoors: false,
-          tropicalYear: 365.25,
-          hostGuestBase: 1,
-          methodNote: '金镜古法',
-          warnings: ['金镜派天目重留当前为 MVP 近似，后续需用典籍验盘校正。'],
-        ),
+        school: TaiYiSchool.jingMirror,
+        isAncientSchool: true,
+        ancientBase: 1937281,
+        ancientEpochYear: 724,
+        contemporaryEpochYear: 0,
+        taiYiPalaceFormula: _TaiYiPalaceFormula.jingMirror,
+        taiYiPalaceShift: 0,
+        usesWenChangStayRule: true,
+        usesTwelveJiShen: false,
+        fixedEightDoors: false,
+        tropicalYear: 365.2425,
+        hostGuestBase: 1,
+        methodNote: '金镜古法',
+        warnings: ['金镜派天目重留当前为 MVP 近似，后续需用典籍验盘校正。'],
+        zhangSui: 657,
+        zhangYue: 8726,
+      ),
       TaiYiSchool.tongZong => const _RuleProfile(
           school: TaiYiSchool.tongZong,
           isAncientSchool: true,

@@ -160,6 +160,19 @@ expectYearRenPan_tongZong(
     assert(hg.guestCount == 25, '客算应为25，实际=${hg.guestCount}');
   }
 
+  // 2026 统宗 主客定算验证 (阳遁55局, 太乙艮宫)
+  {
+    final pan2026 = calculator.calculate(
+      dateTime: DateTime(2026, 1, 1),
+      school: TaiYiSchool.tongZong,
+      chartType: TaiYiChartType.year,
+    );
+    final hg = pan2026.hostGuest;
+    assert(hg.hostCount == 16, '主算应为16，实际=${hg.hostCount}');
+    assert(hg.guestCount == 3, '客算应为3，实际=${hg.guestCount}');
+    assert(hg.dingCount == 22, '定算应为22，实际=${hg.dingCount}');
+  }
+
   // var threwUnsupportedError = false;
   // try {
   //   calculator.calculate(
