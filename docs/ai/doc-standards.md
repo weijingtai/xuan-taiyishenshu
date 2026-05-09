@@ -4,15 +4,17 @@
 
 | 文档类型 | 存放位置 | 命名格式 |
 |---------|---------|---------|
-| SPEC 设计文档（全局） | `docs/superpowers/specs/` | `YYYY-MM-DD-<topic>-design.md` |
+| SPEC 设计文档 | `docs/<me>/<type>/<name>-<date>/superpowers/specs/` | `YYYY-MM-DD-<topic>-design.md` |
+| 实现计划 | `docs/<me>/<type>/<name>-<date>/superpowers/plans/` | `YYYY-MM-DD-<topic>-implementation.md` |
 | AI 协同规范 | `docs/ai/` | kebab-case 或中文 |
+| AI 初始化记录 | `docs/ai_dev_init/<developer>-<Model>/` | `SELF.md` + 过程文件 |
 | 看板文件 | `docs/board/` | `TASKS.md` / `PROGRESS.md` |
 | 项目 PRD | `docs/project/prds/` | `YYYY-MM-DD-<short-name>-PRD.md` |
 | 项目功能说明 | `docs/project/features/` | `YYYY-MM-DD-<short-name>-功能说明.md` |
 | 架构决策记录 | `docs/project/architecture/` | `NNN-<short-name>.md` |
 | 发布日志 | `docs/project/changelog/` | `vX.Y.Z.md` |
 | AI 任务目录 | `docs/<developer>-<Model>/<type>/` | `<name>-<YYYY-MM-DD>/` |
-| AI 自身说明 | 任务目录根 | `SELF.md` |
+| AI 自身说明 | 任务目录根 / ai_dev_init 目录 | `SELF.md` |
 | 项目规划 | `docs/` | 中文或 kebab-case |
 
 MUST NOT: 设计文档命名为 `spec.md`、`design.md`、`plan.md` 等无日期无主题的通用名
@@ -34,7 +36,7 @@ MUST NOT: 文件名包含特殊字符（`&`, `%`, `#`, `!` 等）
 | SHOULD: 列表使用 `-` 而非 `*` | 保持项目一致 |
 | SHOULD: 中文与英文/数字间加空格 | `定义 SPEC 文档` 而非 `定义SPEC文档` |
 
-## SPEC 设计文档模板（全局）
+## SPEC 设计文档模板
 
 SPEC 文档 MUST 包含以下全部 10 个必填节（已在 SPEC Coding Stage A1 中定义）：
 
@@ -106,3 +108,45 @@ MUST: SELF.md 创建后不再修改（任务锁定）
 MUST: 宪法版本表 MUST 逐模块列出，不可仅写"最新版"
 MUST: refactor 任务 MUST 填写"被重构来源"完整路径
 MUST NOT: 删除被重构来源的任务目录（它是历史记录）
+
+---
+
+## SELF.md 模板（AI 初始化目录）
+
+AI 首次初始化时，MUST 在 `docs/ai_dev_init/<developer>-<Model>/` 下创建 SELF.md：
+
+```
+# SELF
+
+## AI 身份
+- 使用者: <name>
+- 模型 ID: <model-id>
+- 模型品牌: <brand>
+- 访问入口: <entry-point>
+
+## 本项目宪法版本
+| 模块 | 版本 |
+|------|------|
+| AI_README.md | X.Y.Z |
+| CONSTITUTION.md | X.Y.Z |
+| board-protocol.md | X.Y.Z |
+| glossary.md | X.Y.Z |
+| principles.md | X.Y.Z |
+| phases.md | X.Y.Z |
+| delivery-pipeline.md | X.Y.Z |
+| code-style.md | X.Y.Z |
+| directory-structure.md | X.Y.Z |
+| git-rules.md | X.Y.Z |
+| doc-standards.md | X.Y.Z |
+| toolchain.md | X.Y.Z |
+| project-context-guide.md | X.Y.Z |
+
+## 初始化信息
+- 初始化日期: YYYY-MM-DD
+- 首次读取宪法耗时: <估算>
+- 读取的额外上下文: <如 docs/Plans.md, lib/ 源码等>
+```
+
+MUST: AI 首次接入项目时 MUST 在 `docs/ai_dev_init/<me>/` 下创建此 SELF.md
+MUST: 初始化 SELF.md 记录宪法版本快照，用于后续兼容性判断
+MUST NOT: 初始化过程产生任何代码修改——仅记录和读取

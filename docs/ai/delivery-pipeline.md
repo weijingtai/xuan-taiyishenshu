@@ -46,7 +46,7 @@ MUST NOT: 在已有脏工作区时创建分支
 | 准入条件 | 判断标准 |
 |---------|---------|
 | Step 1 准出全部满足 | 分支已就绪 |
-| SPEC 已锁定（非平凡改动） | SPEC 状态为 "已锁定"，文件存在于 docs/superpowers/specs/ |
+| SPEC 已锁定（非平凡改动） | SPEC 状态为 "已锁定"，文件存在于任务目录的 `superpowers/specs/` |
 | 已阅读 code-style.md、directory-structure.md、doc-standards.md | AI 在会话中已读取对应模块 |
 
 | 准出条件 | 判断标准 |

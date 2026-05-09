@@ -1,6 +1,6 @@
 # AI 协同宪法
 
-**Preamble：** 本文件是此项目的 AI 协同开发唯一权威规范。所有 AI 大模型和 AI IDE 在参与本项目开发时，MUST 在第一次接触项目时完整读取本文件及 `docs/ai/` 下全部 12 个模块。任何与本文件冲突的行为视为违规。
+**Preamble：** 本文件是此项目的 AI 协同开发唯一权威规范。所有 AI 大模型和 AI IDE 在参与本项目开发时，MUST 在第一次接触项目时完整读取本文件及 `docs/ai/` 下全部 12 个模块。**读完宪法后 MUST 在 `docs/ai_dev_init/<me>/` 下创建 SELF.md 作为初始化记录。** 任何与本文件冲突的行为视为违规。
 
 本项目的 AI 协同规范基于 SPEC-Driven Development（规格驱动开发）。核心原则：**SPEC First——SPEC 不批准 = 不写第一行代码。**
 
@@ -8,13 +8,15 @@
 
 ## 权限矩阵速查
 
-**AI 只能自主写 `docs/<me>/` 下的任务目录。其余一切写入必须经过"人"的明确命令 + 许可。**
+**AI 只能自主写 `docs/<me>/` 下的任务目录和 `docs/ai_dev_init/<me>/` 下的初始化记录。其余一切写入必须经过"人"的明确命令 + 许可。**
 
 | 区域 | 默认权限 | 写入条件 |
 |------|---------|---------|
 | `AI_README.md` + `docs/ai/` | **永远只读** | 不可写 |
-| `docs/<other-ai>/` | **永远只读** | 不可写 |
-| `docs/<me>/` | **读写** | 自主写入 |
+| `docs/<other-ai>/` + `docs/ai_dev_init/<other>/` | **永远只读** | 不可写 |
+| `docs/ai_dev_init/<me>/` | **读写** | 仅初始化阶段自主写入（SELF.md + 过程日志） |
+| `docs/<me>/` | **读写** | 自主写入（含 superpowers/ 下的 SPEC 和计划） |
+| `docs/superpowers/` | **永远只读** | 历史记录，新 SPEC MUST 放在任务目录下 |
 | `docs/board/` | **只读** | 人明确命令+许可，走 W1-W5 通道 |
 | `docs/Plans.md` / `docs/project/` / `docs/README.md` / `README.md` | **只读** | 人明确命令+许可 |
 
@@ -77,7 +79,7 @@ Step 1 分支就绪 → Step 2 代码开发 → Step 3 自测验证 → Step 4 �
 
 | 阶段 | 做什么 | 准出文件 |
 |------|--------|---------|
-| A1 启动框架 | 确认非平凡改动，搭建 SPEC 骨架（10 个必填节） | `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` (草稿) |
+| A1 启动框架 | 创建任务目录，写入 SELF.md，搭建 SPEC 骨架（10 个必填节） | `docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md` (草稿) |
 | A2 内容填充 | 填入设计内容，验收条件逐项可勾选，内部自洽 | 同上 (评审中) |
 | A3 评审批准 | 呈交用户，获取明确批准 | 同上 (已批准) |
 | A4 SPEC 锁定 | SPEC 正式冻结，成为实现合同 | 同上 (已锁定) |
@@ -140,7 +142,8 @@ AI 在每次修改前 MUST 对照此清单：
 [ ] 9. diff 中有无死代码、调试打印、注释掉的代码？
 [ ] 10. 有没有我不小心改到的无关文件？
 [ ] 11. 我是否正试图自主读/写看板？→ 需确认用户已授权
-[ ] 12. 我修改的文档是否在 docs/<me>/ 内？→ 否则需用户许可
+[ ] 12. 我修改的文档是否在 docs/<me>/ 或 docs/ai_dev_init/<me>/ 内？→ 否则需用户许可
+[ ] 13. 我的 SPEC/Plan 是否放在任务目录的 superpowers/ 下？→ NOT 全局 docs/superpowers/
 ```
 
 ---

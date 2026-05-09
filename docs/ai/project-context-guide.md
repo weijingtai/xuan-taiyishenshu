@@ -24,6 +24,14 @@ README.md → pubspec.yaml → analysis_options.yaml → docs/Plans.md
 docs/README.md → docs/board/TASKS.md (读看板同步进度) → docs/project/README.md
 ```
 
+### 第 3.5 批: 初始化记录 (MUST 执行)
+```
+读完宪法后 MUST:
+1. 创建 docs/ai_dev_init/<me>/ 目录
+2. 写入 SELF.md（按 doc-standards.md 中"AI 初始化目录"模板）
+3. 记录当前宪法版本快照
+```
+
 ### 第 4 批: 源码层 (MUST 读全)
 ```
 lib/ 下所有 .dart 文件（按目录顺序）
@@ -41,7 +49,8 @@ docs/<other-ai>/ 下最近的任务目录，以同步上下文
 
 ### 第 7 批: 最近 SPEC (SHOULD)
 ```
-docs/superpowers/specs/ 下最近 5 个 SPEC
+docs/<other-ai>/<type>/<name>-<date>/superpowers/specs/ 下最近 5 个 SPEC
+（注意: SPEC 已从全局 docs/superpowers/ 移入各 AI 任务目录的 superpowers/ 下）
 ```
 
 ## 任务前必读

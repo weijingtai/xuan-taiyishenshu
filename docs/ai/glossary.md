@@ -6,7 +6,7 @@
 
 | 术语 | 精确定义 |
 |------|---------|
-| **SPEC (规格文档)** | AI 与用户之间的开发合同文档，位于 `docs/superpowers/specs/`。定义做什么、怎么做、怎么验收。 |
+| **SPEC (规格文档)** | AI 与用户之间的开发合同文档，位于任务目录的 `superpowers/specs/` 下。定义做什么、怎么做、怎么验收。 |
 | **SPEC First** | 不可协商原则：任何非平凡改动 MUST 先有已批准的 SPEC 才能写代码。 |
 | **SPEC Coding** | 以 SPEC 驱动的完整开发流程：Part A (A1-A4: SPEC 生命周期) + Part B (B1-B3: 交付生命周期)。 |
 | **Superpowers Mandatory** | 非平凡改动 MUST 走 SPEC Coding 全流程。 |

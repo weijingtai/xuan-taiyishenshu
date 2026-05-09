@@ -10,7 +10,7 @@ AI 认知流程分为两部分：
 
 # Part A: SPEC Coding（规格驱动编码）
 
-SPEC 文档是 AI 与用户之间的开发合同，位于 `docs/superpowers/specs/`。Part A 控制 SPEC 从创建到锁定的完整生命周期。
+SPEC 文档是 AI 与用户之间的开发合同，位于任务目录的 `superpowers/specs/` 下。Part A 控制 SPEC 从创建到锁定的完整生命周期。
 
 ```
 ┌──────────────┐    准入满足      ┌──────────────┐    用户批准      ┌──────────────┐
@@ -39,14 +39,19 @@ SPEC 文档是 AI 与用户之间的开发合同，位于 `docs/superpowers/spec
 
 | 准出条件 | 判断标准 |
 |---------|---------|
-| SPEC 文件已创建 | 文件存在于 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` |
+| 任务目录已创建 | `docs/<me>/<type>/<name>-<YYYY-MM-DD>/` 存在 |
+| SELF.md 已写入 | 任务目录根目录下 SELF.md 包含宪法版本表 |
+| SPEC 文件已创建 | 文件存在于 `docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md` |
 | SPEC 文件包含全部必填字段的骨架 | 见下方必填字段清单（10 个必填节） |
 | 非目标 (Non-Goals) 已填写 | 明确本次不做什么 |
 | 用户确认 SPEC 骨架 | 用户知道 spec 文件已创建 |
 
-**此阶段产生的文件：**
+**此阶段产生的文件和目录：**
 ```
-docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← SPEC 文档（骨架阶段）
+docs/<me>/<type>/<name>-<YYYY-MM-DD>/                  ← 任务根目录
+  SELF.md                                              ← AI 自身说明
+  superpowers/specs/YYYY-MM-DD-<topic>-design.md       ← SPEC 文档（骨架阶段）
+  superpowers/plans/                                   ← 实现计划目录（空，待后续填充）
 ```
 
 **SPEC 必填字段清单（MUST 全部存在）：**
@@ -90,7 +95,7 @@ MUST NOT: 在骨架不完整时进入内容填充
 
 **修改的文件：**
 ```
-docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 内容填充完成，状态: "评审中"
+docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 内容填充完成，状态: "评审中"
 ```
 
 MUST: 内部一致性自查——逐条验收条件反向核对目标和非目标
@@ -135,7 +140,7 @@ MUST NOT: 在用户批准前编写任何代码（不包括最小原型验证片�
 
 **修改的文件：**
 ```
-docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 状态: 已锁定
+docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 状态: 已锁定
 ```
 
 ---
@@ -217,7 +222,7 @@ MUST NOT: 在实现中修改 SPEC（如需变动 = 走 SPEC 变更流程）
 
 **修改的文件：**
 ```
-docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 验收条件全部 [x]，状态: 已验收
+docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 验收条件全部 [x]，状态: 已验收
 ```
 
 MUST: AI MUST 逐条读代码验证，不允许批量勾选
@@ -242,7 +247,7 @@ MUST NOT: "好像没问题就勾了"——每条验收必须有对应代码行�
 
 **修改的文件：**
 ```
-docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 状态: 已归档
+docs/<me>/<type>/<name>-<date>/superpowers/specs/YYYY-MM-DD-<topic>-design.md   ← 状态: 已归档
 docs/Plans.md                                          ← 仅在架构变更时更新
 ```
 

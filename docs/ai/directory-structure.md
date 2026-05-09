@@ -90,6 +90,11 @@ docs/
     toolchain.md                        ← 工具链
     project-context-guide.md            ← 上下文阅读规则
 
+  ai_dev_init/                          ← AI 首次初始化过程记录
+    <developer>-<Model>/                ← 各 AI 的初始化目录
+      SELF.md                          ← 初始化会话身份
+      logs/                            ← MAY: 初始化过程日志
+
   board/                                ← 公共进度看板
     TASKS.md                            ← 任务队列（AI 默认只读，写入走 W1-W5）
     PROGRESS.md                         ← 进度仪表盘（AI 永远只读）
@@ -108,9 +113,11 @@ docs/
 ```
 
 MUST: AI 协同规范放在 `docs/ai/`
+MUST: AI 首次初始化过程文件放在 `docs/ai_dev_init/<developer>-<Model>/`
 MUST: 看板文件放在 `docs/board/`
 MUST: 项目内容放在 `docs/project/`
 MUST NOT: docs/ 下放代码、二进制、图片（如有需要，放在 `docs/assets/`）
+MUST NOT: AI 任务产生任何文件到全局 `docs/superpowers/`——所有 SPEC 和计划 MUST 放在任务目录下的 `superpowers/` 中
 
 ## AI 工作区结构约定
 
@@ -129,21 +136,37 @@ MUST NOT: docs/ 下放代码、二进制、图片（如有需要，放在 `docs/
 ```
 <type>/<name>-<date>/
   SELF.md           ← MUST: AI 自身说明文件（模型信息、宪法版本、追溯链）
-  specs/            ← 本任务的 SPEC 设计文档
-  plans/            ← 本任务的实现计划
+  superpowers/      ← MUST: 本任务的 SPEC 和实现计划（不可放在全局 docs/superpowers/）
+    specs/          ← SPEC 设计文档
+    plans/          ← 实现计划
   logs/             ← MAY: 执行日志
+```
+
+### 任务创建流程
+
+AI 收到新任务时，MUST 按以下顺序创建目录：
+
+```
+1. 创建任务目录: docs/<me>/<type>/<name>-<YYYY-MM-DD>/
+2. 写入 SELF.md
+3. 创建 superpowers/specs/ 和 superpowers/plans/
+4. 在 superpowers/specs/ 中创建 SPEC 文件
+5. 所有后续文件（计划、日志等）MUST 输出到此任务目录下
 ```
 
 MUST: 每个任务目录首次创建时写入 SELF.md
 MUST: SELF.md 包含宪法版本表（逐模块）和任务类型/名称/日期
+MUST: SPEC 和计划文件 MUST 放在任务目录的 `superpowers/` 下，NOT 全局 `docs/superpowers/`
+MUST NOT: 在全局 `docs/superpowers/` 创建新文件（已有文件为历史记录，只读）
 
 ## 权限矩阵
 
 详见 [docs/ai/board-protocol.md](board-protocol.md) 完整权限矩阵。
 
 核心规则：
-- AI 永远只读: `AI_README.md`、`docs/ai/`、其他 AI 的 `docs/<other>/`
-- AI 自主读写: 自己的 `docs/<me>/<type>/<name>-<date>/`
+- AI 永远只读: `AI_README.md`、`docs/ai/`、其他 AI 的 `docs/<other>/`、全局 `docs/superpowers/`（历史记录）
+- AI 自主读写: 自己的 `docs/<me>/<type>/<name>-<date>/`（含 superpowers/）
+- AI 初始化时自主读写: `docs/ai_dev_init/<me>/`
 - AI 经人许可+命令后可写: `docs/board/`、`docs/Plans.md`、`docs/project/`
 
 ## 新增文件/目录的准入标准

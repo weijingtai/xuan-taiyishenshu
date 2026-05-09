@@ -7,19 +7,19 @@
 
 | 模块 | 当前版本 | 最后修订日期 | 修订人 |
 |------|---------|-------------|--------|
-| AI_README.md | 1.0.0 | 2026-05-08 | wjt |
-| CONSTITUTION.md | 1.0.0 | 2026-05-08 | wjt |
-| board-protocol.md | 1.0.0 | 2026-05-08 | wjt |
+| AI_README.md | 1.1.0 | 2026-05-09 | wjt |
+| CONSTITUTION.md | 1.1.0 | 2026-05-09 | wjt |
+| board-protocol.md | 1.1.0 | 2026-05-09 | wjt |
 | glossary.md | 1.0.0 | 2026-05-08 | wjt |
 | principles.md | 1.0.0 | 2026-05-08 | wjt |
-| phases.md | 1.0.0 | 2026-05-08 | wjt |
+| phases.md | 1.1.0 | 2026-05-09 | wjt |
 | delivery-pipeline.md | 1.0.0 | 2026-05-08 | wjt |
 | code-style.md | 1.0.0 | 2026-05-08 | wjt |
-| directory-structure.md | 1.0.0 | 2026-05-08 | wjt |
+| directory-structure.md | 1.1.0 | 2026-05-09 | wjt |
 | git-rules.md | 1.0.0 | 2026-05-08 | wjt |
-| doc-standards.md | 1.0.0 | 2026-05-08 | wjt |
+| doc-standards.md | 1.1.0 | 2026-05-09 | wjt |
 | toolchain.md | 1.0.0 | 2026-05-08 | wjt |
-| project-context-guide.md | 1.0.0 | 2026-05-08 | wjt |
+| project-context-guide.md | 1.1.0 | 2026-05-09 | wjt |
 
 ## SemVer 规则
 
@@ -31,6 +31,7 @@
 
 | 日期 | 模块 | 旧版本 | 新版本 | 变更摘要 |
 |------|------|--------|--------|---------|
+| 2026-05-09 | AI_README.md, board-protocol.md, phases.md, directory-structure.md, doc-standards.md, project-context-guide.md, CONSTITUTION.md | 1.0.0 | 1.1.0 | MINOR: 新增 docs/ai_dev_init/ 初始化记录；SPEC/Plan 从全局 superpowers 移入任务目录 superpowers/；新增初始化 SELF.md 模板 |
 | 2026-05-08 | 全部 13 项 | — | 1.0.0 | 初始创建：AI 协同宪法体系完整交付 |
 
 ## 兼容性
