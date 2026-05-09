@@ -104,7 +104,7 @@ class PanInfoPanel extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
-            '${panData.input.school.label}·${panData.input.chartType.label}',
+            '${panData.input.schoolName}·${panData.input.chartType.label}',
             style: GoogleFonts.longCang(
               fontSize: 14,
               color: TaiYiClassicTheme.goldLeaf,

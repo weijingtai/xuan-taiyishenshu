@@ -1,0 +1,5 @@
+{
+  "id": "heShen", "name": "合神", "layer": "shenPan",
+  "algorithm": { "templateId": "relativeOffset", "params": { "sourceDeityId": "zhiFu", "offset": 6 } },
+  "priority": 43, "source": "official"
+}

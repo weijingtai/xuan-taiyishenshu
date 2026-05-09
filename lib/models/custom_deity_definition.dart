@@ -1,14 +1,13 @@
 import '../enums/door.dart';
 import '../enums/god.dart';
 import '../enums/gong.dart';
-import '../taiyi/pan_enums.dart';
 
 /// 自定义神定义。
 class CustomDeityDefinition {
   const CustomDeityDefinition({
     required this.id,
     required this.name,
-    required this.school,
+    required this.schoolId,
     required this.enabled,
     required this.priority,
     required this.algorithm,
@@ -21,8 +20,8 @@ class CustomDeityDefinition {
   /// 展示名。
   final String name;
 
-  /// 绑定流派。
-  final TaiYiSchool school;
+  /// 绑定流派 ID。
+  final String schoolId;
 
   /// 是否启用。
   final bool enabled;
@@ -39,7 +38,7 @@ class CustomDeityDefinition {
   Map<String, Object?> toJson() => {
         'id': id,
         'name': name,
-        'school': school.name,
+        'schoolId': schoolId,
         'enabled': enabled,
         'priority': priority,
         'algorithm': algorithm.toJson(),
@@ -74,7 +73,7 @@ class CustomDeityAlgorithmSpec {
 /// 自定义神仓储接口。
 abstract class CustomDeityRepository {
   Future<List<CustomDeityDefinition>> loadDefinitions({
-    required TaiYiSchool school,
+    required String schoolId,
   });
 }
 
@@ -86,11 +85,11 @@ class InMemoryCustomDeityRepository implements CustomDeityRepository {
 
   @override
   Future<List<CustomDeityDefinition>> loadDefinitions({
-    required TaiYiSchool school,
+    required String schoolId,
   }) async {
     return definitions
-        .where(
-            (definition) => definition.enabled && definition.school == school)
+        .where((definition) =>
+            definition.enabled && definition.schoolId == schoolId)
         .toList(growable: false);
   }
 }
@@ -103,7 +102,7 @@ class JsonCustomDeityRepository implements CustomDeityRepository {
 
   @override
   Future<List<CustomDeityDefinition>> loadDefinitions({
-    required TaiYiSchool school,
+    required String schoolId,
   }) async {
     return const [];
   }
@@ -117,7 +116,7 @@ class DbCustomDeityRepository implements CustomDeityRepository {
 
   @override
   Future<List<CustomDeityDefinition>> loadDefinitions({
-    required TaiYiSchool school,
+    required String schoolId,
   }) async {
     return const [];
   }

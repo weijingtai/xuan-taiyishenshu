@@ -1,0 +1,20 @@
+{
+  "id": "tongZong",
+  "name": "统宗派",
+  "source": "official",
+  "epoch": { "ancientBase": 10155219, "epochYear": 1303, "correction": 0, "tropicalYear": 365.2425 },
+  "deityIds": ["taiYi", "zhuDaJiang", "keDaJiang", "zhuCanJiang", "keCanJiang", "dingDaJiang", "dingCanJiang", "junJi", "chenJi", "minJi", "wuFu", "daYou", "xiaoYou", "feiFu", "siShen", "tianYiStar", "diYi", "zhiFuStar", "yangJiu", "baiLiu", "taiSui", "suiPo", "zhiFu", "heShen", "qingLong", "zhuQue", "baiHu", "xuanWu", "fengBo", "yuShi", "qingLongQi", "heiQi", "chiQi", "guiShenZhiShi", "wenChang", "jiShen", "shiJi"],
+  "overrides": {
+    "junJi": { "correction": 250 },
+    "chenJi": { "correction": 250 },
+    "minJi": { "correction": 34 },
+    "wuFu": { "correction": -136 },
+    "daYou": { "correction": 34 },
+    "yangJiu": { "correction": 130 },
+    "baiLiu": { "correction": 2050 }
+  },
+  "wenChangStayRule": false,
+  "useTwelveJiShen": false,
+  "palaceFormula": "jingMirror",
+  "eightDoorMode": "dynamic"
+}

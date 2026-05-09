@@ -1,0 +1,5 @@
+{
+  "id": "guiShenZhiShi", "name": "贵神值事", "layer": "shenPan",
+  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 60, "step": 1, "label": "年" }], "palaceSystem": "sixteenZhengJian", "direction": "forward", "startPalace": "子" } },
+  "priority": 54, "source": "official"
+}

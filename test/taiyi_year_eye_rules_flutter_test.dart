@@ -45,12 +45,12 @@ void main() {
       ),
     ];
 
-    for (final school in [TaiYiSchool.jingMirror, TaiYiSchool.tongZong]) {
+    for (final schoolId in ['jingMirror', 'tongZong']) {
       for (final c in cases) {
-        test('${school.name} ${c.year}', () {
+        test('$schoolId ${c.year}', () {
           final pan = const TaiYiPanCalculator().calculate(
             dateTime: DateTime(c.year, 1, 1),
-            school: school,
+            schoolId: schoolId,
             chartType: TaiYiChartType.year,
           );
 
@@ -70,7 +70,7 @@ void main() {
     test('jingMirror 2024 host/guest counts and generals', () {
       final pan = const TaiYiPanCalculator().calculate(
         dateTime: DateTime(2024, 1, 1),
-        school: TaiYiSchool.jingMirror,
+        schoolId: 'jingMirror',
         chartType: TaiYiChartType.year,
       );
 
@@ -91,7 +91,7 @@ void main() {
   test('tongZong 2024 host/guest counts and generals', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2024, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -112,7 +112,7 @@ void main() {
     test('jingMirror 2026 guest count', () {
       final pan = const TaiYiPanCalculator().calculate(
         dateTime: DateTime(2026, 1, 1),
-        school: TaiYiSchool.jingMirror,
+        schoolId: 'jingMirror',
         chartType: TaiYiChartType.year,
       );
 
@@ -123,7 +123,7 @@ void main() {
   test('tongZong 2026 guest count', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2026, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -136,7 +136,7 @@ void main() {
   test('tongZong 2026 three ji (jun/chen/min bases)', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2026, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -150,7 +150,7 @@ void main() {
   test('tongZong 2004 siShen/tianYi/diYi/zhiFu', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2004, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -167,7 +167,7 @@ void main() {
   test('tongZong 2004 three qi and guiShen', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2004, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -182,7 +182,7 @@ void main() {
   test('tongZong 2004 three ji (jun/chen/min bases)', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2004, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 
@@ -197,7 +197,7 @@ void main() {
     test('jingMirror 2024 value door layout', () {
       final pan = const TaiYiPanCalculator().calculate(
         dateTime: DateTime(2024, 1, 1),
-        school: TaiYiSchool.jingMirror,
+        schoolId: 'jingMirror',
         chartType: TaiYiChartType.year,
       );
 
@@ -216,7 +216,7 @@ void main() {
     test('tongZong 2024 value door layout', () {
       final pan = const TaiYiPanCalculator().calculate(
         dateTime: DateTime(2024, 1, 1),
-        school: TaiYiSchool.tongZong,
+        schoolId: 'tongZong',
         chartType: TaiYiChartType.year,
       );
 
@@ -237,7 +237,7 @@ group('Year guiShen (tongZong)', () {
   test('tongZong 2005 guiShen layout', () {
     final pan = const TaiYiPanCalculator().calculate(
       dateTime: DateTime(2005, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
 

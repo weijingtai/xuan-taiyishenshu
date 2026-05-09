@@ -1,0 +1,5 @@
+{
+  "id": "keDaJiang", "name": "客大将", "layer": "renPan",
+  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "中" } },
+  "priority": 3, "source": "official"
+}

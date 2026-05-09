@@ -1,0 +1,5 @@
+{
+  "id": "zhuDaJiang", "name": "主大将", "layer": "renPan",
+  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "中" } },
+  "priority": 2, "source": "official"
+}

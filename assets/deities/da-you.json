@@ -1,0 +1,5 @@
+{
+  "id": "daYou", "name": "大游", "layer": "tianPan",
+  "algorithm": { "templateId": "steppedCycle", "params": { "correction": -145, "steps": [{ "cycle": 288, "step": 36, "label": "宫" }], "palaceSystem": "nineGong", "palaceSeq": [{ "palace": "坤" }, { "palace": "兑" }, { "palace": "乾" }, { "palace": "坎" }, { "palace": "艮" }, { "palace": "震" }, { "palace": "巽" }, { "palace": "离" }], "direction": "forward", "startPalace": "坤" } },
+  "priority": 24, "source": "official"
+}
