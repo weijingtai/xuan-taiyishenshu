@@ -1,11 +1,57 @@
-# taiyishenshu
+# 太乙神数
 
-Tai Yi Shen Shu
+太乙神数（Tai Yi Shen Shu）是中国传统三式之一，用于排盘推算。本项目实现金镜派、统宗派、集成派三种流派的年/月/日/时四类盘面排盘算法，并提供多风格 UI 展示。
 
-## Getting Started
+## 功能
 
-For help getting started with Flutter development, view the online
-[documentation](https://flutter.dev/).
+- **三派排盘**：金镜派（古法基准）、统宗派（五福盈差）、集成派（当代甲子元）
+- **四类盘面**：年家、月家、日家、时家（刻家预留）
+- **完整算法链**：积年 → 局数 → 阴阳遁 → 太乙宫 → 文昌/计神 → 主客算 → 八门 → 天盘星神 → 神盘星神 → 格局 → 九贵神
+- **多风格 UI**：经典放射状网格、罗盘风格网格、标准 3×3 九宫格
+- **信息面板**：综合展示基础参数、年计数据、主客算详情、格局判断、各盘星神分布、贵神排布
 
-For instructions integrating Flutter modules to your existing applications,
-see the [add-to-app documentation](https://flutter.dev/docs/development/add-to-app).
+## 技术架构
+
+- **状态管理**：ChangeNotifier + Listener（无第三方状态管理库）
+- **规则引擎**：策略模式封装三派差异（`_RuleProfile`）
+- **算法 UI 分离**：核心算法不依赖 Flutter Widget
+- **外部依赖**：`package:common`（通用术数基础库）、`tyme`（历法）、`google_fonts`（字体）
+
+## 快速开始
+
+```bash
+# 安装依赖
+flutter pub get
+
+# 运行
+flutter run
+
+# 测试
+flutter test
+
+# 静态分析
+flutter analyze
+```
+
+## 目录结构
+
+```
+lib/
+  main.dart                  # 应用入口
+  controllers/               # 状态管理（ChangeNotifier）
+  enums/                     # 枚举定义（宫、门、神、格局等）
+  models/                    # 数据模型（天/地/人/神/命盘）
+  pages/                     # 页面 Widget
+  painter/                   # 自定义绘制
+  taiyi/                     # 核心排盘算法
+  theme/                     # 主题配置
+  widgets/                   # 复用组件
+```
+
+## 开发规范
+
+本项目遵循 AI 协同宪法（见 `AI_README.md`）。所有 AI 工具参与开发前必须先读取该文件及 `docs/ai/` 下全部 12 模块。
+
+## 许可证
+
+私有项目，保留所有权利。
