@@ -1,16 +1,26 @@
 # Git 分支与提交规范
 
+## Type 允许值
+
+分支与提交共用同一 type 列表：
+
+| type | 含义 | 分支可用 | 提交可用 |
+|------|------|---------|---------|
+| feat | 新功能 | Y | Y |
+| fix | 缺陷修复 | Y | Y |
+| update | 修改已有功能/逻辑 | Y | Y |
+| refactor | 纯重构（不改变功能） | Y | Y |
+| docs | 文档变更 | Y | Y |
+| chore | 构建/依赖/工具变更 | Y | Y |
+| remove | 删除文件/功能 | — | Y |
+| init | 项目初始化 | — | Y |
+
+`remove` 和 `init` 仅用于提交，不用于分支（分别用 `chore` 分支承载）。
+
 ## 分支命名
 
 ```
 MUST 格式: <type>/<short-description>
-
-type 允许值:
-  feat      ← 新功能
-  fix       ← 缺陷修复
-  refactor  ← 纯重构（不改变功能）
-  doc       ← 文档变更
-  chore     ← 构建/依赖/工具变更
 
 short-description:
   MUST: 小写英文字母 + 连字符
@@ -23,7 +33,7 @@ short-description:
 feat/yang-dun-calculator
 fix/wenchang-redouble
 refactor/gong-panel-extract
-doc/ai-readme
+docs/ai-readme
 ```
 
 **错误示例：**
@@ -39,36 +49,28 @@ feat/a                ← 描述太短
 ```
 MUST 格式: <type>: <中文简述>
 
-type 允许值:
-  add       ← 新增文件/功能
-  fix       ← 修复缺陷
-  update    ← 修改已有功能/逻辑
-  refactor  ← 纯重构
-  remove    ← 删除文件/功能
-  init      ← 项目初始化
-
 MUST: 简述不超过 30 个中文字
 MUST: 简述准确描述"做了什么"，不描述"为什么"（为什么在注释中说明）
 ```
 
 **正确示例：**
 ```
-add 太乙年家积年计算器
-fix 阴阳遁冬至分界错误
-update 统宗派五福宫盈差配置
-refactor 九宫面板提取为独立组件
-remove 废弃的旧占卜记录模型
-init Flutter 项目基础结构
+feat: 太乙年家积年计算器
+fix: 阴阳遁冬至分界错误
+update: 统宗派五福宫盈差配置
+refactor: 九宫面板提取为独立组件
+remove: 废弃的旧占卜记录模型
+init: Flutter 项目基础结构
 ```
 
 **错误示例：**
 ```
-"fix bug"              ← type 错误 + 无意义
+"fix bug"              ← 缺少 type 分隔符（冒号+空格）
 "fix"                  ← 缺少简述
-"修改了一些代码"        ← 无意义
+"修改了一些代码"        ← 缺少 type
 "WIP"                  ← 不可合并的临时提交
-"update code"          ← 无意义 + type/subject 语言混合
-"add: new feature"     ← 不该有冒号分隔符
+"update: code"         ← 简述非中文
+"add: new feature"     ← type 不在允许列表 + 简述非中文
 ```
 
 ## 提交粒度
