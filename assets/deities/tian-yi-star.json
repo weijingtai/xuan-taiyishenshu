@@ -1,0 +1,5 @@
+{
+  "id": "tianYiStar", "name": "天乙", "layer": "tianPan",
+  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 360, "step": 36, "label": "周" }, { "cycle": 36, "step": 3, "label": "宫" }], "palaceSystem": "sixteenZhengJian", "palaceSeq": [{ "palace": "酉" }, { "palace": "申" }, { "palace": "子" }, { "palace": "巳" }, { "palace": "戌" }, { "palace": "未" }, { "palace": "丑" }, { "palace": "亥" }, { "palace": "午" }, { "palace": "寅" }, { "palace": "卯" }, { "palace": "辰" }], "direction": "forward", "startPalace": "酉" } },
+  "priority": 27, "source": "official"
+}

@@ -22,7 +22,7 @@ Future<void> main() async {
   }) {
     final pan = calculator.calculate(
       dateTime: DateTime(year, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
     assert(pan.renPan.tianMuName == expectedTianMuName);
@@ -60,7 +60,7 @@ Future<void> main() async {
 
   // final tongZong = calculator.calculate(
   //   dateTime: time,
-  //   school: TaiYiSchool.tongZong,
+  //   schoolId: 'tongZong',
   // );
   // assert(tongZong.accumulatedYear == jingMirror.accumulatedYear + 250);
 
@@ -152,7 +152,7 @@ expectYearRenPan_tongZong(
   {
     final pan2024 = calculator.calculate(
       dateTime: DateTime(2024, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
     final hg = pan2024.hostGuest;
@@ -164,7 +164,7 @@ expectYearRenPan_tongZong(
   {
     final pan2026 = calculator.calculate(
       dateTime: DateTime(2026, 1, 1),
-      school: TaiYiSchool.tongZong,
+      schoolId: 'tongZong',
       chartType: TaiYiChartType.year,
     );
     final hg = pan2026.hostGuest;

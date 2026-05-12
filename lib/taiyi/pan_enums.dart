@@ -1,15 +1,3 @@
-/// 太乙排盘采用的流派。
-enum TaiYiSchool {
-  /// 《太乙金镜式经》体系，作为古法基准。
-  jingMirror,
-
-  /// 《太乙数统宗大全》体系，偏实用改良。
-  tongZong,
-
-  /// 《古今图书集成》体系，偏简化普及。
-  jiCheng,
-}
-
 /// 起盘所属的盘类型。
 enum TaiYiChartType {
   /// 年家太乙。
@@ -35,15 +23,6 @@ enum DunType {
 
   /// 阴遁。
   yin,
-}
-
-/// 流派枚举的中文显示名。
-extension TaiYiSchoolLabel on TaiYiSchool {
-  String get label => switch (this) {
-        TaiYiSchool.jingMirror => '金镜派',
-        TaiYiSchool.tongZong => '统宗派',
-        TaiYiSchool.jiCheng => '集成派',
-      };
 }
 
 /// 盘类型枚举的中文显示名。

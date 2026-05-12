@@ -16,7 +16,8 @@ import 'pan_enums.dart';
 class PanInputModel {
   const PanInputModel({
     required this.dateTime,
-    required this.school,
+    required this.schoolId,
+    required this.schoolName,
     required this.chartType,
     this.useTrueSolarTime = false,
     this.location,
@@ -26,8 +27,11 @@ class PanInputModel {
   /// 起盘使用的公历时间。
   final DateTime dateTime;
 
-  /// 起盘采用的流派。
-  final TaiYiSchool school;
+  /// 起盘采用的流派 ID（如 'jingMirror'）。
+  final String schoolId;
+
+  /// 起盘采用的流派显示名（如 '金镜派'）。
+  final String schoolName;
 
   /// 年家、月家、日家、时家或预留的刻家。
   final TaiYiChartType chartType;
@@ -44,7 +48,8 @@ class PanInputModel {
   /// 转为可持久化的 JSON 结构，供本地记录保存。
   Map<String, Object?> toJson() => {
     'dateTime': dateTime.toIso8601String(),
-    'school': school.name,
+    'schoolId': schoolId,
+    'schoolName': schoolName,
     'chartType': chartType.name,
     'useTrueSolarTime': useTrueSolarTime,
     'location': location,

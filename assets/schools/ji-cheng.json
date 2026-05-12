@@ -1,0 +1,11 @@
+{
+  "id": "jiCheng",
+  "name": "集成派",
+  "source": "official",
+  "epoch": { "ancientBase": 0, "epochYear": 1684, "correction": 0, "tropicalYear": 365.2425 },
+  "deityIds": ["taiYi", "zhuDaJiang", "keDaJiang", "zhuCanJiang", "keCanJiang", "dingDaJiang", "dingCanJiang", "junJi", "chenJi", "minJi", "wuFu", "daYou", "xiaoYou", "feiFu", "siShen", "tianYiStar", "diYi", "zhiFuStar", "taiSui", "suiPo", "zhiFu", "heShen", "qingLong", "zhuQue", "baiHu", "xuanWu", "fengBo", "yuShi", "wenChang", "jiShen", "shiJi"],
+  "wenChangStayRule": false,
+  "useTwelveJiShen": true,
+  "palaceFormula": "jiCheng",
+  "eightDoorMode": "fixed"
+}

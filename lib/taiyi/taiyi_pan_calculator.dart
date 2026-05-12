@@ -13,6 +13,7 @@ import '../models/ren_pan_model.dart';
 import '../models/shen_pan_model.dart';
 import '../models/tian_pan_model.dart';
 import '../models/year_ji_model.dart';
+import 'core/school_config.dart';
 import 'pan_data_model.dart';
 import 'pan_enums.dart';
 import 'taiyi_constants.dart';
@@ -22,16 +23,42 @@ class TaiYiPanCalculator {
 
   static const String algorithmVersion = 'taiyi-pan-mvp-0.2.0';
 
+  static TaiYiSchool _defaultSchoolConfig(String schoolId) {
+    return switch (schoolId) {
+      'jingMirror' => const TaiYiSchool(
+        id: 'jingMirror', name: '金镜派',
+        epoch: SchoolEpochConfig(ancientBase: 1937281, epochYear: 724),
+        wenChangStayRule: true, useTwelveJiShen: false,
+        palaceFormula: 'jingMirror', eightDoorMode: 'dynamic',
+      ),
+      'tongZong' => const TaiYiSchool(
+        id: 'tongZong', name: '统宗派',
+        epoch: SchoolEpochConfig(ancientBase: 10155219, epochYear: 1303),
+        wenChangStayRule: true, useTwelveJiShen: false,
+        palaceFormula: 'jingMirror', eightDoorMode: 'dynamic',
+      ),
+      'jiCheng' => const TaiYiSchool(
+        id: 'jiCheng', name: '集成派',
+        epoch: SchoolEpochConfig(ancientBase: 0, epochYear: 1684),
+        wenChangStayRule: false, useTwelveJiShen: true,
+        palaceFormula: 'jiCheng', eightDoorMode: 'fixed',
+      ),
+      _ => throw ArgumentError('Unknown school: $schoolId'),
+    };
+  }
+
   PanDataModel calculate({
     required DateTime dateTime,
-    TaiYiSchool school = TaiYiSchool.jingMirror,
+    String schoolId = 'jingMirror',
     TaiYiChartType chartType = TaiYiChartType.year,
     bool useTrueSolarTime = false,
     String? location,
   }) {
+    final schoolConfig = _defaultSchoolConfig(schoolId);
     return _calculate(
       dateTime: dateTime,
-      school: school,
+      school: schoolConfig,
+      schoolId: schoolId,
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
@@ -42,16 +69,18 @@ class TaiYiPanCalculator {
   Future<PanDataModel> calculateWithCustomDeities({
     required DateTime dateTime,
     required CustomDeityRepository customDeityRepository,
-    TaiYiSchool school = TaiYiSchool.jingMirror,
+    String schoolId = 'jingMirror',
     TaiYiChartType chartType = TaiYiChartType.year,
     bool useTrueSolarTime = false,
     String? location,
   }) async {
+    final schoolConfig = _defaultSchoolConfig(schoolId);
     final customDefinitions =
-        await customDeityRepository.loadDefinitions(school: school);
+        await customDeityRepository.loadDefinitions(schoolId: schoolId);
     return _calculate(
       dateTime: dateTime,
-      school: school,
+      school: schoolConfig,
+      schoolId: schoolId,
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
@@ -62,6 +91,7 @@ class TaiYiPanCalculator {
   PanDataModel _calculate({
     required DateTime dateTime,
     required TaiYiSchool school,
+    required String schoolId,
     required TaiYiChartType chartType,
     required bool useTrueSolarTime,
     required String? location,
@@ -69,13 +99,14 @@ class TaiYiPanCalculator {
   }) {
     final input = PanInputModel(
       dateTime: dateTime,
-      school: school,
+      schoolId: schoolId,
+      schoolName: school.name,
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
     );
 
-    final rule = _RuleProfile.forSchool(school);
+    final rule = _RuleProfile.fromConfig(school);
     final accumulatedYear = _calculateAccumulatedYear(dateTime, rule);
     final yearJi = chartType == TaiYiChartType.year
         ? _computeYearJi(accumulatedYear)
@@ -195,8 +226,8 @@ class TaiYiPanCalculator {
       wenChangPalace: wenChangPalace,
       jiShenPalace: jiShenPalace,
       schoolBase: rule.isAncientSchool
-          ? '${rule.school.label}基数: ${rule.ancientBase}'
-          : '${rule.school.label}起算年: ${rule.contemporaryEpochYear}',
+          ? '${rule.school.name}基数: ${rule.ancientBase}'
+          : '${rule.school.name}起算年: ${rule.contemporaryEpochYear}',
       palaces: palaces,
       eightDoorsByPalace: eightDoorsByPalace,
       unplacedItems: List.unmodifiable(unplacedItems),
@@ -217,9 +248,9 @@ class TaiYiPanCalculator {
 
   int _calculateAccumulatedYear(DateTime dateTime, _RuleProfile rule) {
     if (!rule.isAncientSchool) {
-      return dateTime.year - rule.contemporaryEpochYear + 1;
+      return dateTime.year - rule.school.epoch.epochYear + 1;
     }
-    if (rule.school == TaiYiSchool.tongZong) {
+    if (rule.school.id == 'tongZong') {
       return rule.ancientBase + (dateTime.year - rule.ancientEpochYear) + 1;
     }
     return rule.ancientBase + (dateTime.year - rule.ancientEpochYear);
@@ -503,17 +534,17 @@ class TaiYiPanCalculator {
           startPos: wenChangPos,
           taiYiPalace: taiYiPalace,
           taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
+          schoolLabel: rule.school.name,
         ) ??
-        _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.label);
+        _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.name);
     final guestResult = _samePalaceCountWithDetail(
           startDeity: shiJiDeity,
           startPos: shiJiPos,
           taiYiPalace: taiYiPalace,
           taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
+          schoolLabel: rule.school.name,
         ) ??
-        _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.label);
+        _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.name);
 
     final dingMuName = _calculateDingMuPosition(
       yearBranch: yearBranch,
@@ -526,15 +557,15 @@ class TaiYiPanCalculator {
           startPos: dingMuPos,
           taiYiPalace: taiYiPalace,
           taiYiPos: taiYiPos,
-          schoolLabel: rule.school.label,
+          schoolLabel: rule.school.name,
         ) ??
-        _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.label);
+        _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.name);
     final dingCount = dingResult.count;
     final dingPalace = dingMuPalace;
 
     final schoolBase = rule.isAncientSchool
-        ? '${rule.school.label}基数: ${rule.ancientBase}'
-        : '${rule.school.label}起算年: ${rule.contemporaryEpochYear}';
+        ? '${rule.school.name}基数: ${rule.ancientBase}'
+        : '${rule.school.name}起算年: ${rule.contemporaryEpochYear}';
 
     return HostGuestDataModel(
         hostCount: hostResult.count,
@@ -695,8 +726,8 @@ EnumTaiYiGong _positionToPalace(String position) {
 
 bool _usesSharedYearEyeRules(_RuleProfile rule, TaiYiChartType chartType) {
   if (chartType != TaiYiChartType.year) return false;
-  return rule.school == TaiYiSchool.jingMirror ||
-      rule.school == TaiYiSchool.tongZong;
+  return rule.school.id == 'jingMirror' ||
+      rule.school.id == 'tongZong';
 }
 
 const _countingSequence = [
@@ -1111,7 +1142,7 @@ RenPanModel _buildRenPan({
   final wenChangIndex =
       sequence.indexOf(sixteenDeities.contains('申') ? '申' : '寅');
   final tianMuIndex = _positiveModulo(
-      wenChangIndex + (rule.school == TaiYiSchool.jingMirror ? 8 : 3),
+      wenChangIndex + (rule.school.id == 'jingMirror' ? 8 : 3),
       sequence.length);
   final shiJiIndex = _positiveModulo(tianMuIndex + 4, sequence.length);
 
@@ -1180,7 +1211,7 @@ TianPanModel _buildTianPan({
   dingDeputyGeneralGong =
       _calculateGuestOrDingDeputyGeneralGong(dingGeneralNumber);
 
-  if (rule.school == TaiYiSchool.jingMirror) {
+  if (rule.school.id == 'jingMirror') {
     junJiGong = _calculateJunJi(accumulatedYear, rule);
     chenJiGong = _calculateChenJi(accumulatedYear, rule);
     minJiGong = _calculateMinJi(accumulatedYear, rule);
@@ -1188,7 +1219,7 @@ TianPanModel _buildTianPan({
     daYouGong = _calculateDaYou(accumulatedYear, rule);
     xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
     feiFuGong = _calculateFeiFu(taiYiPalace, rule);
-  } else if (rule.school == TaiYiSchool.tongZong) {
+  } else if (rule.school.id == 'tongZong') {
     final ji = accumulatedYear;
     junJiGong = _calculateJunJiTongZong(ji);
     junJiRuGongNianShu = _calculateJunJiRuGongNianShu(ji);
@@ -1260,7 +1291,7 @@ ShenPanModel _buildShenPan({
   EnumTaiYiGong? guiShenZhiShiGong;
   int? heiQiRuGongNianShu;
 
-  if (rule.school == TaiYiSchool.tongZong) {
+  if (rule.school.id == 'tongZong') {
     final ji = accumulatedYear;
     qingLongQiGong = taiSuiGong;
 
@@ -1682,58 +1713,30 @@ class _RuleProfile {
   final int zhangSui;
   final int zhangYue;
 
-  factory _RuleProfile.forSchool(TaiYiSchool school) {
-    return switch (school) {
-      TaiYiSchool.jingMirror => const _RuleProfile(
-          school: TaiYiSchool.jingMirror,
-          isAncientSchool: true,
-          ancientBase: 1937281,
-          ancientEpochYear: 724,
-          contemporaryEpochYear: 0,
-          taiYiPalaceFormula: _TaiYiPalaceFormula.jingMirror,
-          taiYiPalaceShift: 0,
-          usesWenChangStayRule: true,
-          usesTwelveJiShen: false,
-          fixedEightDoors: false,
-          tropicalYear: 365.2425,
-          hostGuestBase: 1,
-          methodNote: '金镜古法',
-          warnings: ['金镜派天目重留当前为 MVP 近似，后续需用典籍验盘校正。'],
-          zhangSui: 657,
-          zhangYue: 8726,
-        ),
-      TaiYiSchool.tongZong => const _RuleProfile(
-          school: TaiYiSchool.tongZong,
-          isAncientSchool: true,
-          ancientBase: 10155219,
-          ancientEpochYear: 1303,
-          contemporaryEpochYear: 0,
-          taiYiPalaceFormula: _TaiYiPalaceFormula.jingMirror,
-          taiYiPalaceShift: 0,
-          usesWenChangStayRule: true,
-          usesTwelveJiShen: false,
-          fixedEightDoors: false,
-          tropicalYear: 365.2425,
-          hostGuestBase: 1,
-          methodNote: '统宗宝鉴法',
-          warnings: ['统宗派节气分界、天目重留简化当前以规则配置表达，仍需验盘校正。'],
-        ),
-      TaiYiSchool.jiCheng => const _RuleProfile(
-          school: TaiYiSchool.jiCheng,
-          isAncientSchool: false,
-          ancientBase: 0,
-          ancientEpochYear: 0,
-          contemporaryEpochYear: 1684,
-          taiYiPalaceFormula: _TaiYiPalaceFormula.jiCheng,
-          taiYiPalaceShift: 0,
-          usesWenChangStayRule: false,
-          usesTwelveJiShen: true,
-          fixedEightDoors: true,
-          tropicalYear: 365.2425,
-          hostGuestBase: 1,
-          methodNote: '集成简化法',
-          warnings: ['集成派当代甲子元暂定为 1684 年，后续可做成用户可配置。'],
-        ),
-    };
+  factory _RuleProfile.fromConfig(TaiYiSchool config) {
+    return _RuleProfile(
+      school: config,
+      isAncientSchool: config.epoch.ancientBase != 0,
+      ancientBase: config.epoch.ancientBase,
+      ancientEpochYear: config.epoch.epochYear,
+      contemporaryEpochYear: config.epoch.ancientBase == 0 ? config.epoch.epochYear : 0,
+      taiYiPalaceFormula: config.palaceFormula == 'jiCheng'
+          ? _TaiYiPalaceFormula.jiCheng
+          : _TaiYiPalaceFormula.jingMirror,
+      taiYiPalaceShift: 0,
+      usesWenChangStayRule: config.wenChangStayRule,
+      usesTwelveJiShen: config.useTwelveJiShen,
+      fixedEightDoors: config.eightDoorMode == 'fixed',
+      tropicalYear: config.epoch.tropicalYear,
+      hostGuestBase: 1,
+      methodNote: config.id == 'jingMirror' ? '金镜古法' : config.id == 'tongZong' ? '统宗宝鉴法' : '集成简化法',
+      warnings: {
+        'jingMirror': ['金镜派天目重留当前为 MVP 近似，后续需用典籍验盘校正。'],
+        'tongZong': ['统宗派节气分界、天目重留简化当前以规则配置表达，仍需验盘校正。'],
+        'jiCheng': ['集成派当代甲子元暂定为 1684 年，后续可做成用户可配置。'],
+      }[config.id] ?? [],
+      zhangSui: config.id == 'jingMirror' ? 657 : 0,
+      zhangYue: config.id == 'jingMirror' ? 8726 : 0,
+    );
   }
 }

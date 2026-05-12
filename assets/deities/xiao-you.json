@@ -1,0 +1,5 @@
+{
+  "id": "xiaoYou", "name": "小游", "layer": "tianPan",
+  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 360, "step": 24, "label": "宫" }, { "cycle": 24, "step": 3, "label": "年" }], "palaceSystem": "mixed", "palaceSeq": [{ "palace": "乾" }, { "palace": "离" }, { "palace": "艮" }, { "palace": "震" }, { "palace": "兑" }, { "palace": "坤" }, { "palace": "坎" }, { "palace": "巽" }], "direction": "forward", "startPalace": "乾" } },
+  "priority": 25, "source": "official"
+}

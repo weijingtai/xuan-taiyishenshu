@@ -1,0 +1,5 @@
+{
+  "id": "zhiFu", "name": "直符", "layer": "shenPan",
+  "algorithm": { "templateId": "branchWalker", "params": { "cycle": 10, "branches": ["乾", "离", "艮", "震", "中", "兑", "坤", "坎", "巽"] } },
+  "priority": 42, "source": "official"
+}

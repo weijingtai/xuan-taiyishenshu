@@ -1,0 +1,5 @@
+{
+  "id": "taiYi", "name": "太乙", "layer": "tianPan",
+  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 72, "step": 3, "label": "宫" }], "palaceSystem": "nineGong", "direction": "forward", "startPalace": "乾" } },
+  "priority": 1, "source": "official"
+}

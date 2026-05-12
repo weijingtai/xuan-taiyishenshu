@@ -24,6 +24,11 @@
 | `drift` 数据库 | `drift_dev` 已在 dev_dependencies，表结构设计完成，尚未启用 |
 | `persistence_drift` 外部存储库 | 已注释，暂不启用 |
 
+### 2026-05-08 工程迭代
+
+- [x] 创建 `example/` 示例项目：标准 Flutter package 模式的独立示例 App，通过 `path: ..` 依赖根项目 `taiyishenshu`
+- [x] 新增 `example/run_web.sh` 和 `example/run_web.bat`：带持久化 Chrome profile 的 Web 启动脚本
+
 ### 待完成
 
 - [ ] 月家/日家/时家验盘测试

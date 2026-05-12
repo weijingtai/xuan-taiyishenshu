@@ -23,18 +23,32 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   bool _useV2 = false;
 
   late DateTime _selectedDate;
-  late TaiYiSchool _selectedSchool;
+  late String _selectedSchoolId;
   late TaiYiChartType _selectedChartType;
   late TimeOfDay _selectedTime;
+
+  List<(String, String)> get _defaultSchoolOptions {
+    if (_controller.availableSchools.isNotEmpty) {
+      return _controller.availableSchools
+          .map((s) => (s.id, s.name))
+          .toList();
+    }
+    return const [
+      ('jingMirror', '金镜派'),
+      ('tongZong', '统宗派'),
+      ('jiCheng', '集成派'),
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
     _selectedTime = TimeOfDay.now();
-    _selectedSchool = TaiYiSchool.jingMirror;
+    _selectedSchoolId = 'jingMirror';
     _selectedChartType = TaiYiChartType.year;
     _controller.addListener(_onPanDataChanged);
+    _controller.loadSchools();
     _calculate();
   }
 
@@ -59,7 +73,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     );
     _controller.calculate(
       dateTime: dt,
-      school: _selectedSchool,
+      schoolId: _selectedSchoolId,
       chartType: _selectedChartType,
     );
   }
@@ -256,18 +270,18 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
             '流派',
             style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
-          ...TaiYiSchool.values.map((s) {
+          ..._defaultSchoolOptions.map((s) {
             return ChoiceChip(
-              label: Text(s.label),
-              selected: _selectedSchool == s,
+              label: Text(s.$2),
+              selected: _selectedSchoolId == s.$1,
               onSelected: (_) {
-                setState(() => _selectedSchool = s);
+                setState(() => _selectedSchoolId = s.$1);
                 _calculate();
               },
               selectedColor: TaiYiClassicTheme.darkWood,
               labelStyle: TextStyle(
                 fontSize: 12,
-                color: _selectedSchool == s
+                color: _selectedSchoolId == s.$1
                     ? TaiYiClassicTheme.paleGold
                     : TaiYiClassicTheme.inkBlack,
               ),
@@ -496,16 +510,16 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                     _dialogSection('流派'),
                     Wrap(
                       spacing: 8,
-                      children: TaiYiSchool.values.map((s) {
+                      children: _defaultSchoolOptions.map((s) {
                         return ChoiceChip(
-                          label: Text(s.label),
-                          selected: _selectedSchool == s,
+                          label: Text(s.$2),
+                          selected: _selectedSchoolId == s.$1,
                           onSelected: (_) {
-                            setDialogState(() => _selectedSchool = s);
+                            setDialogState(() => _selectedSchoolId = s.$1);
                           },
                           selectedColor: TaiYiClassicTheme.darkWood,
                           labelStyle: TextStyle(
-                            color: _selectedSchool == s
+                            color: _selectedSchoolId == s.$1
                                 ? TaiYiClassicTheme.paleGold
                                 : TaiYiClassicTheme.inkBlack,
                           ),

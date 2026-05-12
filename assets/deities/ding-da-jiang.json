@@ -1,0 +1,5 @@
+{
+  "id": "dingDaJiang", "name": "定大将", "layer": "renPan",
+  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "中" } },
+  "priority": 6, "source": "official"
+}

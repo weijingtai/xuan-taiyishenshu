@@ -1,0 +1,5 @@
+{
+  "id": "zhuQue", "name": "朱雀", "layer": "shenPan",
+  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "离" } },
+  "priority": 46, "source": "official"
+}
