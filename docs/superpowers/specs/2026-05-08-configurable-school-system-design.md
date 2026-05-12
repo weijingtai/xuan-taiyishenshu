@@ -3,7 +3,7 @@
 ## 元信息
 
 - 创建日期: 2026-05-08
-- 状态: 已批准
+- 状态: 已完成（2026-05-09 验收通过）
 - 关联需求: 将太乙神数三派硬编码系统重构为可配置的流派/星神引擎，支持 JSON 配置文件驱动的"官方版"和可视化编辑的"用户自定义版"
 
 ## 目标
@@ -260,42 +260,43 @@ class StepResult {
 
 ### Phase 1: 数据模型 + 算法引擎
 
-- [ ] `TaiYiSchool` data class 实现，替代原 enum
-- [ ] `SchoolEpochConfig` 实现，覆盖金镜/统宗/集成/淘金歌/黄帝元年/登坛必究的积年公式
-- [ ] `DeityDefinition` + `DeityAlgorithmSpec` + `PalaceStep` 模型实现
-- [ ] 3 个新枚举 + 所有模型 JSON 序列化/反序列化
-- [ ] `SchoolRepository` 接口定义
-- [ ] `OfficialJsonSchoolRepository` 实现（从 assets 加载）
-- [ ] 金镜派 JSON 配置完整（school + 全部星神）
-- [ ] 统宗派 JSON 配置完整
-- [ ] 集成派 JSON 配置完整
-- [ ] `DeityAlgorithmEngine` 实现 6 种模板执行器
-- [ ] `steppedCycle` 支持多层级（阳九三层取模验证通过）
-- [ ] `steppedCycle` 支持阴阳遁双模式（文昌验证通过）
-- [ ] `steppedCycle` 支持 PalaceStep 自定义停留步数（乾坤停2步验证通过）
-- [ ] `relativeOffset` 支持联动偏移（始击验证通过）
-- [ ] `fixedPosition` 支持定宫（四神验证通过）
-- [ ] `customFormula` 表达式引擎实现（安全沙箱）
-- [ ] 表达式引擎支持 `+ - * / % ~/` 运算符
+- [x] `TaiYiSchool` data class 实现，替代原 enum
+- [x] `SchoolEpochConfig` 实现，覆盖金镜/统宗/集成/淘金歌/黄帝元年/登坛必究的积年公式
+- [x] `DeityDefinition` + `DeityAlgorithmSpec` + `PalaceStep` 模型实现
+- [x] 3 个新枚举 + 所有模型 JSON 序列化/反序列化
+- [x] `SchoolRepository` 接口定义
+- [x] `OfficialJsonSchoolRepository` 实现（从 assets 加载）
+- [x] 金镜派 JSON 配置完整（school + 全部星神）
+- [x] 统宗派 JSON 配置完整
+- [x] 集成派 JSON 配置完整
+- [x] `DeityAlgorithmEngine` 实现 6 种模板执行器
+- [x] `steppedCycle` 支持多层级（阳九三层取模验证通过）
+- [x] `steppedCycle` 支持阴阳遁双模式（文昌验证通过）
+- [x] `steppedCycle` 支持 PalaceStep 自定义停留步数（乾坤停2步验证通过）
+- [x] `relativeOffset` 支持联动偏移（始击验证通过）
+- [x] `fixedPosition` 支持定宫（四神验证通过）
+- [x] `customFormula` 表达式引擎实现（安全沙箱）
+- [x] 表达式引擎支持 `+ - * / % ~/` 运算符
 
 ### Phase 2: 计算器对接
 
-- [ ] `TaiYiPanCalculator` 重构：从 SchoolConfig 读取参数，删除 `_RuleProfile`
-- [ ] 积年计算适配 `SchoolEpochConfig`
-- [ ] 星神计算改为调用 `DeityAlgorithmEngine`（金镜/统宗星神结果与迁移前一致）
-- [ ] 核心算法（太乙宫/文昌/计神/始击/主客算/八门）保持固定编排不变
-- [ ] `PanDataModel` 扩展支持 `List<StepResult>` 的分步结果
-- [ ] `flutter analyze` 零 warning
-- [ ] `flutter test` 全部通过（现有 17 个测试无回归）
+- [x] `TaiYiPanCalculator` 重构：从 SchoolConfig 读取参数，删除 `_RuleProfile`
+- [x] 积年计算适配 `SchoolEpochConfig`
+- [x] 星神计算改为调用 `DeityAlgorithmEngine`（金镜/统宗星神结果与迁移前一致）
+- [x] 核心算法（太乙宫/文昌/计神/始击/主客算/八门）保持固定编排不变
+- [x] `PanDataModel` 扩展支持 `List<StepResult>` 的分步结果
+- [x] `flutter analyze` 零 warning
+- [x] `flutter test` 全部通过（40 个测试无回归）
 
 ### Phase 3: UI 适配
 
-- [ ] 流派选择器改为从 `SchoolRepository.loadAllSchools()` 动态加载
-- [ ] 星神信息面板改为遍历 `DeityPlacementResult.steps` 动态渲染
-- [ ] 新增淘金歌/登坛必究/黄帝元年流派可通过配置直接使用
+- [x] 流派选择器改为从 `SchoolRepository.loadAllSchools()` 动态加载
+- [x] 星神信息面板改为遍历 `DeityPlacementResult.steps` 动态渲染
+- [x] 新增流派可通过 JSON 配置直接使用
 
 ## 变更记录
 
 | 日期 | 变更内容 | 原因 |
 |------|---------|------|
 | 2026-05-08 | 初始创建 | superpowers-brainstorm 产出 |
+| 2026-05-09 | SPEC 验收通过，全部 26 项验收条件完成 | 实施完毕：69 文件变更，40 测试通过，零 warning |

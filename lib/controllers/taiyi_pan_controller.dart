@@ -22,7 +22,7 @@ class TaiYiPanController extends ChangeNotifier {
   static final _calculator = TaiYiPanCalculator();
 
   Future<void> loadSchools() async {
-    const repo = OfficialJsonSchoolRepository(
+    final repo = OfficialJsonSchoolRepository(
       schoolIds: ['jingMirror', 'tongZong', 'jiCheng'],
       deityIds: [
         'taiYi', 'zhuDaJiang', 'keDaJiang', 'zhuCanJiang', 'keCanJiang',
