@@ -50,3 +50,7 @@ app.*.map.json
 
 # AI constitution bootstrap artifacts (historical, no longer needed)
 docs/superpowers/
+
+# Chrome profile
+.chrome-profile/
+example/.chrome-profile/
