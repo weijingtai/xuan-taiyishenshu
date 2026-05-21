@@ -1,0 +1,1357 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "070a04da022c907f509774638048ec9830d3aa11",
+  "generatedAt": "2026-05-21T10:47:55.345Z",
+  "files": {
+    ".claude/skills/gitnexus/gitnexus-cli/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-cli/SKILL.md",
+      "contentHash": "a699a9dd168a68e7357b1704be0ff5ceee30b2a348042789355cca171c060e02",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 84,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/skills/gitnexus/gitnexus-debugging/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-debugging/SKILL.md",
+      "contentHash": "4a1e82aa835c52e38227d853c20ef05ea33be1dfb6aa6511474d15357f1d3f2e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 90,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/skills/gitnexus/gitnexus-exploring/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-exploring/SKILL.md",
+      "contentHash": "ffafeaa0ce52be079e4d4b3a48c0a166728c009380a243c394c4e08f728527bb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/skills/gitnexus/gitnexus-guide/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-guide/SKILL.md",
+      "contentHash": "40b047beeb9a7c5d47f17426b4061d2c2562c85c11288fa7f8da376d910e4f91",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 65,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md",
+      "contentHash": "a4d6e8003c4a822c380b0e81b2fa0d642612236c734a9d51834e362c4be52f33",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 98,
+      "hasStructuralAnalysis": true
+    },
+    ".claude/skills/gitnexus/gitnexus-refactoring/SKILL.md": {
+      "filePath": ".claude/skills/gitnexus/gitnexus-refactoring/SKILL.md",
+      "contentHash": "6aab994ee0266063245245483ee3280645aca66c0c5e56730ffad3f32ecbbc5c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 122,
+      "hasStructuralAnalysis": true
+    },
+    ".metadata": {
+      "filePath": ".metadata",
+      "contentHash": "c8346687f5862802a6a17e9fcca30d19da8ae6f5da67730c9ec701f97574f1ea",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "0d7a24a466540c4c6f6eeb714e49912afcbf0f7d86e95fc33789cd9906e1e8a4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": true
+    },
+    "AI_README.md": {
+      "filePath": "AI_README.md",
+      "contentHash": "b8b59e15d9a4caa1b936873f3fc50153c5defd8589ee5390b34cfc32967b2436",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 173,
+      "hasStructuralAnalysis": true
+    },
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "0d7a24a466540c4c6f6eeb714e49912afcbf0f7d86e95fc33789cd9906e1e8a4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "bf2b05bfbec10b703b17eba213b067755c67880d77d6c5cbe2ef207620906841",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "analysis_options.yaml": {
+      "filePath": "analysis_options.yaml",
+      "contentHash": "df692318073ecc5f3b8a759a1f9338eb21995900d3c2bc1fbcd2c7780a1c7c6e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/bai-hu.json": {
+      "filePath": "assets/deities/bai-hu.json",
+      "contentHash": "f48bcec3a914bbe510f8a4d6f3eca113b0299dce0c45221b37cfc253f51e6da8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/bai-liu.json": {
+      "filePath": "assets/deities/bai-liu.json",
+      "contentHash": "b57bf6f49d02ff60bc0f26188b4c1446a6739d6c95dd86ecb4dcd123ed62cb4e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/chen-ji.json": {
+      "filePath": "assets/deities/chen-ji.json",
+      "contentHash": "8749326b2e3ed7c3531042b3ee3e22a532ddacbe40ed8d81e89a15ef2666fb4d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/chi-qi.json": {
+      "filePath": "assets/deities/chi-qi.json",
+      "contentHash": "e567ae79c38e9bc4bd51148a68e23d02c858b599db89e3bb621d6e6128fc867d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/da-you.json": {
+      "filePath": "assets/deities/da-you.json",
+      "contentHash": "7fd40f2eba45ad28504f28a91b3b3b22adf76266667cad1d68ad8ed08fd874c3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/di-yi.json": {
+      "filePath": "assets/deities/di-yi.json",
+      "contentHash": "2cfbd82ccade76e18ea93820bd3310ff9eaca0731612d107fba90e2bfe138389",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/ding-can-jiang.json": {
+      "filePath": "assets/deities/ding-can-jiang.json",
+      "contentHash": "2999381a2305b8829a8ff5058539435894bb6d62743dda8695ace2cf2d3776c7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/ding-da-jiang.json": {
+      "filePath": "assets/deities/ding-da-jiang.json",
+      "contentHash": "a8891a7564fce9c7dc11573e3e5c4d550148569e3dd6a92031eae34806cb90db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/fei-fu.json": {
+      "filePath": "assets/deities/fei-fu.json",
+      "contentHash": "8306d3e23175ff51dfe371c0c25c4a31ee141502f8a470c8f23bbeb34ba45aba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/feng-bo.json": {
+      "filePath": "assets/deities/feng-bo.json",
+      "contentHash": "ea560d7391ff72e815102296b66628e5fb1d2aa693382b77daf63feda5588700",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/gui-shen-zhi-shi.json": {
+      "filePath": "assets/deities/gui-shen-zhi-shi.json",
+      "contentHash": "0f23b84b95188705371cd5ce6edc45957ab13c724e1819be698b19ec207beafc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/he-shen.json": {
+      "filePath": "assets/deities/he-shen.json",
+      "contentHash": "f03a8c33799b54c720de0bb386d2dea287fbc93131b619864caa5ad1d174af5c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/hei-qi.json": {
+      "filePath": "assets/deities/hei-qi.json",
+      "contentHash": "92d03badfdf1f83f03c5fdad90a1d90b4929ed87d682239a1d77a3912513e9d9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/ji-shen.json": {
+      "filePath": "assets/deities/ji-shen.json",
+      "contentHash": "58c6b93d0839d1a38d122e98d58c7e3a0eecfcdf59c0acdf418aa55d54bcc01e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/jun-ji.json": {
+      "filePath": "assets/deities/jun-ji.json",
+      "contentHash": "3b7be056d46cd41a6d37659a5157bd0397fa902d19fa7e946da9d12cfc0d502b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/ke-can-jiang.json": {
+      "filePath": "assets/deities/ke-can-jiang.json",
+      "contentHash": "396fabe81010759326ecf8838ef8dd7cae670164d875d069a63bcbc64c1f807b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/ke-da-jiang.json": {
+      "filePath": "assets/deities/ke-da-jiang.json",
+      "contentHash": "8d0894b5ff287f60400e270ab1b921a82f189f070aaa2f538f5ccb6803d21d0e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/min-ji.json": {
+      "filePath": "assets/deities/min-ji.json",
+      "contentHash": "318b5937d0234c8520bea5fe6c327c6cf79e65a945b06d92c19cea8118fbde90",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/qing-long-qi.json": {
+      "filePath": "assets/deities/qing-long-qi.json",
+      "contentHash": "5767123765b52db785db55991c58cdf2884d2068648b65fa8f629b2b0c47a866",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/qing-long.json": {
+      "filePath": "assets/deities/qing-long.json",
+      "contentHash": "44d5f06773303d63c207fa1b95210839b9ccf97cbba444a72be2e879eef4f341",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/shi-ji.json": {
+      "filePath": "assets/deities/shi-ji.json",
+      "contentHash": "bc7f9cf45a7f92990d5b63b3a0b9b151fc700ec4d224a96dafe1cde228d4a0b1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/si-shen.json": {
+      "filePath": "assets/deities/si-shen.json",
+      "contentHash": "ef4a32782d8e788034debc9ec1d7264db02ca39326776db78679f461a06fac78",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/sui-po.json": {
+      "filePath": "assets/deities/sui-po.json",
+      "contentHash": "e706ee881d4ff16893ad06a969bad3d978a86cc145380d21d4a4918c6d0a6bf9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/tai-sui.json": {
+      "filePath": "assets/deities/tai-sui.json",
+      "contentHash": "b26d2a4c3e789ea264a6121c9125d2795f39bc142539f1fb350f9acb9a5ab1e8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/tai-yi.json": {
+      "filePath": "assets/deities/tai-yi.json",
+      "contentHash": "a74f783689cceb27755bcf8c1b514888847f7b8571a764383a63881ceaeda12f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/tian-yi-star.json": {
+      "filePath": "assets/deities/tian-yi-star.json",
+      "contentHash": "8e7a23effd9b91a0d77b4af609999f1ef5a49c29f241a1d37b420eab1d112b37",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/wen-chang.json": {
+      "filePath": "assets/deities/wen-chang.json",
+      "contentHash": "e834ca96fa91df0cba9cebcebfb3aae4d908003995b1908003e56ca3e47bafe1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/wu-fu.json": {
+      "filePath": "assets/deities/wu-fu.json",
+      "contentHash": "4c6102b232eca530c1777bab08875864eacb7fb8a8ac1fba47a6d8cdb9475ea3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/xiao-you.json": {
+      "filePath": "assets/deities/xiao-you.json",
+      "contentHash": "320bfc05d4af6f29df3426d1fdf16363a58f8882a08d090a4d5c2a2f6c4827a3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/xuan-wu.json": {
+      "filePath": "assets/deities/xuan-wu.json",
+      "contentHash": "e0ee26e34b58bfa3f2c4f9e66fcdda68e677c968fe76d8260b80a9bd69b7bf22",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/yang-jiu.json": {
+      "filePath": "assets/deities/yang-jiu.json",
+      "contentHash": "d6652b26ef22bab5715ee217d1799b8dae1b30a42b951d45f8c3052395d09421",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/yu-shi.json": {
+      "filePath": "assets/deities/yu-shi.json",
+      "contentHash": "752347ce54285617cbb94b07c7c74ca2d0903cd3c5d3b2914634d6617b3a16b2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/zhi-fu-star.json": {
+      "filePath": "assets/deities/zhi-fu-star.json",
+      "contentHash": "700c28bd2256037046492912f0569fe23567fab8c940be5a645e7937e1c47791",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/zhi-fu.json": {
+      "filePath": "assets/deities/zhi-fu.json",
+      "contentHash": "4785de660349ff2a0cc0a6a823bcfc06cd00011d8f6fa3d47ff1241498d32da3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/zhu-can-jiang.json": {
+      "filePath": "assets/deities/zhu-can-jiang.json",
+      "contentHash": "18e344b16551c6668d3fcee11eb2081843f67b3e58e7eb04b8347d1efc06dcf1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/zhu-da-jiang.json": {
+      "filePath": "assets/deities/zhu-da-jiang.json",
+      "contentHash": "4df7659045e800c544e185c697bb9e822ce7c9ed0c315545a9705be51ba4474d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/deities/zhu-que.json": {
+      "filePath": "assets/deities/zhu-que.json",
+      "contentHash": "c23fd9e5169310862db1701575f63c06f47773ec3f1559d136209ad85f5a8632",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    },
+    "assets/schools/ji-cheng.json": {
+      "filePath": "assets/schools/ji-cheng.json",
+      "contentHash": "0708d4a8f4eeb75620210105a67fc7705e4370e96dc77b4edd87f863189c2c85",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "assets/schools/jing-mirror.json": {
+      "filePath": "assets/schools/jing-mirror.json",
+      "contentHash": "154c8b97e829f531d4e2fe2b470a91684a9d59855430e3542beebb7ee72ae14b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "assets/schools/tong-zong.json": {
+      "filePath": "assets/schools/tong-zong.json",
+      "contentHash": "636687016f97d4d9da2147b959920f8dda6c5c22b898abcfd18c206692937cdd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "build.yaml": {
+      "filePath": "build.yaml",
+      "contentHash": "53f5b2402e269fd599f0b035c9e00536a39b6a5bdc6e6ef424c334c029f64363",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "docs/Plans.md": {
+      "filePath": "docs/Plans.md",
+      "contentHash": "621ce92f232054608cb752ab6673659143de51124ee621a6de196d229af1fa44",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 748,
+      "hasStructuralAnalysis": true
+    },
+    "docs/README.md": {
+      "filePath": "docs/README.md",
+      "contentHash": "7a4cc9d45baf2aad1541014ffb25d1bab4bcc4e7498a5771f96bf036904c8019",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/CONSTITUTION.md": {
+      "filePath": "docs/ai/CONSTITUTION.md",
+      "contentHash": "6c625214c923021b3c6ca2ee6fb6b0446f0455284ee9541bae98cd0dec11eb6e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/board-protocol.md": {
+      "filePath": "docs/ai/board-protocol.md",
+      "contentHash": "c50329f649e9b430202d229a63af4181d79073e9736f0809a821e2507139ba8f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 125,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/code-style.md": {
+      "filePath": "docs/ai/code-style.md",
+      "contentHash": "2cd3a56502964142ffc735046ddf497aa458daf14117eb541fbd5fb56d41ad89",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/delivery-pipeline.md": {
+      "filePath": "docs/ai/delivery-pipeline.md",
+      "contentHash": "2441b347f147d29c98b58d81c2616fae1021be75884223953c689f59e907706e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 179,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/directory-structure.md": {
+      "filePath": "docs/ai/directory-structure.md",
+      "contentHash": "8cc03f8a97aa40879ef0068c6fe29ab837176fa14a0761bd0e76b5771a3d60dc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 180,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/doc-standards.md": {
+      "filePath": "docs/ai/doc-standards.md",
+      "contentHash": "93f14e2972c54d551f59204f2eb1de36e90e36e4d1d9f409251ec714476894fd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 153,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/git-rules.md": {
+      "filePath": "docs/ai/git-rules.md",
+      "contentHash": "4268941d79b7476b895e9248bac36df8770b6d3771d9629e67ad69c2b0dfe9db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 94,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/glossary.md": {
+      "filePath": "docs/ai/glossary.md",
+      "contentHash": "dc4dee122957370662b9eed60cf7b92b6317ce0d357036a56fc965025119c57e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/phases.md": {
+      "filePath": "docs/ai/phases.md",
+      "contentHash": "62ce71c129801b4ce08dd203553708a9683f8bac465c6518d70e4e27ca264a67",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 257,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/principles.md": {
+      "filePath": "docs/ai/principles.md",
+      "contentHash": "b8332bdfd7aebd2f493e5ca8c035e82ded2f680d070484c4896d30e6fd69f362",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 93,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/project-context-guide.md": {
+      "filePath": "docs/ai/project-context-guide.md",
+      "contentHash": "d940c2c7b00eda316f66666897f712b0debf377f80472f0a2c740bfd69c120c2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 102,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/toolchain.md": {
+      "filePath": "docs/ai/toolchain.md",
+      "contentHash": "58c796e7f0ed8048269614b5415ddf28246fa217ea33eebeb3a581ea8fea55d0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai_dev_init/wjt-Claude/SELF.md": {
+      "filePath": "docs/ai_dev_init/wjt-Claude/SELF.md",
+      "contentHash": "8f05257f4df07278f2c8101fa6f04cfdfbeb07ac8f9c1fa8b14c0dc014625905",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "docs/board/PROGRESS.md": {
+      "filePath": "docs/board/PROGRESS.md",
+      "contentHash": "a8b1c75867c0fbeec8add1c3f9b2f4ba4e4a111467f0470de4f796c2337b1aac",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "docs/board/TASKS.md": {
+      "filePath": "docs/board/TASKS.md",
+      "contentHash": "87b491751e51acabcf94dffe56d571c15a58d3b07efab9f2898794fa2f12f061",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "docs/doc_changelog.md": {
+      "filePath": "docs/doc_changelog.md",
+      "contentHash": "15d3ed8a5130c9a78a7bd4504ddd305e186f9f592c06f68d77c274cb318c493b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "docs/project/README.md": {
+      "filePath": "docs/project/README.md",
+      "contentHash": "8fd7b9b6992e37b637c7fa0c8f7fb75c477a61968093b17d62e126f82d910256",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/project/architecture/001-system-architecture.md": {
+      "filePath": "docs/project/architecture/001-system-architecture.md",
+      "contentHash": "5a3e91b33ed745e8787b371b55d433a7d8c8341751a0b9950f6edd349578dc12",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    },
+    "docs/project/changelog/v1.0.0.md": {
+      "filePath": "docs/project/changelog/v1.0.0.md",
+      "contentHash": "c5483205813dfdb926e036ebd5a86d22b00f408ce84311aa54edf1e3bb02fe90",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 70,
+      "hasStructuralAnalysis": true
+    },
+    "docs/project/features/2026-05-08-太乙神数排盘-功能说明.md": {
+      "filePath": "docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
+      "contentHash": "fdc5b880e66af0b99767519b040b243dfcb9c0786a9d7e345bc334f697e2444d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 128,
+      "hasStructuralAnalysis": true
+    },
+    "docs/project/prds/2026-05-08-taiyishenshu-PRD.md": {
+      "filePath": "docs/project/prds/2026-05-08-taiyishenshu-PRD.md",
+      "contentHash": "cda4cee20bdbaba8717e692e7868e8b49289682f43c0225f76d258e2f5b33ff7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 69,
+      "hasStructuralAnalysis": true
+    },
+    "example/analysis_options.yaml": {
+      "filePath": "example/analysis_options.yaml",
+      "contentHash": "c1e9534c05acb3643e72a82ad3d92d56d2ba9b0df2add014c18f7e1d462f24e4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "example/lib/main.dart": {
+      "filePath": "example/lib/main.dart",
+      "contentHash": "8ec748a139a94f533afd14ae878bfba37143e3732cd600b6c165cc6146ebb74d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": false
+    },
+    "example/pubspec.yaml": {
+      "filePath": "example/pubspec.yaml",
+      "contentHash": "131146e0ed959192d12de9990397bec38255659bcdf5115de3e67ffae16d2e79",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": true
+    },
+    "example/run_web.bat": {
+      "filePath": "example/run_web.bat",
+      "contentHash": "798534f3d00a2c7e79e5542b1f48a171977ebdfe00cde4966c970acea6c2d60e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": false
+    },
+    "example/run_web.sh": {
+      "filePath": "example/run_web.sh",
+      "contentHash": "73b53729f7bc58b4204b9f46d073120581db13ca5f556565feacbcb57ace82bb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "lib/controllers/taiyi_pan_controller.dart": {
+      "filePath": "lib/controllers/taiyi_pan_controller.dart",
+      "contentHash": "73bfce76cab166e8e7afbb236cbdc744a8092e4abdd2d8c14dd5d25b9a361db0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/deity_kind.dart": {
+      "filePath": "lib/enums/deity_kind.dart",
+      "contentHash": "14e608aad560f9f1c2c7281a6cd908965cf588d3d5cc0ca5e2220aafd143583e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 66,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/door.dart": {
+      "filePath": "lib/enums/door.dart",
+      "contentHash": "ed21fd4d8f8db3e8b479129e184e434a85342c1aec81687d589ebe3eea7ba0ec",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/eight_door.dart": {
+      "filePath": "lib/enums/eight_door.dart",
+      "contentHash": "186158b3b889de8f95e28a18b693e83b3ac2327f4d814b13200fd7a4104a2918",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/geju.dart": {
+      "filePath": "lib/enums/geju.dart",
+      "contentHash": "c618d737beed7b8cc3d613ce193c3a571c00b37925bf72a8592bf721a0685130",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/god.dart": {
+      "filePath": "lib/enums/god.dart",
+      "contentHash": "fb62bb6180a5664458d4d79a8304dc416bc8cd5c98ddd24eddde672a1a57a5c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 81,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/gong.dart": {
+      "filePath": "lib/enums/gong.dart",
+      "contentHash": "1c965cdabb1691caf523d2ff22325f791bf70ca44b6c484b4ff582a890549509",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/gui_shen.dart": {
+      "filePath": "lib/enums/gui_shen.dart",
+      "contentHash": "cf88ecc006b4aa5ddc890b9f18a8adf878c591788778cc3b941385f25afd1307",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/ming_gong.dart": {
+      "filePath": "lib/enums/ming_gong.dart",
+      "contentHash": "458cfa6cf304a1d3fa10ab8b024d8b70aef1a5427cb955213b7b4baef91b66dc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": false
+    },
+    "lib/enums/taiyi_enum_extensions.dart": {
+      "filePath": "lib/enums/taiyi_enum_extensions.dart",
+      "contentHash": "295145c81094c83395facfc2f7e21e99c11fa2e61e3916d95f5f3c3a31739422",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 70,
+      "hasStructuralAnalysis": false
+    },
+    "lib/main.dart": {
+      "filePath": "lib/main.dart",
+      "contentHash": "176931bce80b1779f7e282ae900e02f328d9c4f0c6e7a84642d916b31f47761c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/ConstantNineGongDataClass.dart": {
+      "filePath": "lib/models/ConstantNineGongDataClass.dart",
+      "contentHash": "2c0a568a5f2f3a59c4034d8dbf79efe1fbc91fb4026710fcd807886c512a892e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/custom_deity_definition.dart": {
+      "filePath": "lib/models/custom_deity_definition.dart",
+      "contentHash": "58dd89d1f50f397728e8f95a69587fef06f5a856ec67a68973f72470cc1d722f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 137,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/di_pan_model.dart": {
+      "filePath": "lib/models/di_pan_model.dart",
+      "contentHash": "89b3c990eaa6754dfedf0428eea21e50de8560f19f5dc66f7e1994f41dceadf2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 48,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/geju_model.dart": {
+      "filePath": "lib/models/geju_model.dart",
+      "contentHash": "289d8910c5beccfcc2f9b49f0e796a6a0eee81452f5f3ff9f35cadb0c0cce301",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 72,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/gui_shen_model.dart": {
+      "filePath": "lib/models/gui_shen_model.dart",
+      "contentHash": "2ecbc292aee38b9c4a25e60c5b76bfb8a50153221b4249930aa70e4c618d898e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/ming_pan_model.dart": {
+      "filePath": "lib/models/ming_pan_model.dart",
+      "contentHash": "bdc7bea9eb3d6000e425aa366758f7ae8110de12b64a3ce6a96929c4b3443e37",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 64,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/pan_computed_item.dart": {
+      "filePath": "lib/models/pan_computed_item.dart",
+      "contentHash": "a3cf8a557502487ccdb0f2611fb71823ec7a28650b3484985cccd8f66b005d7e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 112,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/ren_pan_model.dart": {
+      "filePath": "lib/models/ren_pan_model.dart",
+      "contentHash": "27ccc1917bf8470733cc27e9d2ac29735d1adbf6cf3fd9311bcfaa945ead5a90",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/shen_pan_model.dart": {
+      "filePath": "lib/models/shen_pan_model.dart",
+      "contentHash": "c1bf4de045092501682bb75d665acca178b79947331f6ce825f5b935731e2d6b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 97,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/tian_pan_model.dart": {
+      "filePath": "lib/models/tian_pan_model.dart",
+      "contentHash": "bed947591c86de8b82d4eba5a6b41942d974ed32af7d5a93f84603617f4544d1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 149,
+      "hasStructuralAnalysis": false
+    },
+    "lib/models/year_ji_model.dart": {
+      "filePath": "lib/models/year_ji_model.dart",
+      "contentHash": "ae3acf47c4c9bbcea142ed528b389c9657df8c70be03075deb229505dbfcc9d3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 107,
+      "hasStructuralAnalysis": false
+    },
+    "lib/navigator.dart": {
+      "filePath": "lib/navigator.dart",
+      "contentHash": "a5968bbf194d26133689cc5d65d7adf7afe1b60cc0dec840b31957d0ce9a3c8d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 74,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/beauty_page.dart": {
+      "filePath": "lib/pages/beauty_page.dart",
+      "contentHash": "9b8d4b097de789d4bcc76322db861e2b6720483195eb0cbb86704ea5cb1f4653",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1393,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/my_home_page.dart": {
+      "filePath": "lib/pages/my_home_page.dart",
+      "contentHash": "9218b0973e6a1d31386f6801f8b02529b2d3a2ae9d0d0561d86e240d3421ad74",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 447,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/rectangle_pan.dart": {
+      "filePath": "lib/pages/rectangle_pan.dart",
+      "contentHash": "0116c571a291991753f94cb2af6b97ca61a4d7e0dffc2de3642c8fee699d80da",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1194,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/taiyi_pan_page.dart": {
+      "filePath": "lib/pages/taiyi_pan_page.dart",
+      "contentHash": "ecd747dd928571874c7c5e3252fed58a9540cfdcc72e1d4603f799096d36208a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 589,
+      "hasStructuralAnalysis": false
+    },
+    "lib/painter/pie_segment_painter.dart": {
+      "filePath": "lib/painter/pie_segment_painter.dart",
+      "contentHash": "2e488921998c101ec599927813874af6b8ef260d4ed789a8292942e7f9dd9558",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 223,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/algorithm_engine.dart": {
+      "filePath": "lib/taiyi/core/algorithm_engine.dart",
+      "contentHash": "7db73b4369209d2ae57265f01ac217b648e06e2119b8d6726926a0730c861a30",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 386,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/algorithm_enums.dart": {
+      "filePath": "lib/taiyi/core/algorithm_enums.dart",
+      "contentHash": "bcf02dbda4c2a5aa51260c773a78788745b39ed07ed7ba53bd82652c056bcf07",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/algorithm_spec.dart": {
+      "filePath": "lib/taiyi/core/algorithm_spec.dart",
+      "contentHash": "dc97b8b6cc92fb3594527d639bea969a3e3e9361b033891a1e722288990ba0bb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 103,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/calculation_context.dart": {
+      "filePath": "lib/taiyi/core/calculation_context.dart",
+      "contentHash": "16c40c85f07f010aedd4cc51537e01e17e9706b88dbcc3ad52d18edab50e3bd9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 64,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/deity_definition.dart": {
+      "filePath": "lib/taiyi/core/deity_definition.dart",
+      "contentHash": "dd8a5aa59b93371fb63e9e7166e4171016582bebba7407f0a4e7b719dd001140",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/expression_parser.dart": {
+      "filePath": "lib/taiyi/core/expression_parser.dart",
+      "contentHash": "d5b5f7ec3d3c366181d4c9569835b400a4128f5f547e84a7b25e48333aad029b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 90,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/school_config.dart": {
+      "filePath": "lib/taiyi/core/school_config.dart",
+      "contentHash": "27cf1e85958818c71f73281ee28703fd9520c1cded51182bffcf0c1ca150e06f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/school_repository.dart": {
+      "filePath": "lib/taiyi/core/school_repository.dart",
+      "contentHash": "19d239d7ac6082f6949105d73cd2d1b8792d4ce357caa48d84221a64ffe964d4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/official_json_repository.dart": {
+      "filePath": "lib/taiyi/data/official_json_repository.dart",
+      "contentHash": "72ac2de99637073ba41d55a0d2761dd2a7ff983913efb15ed1c80f76b49ea51d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 77,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/pan_data_model.dart": {
+      "filePath": "lib/taiyi/pan_data_model.dart",
+      "contentHash": "6dd5710ba3bdd6bf2a0f52f86cd66c1effd1ae98aa963d3a81962af90c82431a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 407,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/pan_enums.dart": {
+      "filePath": "lib/taiyi/pan_enums.dart",
+      "contentHash": "10845696a8505af6013bd78027b79b461cc34e1c69b1715349996a5b82837521",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/taiyi.dart": {
+      "filePath": "lib/taiyi/taiyi.dart",
+      "contentHash": "73cfc45519365e0386e392456af673e2f54ace0c84ab89b581e5bb8c93af80b1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/taiyi_constants.dart": {
+      "filePath": "lib/taiyi/taiyi_constants.dart",
+      "contentHash": "83280fb9886db659ee3f39666152b272d7ff7827590f8dddee2b481397eeb83a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 216,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/taiyi_pan_calculator.dart": {
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "contentHash": "0213095cb48c5d0e9a56d3a685cb9bd6989c314ac65b5f757d2872a433819f06",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1743,
+      "hasStructuralAnalysis": false
+    },
+    "lib/theme/taiyi_classic_theme.dart": {
+      "filePath": "lib/theme/taiyi_classic_theme.dart",
+      "contentHash": "6df764242d18e48332c7a09c929144dd08cb57d68cd0d29e70965fa8601b6dcb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/nine_gong_grid.dart": {
+      "filePath": "lib/widgets/nine_gong_grid.dart",
+      "contentHash": "00f4c15c9c2015e188494047271103a74e3dc3ff490386c580cc3a74a59ac442",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 576,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/pan_info_panel.dart": {
+      "filePath": "lib/widgets/pan_info_panel.dart",
+      "contentHash": "3418b0c2f2a070f8e7a84a0abe33947a3a9ceee71b21149cfdd7d3cf8c2f4e29",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 837,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/tai_yi_gong_content_background.dart": {
+      "filePath": "lib/widgets/tai_yi_gong_content_background.dart",
+      "contentHash": "ae45deaae1b6b68488601f86d3c44e9b045f9abd5ac9d9ac2717374de59bff82",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 183,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/taiyi_pan_grid.dart": {
+      "filePath": "lib/widgets/taiyi_pan_grid.dart",
+      "contentHash": "982f0df8d3202838ae58fac3f84758947c9c369ff9c7daffd85b2b49a203f63d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 352,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/taiyi_pan_grid_v2.dart": {
+      "filePath": "lib/widgets/taiyi_pan_grid_v2.dart",
+      "contentHash": "52f749a76a26667a426a32da54ab761f1d7cac4f98da251b908464993c90ea5a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 310,
+      "hasStructuralAnalysis": false
+    },
+    "pubspec.yaml": {
+      "filePath": "pubspec.yaml",
+      "contentHash": "38a25552fa1cb70b01d7d0b2067123a2379c215749c2efc5cc0d20c7b1f674df",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 116,
+      "hasStructuralAnalysis": true
+    },
+    "test/taiyi/core/algorithm_engine_test.dart": {
+      "filePath": "test/taiyi/core/algorithm_engine_test.dart",
+      "contentHash": "8c4f8e8f0bae68b4593953c781db03b0b4b968bd1381e58ccbc23104976baea3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 228,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/expression_parser_test.dart": {
+      "filePath": "test/taiyi/core/expression_parser_test.dart",
+      "contentHash": "6e2143e958b9043c51127d4888d5a59cee9668463682576a76a0e3e42aba3b59",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/official_json_repository_test.dart": {
+      "filePath": "test/taiyi/core/official_json_repository_test.dart",
+      "contentHash": "9deaebcb40c12eff199a708181b7166cf869bb439cb91e526ae6757d452dfef8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 128,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi_pan_calculator_smoke.dart": {
+      "filePath": "test/taiyi_pan_calculator_smoke.dart",
+      "contentHash": "1d50db9611b2f384420a59f0c83d8ebb7dceb73509d332401eedc550c490df3d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 187,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi_year_eye_rules_flutter_test.dart": {
+      "filePath": "test/taiyi_year_eye_rules_flutter_test.dart",
+      "contentHash": "ac8178e330f935c38309b077d16dd85b586301ffd43b63c5cfb33de37735cc75",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 260,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

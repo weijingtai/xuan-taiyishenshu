@@ -1,0 +1,41 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+
+# --- Flutter/Dart build artifacts ---
+.DS_Store
+.dart_tool/
+.pub/
+.vagrant/
+.sconsign.dblite
+.svn/
+migrate_working_dir/
+*.swp
+profile
+DerivedData/
+.generated/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata
+*.moved-aside
+*.pyc
+*sync/
+.tags*
+.android/
+.ios/
+.flutter-plugins
+.flutter-plugins-dependencies
+app.*.symbols
+app.*.map.json
+docs/superpowers/
+.chrome-profile/
+example/.chrome-profile/
+example/build/
+example/.dart_tool/
+flutter_*.log
+
+# --- Generated code (drift/json_serializable) ---
+*.g.dart
+*.freezed.dart
+*.mocks.dart
