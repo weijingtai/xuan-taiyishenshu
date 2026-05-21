@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   taiyishenshu:
-    path: ..
+    git:
+      url: http://xuan:***@192.168.0.165:3000/xuan/xuan-taiyishenshu.git
+      ref: main
   google_fonts: ^8.0.0
 
 dev_dependencies:
