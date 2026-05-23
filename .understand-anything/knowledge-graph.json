@@ -3,27 +3,18 @@
   "project": {
     "name": "taiyishenshu",
     "languages": [
-      "batch",
-      "dart",
       "json",
       "markdown",
-      "shell",
-      "unknown",
-      "yaml"
+      "yaml",
+      "dart",
+      "shell"
     ],
     "frameworks": [
-      "Drift",
-      "Flutter",
-      "Mockito",
-      "build_runner",
-      "flutter_test",
-      "google_fonts",
-      "json_serializable",
-      "tyme"
+      "flutter"
     ],
-    "description": "Tai Yi Shen Shu (\u592a\u4e59\u795e\u6570) is a Flutter/Dart application that implements three schools (Jinjing, Tongzong, Jicheng) of the classical Chinese Tai Yi divination system, computing year/month/day/hour chart algorithms (\u79ef\u5e74, \u5c40\u6570, \u9634\u9633\u9041, \u592a\u4e59\u5bab, \u6587\u660c/\u8ba1\u795e, \u4e3b\u5ba2\u7b97, \u516b\u95e8, \u5929/\u795e\u76d8\u661f\u795e, \u683c\u5c40, \u4e5d\u8d35\u795e) and presenting them via multiple UI styles (classic radial grid, compass-style grid, standard 3\u00d73 nine-palace grid).",
-    "analyzedAt": "2026-05-21T10:34:49Z",
-    "gitCommitHash": "070a04da022c907f509774638048ec9830d3aa11"
+    "description": "太乙神数排盘推算系统，支持金镜派、统宗派、集成派三种流派的年/月/日/时四类盘面排盘算法，并提供多风格 UI 展示。",
+    "analyzedAt": "2026-05-23T05:09:49.030Z",
+    "gitCommitHash": "cd02e90608728c096d9ffb0346b6486c2e481a6d"
   },
   "nodes": [
     {
@@ -131,21 +122,6 @@
       "complexity": "simple"
     },
     {
-      "id": "document:AGENTS.md",
-      "type": "document",
-      "name": "AGENTS.md",
-      "filePath": "AGENTS.md",
-      "summary": "Agent-facing GitNexus code intelligence guide outlining always-do/never-do rules, resources, and CLI commands for AI agents working on this codebase.",
-      "tags": [
-        "documentation",
-        "agents",
-        "gitnexus",
-        "guidelines",
-        "entry-point"
-      ],
-      "complexity": "moderate"
-    },
-    {
       "id": "document:AI_README.md",
       "type": "document",
       "name": "AI_README.md",
@@ -208,7 +184,7 @@
       "type": "config",
       "name": "bai-hu.json",
       "filePath": "assets/deities/bai-hu.json",
-      "summary": "Deity definition asset for Bai Hu (\u767d\u864e) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Bai Hu (白虎) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -222,7 +198,7 @@
       "type": "config",
       "name": "bai-liu.json",
       "filePath": "assets/deities/bai-liu.json",
-      "summary": "Deity definition asset for Bai Liu (\u767d\u516d) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Bai Liu (白六) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -236,7 +212,7 @@
       "type": "config",
       "name": "chen-ji.json",
       "filePath": "assets/deities/chen-ji.json",
-      "summary": "Deity definition asset for Chen Ji (\u81e3\u57fa) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Chen Ji (臣基) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -250,7 +226,7 @@
       "type": "config",
       "name": "chi-qi.json",
       "filePath": "assets/deities/chi-qi.json",
-      "summary": "Deity definition asset for Chi Qi (\u8d64\u6c14) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Chi Qi (赤气) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -264,7 +240,7 @@
       "type": "config",
       "name": "da-you.json",
       "filePath": "assets/deities/da-you.json",
-      "summary": "Deity definition asset for Da You (\u5927\u6e38) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Da You (大游) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -278,7 +254,7 @@
       "type": "config",
       "name": "di-yi.json",
       "filePath": "assets/deities/di-yi.json",
-      "summary": "Deity definition asset for Di Yi (\u5e1d\u4e00) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Di Yi (帝一) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -292,7 +268,7 @@
       "type": "config",
       "name": "ding-can-jiang.json",
       "filePath": "assets/deities/ding-can-jiang.json",
-      "summary": "Deity definition asset for Ding Can Jiang (\u5b9a\u53c2\u5c06) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Ding Can Jiang (定参将) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -306,7 +282,7 @@
       "type": "config",
       "name": "ding-da-jiang.json",
       "filePath": "assets/deities/ding-da-jiang.json",
-      "summary": "Deity definition asset for Ding Da Jiang (\u5b9a\u5927\u5c06) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Ding Da Jiang (定大将) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -320,7 +296,7 @@
       "type": "config",
       "name": "fei-fu.json",
       "filePath": "assets/deities/fei-fu.json",
-      "summary": "Deity definition asset for Fei Fu (\u98de\u7b26) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Fei Fu (飞符) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -334,7 +310,7 @@
       "type": "config",
       "name": "feng-bo.json",
       "filePath": "assets/deities/feng-bo.json",
-      "summary": "Deity definition asset for Feng Bo (\u98ce\u4f2f) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Feng Bo (风伯) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -348,7 +324,7 @@
       "type": "config",
       "name": "gui-shen-zhi-shi.json",
       "filePath": "assets/deities/gui-shen-zhi-shi.json",
-      "summary": "Deity definition asset for Gui Shen Zhi Shi (\u9b3c\u795e\u4e4b\u59cb) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Gui Shen Zhi Shi (鬼神之始) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -362,7 +338,7 @@
       "type": "config",
       "name": "he-shen.json",
       "filePath": "assets/deities/he-shen.json",
-      "summary": "Deity definition asset for He Shen (\u5408\u795e) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for He Shen (合神) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -376,7 +352,7 @@
       "type": "config",
       "name": "hei-qi.json",
       "filePath": "assets/deities/hei-qi.json",
-      "summary": "Deity definition asset for Hei Qi (\u9ed1\u6c14) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Hei Qi (黑气) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -390,7 +366,7 @@
       "type": "config",
       "name": "ji-shen.json",
       "filePath": "assets/deities/ji-shen.json",
-      "summary": "Deity definition asset for Ji Shen (\u8ba1\u795e) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Ji Shen (计神) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -404,7 +380,7 @@
       "type": "config",
       "name": "jun-ji.json",
       "filePath": "assets/deities/jun-ji.json",
-      "summary": "Deity definition asset for Jun Ji (\u541b\u57fa) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
+      "summary": "Deity definition asset for Jun Ji (君基) specifying id, name, layer, algorithm, priority, and source for Tai Yi divination calculations.",
       "tags": [
         "configuration",
         "data-asset",
@@ -418,7 +394,7 @@
       "type": "config",
       "name": "ke-can-jiang.json",
       "filePath": "assets/deities/ke-can-jiang.json",
-      "summary": "Deity descriptor for Ke-Can-Jiang (\u5ba2\u53c2\u5c06) defining its layer, algorithm template, priority, and source for Tai Yi chart computation.",
+      "summary": "Deity descriptor for Ke-Can-Jiang (客参将) defining its layer, algorithm template, priority, and source for Tai Yi chart computation.",
       "tags": [
         "deity-data",
         "configuration",
@@ -432,7 +408,7 @@
       "type": "config",
       "name": "ke-da-jiang.json",
       "filePath": "assets/deities/ke-da-jiang.json",
-      "summary": "Deity descriptor for Ke-Da-Jiang (\u5ba2\u5927\u5c06) declaring layer, stepped-cycle algorithm parameters, and rendering priority.",
+      "summary": "Deity descriptor for Ke-Da-Jiang (客大将) declaring layer, stepped-cycle algorithm parameters, and rendering priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -446,7 +422,7 @@
       "type": "config",
       "name": "min-ji.json",
       "filePath": "assets/deities/min-ji.json",
-      "summary": "Deity descriptor for Min-Ji (\u6c11\u57fa) used to drive the Tai Yi chart's stepped-cycle palace assignment for the people layer.",
+      "summary": "Deity descriptor for Min-Ji (民基) used to drive the Tai Yi chart's stepped-cycle palace assignment for the people layer.",
       "tags": [
         "deity-data",
         "configuration",
@@ -460,7 +436,7 @@
       "type": "config",
       "name": "qing-long-qi.json",
       "filePath": "assets/deities/qing-long-qi.json",
-      "summary": "Deity descriptor for Qing-Long-Qi (\u9752\u9f99\u65d7) banner deity with its layer, algorithm template, and chart priority.",
+      "summary": "Deity descriptor for Qing-Long-Qi (青龙旗) banner deity with its layer, algorithm template, and chart priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -474,7 +450,7 @@
       "type": "config",
       "name": "qing-long.json",
       "filePath": "assets/deities/qing-long.json",
-      "summary": "Deity descriptor for Qing-Long (\u9752\u9f99), the Azure Dragon directional deity, with cycle-step parameters for palace placement.",
+      "summary": "Deity descriptor for Qing-Long (青龙), the Azure Dragon directional deity, with cycle-step parameters for palace placement.",
       "tags": [
         "deity-data",
         "configuration",
@@ -488,7 +464,7 @@
       "type": "config",
       "name": "shi-ji.json",
       "filePath": "assets/deities/shi-ji.json",
-      "summary": "Deity descriptor for Shi-Ji (\u59cb\u51fb) declaring its layer placement, algorithm template, and source attribution.",
+      "summary": "Deity descriptor for Shi-Ji (始击) declaring its layer placement, algorithm template, and source attribution.",
       "tags": [
         "deity-data",
         "configuration",
@@ -502,7 +478,7 @@
       "type": "config",
       "name": "si-shen.json",
       "filePath": "assets/deities/si-shen.json",
-      "summary": "Deity descriptor for Si-Shen (\u56db\u795e) with the stepped-cycle algorithm and priority used during chart rendering.",
+      "summary": "Deity descriptor for Si-Shen (四神) with the stepped-cycle algorithm and priority used during chart rendering.",
       "tags": [
         "deity-data",
         "configuration",
@@ -516,7 +492,7 @@
       "type": "config",
       "name": "sui-po.json",
       "filePath": "assets/deities/sui-po.json",
-      "summary": "Deity descriptor for Sui-Po (\u5c81\u7834), the year-breaker deity, with layer, algorithm template, and priority.",
+      "summary": "Deity descriptor for Sui-Po (岁破), the year-breaker deity, with layer, algorithm template, and priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -530,7 +506,7 @@
       "type": "config",
       "name": "tai-sui.json",
       "filePath": "assets/deities/tai-sui.json",
-      "summary": "Deity descriptor for Tai-Sui (\u592a\u5c81), the great year deity, parameterizing its palace assignment for charts.",
+      "summary": "Deity descriptor for Tai-Sui (太岁), the great year deity, parameterizing its palace assignment for charts.",
       "tags": [
         "deity-data",
         "configuration",
@@ -544,7 +520,7 @@
       "type": "config",
       "name": "tai-yi.json",
       "filePath": "assets/deities/tai-yi.json",
-      "summary": "Deity descriptor for Tai-Yi (\u592a\u4e59), the central deity of the system, declaring its tianPan layer with a 72-cycle nine-palace stepped algorithm starting at Qian.",
+      "summary": "Deity descriptor for Tai-Yi (太乙), the central deity of the system, declaring its tianPan layer with a 72-cycle nine-palace stepped algorithm starting at Qian.",
       "tags": [
         "deity-data",
         "configuration",
@@ -559,7 +535,7 @@
       "type": "config",
       "name": "tian-yi-star.json",
       "filePath": "assets/deities/tian-yi-star.json",
-      "summary": "Deity descriptor for Tian-Yi-Star (\u5929\u4e59\u661f), one of the celestial markers used in Tai Yi charts.",
+      "summary": "Deity descriptor for Tian-Yi-Star (天乙星), one of the celestial markers used in Tai Yi charts.",
       "tags": [
         "deity-data",
         "configuration",
@@ -573,7 +549,7 @@
       "type": "config",
       "name": "wen-chang.json",
       "filePath": "assets/deities/wen-chang.json",
-      "summary": "Deity descriptor for Wen-Chang (\u6587\u660c) placed on the renPan layer with a 16-zhengjian palace system and distinct yang/yin step sequences including multi-step stays at the four corner palaces.",
+      "summary": "Deity descriptor for Wen-Chang (文昌) placed on the renPan layer with a 16-zhengjian palace system and distinct yang/yin step sequences including multi-step stays at the four corner palaces.",
       "tags": [
         "deity-data",
         "configuration",
@@ -589,7 +565,7 @@
       "type": "config",
       "name": "wu-fu.json",
       "filePath": "assets/deities/wu-fu.json",
-      "summary": "Deity descriptor for Wu-Fu (\u4e94\u798f) declaring its layer, stepped-cycle algorithm, and chart rendering priority.",
+      "summary": "Deity descriptor for Wu-Fu (五福) declaring its layer, stepped-cycle algorithm, and chart rendering priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -603,7 +579,7 @@
       "type": "config",
       "name": "xiao-you.json",
       "filePath": "assets/deities/xiao-you.json",
-      "summary": "Deity descriptor for Xiao-You (\u5c0f\u6e38), the small-roving deity, used in Tai Yi chart computation.",
+      "summary": "Deity descriptor for Xiao-You (小游), the small-roving deity, used in Tai Yi chart computation.",
       "tags": [
         "deity-data",
         "configuration",
@@ -617,7 +593,7 @@
       "type": "config",
       "name": "xuan-wu.json",
       "filePath": "assets/deities/xuan-wu.json",
-      "summary": "Deity descriptor for Xuan-Wu (\u7384\u6b66), the Black Tortoise directional deity, declaring layer and algorithm parameters.",
+      "summary": "Deity descriptor for Xuan-Wu (玄武), the Black Tortoise directional deity, declaring layer and algorithm parameters.",
       "tags": [
         "deity-data",
         "configuration",
@@ -631,7 +607,7 @@
       "type": "config",
       "name": "yang-jiu.json",
       "filePath": "assets/deities/yang-jiu.json",
-      "summary": "Deity descriptor for Yang-Jiu (\u9633\u4e5d), the yang-nine calamity marker, with its algorithm and priority.",
+      "summary": "Deity descriptor for Yang-Jiu (阳九), the yang-nine calamity marker, with its algorithm and priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -645,7 +621,7 @@
       "type": "config",
       "name": "yu-shi.json",
       "filePath": "assets/deities/yu-shi.json",
-      "summary": "Deity descriptor for Yu-Shi (\u96e8\u5e08), the rain-master deity, parameterizing its palace stepping behavior.",
+      "summary": "Deity descriptor for Yu-Shi (雨师), the rain-master deity, parameterizing its palace stepping behavior.",
       "tags": [
         "deity-data",
         "configuration",
@@ -659,7 +635,7 @@
       "type": "config",
       "name": "zhi-fu-star.json",
       "filePath": "assets/deities/zhi-fu-star.json",
-      "summary": "Deity descriptor for Zhi-Fu-Star (\u76f4\u7b26\u661f), the on-duty star, declaring its layer and stepped algorithm.",
+      "summary": "Deity descriptor for Zhi-Fu-Star (直符星), the on-duty star, declaring its layer and stepped algorithm.",
       "tags": [
         "deity-data",
         "configuration",
@@ -673,7 +649,7 @@
       "type": "config",
       "name": "zhi-fu.json",
       "filePath": "assets/deities/zhi-fu.json",
-      "summary": "Deity descriptor for Zhi-Fu (\u76f4\u7b26), the on-duty deity, with its layer placement and palace stepping rules.",
+      "summary": "Deity descriptor for Zhi-Fu (直符), the on-duty deity, with its layer placement and palace stepping rules.",
       "tags": [
         "deity-data",
         "configuration",
@@ -687,7 +663,7 @@
       "type": "config",
       "name": "zhu-can-jiang.json",
       "filePath": "assets/deities/zhu-can-jiang.json",
-      "summary": "Deity descriptor for Zhu-Can-Jiang (\u4e3b\u53c2\u5c06), the host lieutenant general, declaring algorithm and chart priority.",
+      "summary": "Deity descriptor for Zhu-Can-Jiang (主参将), the host lieutenant general, declaring algorithm and chart priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -701,7 +677,7 @@
       "type": "config",
       "name": "zhu-da-jiang.json",
       "filePath": "assets/deities/zhu-da-jiang.json",
-      "summary": "Deity descriptor for Zhu-Da-Jiang (\u4e3b\u5927\u5c06), the host great general, with layer, algorithm template, and priority.",
+      "summary": "Deity descriptor for Zhu-Da-Jiang (主大将), the host great general, with layer, algorithm template, and priority.",
       "tags": [
         "deity-data",
         "configuration",
@@ -715,7 +691,7 @@
       "type": "config",
       "name": "zhu-que.json",
       "filePath": "assets/deities/zhu-que.json",
-      "summary": "Deity descriptor for Zhu-Que (\u6731\u96c0), the Vermilion Bird directional deity, declaring layer and palace stepping rules.",
+      "summary": "Deity descriptor for Zhu-Que (朱雀), the Vermilion Bird directional deity, declaring layer and palace stepping rules.",
       "tags": [
         "deity-data",
         "configuration",
@@ -729,7 +705,7 @@
       "type": "config",
       "name": "ji-cheng.json",
       "filePath": "assets/schools/ji-cheng.json",
-      "summary": "School definition for Ji-Cheng Pai (\u96c6\u6210\u6d3e) selecting 31 deity ids, fixed eight-door mode, twelve ji-shen flag, and jiCheng palace formula with 1684 epoch year.",
+      "summary": "School definition for Ji-Cheng Pai (集成派) selecting 31 deity ids, fixed eight-door mode, twelve ji-shen flag, and jiCheng palace formula with 1684 epoch year.",
       "tags": [
         "school-config",
         "configuration",
@@ -744,7 +720,7 @@
       "type": "config",
       "name": "jing-mirror.json",
       "filePath": "assets/schools/jing-mirror.json",
-      "summary": "School definition for Jin-Jing Pai (\u91d1\u955c\u6d3e) listing 33 official deity ids, the 724 epoch year, dynamic eight-door mode, and Wen-Chang stay rule enabled.",
+      "summary": "School definition for Jin-Jing Pai (金镜派) listing 33 official deity ids, the 724 epoch year, dynamic eight-door mode, and Wen-Chang stay rule enabled.",
       "tags": [
         "school-config",
         "configuration",
@@ -759,7 +735,7 @@
       "type": "config",
       "name": "tong-zong.json",
       "filePath": "assets/schools/tong-zong.json",
-      "summary": "School definition for Tong-Zong Pai (\u7edf\u5b97\u6d3e) with 37 deity ids, 1303 epoch year, per-deity correction overrides (Jun-Ji, Chen-Ji, Wu-Fu, etc.), and dynamic eight-door mode.",
+      "summary": "School definition for Tong-Zong Pai (统宗派) with 37 deity ids, 1303 epoch year, per-deity correction overrides (Jun-Ji, Chen-Ji, Wu-Fu, etc.), and dynamic eight-door mode.",
       "tags": [
         "school-config",
         "configuration",
@@ -1090,10 +1066,10 @@
       "complexity": "moderate"
     },
     {
-      "id": "document:docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
+      "id": "document:docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
       "type": "document",
-      "name": "2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
-      "filePath": "docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
+      "name": "2026-05-08-太乙神数排盘-功能说明.md",
+      "filePath": "docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
       "summary": "Functional specification of the Tai Yi chart-casting feature: per-school rule differences (Jinjing, Tongzong, Jicheng), UI components (TaiYiPanPage, PanInfoPanel, grid), and technical implementation notes.",
       "tags": [
         "documentation",
@@ -1263,7 +1239,7 @@
       "type": "file",
       "name": "door.dart",
       "filePath": "lib/enums/door.dart",
-      "summary": "Enumerates the eight Tai Yi doors (\u5f00\u3001\u4f11\u3001\u751f\u3001\u4f24\u3001\u675c\u3001\u666f\u3001\u6b7b\u3001\u60ca) used in divination placement.",
+      "summary": "Enumerates the eight Tai Yi doors (开、休、生、伤、杜、景、死、惊) used in divination placement.",
       "tags": [
         "enum",
         "domain-types",
@@ -1277,7 +1253,7 @@
       "type": "file",
       "name": "eight_door.dart",
       "filePath": "lib/enums/eight_door.dart",
-      "summary": "Enumerates the eight gates (\u516b\u95e8) with their stable IDs and single-character display names for use in chart rendering.",
+      "summary": "Enumerates the eight gates (八门) with their stable IDs and single-character display names for use in chart rendering.",
       "tags": [
         "enum",
         "domain-types",
@@ -1291,7 +1267,7 @@
       "type": "file",
       "name": "geju.dart",
       "filePath": "lib/enums/geju.dart",
-      "summary": "Enumerates Tai Yi \u683c\u5c40 (configuration patterns) detected during pan analysis (e.g. \u63a9\u3001\u8feb\u3001\u5173\u3001\u56da patterns).",
+      "summary": "Enumerates Tai Yi 格局 (configuration patterns) detected during pan analysis (e.g. 掩、迫、关、囚 patterns).",
       "tags": [
         "enum",
         "domain-types",
@@ -1305,7 +1281,7 @@
       "type": "file",
       "name": "god.dart",
       "filePath": "lib/enums/god.dart",
-      "summary": "Enumerates the sixteen Tai Yi gods (\u592a\u4e59\u5341\u516d\u795e) and \u6b63\u95f4 (zheng/jian) classification types used to label palace positions.",
+      "summary": "Enumerates the sixteen Tai Yi gods (太乙十六神) and 正间 (zheng/jian) classification types used to label palace positions.",
       "tags": [
         "enum",
         "domain-types",
@@ -1320,7 +1296,7 @@
       "type": "file",
       "name": "gong.dart",
       "filePath": "lib/enums/gong.dart",
-      "summary": "Enumerates the nine Tai Yi palaces (\u592a\u4e59\u4e5d\u5bab: \u574e\u3001\u5764\u3001\u9707\u3001\u5dfd\u3001\u4e2d\u3001\u4e7e\u3001\u5151\u3001\u826e\u3001\u79bb) which are the spatial substrate for all chart placements.",
+      "summary": "Enumerates the nine Tai Yi palaces (太乙九宫: 坎、坤、震、巽、中、乾、兑、艮、离) which are the spatial substrate for all chart placements.",
       "tags": [
         "enum",
         "domain-types",
@@ -1335,7 +1311,7 @@
       "type": "file",
       "name": "gui_shen.dart",
       "filePath": "lib/enums/gui_shen.dart",
-      "summary": "Enumerates the \u8d35\u795e (noble spirits) used in Tai Yi pan analysis with their canonical IDs and display names.",
+      "summary": "Enumerates the 贵神 (noble spirits) used in Tai Yi pan analysis with their canonical IDs and display names.",
       "tags": [
         "enum",
         "domain-types",
@@ -1349,7 +1325,7 @@
       "type": "file",
       "name": "ming_gong.dart",
       "filePath": "lib/enums/ming_gong.dart",
-      "summary": "Enumerates the twelve life palaces (\u5341\u4e8c\u5bab: \u547d\u3001\u8d22\u3001\u5144\u5f1f\u3001\u7530\u5b85\u2026) and the four spirits (\u56db\u795e) used in Tai Yi natal chart layouts.",
+      "summary": "Enumerates the twelve life palaces (十二宫: 命、财、兄弟、田宅…) and the four spirits (四神) used in Tai Yi natal chart layouts.",
       "tags": [
         "enum",
         "domain-types",
@@ -1488,7 +1464,7 @@
       "type": "file",
       "name": "di_pan_model.dart",
       "filePath": "lib/models/di_pan_model.dart",
-      "summary": "Models the \u5730\u76d8 (earth chart) layer of a Tai Yi reading, capturing per-palace placements with JSON serialization.",
+      "summary": "Models the 地盘 (earth chart) layer of a Tai Yi reading, capturing per-palace placements with JSON serialization.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1502,7 +1478,7 @@
       "type": "file",
       "name": "geju_model.dart",
       "filePath": "lib/models/geju_model.dart",
-      "summary": "Models the \u683c\u5c40 (pattern) analysis result of a Tai Yi pan with entry-level metadata including related palaces, deities, severity, and classical references.",
+      "summary": "Models the 格局 (pattern) analysis result of a Tai Yi pan with entry-level metadata including related palaces, deities, severity, and classical references.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1551,7 +1527,7 @@
       "type": "file",
       "name": "gui_shen_model.dart",
       "filePath": "lib/models/gui_shen_model.dart",
-      "summary": "Models the \u8d35\u795e (noble spirit) placements component of a Tai Yi pan with per-palace mapping.",
+      "summary": "Models the 贵神 (noble spirit) placements component of a Tai Yi pan with per-palace mapping.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1565,7 +1541,7 @@
       "type": "file",
       "name": "ming_pan_model.dart",
       "filePath": "lib/models/ming_pan_model.dart",
-      "summary": "Models the \u547d\u76d8 (natal chart) layer with \u547d\u5bab/\u8eab\u5bab anchors and the twelve life palaces \u2014 used across Jinjing, Tongzong, and Jicheng schools.",
+      "summary": "Models the 命盘 (natal chart) layer with 命宫/身宫 anchors and the twelve life palaces — used across Jinjing, Tongzong, and Jicheng schools.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1583,7 +1559,7 @@
         8,
         34
       ],
-      "summary": "Top-level natal chart model holding \u547d\u5bab, \u8eab\u5bab, the twelve palace placements, and method notes.",
+      "summary": "Top-level natal chart model holding 命宫, 身宫, the twelve palace placements, and method notes.",
       "tags": [
         "data-model",
         "natal-chart",
@@ -1613,7 +1589,7 @@
       "type": "file",
       "name": "pan_computed_item.dart",
       "filePath": "lib/models/pan_computed_item.dart",
-      "summary": "Generic computed item model representing any deity/general/eye/door placement on the pan with kind, source, priority, and metadata \u2014 the unified interchange shape for built-in and custom calculations.",
+      "summary": "Generic computed item model representing any deity/general/eye/door placement on the pan with kind, source, priority, and metadata — the unified interchange shape for built-in and custom calculations.",
       "tags": [
         "data-model",
         "computed-item",
@@ -1631,7 +1607,7 @@
         25,
         91
       ],
-      "summary": "Immutable computed pan item with builder copyWith, kind/source typing, and metadata bag \u2014 used for deities, generals, eyes, doors, counts, and custom deities.",
+      "summary": "Immutable computed pan item with builder copyWith, kind/source typing, and metadata bag — used for deities, generals, eyes, doors, counts, and custom deities.",
       "tags": [
         "data-model",
         "immutable",
@@ -1645,7 +1621,7 @@
       "type": "file",
       "name": "ren_pan_model.dart",
       "filePath": "lib/models/ren_pan_model.dart",
-      "summary": "Models the \u4eba\u76d8 (human chart) layer of a Tai Yi reading with per-palace placements.",
+      "summary": "Models the 人盘 (human chart) layer of a Tai Yi reading with per-palace placements.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1659,7 +1635,7 @@
       "type": "file",
       "name": "shen_pan_model.dart",
       "filePath": "lib/models/shen_pan_model.dart",
-      "summary": "Models the \u795e\u76d8 (spirit chart) layer including \u592a\u5c81\u3001\u5c81\u7834\u3001\u503c\u7b26 and the six gods/four spirits with palace placements, convertible to a list of DeityPlacement records.",
+      "summary": "Models the 神盘 (spirit chart) layer including 太岁、岁破、值符 and the six gods/four spirits with palace placements, convertible to a list of DeityPlacement records.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1678,7 +1654,7 @@
         6,
         96
       ],
-      "summary": "Spirit-chart aggregate holding \u592a\u5c81/\u5c81\u7834/\u503c\u7b26 anchors and twelve optional spirit placements; converts to DeityPlacement list and JSON.",
+      "summary": "Spirit-chart aggregate holding 太岁/岁破/值符 anchors and twelve optional spirit placements; converts to DeityPlacement list and JSON.",
       "tags": [
         "data-model",
         "spirits",
@@ -1692,7 +1668,7 @@
       "type": "file",
       "name": "tian_pan_model.dart",
       "filePath": "lib/models/tian_pan_model.dart",
-      "summary": "Models the \u5929\u76d8 (heaven chart) layer with Tai Yi, host/guest generals, the four Ji stars, five blessings, and other heaven-layer deities \u2014 the richest of the four pan layers.",
+      "summary": "Models the 天盘 (heaven chart) layer with Tai Yi, host/guest generals, the four Ji stars, five blessings, and other heaven-layer deities — the richest of the four pan layers.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1711,7 +1687,7 @@
         5,
         127
       ],
-      "summary": "Heaven-chart aggregate carrying Tai Yi and 18 deity/general palace placements plus their \u5165\u5bab\u5e74\u6570; converts to DeityPlacement list and JSON.",
+      "summary": "Heaven-chart aggregate carrying Tai Yi and 18 deity/general palace placements plus their 入宫年数; converts to DeityPlacement list and JSON.",
       "tags": [
         "data-model",
         "heaven-chart",
@@ -1743,7 +1719,7 @@
       "type": "file",
       "name": "year_ji_model.dart",
       "filePath": "lib/models/year_ji_model.dart",
-      "summary": "Defines YearJiDataModel capturing the core annual Tai Yi (\u5c81\u8ba1) parameters \u2014 accumulated year, five-yuan\u5c40, \u5143/\u5c40/\u7eaa numbers, year hexagram, and \u592a\u4e59\u884c\u5bab position \u2014 derived from canonical formulas documented inline.",
+      "summary": "Defines YearJiDataModel capturing the core annual Tai Yi (岁计) parameters — accumulated year, five-yuan局, 元/局/纪 numbers, year hexagram, and 太乙行宫 position — derived from canonical formulas documented inline.",
       "tags": [
         "data-model",
         "taiyi",
@@ -1843,7 +1819,7 @@
         1154,
         1320
       ],
-      "summary": "CustomPainter that draws the outer 28-mansion (\u4e8c\u5341\u516b\u5bbf) ring around the nine-palace board.",
+      "summary": "CustomPainter that draws the outer 28-mansion (二十八宿) ring around the nine-palace board.",
       "tags": [
         "custom-painter",
         "rendering",
@@ -2495,54 +2471,6 @@
       "complexity": "complex"
     },
     {
-      "id": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "type": "file",
-      "name": "taiyi_pan_calculator.dart",
-      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
-      "summary": "Core 1742-line Tai Yi chart calculator: orchestrates accumulated-year arithmetic, Ju number derivation, eight-door distribution, host/guest counts, and assembles complete PanDataModel results across Jinjing/Tongzong/Jicheng schools.",
-      "tags": [
-        "calculator",
-        "core",
-        "algorithm",
-        "domain-logic"
-      ],
-      "complexity": "complex",
-      "languageNotes": "Mix of class methods, top-level helper functions, and switch expressions with private file-scope helpers."
-    },
-    {
-      "id": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
-      "type": "class",
-      "name": "TaiYiPanCalculator",
-      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
-      "lineRange": [
-        21,
-        1672
-      ],
-      "summary": "Primary entry point that converts (date, school, chart type) inputs into a fully populated PanDataModel via the calculate() / calculateWithCustomDeities() methods.",
-      "tags": [
-        "calculator",
-        "entry-point",
-        "core"
-      ],
-      "complexity": "complex"
-    },
-    {
-      "id": "class:lib/taiyi/taiyi_pan_calculator.dart:_RuleProfile",
-      "type": "class",
-      "name": "_RuleProfile",
-      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
-      "lineRange": [
-        1679,
-        1742
-      ],
-      "summary": "Private rule profile encapsulating per-school epoch year, cycle constants, and formula variants used by calculator helpers.",
-      "tags": [
-        "configuration",
-        "internal"
-      ],
-      "complexity": "moderate"
-    },
-    {
       "id": "file:lib/theme/taiyi_classic_theme.dart",
       "type": "file",
       "name": "taiyi_classic_theme.dart",
@@ -2763,20 +2691,6 @@
       "complexity": "complex"
     },
     {
-      "id": "config:pubspec.yaml",
-      "type": "config",
-      "name": "pubspec.yaml",
-      "filePath": "pubspec.yaml",
-      "summary": "Flutter package manifest declaring dependencies (drift, mockito, build_runner, flutter_test, google_fonts, json_serializable, tyme), SDK constraints, and asset bundling for the Tai Yi Shen Shu app.",
-      "tags": [
-        "configuration",
-        "flutter",
-        "build-system",
-        "manifest"
-      ],
-      "complexity": "moderate"
-    },
-    {
       "id": "file:test/taiyi/core/algorithm_engine_test.dart",
       "type": "file",
       "name": "algorithm_engine_test.dart",
@@ -2833,13 +2747,257 @@
       "type": "file",
       "name": "taiyi_year_eye_rules_flutter_test.dart",
       "filePath": "test/taiyi_year_eye_rules_flutter_test.dart",
-      "summary": "Flutter-binding tests validating year-eye (\u5e74\u5bb6) calculation rules across schools, including eight-door distribution and gui-shen placement.",
+      "summary": "Flutter-binding tests validating year-eye (年家) calculation rules across schools, including eight-door distribution and gui-shen placement.",
       "tags": [
         "test",
         "integration-test",
         "calculator"
       ],
       "complexity": "complex"
+    },
+    {
+      "id": "file:AGENTS.md",
+      "type": "file",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "项目智能代理指令文件，包含 GitNexus 配置和 Hindsight 记忆规则。",
+      "tags": [
+        "docs",
+        "config"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "代理指南",
+      "filePath": "AGENTS.md",
+      "summary": "定义了 AI 代理在项目中的操作规范、测试协议及记忆库使用规则。",
+      "tags": [
+        "guideline",
+        "sdlc"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:all_files.txt",
+      "type": "file",
+      "name": "all_files.txt",
+      "filePath": "all_files.txt",
+      "summary": "项目文件结构清单快照。",
+      "tags": [
+        "manifest"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:all_files.txt",
+      "type": "document",
+      "name": "文件清单",
+      "filePath": "all_files.txt",
+      "summary": "列出了项目中所有的文件路径，用于辅助代码分析。",
+      "tags": [
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "type": "file",
+      "name": "taiyi_pan_calculator.dart",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "太乙神数核心排盘计算逻辑实现文件。",
+      "tags": [
+        "core",
+        "algorithm"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "type": "class",
+      "name": "TaiYiPanCalculator",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "太乙排盘计算器类，提供多流派（金镜、统宗、集成）的完整排盘计算功能。",
+      "tags": [
+        "calculator",
+        "taiyi",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:calculate",
+      "type": "function",
+      "name": "calculate",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "执行标准的太乙排盘计算，支持指定流派和盘式（年、月、日、时）。",
+      "tags": [
+        "public-api",
+        "entry-point"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculate",
+      "type": "function",
+      "name": "_calculate",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "内部核心计算流程，协调积年计算、格局判定、神煞排布及主客算逻辑。",
+      "tags": [
+        "internal",
+        "logic-flow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateAccumulatedYear",
+      "type": "function",
+      "name": "_calculateAccumulatedYear",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "计算自上元积年以来的累积年数，支持不同流派的基数和起算年。",
+      "tags": [
+        "accumulated-year",
+        "epoch"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedDay",
+      "type": "function",
+      "name": "_accumulatedDay",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "日计积日数计算，基于回归年长度和流派偏移量计算累积天数。",
+      "tags": [
+        "day-chart",
+        "math"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedHour",
+      "type": "function",
+      "name": "_accumulatedHour",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "时计积时数计算，基于积日数和时辰索引进行换算。",
+      "tags": [
+        "hour-chart",
+        "math"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_computeYearJi",
+      "type": "function",
+      "name": "_computeYearJi",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "计算年计（岁计）核心参数，包含五子元局、入纪年数、年卦等信息。",
+      "tags": [
+        "year-ji",
+        "algorithm"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateTaiYiPalace",
+      "type": "function",
+      "name": "_calculateTaiYiPalace",
+      "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
+      "summary": "计算太乙神在九宫中的位置，支持金镜和集成派不同的排布公式。",
+      "tags": [
+        "deity-placement",
+        "tai-yi"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:pubspec.yaml",
+      "type": "file",
+      "name": "pubspec.yaml",
+      "filePath": "pubspec.yaml",
+      "summary": "Flutter 项目依赖及资源配置文件。",
+      "tags": [
+        "config",
+        "flutter"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:pubspec.yaml",
+      "type": "config",
+      "name": "项目配置",
+      "filePath": "pubspec.yaml",
+      "summary": "定义了项目依赖（common, tyme, intl 等）和静态资源（schools, deities）。",
+      "tags": [
+        "dependencies",
+        "assets"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/day_metadata_test.dart",
+      "type": "file",
+      "name": "day_metadata_test.dart",
+      "filePath": "test/taiyi/day_metadata_test.dart",
+      "summary": "日计元数据验证测试，通过测试向量核对积日和局数。",
+      "tags": [
+        "test",
+        "metadata",
+        "day-chart"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/hour_metadata_test.dart",
+      "type": "file",
+      "name": "hour_metadata_test.dart",
+      "filePath": "test/taiyi/hour_metadata_test.dart",
+      "summary": "时计元数据验证测试，验证累积时数和局数的准确性。",
+      "tags": [
+        "test",
+        "metadata",
+        "hour-chart"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/metadata_verification_test.dart",
+      "type": "file",
+      "name": "metadata_verification_test.dart",
+      "filePath": "test/taiyi/metadata_verification_test.dart",
+      "summary": "通用元数据验证测试，覆盖多盘式的综合校验。",
+      "tags": [
+        "test",
+        "metadata",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/month_metadata_test.dart",
+      "type": "file",
+      "name": "month_metadata_test.dart",
+      "filePath": "test/taiyi/month_metadata_test.dart",
+      "summary": "月计元数据验证测试。",
+      "tags": [
+        "test",
+        "metadata",
+        "month-chart"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/year_metadata_test.dart",
+      "type": "file",
+      "name": "year_metadata_test.dart",
+      "filePath": "test/taiyi/year_metadata_test.dart",
+      "summary": "年计元数据验证测试。",
+      "tags": [
+        "test",
+        "metadata",
+        "year-chart"
+      ],
+      "complexity": "simple"
     }
   ],
   "edges": [
@@ -2881,13 +3039,6 @@
     {
       "source": "document:CLAUDE.md",
       "target": "document:.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md",
-      "type": "documents",
-      "direction": "forward",
-      "weight": 0.5
-    },
-    {
-      "source": "document:AGENTS.md",
-      "target": "document:.claude/skills/gitnexus/gitnexus-guide/SKILL.md",
       "type": "documents",
       "direction": "forward",
       "weight": 0.5
@@ -3394,7 +3545,7 @@
       "target": "class:example/lib/main.dart:ExampleApp",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "config:example/analysis_options.yaml",
@@ -3566,7 +3717,7 @@
     },
     {
       "source": "document:docs/project/README.md",
-      "target": "document:docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
+      "target": "document:docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
       "type": "documents",
       "direction": "forward",
       "weight": 0.5
@@ -3579,7 +3730,7 @@
       "weight": 0.5
     },
     {
-      "source": "document:docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
+      "source": "document:docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
       "target": "file:example/lib/main.dart",
       "type": "documents",
       "direction": "forward",
@@ -3587,7 +3738,7 @@
     },
     {
       "source": "document:docs/project/prds/2026-05-08-taiyishenshu-PRD.md",
-      "target": "document:docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
+      "target": "document:docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
       "type": "related",
       "direction": "forward",
       "weight": 0.5
@@ -3597,7 +3748,7 @@
       "target": "class:lib/controllers/taiyi_pan_controller.dart:TaiYiPanController",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/controllers/taiyi_pan_controller.dart",
@@ -3681,28 +3832,28 @@
       "target": "class:lib/models/custom_deity_definition.dart:CustomDeityDefinition",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/custom_deity_definition.dart",
       "target": "class:lib/models/custom_deity_definition.dart:CustomDeityAlgorithmSpec",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/custom_deity_definition.dart",
       "target": "class:lib/models/custom_deity_definition.dart:CustomDeityRepository",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/custom_deity_definition.dart",
       "target": "class:lib/models/custom_deity_definition.dart:InMemoryCustomDeityRepository",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/custom_deity_definition.dart",
@@ -3779,14 +3930,14 @@
       "target": "class:lib/models/geju_model.dart:GeJuResultModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/geju_model.dart",
       "target": "class:lib/models/geju_model.dart:GeJuEntry",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/geju_model.dart",
@@ -3849,14 +4000,14 @@
       "target": "class:lib/models/ming_pan_model.dart:MingPanModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/ming_pan_model.dart",
       "target": "class:lib/models/ming_pan_model.dart:MingPalaceModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/ming_pan_model.dart",
@@ -3898,7 +4049,7 @@
       "target": "class:lib/models/pan_computed_item.dart:PanComputedItem",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/pan_computed_item.dart",
@@ -3947,7 +4098,7 @@
       "target": "class:lib/models/shen_pan_model.dart:ShenPanModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/shen_pan_model.dart",
@@ -3989,14 +4140,14 @@
       "target": "class:lib/models/tian_pan_model.dart:TianPanModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/tian_pan_model.dart",
       "target": "class:lib/models/tian_pan_model.dart:DeityPlacement",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/tian_pan_model.dart",
@@ -4038,7 +4189,7 @@
       "target": "class:lib/models/year_ji_model.dart:YearJiDataModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/models/year_ji_model.dart",
@@ -4052,7 +4203,7 @@
       "target": "class:lib/navigator.dart:NavigatorGenerator",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/navigator.dart",
@@ -4087,21 +4238,21 @@
       "target": "class:lib/pages/beauty_page.dart:BeautyPage",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/beauty_page.dart",
       "target": "class:lib/pages/beauty_page.dart:TwentyEightStarsCircle",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/beauty_page.dart",
       "target": "class:lib/pages/beauty_page.dart:IndicatorScalePainter",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/beauty_page.dart",
@@ -4129,14 +4280,14 @@
       "target": "class:lib/pages/my_home_page.dart:MyHomePage",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/my_home_page.dart",
       "target": "class:lib/pages/my_home_page.dart:CircleRingPainter",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/my_home_page.dart",
@@ -4157,7 +4308,7 @@
       "target": "class:lib/pages/rectangle_pan.dart:RectanglePanel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/rectangle_pan.dart",
@@ -4185,7 +4336,7 @@
       "target": "class:lib/pages/taiyi_pan_page.dart:TaiYiPanPage",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/pages/taiyi_pan_page.dart",
@@ -4255,7 +4406,7 @@
       "target": "class:lib/painter/pie_segment_painter.dart:PieSegmentPainter",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/painter/pie_segment_painter.dart",
@@ -4318,7 +4469,7 @@
       "target": "class:lib/taiyi/core/algorithm_engine.dart:DeityAlgorithmEngine",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/algorithm_engine.dart",
@@ -4346,28 +4497,28 @@
       "target": "class:lib/taiyi/core/algorithm_spec.dart:PalaceStep",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/algorithm_spec.dart",
       "target": "class:lib/taiyi/core/algorithm_spec.dart:CycleStep",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/algorithm_spec.dart",
       "target": "class:lib/taiyi/core/algorithm_spec.dart:DunVariantConfig",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/algorithm_spec.dart",
       "target": "class:lib/taiyi/core/algorithm_spec.dart:SteppedCycleParams",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/algorithm_spec.dart",
@@ -4416,21 +4567,21 @@
       "target": "class:lib/taiyi/core/calculation_context.dart:CalculationContext",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/calculation_context.dart",
       "target": "class:lib/taiyi/core/calculation_context.dart:DeityPlacementResult",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/calculation_context.dart",
       "target": "class:lib/taiyi/core/calculation_context.dart:StepResult",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/calculation_context.dart",
@@ -4472,14 +4623,14 @@
       "target": "class:lib/taiyi/core/deity_definition.dart:DeityAlgorithmSpec",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/deity_definition.dart",
       "target": "class:lib/taiyi/core/deity_definition.dart:DeityDefinition",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/deity_definition.dart",
@@ -4500,7 +4651,7 @@
       "target": "class:lib/taiyi/core/expression_parser.dart:ExpressionParser",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/expression_parser.dart",
@@ -4514,7 +4665,7 @@
       "target": "class:lib/taiyi/core/school_config.dart:TaiYiSchool",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/core/school_config.dart",
@@ -4563,7 +4714,7 @@
       "target": "class:lib/taiyi/data/official_json_repository.dart:OfficialJsonSchoolRepository",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/data/official_json_repository.dart",
@@ -4668,42 +4819,42 @@
       "target": "class:lib/taiyi/pan_data_model.dart:PanInputModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
       "target": "class:lib/taiyi/pan_data_model.dart:PalaceDataModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
       "target": "class:lib/taiyi/pan_data_model.dart:HostGuestDataModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
       "target": "class:lib/taiyi/pan_data_model.dart:HostCountDetail",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
       "target": "class:lib/taiyi/pan_data_model.dart:ClassicReferenceDataModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
       "target": "class:lib/taiyi/pan_data_model.dart:PanDataModel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/taiyi/pan_data_model.dart",
@@ -4776,165 +4927,11 @@
       "weight": 0.7
     },
     {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/deity_kind.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/eight_door.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/geju.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/god.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/gong.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/gui_shen.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/enums/taiyi_enum_extensions.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/custom_deity_definition.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/geju_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/gui_shen_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/pan_computed_item.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/ren_pan_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/shen_pan_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/tian_pan_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/models/year_ji_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/taiyi/core/school_config.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/taiyi/pan_data_model.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/taiyi/pan_enums.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:lib/taiyi/taiyi_constants.dart",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "class:lib/taiyi/taiyi_pan_calculator.dart:_RuleProfile",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:lib/theme/taiyi_classic_theme.dart",
       "target": "class:lib/theme/taiyi_classic_theme.dart:TaiYiClassicTheme",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/theme/taiyi_classic_theme.dart",
@@ -4948,7 +4945,7 @@
       "target": "class:lib/widgets/nine_gong_grid.dart:NineGongGrid",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/nine_gong_grid.dart",
@@ -4962,7 +4959,7 @@
       "target": "class:lib/widgets/pan_info_panel.dart:PanInfoPanel",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/pan_info_panel.dart",
@@ -4983,7 +4980,7 @@
       "target": "class:lib/widgets/tai_yi_gong_content_background.dart:TaiYiGongContentBackground",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/tai_yi_gong_content_background.dart",
@@ -4997,14 +4994,14 @@
       "target": "class:lib/widgets/taiyi_pan_grid.dart:TaiYiPanGrid",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/taiyi_pan_grid.dart",
       "target": "class:lib/widgets/taiyi_pan_grid.dart:_TaiYiPanPainter",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/taiyi_pan_grid.dart",
@@ -5018,14 +5015,14 @@
       "target": "class:lib/widgets/taiyi_pan_grid_v2.dart:TaiYiPanGridV2",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
       "target": "class:lib/widgets/taiyi_pan_grid_v2.dart:_TaiYiPanPainterV2",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
@@ -5033,20 +5030,6 @@
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
-    },
-    {
-      "source": "config:pubspec.yaml",
-      "target": "file:lib/taiyi/taiyi.dart",
-      "type": "configures",
-      "direction": "forward",
-      "weight": 0.6
-    },
-    {
-      "source": "config:pubspec.yaml",
-      "target": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "type": "configures",
-      "direction": "forward",
-      "weight": 0.6
     },
     {
       "source": "file:test/taiyi/core/algorithm_engine_test.dart",
@@ -5189,81 +5172,437 @@
       "weight": 0.7
     },
     {
-      "source": "file:lib/taiyi/core/algorithm_engine.dart",
-      "target": "file:test/taiyi/core/algorithm_engine_test.dart",
-      "type": "tested_by",
-      "direction": "forward",
-      "weight": 0.5
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "type": "contains",
+      "weight": 1
     },
     {
-      "source": "file:lib/taiyi/core/expression_parser.dart",
-      "target": "file:test/taiyi/core/expression_parser_test.dart",
-      "type": "tested_by",
-      "direction": "forward",
-      "weight": 0.5
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:calculate",
+      "type": "contains",
+      "weight": 1
     },
     {
-      "source": "file:lib/taiyi/data/official_json_repository.dart",
-      "target": "file:test/taiyi/core/official_json_repository_test.dart",
-      "type": "tested_by",
-      "direction": "forward",
-      "weight": 0.5
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculate",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateAccumulatedYear",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedDay",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedHour",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_computeYearJi",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateTaiYiPalace",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:calculate",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculate",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculate",
+      "target": "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateAccumulatedYear",
+      "type": "calls",
+      "weight": 0.8
     },
     {
       "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:test/taiyi_pan_calculator_smoke.dart",
-      "type": "tested_by",
-      "direction": "forward",
-      "weight": 0.5
+      "target": "file:lib/enums/deity_kind.dart",
+      "type": "imports",
+      "weight": 0.7
     },
     {
       "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
-      "target": "file:test/taiyi_year_eye_rules_flutter_test.dart",
-      "type": "tested_by",
+      "target": "file:lib/enums/eight_door.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/enums/geju.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/enums/god.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/enums/gong.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/enums/gui_shen.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/enums/taiyi_enum_extensions.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/custom_deity_definition.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/geju_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/gui_shen_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/pan_computed_item.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/ren_pan_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/shen_pan_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/tian_pan_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/models/year_ji_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/taiyi/core/school_config.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/taiyi/pan_data_model.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/taiyi/taiyi_constants.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/day_metadata_test.dart",
+      "target": "file:lib/taiyi/taiyi.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/day_metadata_test.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/hour_metadata_test.dart",
+      "target": "file:lib/taiyi/taiyi.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/hour_metadata_test.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/metadata_verification_test.dart",
+      "target": "file:lib/taiyi/taiyi.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/metadata_verification_test.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/month_metadata_test.dart",
+      "target": "file:lib/taiyi/taiyi.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/month_metadata_test.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/year_metadata_test.dart",
+      "target": "file:lib/taiyi/taiyi.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/taiyi/year_metadata_test.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "config:pubspec.yaml",
+      "target": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "type": "configures",
+      "weight": 0.6
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/enums/eight_door.dart",
+      "type": "imports",
       "direction": "forward",
-      "weight": 0.5
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/enums/gong.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/models/tian_pan_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/taiyi/pan_data_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/nine_gong_grid.dart",
+      "target": "file:lib/theme/taiyi_classic_theme.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/pan_info_panel.dart",
+      "target": "file:lib/enums/gong.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/pan_info_panel.dart",
+      "target": "file:lib/enums/gui_shen.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/pan_info_panel.dart",
+      "target": "file:lib/taiyi/pan_data_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/pan_info_panel.dart",
+      "target": "file:lib/taiyi/pan_enums.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/pan_info_panel.dart",
+      "target": "file:lib/theme/taiyi_classic_theme.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid.dart",
+      "target": "file:lib/enums/deity_kind.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid.dart",
+      "target": "file:lib/enums/gong.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid.dart",
+      "target": "file:lib/enums/god.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid.dart",
+      "target": "file:lib/taiyi/pan_data_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
+      "target": "file:lib/enums/deity_kind.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
+      "target": "file:lib/enums/gong.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
+      "target": "file:lib/enums/god.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/widgets/taiyi_pan_grid_v2.dart",
+      "target": "file:lib/taiyi/pan_data_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
     }
   ],
   "layers": [
     {
       "id": "layer:app-shell",
-      "name": "App Shell",
-      "description": "Flutter application entry point and top-level navigator wiring the pages, controllers, and taiyi engine together.",
+      "name": "应用外壳 (App Shell)",
+      "description": "Flutter 应用入口和顶级导航，连接页面、控制器和太乙引擎。",
       "nodeIds": [
         "file:lib/main.dart",
-        "file:lib/navigator.dart"
+        "file:lib/navigator.dart",
+        "class:lib/navigator.dart:NavigatorGenerator"
       ]
     },
     {
       "id": "layer:presentation",
-      "name": "Presentation Layer",
-      "description": "Flutter pages, reusable widgets (nine-gong grids, info panels), custom painters, and visual theme configuration for the three chart styles.",
+      "name": "表现层 (Presentation Layer)",
+      "description": "Flutter 页面、可复用组件（九宫格、信息面板）、自定义绘图器和视觉主题配置。",
       "nodeIds": [
         "file:lib/pages/beauty_page.dart",
+        "class:lib/pages/beauty_page.dart:BeautyPage",
+        "class:lib/pages/beauty_page.dart:TwentyEightStarsCircle",
+        "class:lib/pages/beauty_page.dart:IndicatorScalePainter",
         "file:lib/pages/my_home_page.dart",
+        "class:lib/pages/my_home_page.dart:MyHomePage",
+        "class:lib/pages/my_home_page.dart:CircleRingPainter",
         "file:lib/pages/rectangle_pan.dart",
+        "class:lib/pages/rectangle_pan.dart:RectanglePanel",
         "file:lib/pages/taiyi_pan_page.dart",
+        "class:lib/pages/taiyi_pan_page.dart:TaiYiPanPage",
         "file:lib/painter/pie_segment_painter.dart",
-        "file:lib/theme/taiyi_classic_theme.dart",
+        "class:lib/painter/pie_segment_painter.dart:PieSegmentPainter",
         "file:lib/widgets/nine_gong_grid.dart",
+        "class:lib/widgets/nine_gong_grid.dart:NineGongGrid",
         "file:lib/widgets/pan_info_panel.dart",
+        "class:lib/widgets/pan_info_panel.dart:PanInfoPanel",
         "file:lib/widgets/tai_yi_gong_content_background.dart",
+        "class:lib/widgets/tai_yi_gong_content_background.dart:TaiYiGongContentBackground",
         "file:lib/widgets/taiyi_pan_grid.dart",
-        "file:lib/widgets/taiyi_pan_grid_v2.dart"
+        "class:lib/widgets/taiyi_pan_grid.dart:TaiYiPanGrid",
+        "class:lib/widgets/taiyi_pan_grid.dart:_TaiYiPanPainter",
+        "file:lib/widgets/taiyi_pan_grid_v2.dart",
+        "class:lib/widgets/taiyi_pan_grid_v2.dart:TaiYiPanGridV2",
+        "class:lib/widgets/taiyi_pan_grid_v2.dart:_TaiYiPanPainterV2",
+        "file:lib/theme/taiyi_classic_theme.dart",
+        "class:lib/theme/taiyi_classic_theme.dart:TaiYiClassicTheme"
       ]
     },
     {
       "id": "layer:state-management",
-      "name": "State Management",
-      "description": "ChangeNotifier-based controllers that drive Listener-based UI rebuilds for the taiyi pan view.",
+      "name": "状态管理 (State Management)",
+      "description": "基于 ChangeNotifier 的控制器，驱动基于 Listener 的 UI 重建。",
       "nodeIds": [
-        "file:lib/controllers/taiyi_pan_controller.dart"
+        "file:lib/controllers/taiyi_pan_controller.dart",
+        "class:lib/controllers/taiyi_pan_controller.dart:TaiYiPanController"
       ]
     },
     {
       "id": "layer:domain-model",
-      "name": "Domain Model",
-      "description": "Domain enums (gong, door, god, geju, gui_shen, ming_gong) and data classes for tian/di/ren/shen/ming pan and computed items.",
+      "name": "领域模型 (Domain Model)",
+      "description": "领域枚举（宫、门、神等）和用于盘面计算的数据类。",
       "nodeIds": [
         "file:lib/enums/deity_kind.dart",
         "file:lib/enums/door.dart",
@@ -5276,22 +5615,76 @@
         "file:lib/enums/taiyi_enum_extensions.dart",
         "file:lib/models/ConstantNineGongDataClass.dart",
         "file:lib/models/custom_deity_definition.dart",
+        "class:lib/models/custom_deity_definition.dart:CustomDeityDefinition",
+        "class:lib/models/custom_deity_definition.dart:CustomDeityAlgorithmSpec",
+        "class:lib/models/custom_deity_definition.dart:CustomDeityRepository",
+        "class:lib/models/custom_deity_definition.dart:InMemoryCustomDeityRepository",
         "file:lib/models/di_pan_model.dart",
         "file:lib/models/geju_model.dart",
+        "class:lib/models/geju_model.dart:GeJuResultModel",
+        "class:lib/models/geju_model.dart:GeJuEntry",
         "file:lib/models/gui_shen_model.dart",
         "file:lib/models/ming_pan_model.dart",
+        "class:lib/models/ming_pan_model.dart:MingPanModel",
+        "class:lib/models/ming_pan_model.dart:MingPalaceModel",
         "file:lib/models/pan_computed_item.dart",
+        "class:lib/models/pan_computed_item.dart:PanComputedItem",
         "file:lib/models/ren_pan_model.dart",
         "file:lib/models/shen_pan_model.dart",
+        "class:lib/models/shen_pan_model.dart:ShenPanModel",
         "file:lib/models/tian_pan_model.dart",
-        "file:lib/models/year_ji_model.dart"
+        "class:lib/models/tian_pan_model.dart:TianPanModel",
+        "class:lib/models/tian_pan_model.dart:DeityPlacement",
+        "file:lib/models/year_ji_model.dart",
+        "class:lib/models/year_ji_model.dart:YearJiDataModel"
       ]
     },
     {
       "id": "layer:taiyi-core",
-      "name": "Taiyi Core Engine",
-      "description": "UI-independent algorithm engine, expression parser, calculation context, school repository, pan calculator, plus the JSON deity and school definitions consumed by the engine.",
+      "name": "太乙核心引擎 (Taiyi Core Engine)",
+      "description": "独立于 UI 的算法引擎、表达式解析器、计算上下文、流派仓库及盘面计算器，包含其消费的 JSON 神煞和流派定义。",
       "nodeIds": [
+        "file:lib/taiyi/core/algorithm_engine.dart",
+        "class:lib/taiyi/core/algorithm_engine.dart:DeityAlgorithmEngine",
+        "file:lib/taiyi/core/algorithm_enums.dart",
+        "file:lib/taiyi/core/algorithm_spec.dart",
+        "class:lib/taiyi/core/algorithm_spec.dart:PalaceStep",
+        "class:lib/taiyi/core/algorithm_spec.dart:CycleStep",
+        "class:lib/taiyi/core/algorithm_spec.dart:DunVariantConfig",
+        "class:lib/taiyi/core/algorithm_spec.dart:SteppedCycleParams",
+        "file:lib/taiyi/core/calculation_context.dart",
+        "class:lib/taiyi/core/calculation_context.dart:CalculationContext",
+        "class:lib/taiyi/core/calculation_context.dart:DeityPlacementResult",
+        "class:lib/taiyi/core/calculation_context.dart:StepResult",
+        "file:lib/taiyi/core/deity_definition.dart",
+        "class:lib/taiyi/core/deity_definition.dart:DeityAlgorithmSpec",
+        "class:lib/taiyi/core/deity_definition.dart:DeityDefinition",
+        "file:lib/taiyi/core/expression_parser.dart",
+        "class:lib/taiyi/core/expression_parser.dart:ExpressionParser",
+        "file:lib/taiyi/core/school_config.dart",
+        "class:lib/taiyi/core/school_config.dart:TaiYiSchool",
+        "file:lib/taiyi/core/school_repository.dart",
+        "file:lib/taiyi/data/official_json_repository.dart",
+        "class:lib/taiyi/data/official_json_repository.dart:OfficialJsonSchoolRepository",
+        "file:lib/taiyi/pan_data_model.dart",
+        "class:lib/taiyi/pan_data_model.dart:PanInputModel",
+        "class:lib/taiyi/pan_data_model.dart:PalaceDataModel",
+        "class:lib/taiyi/pan_data_model.dart:HostGuestDataModel",
+        "class:lib/taiyi/pan_data_model.dart:HostCountDetail",
+        "class:lib/taiyi/pan_data_model.dart:ClassicReferenceDataModel",
+        "class:lib/taiyi/pan_data_model.dart:PanDataModel",
+        "file:lib/taiyi/pan_enums.dart",
+        "file:lib/taiyi/taiyi.dart",
+        "file:lib/taiyi/taiyi_constants.dart",
+        "file:lib/taiyi/taiyi_pan_calculator.dart",
+        "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:calculate",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculate",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateAccumulatedYear",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedDay",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_accumulatedHour",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_computeYearJi",
+        "function:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator:_calculateTaiYiPalace",
         "config:assets/deities/bai-hu.json",
         "config:assets/deities/bai-liu.json",
         "config:assets/deities/chen-ji.json",
@@ -5331,70 +5724,58 @@
         "config:assets/deities/zhu-que.json",
         "config:assets/schools/ji-cheng.json",
         "config:assets/schools/jing-mirror.json",
-        "config:assets/schools/tong-zong.json",
-        "file:lib/taiyi/core/algorithm_engine.dart",
-        "file:lib/taiyi/core/algorithm_enums.dart",
-        "file:lib/taiyi/core/algorithm_spec.dart",
-        "file:lib/taiyi/core/calculation_context.dart",
-        "file:lib/taiyi/core/deity_definition.dart",
-        "file:lib/taiyi/core/expression_parser.dart",
-        "file:lib/taiyi/core/school_config.dart",
-        "file:lib/taiyi/core/school_repository.dart",
-        "file:lib/taiyi/data/official_json_repository.dart",
-        "file:lib/taiyi/pan_data_model.dart",
-        "file:lib/taiyi/pan_enums.dart",
-        "file:lib/taiyi/taiyi.dart",
-        "file:lib/taiyi/taiyi_constants.dart",
-        "file:lib/taiyi/taiyi_pan_calculator.dart"
+        "config:assets/schools/tong-zong.json"
       ]
     },
     {
       "id": "layer:example",
-      "name": "Example App",
-      "description": "Embeddable demo application showing how to consume the taiyishenshu library, with its own pubspec and web runner scripts.",
+      "name": "示例应用 (Example App)",
+      "description": "展示如何使用太乙神数库的嵌入式演示应用。",
       "nodeIds": [
         "file:example/lib/main.dart",
+        "class:example/lib/main.dart:ExampleApp",
+        "config:example/analysis_options.yaml",
+        "config:example/pubspec.yaml",
         "file:example/run_web.bat",
         "file:example/run_web.sh"
       ]
     },
     {
       "id": "layer:test",
-      "name": "Tests",
-      "description": "Unit and Flutter tests covering the algorithm engine, expression parser, official JSON repository, pan calculator smoke flow, and year-eye rule cases.",
+      "name": "测试 (Tests)",
+      "description": "单元和集成测试，覆盖核心引擎、计算器和排盘规则。",
       "nodeIds": [
         "file:test/taiyi/core/algorithm_engine_test.dart",
         "file:test/taiyi/core/expression_parser_test.dart",
         "file:test/taiyi/core/official_json_repository_test.dart",
         "file:test/taiyi_pan_calculator_smoke.dart",
-        "file:test/taiyi_year_eye_rules_flutter_test.dart"
+        "file:test/taiyi_year_eye_rules_flutter_test.dart",
+        "file:test/taiyi/day_metadata_test.dart",
+        "file:test/taiyi/hour_metadata_test.dart",
+        "file:test/taiyi/metadata_verification_test.dart",
+        "file:test/taiyi/month_metadata_test.dart",
+        "file:test/taiyi/year_metadata_test.dart"
       ]
     },
     {
       "id": "layer:configuration",
-      "name": "Configuration",
-      "description": "Root and example build configuration: pubspec.yaml, analysis_options.yaml, build.yaml, and .metadata.",
+      "name": "配置 (Configuration)",
+      "description": "项目和构建系统的配置，如依赖管理、代码静态分析和生成器设置。",
       "nodeIds": [
         "config:.metadata",
         "config:analysis_options.yaml",
         "config:build.yaml",
-        "config:example/analysis_options.yaml",
-        "config:example/pubspec.yaml",
-        "config:pubspec.yaml"
+        "config:pubspec.yaml",
+        "file:pubspec.yaml",
+        "file:all_files.txt",
+        "document:all_files.txt"
       ]
     },
     {
       "id": "layer:documentation",
-      "name": "Documentation",
-      "description": "Project READMEs, AI\u534f\u540c\u5baa\u6cd5 (CONSTITUTION, principles, code-style, phases), board/progress notes, PRDs, architecture and feature docs, plus gitnexus skill guides.",
+      "name": "文档 (Documentation)",
+      "description": "项目指南、AI 协同宪法、开发路线图、PRD、架构文档和 GitNexus 技能手册。",
       "nodeIds": [
-        "document:.claude/skills/gitnexus/gitnexus-cli/SKILL.md",
-        "document:.claude/skills/gitnexus/gitnexus-debugging/SKILL.md",
-        "document:.claude/skills/gitnexus/gitnexus-exploring/SKILL.md",
-        "document:.claude/skills/gitnexus/gitnexus-guide/SKILL.md",
-        "document:.claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md",
-        "document:.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md",
-        "document:AGENTS.md",
         "document:AI_README.md",
         "document:CLAUDE.md",
         "document:README.md",
@@ -5419,120 +5800,113 @@
         "document:docs/project/README.md",
         "document:docs/project/architecture/001-system-architecture.md",
         "document:docs/project/changelog/v1.0.0.md",
-        "document:docs/project/features/2026-05-08-\u592a\u4e59\u795e\u6570\u6392\u76d8-\u529f\u80fd\u8bf4\u660e.md",
-        "document:docs/project/prds/2026-05-08-taiyishenshu-PRD.md"
+        "document:docs/project/features/2026-05-08-太乙神数排盘-功能说明.md",
+        "document:docs/project/prds/2026-05-08-taiyishenshu-PRD.md",
+        "document:.claude/skills/gitnexus/gitnexus-cli/SKILL.md",
+        "document:.claude/skills/gitnexus/gitnexus-debugging/SKILL.md",
+        "document:.claude/skills/gitnexus/gitnexus-exploring/SKILL.md",
+        "document:.claude/skills/gitnexus/gitnexus-guide/SKILL.md",
+        "document:.claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md",
+        "document:.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md",
+        "file:AGENTS.md",
+        "document:AGENTS.md"
       ]
     }
   ],
   "tour": [
     {
       "order": 1,
-      "title": "Project Overview & AI Governance",
-      "description": "Start with the README to learn that this project is a Flutter implementation of Tai Yi Shen Shu (\u592a\u4e59\u795e\u6570), supporting three classical schools \u2014 Jinjing (\u91d1\u955c\u6d3e), Tongzong (\u7edf\u5b97\u6d3e), and Jicheng (\u96c6\u6210\u6d3e) \u2014 and four chart types (year/month/day/hour). AI_README.md and the CONSTITUTION add the project's AI-collaboration rules and design philosophy: algorithm/UI separation, no third-party state library, and JSON-driven school configuration. Read these first to anchor the rest of the tour in the project's own narrative.",
+      "title": "项目概览：传承与现代架构的交汇",
+      "description": "太乙神数（Tai Yi Shen Shu）是中国传统三式之一。本项目通过现代化的 Flutter 架构实现了金镜、统宗、集成三大流派的排盘推算。本步骤将带你浏览 README，了解项目的核心目标、技术栈以及开发规范。",
       "nodeIds": [
         "document:README.md",
-        "document:AI_README.md",
-        "document:docs/ai/CONSTITUTION.md"
+        "document:AI_README.md"
       ]
     },
     {
       "order": 2,
-      "title": "Application Entry Point",
-      "description": "lib/main.dart boots the Flutter app and hands routing to lib/navigator.dart, which wires the top-level page tree. This is the smallest possible app shell: no DI container, no router package \u2014 just a MaterialApp pointing at TaiyiPanPage. Notice how main.dart sits at the apex of the BFS traversal (depth 0) and reaches everything else through just two depth-1 imports: the page and the theme.",
+      "title": "业务需求与算法路线图",
+      "description": "在深入代码之前，理解业务逻辑至关重要。PRD 详细描述了流派差异和排盘需求，而 Plans 则展示了如何将这些复杂的玄学算法拆解为可实现的开发阶段。这里不仅是文档，更是系统的逻辑基石。",
       "nodeIds": [
-        "file:lib/main.dart",
-        "file:lib/navigator.dart",
-        "file:lib/theme/taiyi_classic_theme.dart"
-      ],
-      "languageLesson": "Dart's `main()` is the entry function. `runApp()` inflates a Widget tree and binds it to the Flutter engine \u2014 there's no equivalent of React's separate root.render() because Flutter owns the rendering loop directly."
+        "document:docs/project/prds/2026-05-08-taiyishenshu-PRD.md",
+        "document:docs/Plans.md"
+      ]
     },
     {
       "order": 3,
-      "title": "State Layer \u2014 ChangeNotifier Wiring",
-      "description": "TaiyiPanController is the single source of truth for chart state. Instead of pulling in Provider, Riverpod, or Bloc, the project deliberately uses Dart's built-in ChangeNotifier and a plain Listener \u2014 honoring the CONSTITUTION's 'no third-party state library' rule from Step 1. The controller owns the date/time inputs, the selected school, and the computed PanDataModel, and notifies listeners whenever the user changes a parameter so the page rebuilds.",
+      "title": "领域语言：太乙神数的数字化定义",
+      "description": "太乙神数拥有一套独特的术语体系。我们通过 Dart 枚举精确定义了‘九宫’、‘八门’和‘十六神’等核心概念。taiyi_enum_extensions 为这些枚举提供了 ID 解析和序列化支持，是数据持久化的基础。",
       "nodeIds": [
-        "file:lib/controllers/taiyi_pan_controller.dart"
+        "file:lib/enums/gong.dart",
+        "file:lib/enums/deity_kind.dart",
+        "file:lib/enums/taiyi_enum_extensions.dart"
       ],
-      "languageLesson": "ChangeNotifier is Dart's minimal observable: subclasses call `notifyListeners()` to trigger any widget that subscribed via `addListener()` or `AnimatedBuilder`. It costs zero dependencies but requires manual `dispose()` to avoid leaking listeners."
+      "languageLesson": "使用 Dart 的 Extension 模式，在不修改原始枚举定义的情况下，通过扩展方法注入 ID 解析逻辑，体现了‘开闭原则’。"
     },
     {
       "order": 4,
-      "title": "Domain Enums \u2014 The Vocabulary of Tai Yi",
-      "description": "Before reading any algorithm, learn the vocabulary. `gong.dart` (\u4e5d\u5bab \u2014 the nine palaces) is the most fan-in-heavy node in the entire codebase (20 incoming edges), making it the single most important type to understand. `door.dart` (\u516b\u95e8), `god.dart` (\u795e), and `taiyi_enum_extensions.dart` add the eight doors, deity catalog, and Chinese-name helpers. These enums turn opaque integer indices from classical texts into self-documenting names used everywhere downstream.",
+      "title": "核心引擎：策略模式驱动的排盘算法",
+      "description": "DeityAlgorithmEngine 是整个项目的灵魂。它采用了策略模式，能够根据配置调度‘固定位置’、‘步进循环’或‘自定义公式’等多种算法。这种设计让它能灵活应对不同神煞的千变万化的运行规则。",
       "nodeIds": [
-        "file:lib/enums/gong.dart",
-        "file:lib/enums/door.dart",
-        "file:lib/enums/god.dart",
-        "file:lib/enums/taiyi_enum_extensions.dart"
+        "file:lib/taiyi/core/algorithm_engine.dart"
       ],
-      "languageLesson": "Dart enums can carry constructor fields and methods, so each Gong value can store its Luoshu number, palace name, and Chinese label. Extension methods (in taiyi_enum_extensions.dart) attach helpers without subclassing \u2014 a clean way to layer presentation labels onto pure-domain enums."
+      "languageLesson": "利用 Dart 的模式匹配（Switch Expressions）实现高效的算法调度。注意算法引擎是如何将复杂的步进规则解构为通用的计算步骤的。"
     },
     {
       "order": 5,
-      "title": "Pan Data Models \u2014 Five Boards of the Chart",
-      "description": "A Tai Yi chart is built from five 'pans' (boards) stacked together: tian (\u5929 sky), di (\u5730 earth), ren (\u4eba human), shen (\u795e deity), and ming (\u547d destiny). Each model is a plain Dart data class describing what gets rendered at one layer of the radial grid. Following the depth-3 BFS layer reveals that the controller from Step 3 ultimately produces these five structures via the aggregate PanDataModel from Step 7.",
+      "title": "数据驱动：神煞与流派的 JSON 定义",
+      "description": "我们不硬编码算法。所有的神煞（Deities）和流派（Schools）都通过 JSON 定义。这种‘数据驱动’的设计允许我们在不修改核心代码的情况下，快速修复某个流派的特定偏差或新增神煞。",
       "nodeIds": [
-        "file:lib/models/tian_pan_model.dart",
-        "file:lib/models/di_pan_model.dart",
-        "file:lib/models/ren_pan_model.dart",
-        "file:lib/models/shen_pan_model.dart",
-        "file:lib/models/ming_pan_model.dart"
+        "config:assets/deities/tai-yi.json",
+        "config:assets/schools/jing-mirror.json"
       ]
     },
     {
       "order": 6,
-      "title": "Algorithm Strategy Pattern \u2014 Encoding School Differences",
-      "description": "This is the architectural keystone. The three schools (\u91d1\u955c/\u7edf\u5b97/\u96c6\u6210) disagree on many specific computations \u2014 yang-yin escapement direction, which palace hosts Taiyi, how the eight doors rotate \u2014 and AlgorithmEngine plus AlgorithmSpec wrap those differences as a strategy. SchoolConfig is the data side: it tells the engine which DeityDefinitions and rule profiles to load for the current school. Together they make 'pick a school' a single line of configuration instead of three forked code paths.",
-      "nodeIds": [
-        "file:lib/taiyi/core/algorithm_engine.dart",
-        "file:lib/taiyi/core/algorithm_spec.dart",
-        "file:lib/taiyi/core/school_config.dart",
-        "file:lib/taiyi/core/deity_definition.dart"
-      ],
-      "languageLesson": "The strategy pattern in Dart is typically implemented as abstract classes plus const factory configs rather than full interface/impl pairs. `_RuleProfile` (mentioned in the README) is a private class \u2014 Dart's library-level privacy means underscore-prefixed identifiers are only visible within the file, giving you encapsulation without needing a separate `internal` keyword."
-    },
-    {
-      "order": 7,
-      "title": "Core Calculator \u2014 The Heart of the System",
-      "description": "TaiyiPanCalculator is the largest single file in the project (~1700 lines) and runs the full algorithm chain the README describes: \u79ef\u5e74 \u2192 \u5c40\u6570 \u2192 \u9634\u9633\u9041 \u2192 \u592a\u4e59\u5bab \u2192 \u6587\u660c/\u8ba1\u795e \u2192 \u4e3b\u5ba2\u7b97 \u2192 \u516b\u95e8 \u2192 \u5929\u76d8\u661f\u795e \u2192 \u795e\u76d8\u661f\u795e \u2192 \u683c\u5c40 \u2192 \u4e5d\u8d35\u795e. It consumes the school config from Step 6 and emits the aggregate PanDataModel that holds all five boards from Step 5. Critically, this file has zero Flutter imports \u2014 the README's 'algorithm/UI separation' rule is enforced here.",
+      "title": "统筹指挥：太乙排盘计算器",
+      "description": "TaiYiPanCalculator 是排盘流程的控制中心。它负责计算‘积年’、‘岁计’，并根据选定的流派和日期，指挥引擎计算所有神煞的最终落宫。它是算法引擎与外部业务逻辑的聚合点。",
       "nodeIds": [
         "file:lib/taiyi/taiyi_pan_calculator.dart",
-        "file:lib/taiyi/pan_data_model.dart",
-        "file:lib/taiyi/taiyi.dart"
+        "class:lib/taiyi/taiyi_pan_calculator.dart:TaiYiPanCalculator"
       ]
     },
     {
-      "order": 8,
-      "title": "School Data \u2014 JSON-Driven Configuration",
-      "description": "The three JSON files in assets/schools encode each school's deity tables, palace mappings, and rule overrides. Notice from the fan-out ranking that these JSON assets are the top three most-connected source nodes in the entire codebase (21\u201322 outgoing edges each) \u2014 they configure nearly every algorithm decision. official_json_repository.dart is the loader: it reads the bundled assets and hands SchoolConfig objects back to the engine from Step 6, completing the data \u2192 strategy \u2192 calculator pipeline.",
+      "order": 7,
+      "title": "状态管理：连接计算与 UI 的桥梁",
+      "description": "TaiYiPanController 承担了控制器的职责。它负责异步加载配置、触发计算，并使用 Flutter 的 ChangeNotifier 机制将最新的排盘状态分发给 UI 层，确保界面的实时更新。",
       "nodeIds": [
-        "config:assets/schools/jing-mirror.json",
-        "config:assets/schools/tong-zong.json",
-        "config:assets/schools/ji-cheng.json",
-        "file:lib/taiyi/data/official_json_repository.dart"
+        "file:lib/controllers/taiyi_pan_controller.dart",
+        "class:lib/controllers/taiyi_pan_controller.dart:TaiYiPanController"
       ],
-      "languageLesson": "Flutter bundles asset files declared in pubspec.yaml and exposes them via `rootBundle.loadString()`. JSON-driven config like this swaps recompiles for asset reloads \u2014 adding a fourth school becomes 'drop in another JSON' rather than 'fork the calculator'."
+      "languageLesson": "ChangeNotifier 是 Flutter 官方推荐的轻量级状态管理方案。结合监听者模式，它能高效地驱动 UI 层的局部刷新。"
+    },
+    {
+      "order": 8,
+      "title": "核心 UI：九宫格排盘视图",
+      "description": "九宫格（NineGongGrid）是太乙神数最直观的展示形式。它将计算出的神煞位置映射到特定的宫位视图中。通过 TaiYiPanPainter 绘制复杂的线条和布局，实现了兼具传统美感与现代交互的推算界面。",
+      "nodeIds": [
+        "file:lib/widgets/nine_gong_grid.dart",
+        "file:lib/widgets/taiyi_pan_grid.dart"
+      ],
+      "languageLesson": "CustomPainter 允许我们在 Canvas 上直接绘图。在太乙排盘中，我们需要根据计算出的几何坐标精确绘制连接神煞的连线。"
     },
     {
       "order": 9,
-      "title": "Presentation \u2014 Rendering the Five Boards",
-      "description": "TaiyiPanPage is the single Flutter page; it subscribes to the controller from Step 3 and rebuilds when state changes. TaiyiPanGrid is the classic radial chart widget \u2014 concentric rings, nine palaces, deities labelled in place. PanInfoPanel shows the textual summary alongside it. PieSegmentPainter is the low-level CustomPainter that draws the wedge geometry behind the grid: this is where the visual identity of a Tai Yi chart actually gets drawn pixel-by-pixel.",
+      "title": "应用入口与主题配置",
+      "description": "最后，我们来看 main.dart 和主题配置。项目为太乙神数定制了一套‘经典风’视觉方案，包括特定配色的材质调色板。NavigatorGenerator 则定义了应用的导航树，将用户引导至核心排盘页面。",
       "nodeIds": [
-        "file:lib/pages/taiyi_pan_page.dart",
-        "file:lib/widgets/taiyi_pan_grid.dart",
-        "file:lib/widgets/pan_info_panel.dart",
-        "file:lib/painter/pie_segment_painter.dart"
-      ],
-      "languageLesson": "Flutter's CustomPainter gives you a Canvas with paths, arcs, and transforms \u2014 closer to HTML5 Canvas than to React's declarative tree. For a radial chart, you'd use `canvas.drawArc()` plus `canvas.save()/restore()` around rotation transforms, which is exactly the pattern pie_segment_painter applies."
+        "file:lib/main.dart",
+        "file:lib/theme/taiyi_classic_theme.dart",
+        "file:lib/navigator.dart"
+      ]
     },
     {
       "order": 10,
-      "title": "Tests as Specification",
-      "description": "The tests close the loop and act as the project's executable spec. algorithm_engine_test exercises the strategy pattern from Step 6 \u2014 proving that swapping school config produces different deity placements. taiyi_pan_calculator_smoke runs the full chain end-to-end against known reference charts. taiyi_year_eye_rules_flutter_test pins down the year-chart 'eye' (\u4e3b\u76ee) rules, which is exactly the kind of cross-school disagreement the README highlights as tricky. If you're about to change a school rule or extend the algorithm, these tests tell you what 'still correct' means.",
+      "title": "质量保证：算法的冒烟测试",
+      "description": "对于推算类应用，准确性就是生命。通过冒烟测试和元数据校验，我们能确保在重构或更新算法定义后，核心计算逻辑依然保持正确。这是我们在复杂逻辑中稳步前进的信心来源。",
       "nodeIds": [
-        "file:test/taiyi/core/algorithm_engine_test.dart",
         "file:test/taiyi_pan_calculator_smoke.dart",
-        "file:test/taiyi_year_eye_rules_flutter_test.dart"
+        "file:test/taiyi/year_metadata_test.dart"
       ]
     }
   ]

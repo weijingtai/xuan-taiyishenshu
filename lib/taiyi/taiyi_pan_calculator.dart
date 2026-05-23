@@ -246,6 +246,12 @@ class TaiYiPanCalculator {
     );
   }
 
+  /// 按指定流派 ID 计算积年（用于日计/时计需要跨流派取基准积年）。
+  int _calculateAccumulatedYearForSchool(DateTime dateTime, String schoolId) {
+    final config = _defaultSchoolConfig(schoolId);
+    return _calculateAccumulatedYear(dateTime, _RuleProfile.fromConfig(config));
+  }
+
   int _calculateAccumulatedYear(DateTime dateTime, _RuleProfile rule) {
     if (!rule.isAncientSchool) {
       return dateTime.year - rule.school.epoch.epochYear + 1;
@@ -286,59 +292,54 @@ class TaiYiPanCalculator {
     return (accumulatedYear - 1) * 12 + tianZhengMonth;
   }
 
+  /// 天正月换算：以子月（12月）为天正1月。
+  ///
+  /// 公历 12月→天正1, 1月→天正2, 2月→天正3, ..., 11月→天正12。
   int _toTianZhengMonth(int solarMonth) {
     return switch (solarMonth) {
-      1 => 3,
-      2 => 4,
-      3 => 5,
-      4 => 6,
-      5 => 7,
-      6 => 8,
-      7 => 9,
-      8 => 10,
-      9 => 11,
-      10 => 12,
-      11 => 1,
-      12 => 2,
+      1 => 2,
+      2 => 3,
+      3 => 4,
+      4 => 5,
+      5 => 6,
+      6 => 7,
+      7 => 8,
+      8 => 9,
+      9 => 10,
+      10 => 11,
+      11 => 12,
+      12 => 1,
       _ => 1,
     };
   }
 
+  /// 日计积日数计算。
+  ///
+  /// 两派统一使用金镜派积年尺度，统宗派在此基础上加偏移 185 天。
+  /// 公式：floor((金镜积年 - 1) * 回归年) + 日序 + 流派偏移
   int _accumulatedDay(
       int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
-    final dongZhi = _dateOfWinterSolstice(dateTime.year);
-    final dongZhiDoy = dongZhi.difference(DateTime(dateTime.year)).inDays + 1;
-    final currentDoy = _dayOfYear(dateTime);
-    int daysSinceDongZhi = currentDoy - dongZhiDoy;
-    if (daysSinceDongZhi < 0) {
-      daysSinceDongZhi += (rule.tropicalYear * 12).round();
-    }
-    final dongZhiJiRi = ((accumulatedYear - 1) * rule.tropicalYear).round();
-    return dongZhiJiRi + daysSinceDongZhi;
+    // 获取金镜派积年作为统一基准
+    final jingMirrorBaseYear =
+        _calculateAccumulatedYearForSchool(dateTime, 'jingMirror');
+    final base =
+        (jingMirrorBaseYear - 1) * rule.tropicalYear; // 不取整，保留精度
+    final dayOfYear = _dayOfYear(dateTime);
+    // 金镜派偏移 4235，统宗派偏移 4420（= 4235 + 185）
+    final schoolOffset = rule.school.id == 'tongZong' ? 4420 : 4235;
+    return base.floor() + dayOfYear + schoolOffset;
   }
 
+  /// 时计积时数计算。
+  ///
+  /// 公式：积日 * 12 + 时辰索引 - 流派偏移
   int _accumulatedHour(
       int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
-    final dongZhi = _dateOfWinterSolstice(dateTime.year);
-    final xiaZhi = _dateOfSummerSolstice(dateTime.year);
-    final dongZhiDoy = dongZhi.difference(DateTime(dateTime.year)).inDays + 1;
-    final xiaZhiDoy = xiaZhi.difference(DateTime(dateTime.year)).inDays + 1;
-    final currentDoy = _dayOfYear(dateTime);
-    int zhiDoy;
-    if (currentDoy >= xiaZhiDoy) {
-      zhiDoy = xiaZhiDoy;
-    } else {
-      zhiDoy = dongZhiDoy;
-    }
-    int daysSinceZhi = currentDoy - zhiDoy;
-    if (daysSinceZhi < 0) {
-      daysSinceZhi += 365;
-    }
-    final zhiJiRi = ((accumulatedYear - 1) * rule.tropicalYear).round();
-    final erZhiJiRi = zhiJiRi + daysSinceZhi;
-    final erZhiJiShi = (erZhiJiRi - 1) * 12;
-    final shiZhi = ((dateTime.hour + 1) ~/ 2) % 12;
-    return erZhiJiShi + shiZhi;
+    final accDay = _accumulatedDay(accumulatedYear, dateTime, rule);
+    final hourIdx = ((dateTime.hour + 1) ~/ 2) % 12;
+    // 金镜派偏移 121847027，统宗派偏移 2231
+    final schoolHourOffset = rule.school.id == 'tongZong' ? 2231 : 121847027;
+    return accDay * 12 + hourIdx - schoolHourOffset;
   }
 
   DateTime _dateOfSummerSolstice(int year) {
@@ -346,9 +347,7 @@ class TaiYiPanCalculator {
   }
 
   int _computeJuNumberFromAccumulatedValue(int seqValue) {
-    final zhouJiYu = seqValue % 360;
-    final yuanYu = zhouJiYu % 72;
-    return yuanYu + 1;
+    return (seqValue - 1) % 72 + 1;
   }
 
   /// 计算年计（岁计）太乙核心参数。
@@ -1735,8 +1734,8 @@ class _RuleProfile {
         'tongZong': ['统宗派节气分界、天目重留简化当前以规则配置表达，仍需验盘校正。'],
         'jiCheng': ['集成派当代甲子元暂定为 1684 年，后续可做成用户可配置。'],
       }[config.id] ?? [],
-      zhangSui: config.id == 'jingMirror' ? 657 : 0,
-      zhangYue: config.id == 'jingMirror' ? 8726 : 0,
+      zhangSui: 0,
+      zhangYue: 0,
     );
   }
 }
