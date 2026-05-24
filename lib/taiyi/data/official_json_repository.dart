@@ -1,61 +1,74 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import '../core/school_repository.dart';
 import '../core/school_config.dart';
 import '../core/deity_definition.dart';
 
 class OfficialJsonSchoolRepository implements SchoolRepository {
-  final List<String> _schoolIds;
-  final List<String> _deityIds;
-  Map<String, TaiYiSchool>? _schoolCache;
-  Map<String, DeityDefinition>? _deityCache;
+  final List<String> schoolIds;
+  final List<String> deityIds;
+  final AssetBundle bundle;
 
   OfficialJsonSchoolRepository({
-    required List<String> schoolIds,
-    required List<String> deityIds,
-  })  : _schoolIds = schoolIds,
-        _deityIds = deityIds;
+    required this.schoolIds,
+    required this.deityIds,
+    AssetBundle? bundle,
+  }) : bundle = bundle ?? rootBundle;
+
+  final Map<String, TaiYiSchool> _schools = {};
+  final Map<String, DeityDefinition> _deities = {};
+  bool _loaded = false;
 
   Future<void> _ensureLoaded() async {
-    if (_schoolCache != null && _deityCache != null) return;
+    if (_loaded) return;
 
-    _schoolCache = {};
-    for (final id in _schoolIds) {
-      final jsonStr = await rootBundle.loadString('assets/schools/$id.json');
-      final json = jsonDecode(jsonStr) as Map<String, dynamic>;
-      _schoolCache![id] = TaiYiSchool.fromJson(json);
+    for (final id in schoolIds) {
+      try {
+        final jsonStr = await bundle.loadString('assets/schools/$id.json');
+        final json = jsonDecode(jsonStr);
+        _schools[id] = TaiYiSchool.fromJson(json);
+      } catch (e) {
+        // Log or handle missing asset
+        debugPrint('Warning: school asset not found for $id');
+      }
     }
 
-    _deityCache = {};
-    for (final id in _deityIds) {
-      final jsonStr = await rootBundle.loadString('assets/deities/$id.json');
-      final json = jsonDecode(jsonStr) as Map<String, dynamic>;
-      _deityCache![id] = DeityDefinition.fromJson(json);
+    for (final id in deityIds) {
+      try {
+        final jsonStr = await bundle.loadString('assets/deities/$id.json');
+        final json = jsonDecode(jsonStr);
+        _deities[id] = DeityDefinition.fromJson(json);
+      } catch (e) {
+        debugPrint('Warning: deity asset not found for $id');
+      }
     }
+
+    _loaded = true;
   }
 
   @override
   Future<List<TaiYiSchool>> loadAllSchools() async {
     await _ensureLoaded();
-    return _schoolCache!.values.toList();
+    return _schools.values.toList();
   }
 
   @override
   Future<TaiYiSchool?> loadSchool(String id) async {
     await _ensureLoaded();
-    return _schoolCache![id];
+    return _schools[id];
   }
 
   @override
   Future<List<DeityDefinition>> loadAllDeities() async {
     await _ensureLoaded();
-    return _deityCache!.values.toList();
+    return _deities.values.toList();
   }
 
   @override
   Future<DeityDefinition?> loadDeity(String id) async {
     await _ensureLoaded();
-    return _deityCache![id];
+    return _deities[id];
   }
 
   @override

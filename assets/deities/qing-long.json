@@ -1,5 +1,14 @@
 {
-  "id": "qingLong", "name": "青龙", "layer": "shenPan",
-  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "艮" } },
-  "priority": 45, "source": "official"
+  "id": "qingLong",
+  "name": "青龙",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "fixedPosition",
+    "params": {
+      "gong": "艮"
+    }
+  },
+  "priority": 45,
+  "source": "official",
+  "tier": "weather"
 }

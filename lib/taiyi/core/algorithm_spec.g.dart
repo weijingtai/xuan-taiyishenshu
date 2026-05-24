@@ -57,6 +57,9 @@ SteppedCycleParams _$SteppedCycleParamsFromJson(Map<String, dynamic> json) =>
           .map((e) => CycleStep.fromJson(e as Map<String, dynamic>))
           .toList(),
       palaceSystem: $enumDecode(_$PalaceSystemEnumMap, json['palaceSystem']),
+      baseVariable: $enumDecodeNullable(
+              _$AlgorithmBaseVariableEnumMap, json['baseVariable']) ??
+          AlgorithmBaseVariable.ji,
       palaceSeq: (json['palaceSeq'] as List<dynamic>?)
           ?.map((e) => PalaceStep.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -81,6 +84,7 @@ Map<String, dynamic> _$SteppedCycleParamsToJson(SteppedCycleParams instance) =>
       'correction': instance.correction,
       'steps': instance.steps,
       'palaceSystem': _$PalaceSystemEnumMap[instance.palaceSystem]!,
+      'baseVariable': _$AlgorithmBaseVariableEnumMap[instance.baseVariable]!,
       'palaceSeq': instance.palaceSeq,
       'direction': _$WalkDirectionEnumMap[instance.direction],
       'startPalace': instance.startPalace,
@@ -96,6 +100,12 @@ const _$PalaceSystemEnumMap = {
   PalaceSystem.nineGong: 'nineGong',
   PalaceSystem.sixteenZhengJian: 'sixteenZhengJian',
   PalaceSystem.mixed: 'mixed',
+};
+
+const _$AlgorithmBaseVariableEnumMap = {
+  AlgorithmBaseVariable.ji: 'ji',
+  AlgorithmBaseVariable.ju: 'ju',
+  AlgorithmBaseVariable.year: 'year',
 };
 
 const _$DunTypeEnumMap = {

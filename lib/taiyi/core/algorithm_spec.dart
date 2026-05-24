@@ -53,12 +53,12 @@ class DunVariantConfig {
         'startPalace': startPalace,
       };
 }
-
 @JsonSerializable()
 class SteppedCycleParams {
   final int correction;
   final List<CycleStep> steps;
   final PalaceSystem palaceSystem;
+  final AlgorithmBaseVariable baseVariable;
   final List<PalaceStep>? palaceSeq;
   final WalkDirection? direction;
   final String? startPalace;
@@ -71,6 +71,7 @@ class SteppedCycleParams {
     this.correction = 0,
     required this.steps,
     required this.palaceSystem,
+    this.baseVariable = AlgorithmBaseVariable.ji,
     this.palaceSeq,
     this.direction,
     this.startPalace,
@@ -86,6 +87,7 @@ class SteppedCycleParams {
         'correction': correction,
         'steps': steps.map((e) => e.toJson()).toList(),
         'palaceSystem': _$PalaceSystemEnumMap[palaceSystem]!,
+        'baseVariable': _$AlgorithmBaseVariableEnumMap[baseVariable]!,
         if (palaceSeq != null)
           'palaceSeq': palaceSeq!.map((e) => e.toJson()).toList(),
         if (direction != null)

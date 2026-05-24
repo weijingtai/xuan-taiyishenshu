@@ -30,9 +30,10 @@ void main() {
 
         final result = calculator.calculate(
           dateTime: DateTime.parse(input['dateTime']),
-          schoolId: input['schoolId'],
+          schoolId: input['schoolId'] ?? 'tongZong',
           chartType: chartType,
         );
+
 
         expect(result.accumulatedYear, expected['accumulatedYear'],
             reason: 'Vector ${vector['id']} failed: accumulatedYear mismatch');

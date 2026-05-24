@@ -1,5 +1,16 @@
 {
-  "id": "shiJi", "name": "始击", "layer": "renPan",
-  "algorithm": { "templateId": "relativeOffset", "params": { "sourceDeityId": "jiShen", "offset": 0, "palaceSystem": "sixteenZhengJian" } },
-  "priority": 12, "source": "official"
+  "id": "shiJi",
+  "name": "始击",
+  "layer": "renPan",
+  "algorithm": {
+    "templateId": "relativeOffset",
+    "params": {
+      "sourceDeityId": "jiShen",
+      "offset": 0,
+      "palaceSystem": "sixteenZhengJian"
+    }
+  },
+  "priority": 12,
+  "source": "official",
+  "tier": "core"
 }

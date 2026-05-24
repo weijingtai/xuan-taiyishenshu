@@ -1,5 +1,15 @@
 {
-  "id": "suiPo", "name": "岁破", "layer": "shenPan",
-  "algorithm": { "templateId": "relativeOffset", "params": { "sourceDeityId": "taiSui", "offset": 6 } },
-  "priority": 41, "source": "official"
+  "id": "suiPo",
+  "name": "岁破",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "relativeOffset",
+    "params": {
+      "sourceDeityId": "taiSui",
+      "offset": 6
+    }
+  },
+  "priority": 41,
+  "source": "official",
+  "tier": "chronos"
 }

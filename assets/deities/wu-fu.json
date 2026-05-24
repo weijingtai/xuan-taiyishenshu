@@ -1,5 +1,41 @@
 {
-  "id": "wuFu", "name": "五福", "layer": "tianPan",
-  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 225, "step": 45, "label": "宫" }], "palaceSystem": "mixed", "palaceSeq": [{ "palace": "乾" }, { "palace": "艮" }, { "palace": "巽" }, { "palace": "坤" }, { "palace": "中" }], "direction": "forward", "startPalace": "乾" } },
-  "priority": 23, "source": "official"
+  "id": "wuFu",
+  "name": "五福",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 225,
+          "step": 45,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "mixed",
+      "palaceSeq": [
+        {
+          "palace": "乾"
+        },
+        {
+          "palace": "艮"
+        },
+        {
+          "palace": "巽"
+        },
+        {
+          "palace": "坤"
+        },
+        {
+          "palace": "中"
+        }
+      ],
+      "direction": "forward",
+      "startPalace": "乾"
+    }
+  },
+  "priority": 23,
+  "source": "official",
+  "tier": "auspicious"
 }

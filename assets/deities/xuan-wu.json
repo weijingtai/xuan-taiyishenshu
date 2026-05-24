@@ -1,5 +1,14 @@
 {
-  "id": "xuanWu", "name": "玄武", "layer": "shenPan",
-  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "坎" } },
-  "priority": 48, "source": "official"
+  "id": "xuanWu",
+  "name": "玄武",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "fixedPosition",
+    "params": {
+      "gong": "坎"
+    }
+  },
+  "priority": 48,
+  "source": "official",
+  "tier": "weather"
 }

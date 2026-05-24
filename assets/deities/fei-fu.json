@@ -1,5 +1,15 @@
 {
-  "id": "feiFu", "name": "飞符", "layer": "tianPan",
-  "algorithm": { "templateId": "relativeOffset", "params": { "sourceDeityId": "taiYi", "offset": 2 } },
-  "priority": 32, "source": "official"
+  "id": "feiFu",
+  "name": "飞符",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "relativeOffset",
+    "params": {
+      "sourceDeityId": "taiYi",
+      "offset": 2
+    }
+  },
+  "priority": 32,
+  "source": "official",
+  "tier": "auspicious"
 }

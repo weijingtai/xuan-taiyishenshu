@@ -1,5 +1,14 @@
 {
-  "id": "dingCanJiang", "name": "定参将", "layer": "renPan",
-  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "中" } },
-  "priority": 7, "source": "official"
+  "id": "dingCanJiang",
+  "name": "定参将",
+  "layer": "renPan",
+  "algorithm": {
+    "templateId": "fixedPosition",
+    "params": {
+      "gong": "中"
+    }
+  },
+  "priority": 7,
+  "source": "official",
+  "tier": "generals"
 }

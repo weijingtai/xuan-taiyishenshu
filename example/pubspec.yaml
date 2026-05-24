@@ -10,10 +10,18 @@ dependencies:
   flutter:
     sdk: flutter
   taiyishenshu:
-    git:
-      url: http://xuan:***@192.168.0.165:3000/xuan/xuan-taiyishenshu.git
-      ref: main
+    path: ../
   google_fonts: ^8.0.0
+
+dependency_overrides:
+  common:
+    path: ../../xuan-common
+  four_zhu_card:
+    path: ../../xuan-four-zhu-card
+  four_zhu_host:
+    path: ../../xuan-four-zhu-host
+  four_zhu_templates:
+    path: ../../xuan-four-zhu-templates
 
 dev_dependencies:
   flutter_test:

@@ -13,7 +13,14 @@ import '../models/ren_pan_model.dart';
 import '../models/shen_pan_model.dart';
 import '../models/tian_pan_model.dart';
 import '../models/year_ji_model.dart';
+import 'core/algorithm_engine.dart';
+import 'core/algorithm_enums.dart';
+import 'core/algorithm_spec.dart';
+import 'core/calculation_context.dart';
+import 'core/chart_config.dart';
+import 'core/deity_definition.dart';
 import 'core/school_config.dart';
+import 'core/school_repository.dart';
 import 'pan_data_model.dart';
 import 'pan_enums.dart';
 import 'taiyi_constants.dart';
@@ -26,25 +33,61 @@ class TaiYiPanCalculator {
   static TaiYiSchool _defaultSchoolConfig(String schoolId) {
     return switch (schoolId) {
       'jingMirror' => const TaiYiSchool(
-        id: 'jingMirror', name: '金镜派',
-        epoch: SchoolEpochConfig(ancientBase: 1937281, epochYear: 724),
-        wenChangStayRule: true, useTwelveJiShen: false,
-        palaceFormula: 'jingMirror', eightDoorMode: 'dynamic',
+        id: 'jingMirror',
+        name: '金镜派',
+        epoch: SchoolEpochConfig(ancientBase: 1937281, epochYear: 724, correction: 0),
+        wenChangStayRule: true,
+        useTwelveJiShen: false,
+        palaceFormula: 'jingMirror',
+        eightDoorMode: 'dynamic',
+        chartConfigs: {
+          'day': ChartConfig(dayOffset: 4235),
+          'hour': ChartConfig(hourOffset: 121847027),
+        },
       ),
       'tongZong' => const TaiYiSchool(
-        id: 'tongZong', name: '统宗派',
-        epoch: SchoolEpochConfig(ancientBase: 10155219, epochYear: 1303),
-        wenChangStayRule: true, useTwelveJiShen: false,
-        palaceFormula: 'jingMirror', eightDoorMode: 'dynamic',
+        id: 'tongZong',
+        name: '统宗派',
+        epoch: SchoolEpochConfig(ancientBase: 10155219, epochYear: 1303, correction: 1),
+        wenChangStayRule: true,
+        useTwelveJiShen: false,
+        palaceFormula: 'jingMirror',
+        eightDoorMode: 'dynamic',
+        chartConfigs: {
+          'day': ChartConfig(dayOffset: 4420, dayBaseSchoolId: 'jingMirror'),
+          'hour': ChartConfig(hourOffset: 2231, hourBaseSchoolId: 'jingMirror'),
+        },
       ),
       'jiCheng' => const TaiYiSchool(
-        id: 'jiCheng', name: '集成派',
-        epoch: SchoolEpochConfig(ancientBase: 0, epochYear: 1684),
-        wenChangStayRule: false, useTwelveJiShen: true,
-        palaceFormula: 'jiCheng', eightDoorMode: 'fixed',
+        id: 'jiCheng',
+        name: '集成派',
+        epoch: SchoolEpochConfig(ancientBase: 0, epochYear: 1684, correction: 1),
+        wenChangStayRule: false,
+        useTwelveJiShen: true,
+        palaceFormula: 'jiCheng',
+        eightDoorMode: 'fixed',
       ),
       _ => throw ArgumentError('Unknown school: $schoolId'),
     };
+  }
+
+  PanDataModel calculateWithConfig({
+    required DateTime dateTime,
+    required TaiYiSchool school,
+    required List<DeityDefinition> definitions,
+    required TaiYiChartType chartType,
+    bool useTrueSolarTime = false,
+    String? location,
+  }) {
+    return _calculate(
+      dateTime: dateTime,
+      school: school,
+      schoolId: school.id,
+      chartType: chartType,
+      useTrueSolarTime: useTrueSolarTime,
+      location: location,
+      definitions: definitions,
+    );
   }
 
   PanDataModel calculate({
@@ -53,6 +96,7 @@ class TaiYiPanCalculator {
     TaiYiChartType chartType = TaiYiChartType.year,
     bool useTrueSolarTime = false,
     String? location,
+    List<DeityDefinition> definitions = const [],
   }) {
     final schoolConfig = _defaultSchoolConfig(schoolId);
     return _calculate(
@@ -62,7 +106,7 @@ class TaiYiPanCalculator {
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
-      customDefinitions: const [],
+      definitions: definitions,
     );
   }
 
@@ -77,6 +121,22 @@ class TaiYiPanCalculator {
     final schoolConfig = _defaultSchoolConfig(schoolId);
     final customDefinitions =
         await customDeityRepository.loadDefinitions(schoolId: schoolId);
+
+    // Map legacy CustomDeityDefinition to new DeityDefinition for compatibility
+    final mappedDefinitions = customDefinitions.map((d) {
+      return DeityDefinition(
+        id: d.id,
+        name: d.name,
+        layer: EnumDeityLayer.tianPan, // Default to tianPan
+        priority: d.priority,
+        source: 'user',
+        algorithm: DeityAlgorithmSpec(
+          templateId: _mapTemplateId(d.algorithm.templateId),
+          params: d.algorithm.params,
+        ),
+      );
+    }).toList();
+
     return _calculate(
       dateTime: dateTime,
       school: schoolConfig,
@@ -84,8 +144,16 @@ class TaiYiPanCalculator {
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
-      customDefinitions: customDefinitions,
+      definitions: mappedDefinitions,
     );
+  }
+
+  AlgorithmTemplateId _mapTemplateId(String legacyId) {
+    return switch (legacyId) {
+      'juOffset' => AlgorithmTemplateId.steppedCycle,
+      'branchMapping' => AlgorithmTemplateId.branchWalker,
+      _ => AlgorithmTemplateId.fixedPosition,
+    };
   }
 
   PanDataModel _calculate({
@@ -95,7 +163,7 @@ class TaiYiPanCalculator {
     required TaiYiChartType chartType,
     required bool useTrueSolarTime,
     required String? location,
-    required List<CustomDeityDefinition> customDefinitions,
+    required List<DeityDefinition> definitions,
   }) {
     final input = PanInputModel(
       dateTime: dateTime,
@@ -126,18 +194,36 @@ class TaiYiPanCalculator {
       juNumber = _computeJuNumberFromAccumulatedValue(accumulatedSeqValue);
     }
     final dunType = _resolveDunType(dateTime, chartType);
-    final taiYiPalace = _calculateTaiYiPalace(juNumber, rule);
-    final wenChangPalace = _calculateWenChangPalace(
+
+    final ctx = CalculationContext(
+      ji: accumulatedSeqValue,
+      year: dateTime.year,
       juNumber: juNumber,
-      dunType: dunType,
-      rule: rule,
-    );
-    final jiShenPalace = _calculateJiShenPalace(
-      dateTime: dateTime,
-      juNumber: juNumber,
+      dun: dunType,
       chartType: chartType,
-      rule: rule,
     );
+
+    final engineResults = _calculateDeitiesWithEngine(
+      definitions: definitions,
+      context: ctx,
+      school: school,
+    );
+
+    final taiYiPalace = engineResults['taiYi']?.gong ??
+        _calculateTaiYiPalace(juNumber, rule);
+    final wenChangPalace = engineResults['wenChang']?.gong ??
+        _calculateWenChangPalace(
+          juNumber: juNumber,
+          dunType: dunType,
+          rule: rule,
+        );
+    final jiShenPalace = engineResults['jiShen']?.gong ??
+        _calculateJiShenPalace(
+          dateTime: dateTime,
+          juNumber: juNumber,
+          chartType: chartType,
+          rule: rule,
+        );
     final eightDoorsByPalace = _calculateEightDoors(
       accumulatedYear: accumulatedYear,
       chartType: chartType,
@@ -163,6 +249,7 @@ class TaiYiPanCalculator {
       wenChangPalace: wenChangPalace,
       jiShenPalace: jiShenPalace,
       rule: rule,
+      engineResults: engineResults,
     );
     final tianPan = _buildTianPan(
       accumulatedYear: accumulatedYear,
@@ -170,12 +257,14 @@ class TaiYiPanCalculator {
       wenChangPalace: wenChangPalace,
       hostGuest: hostGuest,
       rule: rule,
+      engineResults: engineResults,
     );
     final shenPan = _buildShenPan(
       accumulatedYear: accumulatedYear,
       dateTime: dateTime,
       taiYiPalace: taiYiPalace,
       rule: rule,
+      engineResults: engineResults,
     );
     final geJu = _buildGeJu(
       taiYiPalace: taiYiPalace,
@@ -195,22 +284,32 @@ class TaiYiPanCalculator {
       shenPan: shenPan,
       renPan: renPan,
     );
-    final customItems = _calculateCustomItems(
-      definitions: customDefinitions,
-      input: input,
-      juNumber: juNumber,
-      dunType: dunType,
-      builtInItems: builtInItems,
-      warnings: rule.warnings,
-    );
+
+    // Add items from engine that are not in builtInItems
+    final engineItems = engineResults.entries.map((e) {
+      final def = definitions.firstWhere((d) => d.id == e.key,
+          orElse: () => throw StateError('Definition not found for ${e.key}'));
+      return PanComputedItem(
+        id: 'engine:${e.key}',
+        name: def.name,
+        kind: _mapLayerToKind(def.layer),
+        gong: e.value.gong,
+        source: PanComputedItemSource.builtIn,
+        priority: def.priority,
+        metadata: {
+          'formula': e.value.formula,
+          'note': e.value.note,
+        },
+      );
+    }).toList();
+
     final placedItems = [
       ...builtInItems,
-      ...customItems.where((item) => item.isPlaced),
+      ...engineItems.where((item) =>
+          item.gong != null &&
+          !builtInItems.any((bi) => bi.name == item.name)),
     ];
-    final unplacedItems = customItems
-        .where((item) => !item.isPlaced)
-        .toList(growable: false)
-      ..sort(_compareComputedItem);
+
     final palaces = _buildPalaces(items: placedItems);
 
     final guiShen = _buildGuiShen(accumulatedSeqValue);
@@ -230,7 +329,7 @@ class TaiYiPanCalculator {
           : '${rule.school.name}起算年: ${rule.contemporaryEpochYear}',
       palaces: palaces,
       eightDoorsByPalace: eightDoorsByPalace,
-      unplacedItems: List.unmodifiable(unplacedItems),
+      unplacedItems: const [],
       hostGuest: hostGuest,
       warnings: [
         if (useTrueSolarTime) '当前版本保留真太阳时参数，但尚未修正地方时。',
@@ -246,6 +345,36 @@ class TaiYiPanCalculator {
     );
   }
 
+  Map<String, DeityPlacementResult> _calculateDeitiesWithEngine({
+    required List<DeityDefinition> definitions,
+    required CalculationContext context,
+    required TaiYiSchool school,
+  }) {
+    final engine = DeityAlgorithmEngine();
+    // Apply overrides from school
+    final effectiveDefinitions = definitions.map((d) {
+      final override = school.deityConfigs[d.id];
+      if (override != null && override.active) {
+        return d.copyWith(
+          algorithm: override.algorithm ?? d.algorithm,
+        );
+      }
+      return d;
+    }).toList();
+
+    return engine.executeAll(effectiveDefinitions, context);
+  }
+
+  PanComputedItemKind _mapLayerToKind(EnumDeityLayer layer) {
+    return switch (layer) {
+      EnumDeityLayer.tianPan => PanComputedItemKind.deity,
+      EnumDeityLayer.renPan => PanComputedItemKind.eye,
+      EnumDeityLayer.shenPan => PanComputedItemKind.deity,
+      EnumDeityLayer.diPan => PanComputedItemKind.deity,
+      EnumDeityLayer.mingPan => PanComputedItemKind.deity,
+    };
+  }
+
   /// 按指定流派 ID 计算积年（用于日计/时计需要跨流派取基准积年）。
   int _calculateAccumulatedYearForSchool(DateTime dateTime, String schoolId) {
     final config = _defaultSchoolConfig(schoolId);
@@ -253,13 +382,7 @@ class TaiYiPanCalculator {
   }
 
   int _calculateAccumulatedYear(DateTime dateTime, _RuleProfile rule) {
-    if (!rule.isAncientSchool) {
-      return dateTime.year - rule.school.epoch.epochYear + 1;
-    }
-    if (rule.school.id == 'tongZong') {
-      return rule.ancientBase + (dateTime.year - rule.ancientEpochYear) + 1;
-    }
-    return rule.ancientBase + (dateTime.year - rule.ancientEpochYear);
+    return rule.school.epoch.calculateAccumulatedYear(dateTime.year);
   }
 
   int _calculateAccumulatedSequenceValue({
@@ -315,19 +438,17 @@ class TaiYiPanCalculator {
 
   /// 日计积日数计算。
   ///
-  /// 两派统一使用金镜派积年尺度，统宗派在此基础上加偏移 185 天。
-  /// 公式：floor((金镜积年 - 1) * 回归年) + 日序 + 流派偏移
+  /// 公式：floor((基准积年 - 1) * 回归年) + 日序 + 流派偏移
   int _accumulatedDay(
       int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
-    // 获取金镜派积年作为统一基准
-    final jingMirrorBaseYear =
-        _calculateAccumulatedYearForSchool(dateTime, 'jingMirror');
-    final base =
-        (jingMirrorBaseYear - 1) * rule.tropicalYear; // 不取整，保留精度
+    final baseSchoolId = rule.dayBaseSchoolId ?? rule.school.id;
+    final baseYear = (baseSchoolId == rule.school.id)
+        ? accumulatedYear
+        : _calculateAccumulatedYearForSchool(dateTime, baseSchoolId);
+
+    final base = (baseYear - 1) * rule.tropicalYear;
     final dayOfYear = _dayOfYear(dateTime);
-    // 金镜派偏移 4235，统宗派偏移 4420（= 4235 + 185）
-    final schoolOffset = rule.school.id == 'tongZong' ? 4420 : 4235;
-    return base.floor() + dayOfYear + schoolOffset;
+    return base.floor() + dayOfYear + rule.dayOffset;
   }
 
   /// 时计积时数计算。
@@ -337,9 +458,7 @@ class TaiYiPanCalculator {
       int accumulatedYear, DateTime dateTime, _RuleProfile rule) {
     final accDay = _accumulatedDay(accumulatedYear, dateTime, rule);
     final hourIdx = ((dateTime.hour + 1) ~/ 2) % 12;
-    // 金镜派偏移 121847027，统宗派偏移 2231
-    final schoolHourOffset = rule.school.id == 'tongZong' ? 2231 : 121847027;
-    return accDay * 12 + hourIdx - schoolHourOffset;
+    return accDay * 12 + hourIdx - rule.hourOffset;
   }
 
   DateTime _dateOfSummerSolstice(int year) {
@@ -1113,14 +1232,21 @@ RenPanModel _buildRenPan({
   required EnumTaiYiGong wenChangPalace,
   required EnumTaiYiGong jiShenPalace,
   required _RuleProfile rule,
+  Map<String, DeityPlacementResult> engineResults = const {},
 }) {
   if (_usesSharedYearEyeRules(rule, chartType)) {
-    final tianMuPosition = _calculateTongZongTianMuPosition(juNumber);
-    final jiShenPosition = _calculateTongZongJiShenPosition(juNumber);
-    final shiJiPosition = _calculateTongZongShiJiPosition(
-      tianMuPosition: tianMuPosition,
-      jiShenPosition: jiShenPosition,
-    );
+    final tianMuPosition = engineResults['wenChang']?.formula != null
+        ? _gongToName(engineResults['wenChang']?.gong)
+        : _calculateTongZongTianMuPosition(juNumber);
+    final jiShenPosition = engineResults['jiShen']?.formula != null
+        ? _gongToName(engineResults['jiShen']?.gong)
+        : _calculateTongZongJiShenPosition(juNumber);
+    final shiJiPosition = engineResults['shiJi']?.formula != null
+        ? _gongToName(engineResults['shiJi']?.gong)
+        : _calculateTongZongShiJiPosition(
+            tianMuPosition: tianMuPosition,
+            jiShenPosition: jiShenPosition,
+          );
     final Map<EnumTaiYiGong, List<String>> godsByPalace = {};
     for (final deity in sixteenDeities) {
       final deityGong = _deityGongForSequence(deity);
@@ -1128,9 +1254,9 @@ RenPanModel _buildRenPan({
     }
     return RenPanModel(
       sixteenGodsByPalace: Map.from(godsByPalace),
-      tianMuGong: _positionToPalace(tianMuPosition),
-      shiJiGong: _positionToPalace(shiJiPosition),
-      jiShenGong: _positionToPalace(jiShenPosition),
+      tianMuGong: engineResults['wenChang']?.gong ?? _positionToPalace(tianMuPosition),
+      shiJiGong: engineResults['shiJi']?.gong ?? _positionToPalace(shiJiPosition),
+      jiShenGong: engineResults['jiShen']?.gong ?? _positionToPalace(jiShenPosition),
       tianMuName: tianMuPosition,
       shiJiName: shiJiPosition,
       jiShenName: jiShenPosition,
@@ -1154,14 +1280,29 @@ RenPanModel _buildRenPan({
 
   return RenPanModel(
     sixteenGodsByPalace: Map.from(godsByPalace),
-    tianMuGong: _deityGongForSequence(sequence[tianMuIndex]),
-    shiJiGong: _deityGongForSequence(sequence[shiJiIndex]),
-    jiShenGong: jiShenPalace,
-    tianMuName: _deityNameForSequence(sequence[tianMuIndex]),
-    shiJiName: _deityNameForSequence(sequence[shiJiIndex]),
-    jiShenName: '计神',
+    tianMuGong: engineResults['wenChang']?.gong ?? _deityGongForSequence(sequence[tianMuIndex]),
+    shiJiGong: engineResults['shiJi']?.gong ?? _deityGongForSequence(sequence[shiJiIndex]),
+    jiShenGong: engineResults['jiShen']?.gong ?? jiShenPalace,
+    tianMuName: engineResults['wenChang']?.formula != null ? _gongToName(engineResults['wenChang']?.gong) : _deityNameForSequence(sequence[tianMuIndex]),
+    shiJiName: engineResults['shiJi']?.formula != null ? _gongToName(engineResults['shiJi']?.gong) : _deityNameForSequence(sequence[shiJiIndex]),
+    jiShenName: engineResults['jiShen']?.formula != null ? '计神' : '计神',
     methodNote: rule.methodNote,
   );
+}
+
+String _gongToName(EnumTaiYiGong? gong) {
+  return switch (gong) {
+    EnumTaiYiGong.Qian => '乾',
+    EnumTaiYiGong.Li => '离',
+    EnumTaiYiGong.Gen => '艮',
+    EnumTaiYiGong.Zhen => '震',
+    EnumTaiYiGong.Center => '中',
+    EnumTaiYiGong.Dui => '兑',
+    EnumTaiYiGong.Kun => '坤',
+    EnumTaiYiGong.Kan => '坎',
+    EnumTaiYiGong.Xun => '巽',
+    null => '中',
+  };
 }
 
 String _deityNameForSequence(String item) => item;
@@ -1175,14 +1316,18 @@ TianPanModel _buildTianPan({
   required EnumTaiYiGong wenChangPalace,
   required HostGuestDataModel hostGuest,
   required _RuleProfile rule,
+  Map<String, DeityPlacementResult> engineResults = const {},
 }) {
   final hostGeneralNumber = _normalizeCountToTen(hostGuest.hostCount);
   final guestGeneralNumber = _normalizeCountToTen(hostGuest.guestCount);
-  final hostGeneralGong = _calculateGeneralGong(hostGeneralNumber, rule);
-  final guestGeneralGong = _calculateGeneralGong(guestGeneralNumber, rule);
-  final hostDeputyGeneralGong =
+
+  final hostGeneralGong = engineResults['zhuDaJiang']?.gong ??
+      _calculateGeneralGong(hostGeneralNumber, rule);
+  final guestGeneralGong = engineResults['keDaJiang']?.gong ??
+      _calculateGeneralGong(guestGeneralNumber, rule);
+  final hostDeputyGeneralGong = engineResults['zhuCanJiang']?.gong ??
       _calculateDeputyGeneralGong(hostGeneralNumber, rule);
-  final guestDeputyGeneralGong =
+  final guestDeputyGeneralGong = engineResults['keCanJiang']?.gong ??
       _calculateDeputyGeneralGong(guestGeneralNumber, rule);
 
   EnumTaiYiGong? dingGeneralGong;
@@ -1206,40 +1351,81 @@ TianPanModel _buildTianPan({
   int? chenJiRuGongNianShu;
 
   final dingGeneralNumber = _guestOrDingGeneralNumber(hostGuest.dingCount);
-  dingGeneralGong = _calculateGeneralGong(dingGeneralNumber, rule);
-  dingDeputyGeneralGong =
+  dingGeneralGong = engineResults['dingDaJiang']?.gong ??
+      _calculateGeneralGong(dingGeneralNumber, rule);
+  dingDeputyGeneralGong = engineResults['dingCanJiang']?.gong ??
       _calculateGuestOrDingDeputyGeneralGong(dingGeneralNumber);
 
-  if (rule.school.id == 'jingMirror') {
+  if (engineResults.containsKey('junJi')) {
+    junJiGong = engineResults['junJi']?.gong;
+    junJiRuGongNianShu = engineResults['junJi']?.steps.last.remainder;
+  } else if (rule.school.id == 'jingMirror') {
     junJiGong = _calculateJunJi(accumulatedYear, rule);
-    chenJiGong = _calculateChenJi(accumulatedYear, rule);
-    minJiGong = _calculateMinJi(accumulatedYear, rule);
-    wuFuGong = _calculateWuFu(accumulatedYear, rule);
-    daYouGong = _calculateDaYou(accumulatedYear, rule);
-    xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
-    feiFuGong = _calculateFeiFu(taiYiPalace, rule);
   } else if (rule.school.id == 'tongZong') {
-    final ji = accumulatedYear;
-    junJiGong = _calculateJunJiTongZong(ji);
-    junJiRuGongNianShu = _calculateJunJiRuGongNianShu(ji);
-    chenJiGong = _calculateChenJiTongZong(ji);
-    chenJiRuGongNianShu = _calculateChenJiRuGongNianShu(ji);
-    minJiGong = _calculateMinJiTongZong(ji);
-    wuFuGong = _calculateWuFu(accumulatedYear, rule);
-    daYouGong = _calculateDaYou(accumulatedYear, rule);
-    xiaoYouGong = _calculateXiaoYou(accumulatedYear, rule);
+    junJiGong = _calculateJunJiTongZong(accumulatedYear);
+    junJiRuGongNianShu = _calculateJunJiRuGongNianShu(accumulatedYear);
+  }
 
+  if (engineResults.containsKey('chenJi')) {
+    chenJiGong = engineResults['chenJi']?.gong;
+    chenJiRuGongNianShu = engineResults['chenJi']?.steps.last.remainder;
+  } else if (rule.school.id == 'jingMirror') {
+    chenJiGong = _calculateChenJi(accumulatedYear, rule);
+  } else if (rule.school.id == 'tongZong') {
+    chenJiGong = _calculateChenJiTongZong(accumulatedYear);
+    chenJiRuGongNianShu = _calculateChenJiRuGongNianShu(accumulatedYear);
+  }
+
+  minJiGong = engineResults['minJi']?.gong ??
+      (rule.school.id == 'jingMirror'
+          ? _calculateMinJi(accumulatedYear, rule)
+          : rule.school.id == 'tongZong'
+              ? _calculateMinJiTongZong(accumulatedYear)
+              : null);
+  wuFuGong = engineResults['wuFu']?.gong ?? _calculateWuFu(accumulatedYear, rule);
+  daYouGong = engineResults['daYou']?.gong ?? _calculateDaYou(accumulatedYear, rule);
+  xiaoYouGong =
+      engineResults['xiaoYou']?.gong ?? _calculateXiaoYou(accumulatedYear, rule);
+  feiFuGong = engineResults['feiFu']?.gong ??
+      (rule.school.id == 'jingMirror' ? _calculateFeiFu(taiYiPalace, rule) : null);
+
+  siShenGong = engineResults['siShen']?.gong;
+  tianYiGong2 = engineResults['tianYiStar']?.gong;
+  diYiGong = engineResults['diYi']?.gong;
+  zhiFuGong2 = engineResults['zhiFuStar']?.gong;
+
+  if (rule.school.id == 'tongZong') {
+    final ji = accumulatedYear;
+    final nianShu = ji % 36 % 3 == 0 ? 3 : ji % 36 % 3;
     final gongIdx = ((ji - 1) % 36) ~/ 3;
-    var nianShu = ji % 36 % 3;
-    if (nianShu == 0) nianShu = 3;
-    siShenGong = _deityToPalace(sishen12Gong[gongIdx]);
-    siShenRuGongNianShu = nianShu;
-    tianYiGong2 = _deityToPalace(tianYi12Gong[gongIdx]);
-    tianYiRuGongNianShu = nianShu;
-    diYiGong = _deityToPalace(diYi12Gong[gongIdx]);
-    diYiRuGongNianShu = nianShu;
-    zhiFuGong2 = _deityToPalace(zhiFu12Gong[gongIdx]);
-    zhiFuRuGongNianShu = nianShu;
+
+    if (siShenGong == null) {
+      siShenGong = _deityToPalace(sishen12Gong[gongIdx]);
+      siShenRuGongNianShu = nianShu;
+    } else {
+      siShenRuGongNianShu = engineResults['siShen']?.steps.last.remainder;
+    }
+
+    if (tianYiGong2 == null) {
+      tianYiGong2 = _deityToPalace(tianYi12Gong[gongIdx]);
+      tianYiRuGongNianShu = nianShu;
+    } else {
+      tianYiRuGongNianShu = engineResults['tianYiStar']?.steps.last.remainder;
+    }
+
+    if (diYiGong == null) {
+      diYiGong = _deityToPalace(diYi12Gong[gongIdx]);
+      diYiRuGongNianShu = nianShu;
+    } else {
+      diYiRuGongNianShu = engineResults['diYi']?.steps.last.remainder;
+    }
+
+    if (zhiFuGong2 == null) {
+      zhiFuGong2 = _deityToPalace(zhiFu12Gong[gongIdx]);
+      zhiFuRuGongNianShu = nianShu;
+    } else {
+      zhiFuRuGongNianShu = engineResults['zhiFuStar']?.steps.last.remainder;
+    }
   }
 
   return TianPanModel(
@@ -1267,7 +1453,7 @@ TianPanModel _buildTianPan({
     zhiFuRuGongNianShu: zhiFuRuGongNianShu,
     junJiRuGongNianShu: junJiRuGongNianShu,
     chenJiRuGongNianShu: chenJiRuGongNianShu,
-    methodNote: '主客大将参将已实现；三基五福大游小游为 MVP 近似',
+    methodNote: '主客大将参将已实现；三基五福大游小游支持引擎配置',
   );
 }
 
@@ -1276,50 +1462,59 @@ ShenPanModel _buildShenPan({
   required DateTime dateTime,
   required EnumTaiYiGong taiYiPalace,
   required _RuleProfile rule,
+  Map<String, DeityPlacementResult> engineResults = const {},
 }) {
   final yearBranch = twelveBranches[_positiveModulo(dateTime.year - 4, 12)];
   final heShenBranch = _branchComplement(yearBranch);
-  final taiSuiGong = branchPalace[yearBranch] ?? EnumTaiYiGong.Kan;
-  final heShenGong = _deityToPalace(heShenBranch);
+  final taiSuiGong = engineResults['taiSui']?.gong ??
+      branchPalace[yearBranch] ??
+      EnumTaiYiGong.Kan;
+  final heShenGong = engineResults['heShen']?.gong ?? _deityToPalace(heShenBranch);
   final suiPoGongIndex = (taiYiPalaceOrder.indexOf(taiSuiGong) + 6) % 9;
-  final suiPoGong = taiYiPalaceOrder[suiPoGongIndex];
+  final suiPoGong = engineResults['suiPo']?.gong ?? taiYiPalaceOrder[suiPoGongIndex];
 
-  EnumTaiYiGong? qingLongQiGong;
-  EnumTaiYiGong? heiQiGong;
-  EnumTaiYiGong? chiQiGong;
-  EnumTaiYiGong? guiShenZhiShiGong;
-  int? heiQiRuGongNianShu;
+  EnumTaiYiGong? qingLongQiGong = engineResults['qingLongQi']?.gong;
+  EnumTaiYiGong? heiQiGong = engineResults['heiQi']?.gong;
+  EnumTaiYiGong? chiQiGong = engineResults['chiQi']?.gong;
+  EnumTaiYiGong? guiShenZhiShiGong = engineResults['guiShenZhiShi']?.gong;
+  int? heiQiRuGongNianShu = engineResults['heiQi']?.steps.last.remainder;
 
   if (rule.school.id == 'tongZong') {
     final ji = accumulatedYear;
-    qingLongQiGong = taiSuiGong;
+    qingLongQiGong ??= taiSuiGong;
 
-    final heiQiIdx = ((ji - 1) % 360) % 36 ~/ 3;
-    heiQiGong = _deityToPalace(heiQi12Chen[heiQiIdx]);
-    final heiQiNianShu = ji % 360 % 36 % 3;
-    heiQiRuGongNianShu = heiQiNianShu == 0 ? 3 : heiQiNianShu;
+    if (heiQiGong == null) {
+      final heiQiIdx = ((ji - 1) % 360) % 36 ~/ 3;
+      heiQiGong = _deityToPalace(heiQi12Chen[heiQiIdx]);
+      final heiQiNianShu = ji % 360 % 36 % 3;
+      heiQiRuGongNianShu = heiQiNianShu == 0 ? 3 : heiQiNianShu;
+    }
 
-    final chiQiIdx = ji % 40 % 4;
-    chiQiGong = _deityToPalace(chiQi4Gong[chiQiIdx]);
+    if (chiQiGong == null) {
+      final chiQiIdx = ji % 40 % 4;
+      chiQiGong = _deityToPalace(chiQi4Gong[chiQiIdx]);
+    }
 
-    final zhiShiRaw = (ji % 360 % 60 + 3) % 9;
-    final zhiShiIdx = zhiShiRaw == 0 ? 9 : zhiShiRaw;
-    final guiShenNum = guiShenZhiShiMap[zhiShiIdx] ?? 1;
-    final palaceNum = guiShenPalaceOrder[guiShenNum - 1];
-    guiShenZhiShiGong = _gongNumberToPalace(palaceNum);
+    if (guiShenZhiShiGong == null) {
+      final zhiShiRaw = (ji % 360 % 60 + 3) % 9;
+      final zhiShiIdx = zhiShiRaw == 0 ? 9 : zhiShiRaw;
+      final guiShenNum = guiShenZhiShiMap[zhiShiIdx] ?? 1;
+      final palaceNum = guiShenPalaceOrder[guiShenNum - 1];
+      guiShenZhiShiGong = _gongNumberToPalace(palaceNum);
+    }
   }
 
   return ShenPanModel(
     taiSuiGong: taiSuiGong,
     suiPoGong: suiPoGong,
-    zhiFuGong: gongClash[taiYiPalace] ?? taiYiPalace,
+    zhiFuGong: engineResults['zhiFu']?.gong ?? (gongClash[taiYiPalace] ?? taiYiPalace),
     heShenGong: heShenGong,
     qingLongQiGong: qingLongQiGong,
     heiQiGong: heiQiGong,
     chiQiGong: chiQiGong,
     guiShenZhiShiGong: guiShenZhiShiGong,
     heiQiRuGongNianShu: heiQiRuGongNianShu,
-    methodNote: '神盘 MVP 近似',
+    methodNote: '神盘已支持引擎配置',
   );
 }
 
@@ -1693,6 +1888,10 @@ class _RuleProfile {
     required this.warnings,
     this.zhangSui = 0,
     this.zhangYue = 0,
+    this.dayOffset = 0,
+    this.hourOffset = 0,
+    this.dayBaseSchoolId,
+    this.hourBaseSchoolId,
   });
 
   final TaiYiSchool school;
@@ -1711,14 +1910,23 @@ class _RuleProfile {
   final List<String> warnings;
   final int zhangSui;
   final int zhangYue;
+  final int dayOffset;
+  final int hourOffset;
+  final String? dayBaseSchoolId;
+  final String? hourBaseSchoolId;
 
   factory _RuleProfile.fromConfig(TaiYiSchool config) {
+    final dayConfig = config.chartConfigs['day'] ?? const ChartConfig();
+    final hourConfig = config.chartConfigs['hour'] ?? const ChartConfig();
+    final monthConfig = config.chartConfigs['month'] ?? const ChartConfig();
+
     return _RuleProfile(
       school: config,
       isAncientSchool: config.epoch.ancientBase != 0,
       ancientBase: config.epoch.ancientBase,
       ancientEpochYear: config.epoch.epochYear,
-      contemporaryEpochYear: config.epoch.ancientBase == 0 ? config.epoch.epochYear : 0,
+      contemporaryEpochYear:
+          config.epoch.ancientBase == 0 ? config.epoch.epochYear : 0,
       taiYiPalaceFormula: config.palaceFormula == 'jiCheng'
           ? _TaiYiPalaceFormula.jiCheng
           : _TaiYiPalaceFormula.jingMirror,
@@ -1728,14 +1936,23 @@ class _RuleProfile {
       fixedEightDoors: config.eightDoorMode == 'fixed',
       tropicalYear: config.epoch.tropicalYear,
       hostGuestBase: 1,
-      methodNote: config.id == 'jingMirror' ? '金镜古法' : config.id == 'tongZong' ? '统宗宝鉴法' : '集成简化法',
+      methodNote: config.id == 'jingMirror'
+          ? '金镜古法'
+          : config.id == 'tongZong'
+              ? '统宗宝鉴法'
+              : '集成简化法',
       warnings: {
         'jingMirror': ['金镜派天目重留当前为 MVP 近似，后续需用典籍验盘校正。'],
         'tongZong': ['统宗派节气分界、天目重留简化当前以规则配置表达，仍需验盘校正。'],
         'jiCheng': ['集成派当代甲子元暂定为 1684 年，后续可做成用户可配置。'],
-      }[config.id] ?? [],
-      zhangSui: 0,
-      zhangYue: 0,
+      }[config.id] ??
+          [],
+      zhangSui: monthConfig.zhangSui,
+      zhangYue: monthConfig.zhangYue,
+      dayOffset: dayConfig.dayOffset,
+      hourOffset: hourConfig.hourOffset,
+      dayBaseSchoolId: dayConfig.dayBaseSchoolId,
+      hourBaseSchoolId: hourConfig.hourBaseSchoolId,
     );
   }
 }

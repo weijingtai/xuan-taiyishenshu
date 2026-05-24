@@ -17,3 +17,10 @@ enum PalaceSystem {
   sixteenZhengJian,
   mixed,
 }
+
+/// 算法基础变量
+enum AlgorithmBaseVariable {
+  ji,
+  ju,
+  year,
+}

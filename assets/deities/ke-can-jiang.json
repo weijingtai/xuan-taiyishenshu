@@ -1,5 +1,14 @@
 {
-  "id": "keCanJiang", "name": "客参将", "layer": "renPan",
-  "algorithm": { "templateId": "fixedPosition", "params": { "gong": "中" } },
-  "priority": 5, "source": "official"
+  "id": "keCanJiang",
+  "name": "客参将",
+  "layer": "renPan",
+  "algorithm": {
+    "templateId": "fixedPosition",
+    "params": {
+      "gong": "中"
+    }
+  },
+  "priority": 5,
+  "source": "official",
+  "tier": "generals"
 }

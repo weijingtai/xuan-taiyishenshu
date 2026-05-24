@@ -36,6 +36,20 @@ TaiYiSchool _$TaiYiSchoolFromJson(Map<String, dynamic> json) => TaiYiSchool(
       useTwelveJiShen: json['useTwelveJiShen'] as bool? ?? false,
       palaceFormula: json['palaceFormula'] as String? ?? 'jingMirror',
       eightDoorMode: json['eightDoorMode'] as String? ?? 'dynamic',
+      chartConfigs: (json['chartConfigs'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ChartConfig.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      deityConfigs: (json['deityConfigs'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, DeityOverride.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      privateDeities: (json['privateDeities'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$TaiYiSchoolToJson(TaiYiSchool instance) =>
@@ -43,11 +57,16 @@ Map<String, dynamic> _$TaiYiSchoolToJson(TaiYiSchool instance) =>
       'id': instance.id,
       'name': instance.name,
       'source': instance.source,
-      'epoch': instance.epoch,
+      'epoch': instance.epoch.toJson(),
       'deityIds': instance.deityIds,
       'overrides': instance.overrides,
       'wenChangStayRule': instance.wenChangStayRule,
       'useTwelveJiShen': instance.useTwelveJiShen,
       'palaceFormula': instance.palaceFormula,
       'eightDoorMode': instance.eightDoorMode,
+      'chartConfigs':
+          instance.chartConfigs.map((k, e) => MapEntry(k, e.toJson())),
+      'deityConfigs':
+          instance.deityConfigs.map((k, e) => MapEntry(k, e.toJson())),
+      'privateDeities': instance.privateDeities,
     };

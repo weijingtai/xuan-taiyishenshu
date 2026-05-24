@@ -1,5 +1,28 @@
 {
-  "id": "fengBo", "name": "风伯", "layer": "shenPan",
-  "algorithm": { "templateId": "branchWalker", "params": { "cycle": 12, "branches": ["申", "酉", "戌", "亥", "子", "丑", "寅", "卯", "辰", "巳", "午", "未"] } },
-  "priority": 49, "source": "official"
+  "id": "fengBo",
+  "name": "风伯",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "branchWalker",
+    "params": {
+      "cycle": 12,
+      "branches": [
+        "申",
+        "酉",
+        "戌",
+        "亥",
+        "子",
+        "丑",
+        "寅",
+        "卯",
+        "辰",
+        "巳",
+        "午",
+        "未"
+      ]
+    }
+  },
+  "priority": 49,
+  "source": "official",
+  "tier": "weather"
 }

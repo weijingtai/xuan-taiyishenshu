@@ -1,5 +1,24 @@
 {
-  "id": "chiQi", "name": "赤旗", "layer": "shenPan",
-  "algorithm": { "templateId": "steppedCycle", "params": { "correction": 0, "steps": [{ "cycle": 60, "step": 1, "label": "年" }], "palaceSystem": "sixteenZhengJian", "direction": "forward", "startPalace": "午" } },
-  "priority": 53, "source": "official"
+  "id": "chiQi",
+  "name": "赤旗",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 60,
+          "step": 1,
+          "label": "年"
+        }
+      ],
+      "palaceSystem": "sixteenZhengJian",
+      "direction": "forward",
+      "startPalace": "午"
+    }
+  },
+  "priority": 53,
+  "source": "official",
+  "tier": "weather"
 }

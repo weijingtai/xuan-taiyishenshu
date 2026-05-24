@@ -1,5 +1,15 @@
 {
-  "id": "qingLongQi", "name": "青龙旗", "layer": "shenPan",
-  "algorithm": { "templateId": "relativeOffset", "params": { "sourceDeityId": "taiSui", "offset": 0 } },
-  "priority": 51, "source": "official"
+  "id": "qingLongQi",
+  "name": "青龙旗",
+  "layer": "shenPan",
+  "algorithm": {
+    "templateId": "relativeOffset",
+    "params": {
+      "sourceDeityId": "taiSui",
+      "offset": 0
+    }
+  },
+  "priority": 51,
+  "source": "official",
+  "tier": "weather"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../controllers/taiyi_pan_controller.dart';
 import '../enums/gong.dart';
@@ -9,16 +10,20 @@ import '../theme/taiyi_classic_theme.dart';
 import '../widgets/taiyi_pan_grid.dart';
 import '../widgets/taiyi_pan_grid_v2.dart';
 import '../widgets/pan_info_panel.dart';
+import '../widgets/deity_management_dialog.dart';
+import '../widgets/ink_wash_widgets.dart';
+import 'entity_editor_page.dart';
 
 class TaiYiPanPage extends StatefulWidget {
-  const TaiYiPanPage({super.key});
+  final TaiYiPanController? controller;
+  const TaiYiPanPage({super.key, this.controller});
 
   @override
   State<TaiYiPanPage> createState() => _TaiYiPanPageState();
 }
 
 class _TaiYiPanPageState extends State<TaiYiPanPage> {
-  final _controller = TaiYiPanController();
+  late final TaiYiPanController _controller;
   EnumTaiYiGong? _selectedGong;
   bool _useV2 = false;
 
@@ -43,6 +48,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   @override
   void initState() {
     super.initState();
+    _controller = widget.controller ?? TaiYiPanController();
     _selectedDate = DateTime.now();
     _selectedTime = TimeOfDay.now();
     _selectedSchoolId = 'jingMirror';
@@ -55,7 +61,9 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   @override
   void dispose() {
     _controller.removeListener(_onPanDataChanged);
-    _controller.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
@@ -105,11 +113,26 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
       ),
       actions: [
         IconButton(
+          icon: const Icon(Icons.auto_awesome, color: TaiYiClassicTheme.goldLeaf),
+          onPressed: _showDeityManagementDialog,
+          tooltip: '星神管理',
+        ),
+        IconButton(
           icon: const Icon(Icons.settings, color: TaiYiClassicTheme.goldLeaf),
           onPressed: _showSettingsDialog,
           tooltip: '起盘参数',
         ),
       ],
+    );
+  }
+
+  void _showDeityManagementDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => ChangeNotifierProvider.value(
+        value: _controller,
+        child: const DeityManagementDialog(),
+      ),
     );
   }
 
@@ -176,49 +199,75 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
 
     final selectorBar = _buildSelectorBar();
 
-    if (isWide) {
-      return Column(
-        children: [
-          selectorBar,
-          Expanded(
+    return Column(
+      children: [
+        if (_controller.showHiddenWarning)
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: TaiYiClassicTheme.cinnabar.withValues(alpha: 0.08),
+              border: const Border(bottom: BorderSide(color: TaiYiClassicTheme.cinnabar, width: 0.5)),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 5,
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Center(child: grid),
-                  ),
-                ),
-                Container(width: 1, color: TaiYiClassicTheme.goldLeaf.withValues(alpha: 0.3)),
-                Expanded(
-                  flex: 3,
-                  child: info,
+                const Icon(Icons.warning_amber_rounded, color: TaiYiClassicTheme.cinnabar, size: 16),
+                const SizedBox(width: 8),
+                Text(
+                  '部分基础星神或关键计算项已隐藏，盘面解释可能不完整。',
+                  style: GoogleFonts.longCang(color: TaiYiClassicTheme.cinnabar, fontSize: 14),
                 ),
               ],
             ),
           ),
-        ],
-      );
-    } else {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            selectorBar,
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Center(child: grid),
-            ),
-            Container(
-              height: 1,
-              color: TaiYiClassicTheme.goldLeaf.withValues(alpha: 0.3),
-            ),
-            info,
-          ],
+        Expanded(
+          child: PaperBackground(
+            child: isWide
+                ? Column(
+                    children: [
+                      selectorBar,
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.all(16),
+                                child: Center(child: grid),
+                              ),
+                            ),
+                            Container(width: 1, color: TaiYiClassicTheme.goldLeaf.withValues(alpha: 0.3)),
+                            Expanded(
+                              flex: 3,
+                              child: info,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        selectorBar,
+                        Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Center(child: grid),
+                        ),
+                        Container(
+                          height: 1,
+                          color: TaiYiClassicTheme.goldLeaf.withValues(alpha: 0.3),
+                        ),
+                        info,
+                      ],
+                    ),
+                  ),
+          ),
         ),
-      );
-    }
+      ],
+    );
   }
 
   Widget _buildSelectorBar() {
@@ -227,7 +276,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: TaiYiClassicTheme.paleGold.withValues(alpha: 0.15),
+        color: TaiYiClassicTheme.paleGold.withValues(alpha: 0.1),
         border: Border(
           bottom: BorderSide(color: TaiYiClassicTheme.goldLeaf.withValues(alpha: 0.3), width: 1),
         ),
@@ -289,6 +338,23 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
             );
           }),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline, size: 20, color: TaiYiClassicTheme.darkWood),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => EntityEditorPage(
+                    type: EntityType.school,
+                    initialName: '新流派',
+                    controller: _controller,
+                  ),
+                ),
+              );
+            },
+            tooltip: '新建流派',
+            constraints: const BoxConstraints(),
+            padding: EdgeInsets.zero,
+          ),
           const SizedBox(width: 4),
           const VerticalDivider(width: 1, thickness: 1, color: TaiYiClassicTheme.goldLeaf),
           const SizedBox(width: 4),
@@ -464,34 +530,34 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                           initialDate: _selectedDate,
                           firstDate: DateTime(-1000),
                           lastDate: DateTime(3000),
-          builder: (_, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(
-                  primary: TaiYiClassicTheme.darkWood,
-                ),
-              ),
-              child: child!,
-            );
-          },
-        );
-        if (picked != null) {
-          setDialogState(() => _selectedDate = picked);
-        }
-      },
-    ),
-    _dialogSection('时辰'),
-    ListTile(
-      leading: const Icon(Icons.access_time, color: TaiYiClassicTheme.darkWood),
-      title: Text(
-        '${_selectedTime.hour}时${_selectedTime.minute}分',
-        style: GoogleFonts.longCang(color: TaiYiClassicTheme.inkBlack),
-      ),
-      onTap: () async {
-        final picked = await showTimePicker(
-          context: context,
-          initialTime: _selectedTime,
-          builder: (_, child) {
+                          builder: (_, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(
+                                  primary: TaiYiClassicTheme.darkWood,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        if (picked != null) {
+                          setDialogState(() => _selectedDate = picked);
+                        }
+                      },
+                    ),
+                    _dialogSection('时辰'),
+                    ListTile(
+                      leading: const Icon(Icons.access_time, color: TaiYiClassicTheme.darkWood),
+                      title: Text(
+                        '${_selectedTime.hour}时${_selectedTime.minute}分',
+                        style: GoogleFonts.longCang(color: TaiYiClassicTheme.inkBlack),
+                      ),
+                      onTap: () async {
+                        final picked = await showTimePicker(
+                          context: context,
+                          initialTime: _selectedTime,
+                          builder: (_, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
                                 colorScheme: const ColorScheme.light(
@@ -510,21 +576,33 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                     _dialogSection('流派'),
                     Wrap(
                       spacing: 8,
-                      children: _defaultSchoolOptions.map((s) {
-                        return ChoiceChip(
-                          label: Text(s.$2),
-                          selected: _selectedSchoolId == s.$1,
-                          onSelected: (_) {
-                            setDialogState(() => _selectedSchoolId = s.$1);
+                      children: [
+                        ..._defaultSchoolOptions.map((s) {
+                          return ChoiceChip(
+                            label: Text(s.$2),
+                            selected: _selectedSchoolId == s.$1,
+                            onSelected: (_) {
+                              setDialogState(() => _selectedSchoolId = s.$1);
+                            },
+                            selectedColor: TaiYiClassicTheme.darkWood,
+                            labelStyle: TextStyle(
+                              color: _selectedSchoolId == s.$1
+                                  ? TaiYiClassicTheme.paleGold
+                                  : TaiYiClassicTheme.inkBlack,
+                            ),
+                          );
+                        }).toList(),
+                        ActionChip(
+                          avatar: const Icon(Icons.edit, size: 16),
+                          label: const Text('管理'),
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('管理流派功能即将上线')),
+                            );
                           },
-                          selectedColor: TaiYiClassicTheme.darkWood,
-                          labelStyle: TextStyle(
-                            color: _selectedSchoolId == s.$1
-                                ? TaiYiClassicTheme.paleGold
-                                : TaiYiClassicTheme.inkBlack,
-                          ),
-                        );
-                      }).toList(),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 12),
                     _dialogSection('盘类型'),

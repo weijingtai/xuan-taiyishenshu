@@ -70,20 +70,32 @@ class DeityAlgorithmEngine {
   ) {
     final spec = SteppedCycleParams.fromJson(params);
     final steps = <StepResult>[];
-    int value = ctx.ji + spec.correction;
+    int value = switch (spec.baseVariable) {
+      AlgorithmBaseVariable.ji => ctx.ji,
+      AlgorithmBaseVariable.ju => ctx.juNumber,
+      AlgorithmBaseVariable.year => ctx.year,
+    } +
+        spec.correction;
+
+    final baseVarLabel = switch (spec.baseVariable) {
+      AlgorithmBaseVariable.ji => '积数',
+      AlgorithmBaseVariable.ju => '局数',
+      AlgorithmBaseVariable.year => '年份',
+    };
 
     for (final cs in spec.steps) {
       final pos = value % cs.cycle;
-      final quotient = pos ~/ cs.step;
-      final remainder = pos % cs.step;
+      final normalizedPos = pos == 0 ? cs.cycle : pos;
+      final quotient = (normalizedPos - 1) ~/ cs.step;
+      final remainder = (normalizedPos - 1) % cs.step + 1;
       steps.add(StepResult(
         label: cs.label,
         quotient: quotient,
         quotientLabel: '第${quotient + 1}${cs.label}',
-        remainder: remainder == 0 ? cs.step : remainder,
+        remainder: remainder,
         remainderLabel: '入${cs.label}年数',
       ));
-      value = remainder == 0 ? cs.step : remainder;
+      value = remainder;
     }
 
     List<PalaceStep>? palaceSeq;
@@ -118,7 +130,7 @@ class DeityAlgorithmEngine {
       gong: _resolveGong(gong) ?? _branchToGong(gong),
       steps: steps,
       formula:
-          '积年${spec.correction >= 0 ? "+" : ""}${spec.correction} → $formulaParts',
+          '$baseVarLabel${spec.correction >= 0 ? "+" : ""}${spec.correction} → $formulaParts',
     );
   }
 
@@ -346,11 +358,10 @@ class DeityAlgorithmEngine {
           const PalaceStep(palace: '离'),
           const PalaceStep(palace: '艮'),
           const PalaceStep(palace: '震'),
-          const PalaceStep(palace: '中'),
+          const PalaceStep(palace: '巽'),
           const PalaceStep(palace: '兑'),
           const PalaceStep(palace: '坤'),
           const PalaceStep(palace: '坎'),
-          const PalaceStep(palace: '巽'),
         ],
       PalaceSystem.sixteenZhengJian => [
           const PalaceStep(palace: '子'),
@@ -375,10 +386,10 @@ class DeityAlgorithmEngine {
           const PalaceStep(palace: '离'),
           const PalaceStep(palace: '艮'),
           const PalaceStep(palace: '震'),
+          const PalaceStep(palace: '巽'),
           const PalaceStep(palace: '兑'),
           const PalaceStep(palace: '坤'),
           const PalaceStep(palace: '坎'),
-          const PalaceStep(palace: '巽'),
         ],
     };
   }
