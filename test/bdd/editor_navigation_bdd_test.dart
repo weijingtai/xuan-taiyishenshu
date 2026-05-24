@@ -7,6 +7,9 @@ import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/entity_editor_page.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/taiyi/taiyi.dart';
+import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+
+
 import 'package:google_fonts/google_fonts.dart';
 
 class MockAssetBundle extends Fake implements AssetBundle {
@@ -70,7 +73,8 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
 
       final bundle = MockAssetBundle(mockAssets);
-      final controller = TaiYiPanController(bundle: bundle);
+      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
 
       await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
@@ -97,11 +101,13 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
 
       final bundle = MockAssetBundle(mockAssets);
-      final controller = TaiYiPanController(bundle: bundle);
+      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       
       await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
       await tester.pumpAndSettle();
+
 
       // Click add school
       final addBtn = find.byTooltip('新建流派');

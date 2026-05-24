@@ -7,7 +7,11 @@ import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:provider/provider.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/widgets/deity_management_dialog.dart';
+import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+
+
 import 'package:google_fonts/google_fonts.dart';
+
 
 
 class MockAssetBundle extends Fake implements AssetBundle {
@@ -72,9 +76,11 @@ void main() {
 
   testWidgets('Given user is on Pan Page, When unchecking TaiYi, Then warning appears', (tester) async {
     final bundle = MockAssetBundle(mockAssets);
-    final controller = TaiYiPanController(bundle: bundle);
+    final assembly = TaiYiDataAssembly(bundle: bundle);
+    final controller = TaiYiPanController(assembly: assembly);
 
     await tester.pumpWidget(
+
       MaterialApp(
         home: TaiYiPanPage(controller: controller),
       ),

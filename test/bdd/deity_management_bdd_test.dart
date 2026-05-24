@@ -6,7 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/entity_editor_page.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
+import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+
+
 import 'package:google_fonts/google_fonts.dart';
+
 
 class MockAssetBundle extends Fake implements AssetBundle {
   final Map<String, String> assets;
@@ -60,7 +64,9 @@ void main() {
     testWidgets('AC8: Dialog shows sections', (tester) async {
       // Mock only 2 deities to avoid long list issues
       final bundle = MockAssetBundle(mockAssets);
-      final controller = TaiYiPanController(bundle: bundle);
+      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final controller = TaiYiPanController(assembly: assembly);
+
       
       // We manually populate the official deities to control the test
       // Actually loadSchools will load them from mockAssets.
@@ -78,7 +84,25 @@ void main() {
       expect(find.text('Marketplace'), findsOneWidget);
     });
 
+    testWidgets('AC10: Copy deity shows SnackBar', (tester) async {
+      final bundle = MockAssetBundle(mockAssets);
+      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final controller = TaiYiPanController(assembly: assembly);
+      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.auto_awesome));
+      await tester.pumpAndSettle();
+
+      final copyBtn = find.byIcon(Icons.copy).first;
+      await tester.tap(copyBtn);
+      await tester.pump();
+
+      expect(find.textContaining('已复制'), findsOneWidget);
+    });
+
     testWidgets('AC12: Editor shows lineage', (tester) async {
+
 
       await tester.pumpWidget(
         const MaterialApp(

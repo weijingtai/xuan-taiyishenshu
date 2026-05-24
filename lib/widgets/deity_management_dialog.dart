@@ -185,7 +185,26 @@ class DeityManagementDialog extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
+              if (deity.source == 'official')
+                IconButton(
+                  icon: const Icon(Icons.copy, size: 12),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () async {
+                    await controller.deityViewModel.copyDeity(
+                      sourceId: deity.id,
+                      newId: 'user_deity_${DateTime.now().millisecondsSinceEpoch}',
+                      newName: '${deity.name}副本',
+                    );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('已复制星神: ${deity.name}')),
+                      );
+                    }
+                  },
+                ),
               if (!available)
+
                 const Padding(
                   padding: EdgeInsets.only(left: 4),
                   child: Icon(Icons.lock_outline, size: 12, color: TaiYiClassicTheme.inkWash),

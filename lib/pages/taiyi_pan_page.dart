@@ -14,6 +14,8 @@ import '../widgets/deity_management_dialog.dart';
 import '../widgets/ink_wash_widgets.dart';
 import 'entity_editor_page.dart';
 
+import '../taiyi/taiyi_assembly.dart';
+
 class TaiYiPanPage extends StatefulWidget {
   final TaiYiPanController? controller;
   const TaiYiPanPage({super.key, this.controller});
@@ -47,9 +49,16 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
 
   @override
   void initState() {
+
     super.initState();
-    _controller = widget.controller ?? TaiYiPanController();
+    if (widget.controller != null) {
+      _controller = widget.controller!;
+    } else {
+      final assembly = TaiYiDataAssembly();
+      _controller = TaiYiPanController(assembly: assembly);
+    }
     _selectedDate = DateTime.now();
+
     _selectedTime = TimeOfDay.now();
     _selectedSchoolId = 'jingMirror';
     _selectedChartType = TaiYiChartType.year;
