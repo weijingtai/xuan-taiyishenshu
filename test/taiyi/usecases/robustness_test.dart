@@ -5,6 +5,8 @@ import 'package:taiyishenshu/taiyi/usecases/calculate_pan_usecase.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
+import 'package:taiyishenshu/database/taiyi_database.dart';
+import 'package:taiyishenshu/taiyi/data/drift_user_repository.dart';
 import '../mocks/mock_repositories.dart';
 
 void main() {
@@ -57,6 +59,37 @@ void main() {
         ),
         throwsArgumentError,
       );
+    });
+
+    test('Data Integrity: Should handle malformed JSON in database gracefully', () async {
+      // This test specifically targets the Repository layer through the UseCase
+      // We simulate a situation where the database contains invalid JSON strings
+      
+      final db = TaiYiDatabase.memory();
+      final repo = DriftUserRepository(db);
+      
+      // Inject malformed JSON directly into the table
+      await db.customStatement(
+        'INSERT INTO user_schools (id, name, content_json) VALUES (?, ?, ?)',
+        ['malformed_1', 'Malformed School', '{invalid_json: true}']
+      );
+
+      final brokenUseCase = CalculatePanUseCase(
+        schoolRepository: repo,
+        deityPreferenceRepository: preferenceRepo,
+      );
+
+      // Loading all schools should now fail due to jsonDecode error
+      expect(
+        () => brokenUseCase.execute(
+          dateTime: DateTime(2026, 5, 24),
+          schoolId: 'malformed_1',
+          chartType: TaiYiChartType.year,
+        ),
+        throwsA(isA<FormatException>()),
+      );
+      
+      await db.close();
     });
 
     test('Should handle deities with broken parameters (Robustness)', () async {

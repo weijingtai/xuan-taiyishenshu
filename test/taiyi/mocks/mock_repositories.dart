@@ -1,8 +1,6 @@
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
-import 'package:taiyishenshu/enums/deity_kind.dart';
-import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
 
 /// 模拟官方资产仓库（只读）
 class MockOfficialRepository implements SchoolRepository {

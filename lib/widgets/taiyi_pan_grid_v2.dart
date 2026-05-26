@@ -1,6 +1,6 @@
+import "../theme/taiyi_classic_theme.dart";
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../enums/deity_kind.dart';
 import '../../enums/gong.dart';
@@ -208,11 +208,11 @@ class _TaiYiPanPainterV2 extends CustomPainter {
   }
 
   void _drawTexts(Canvas canvas, double W, Offset center, double R1, double R2, double R3, double R4) {
-    final outerStyle = GoogleFonts.notoSerif(fontSize: W * 0.02, color: Colors.black87);
-    final godSingleStyle = GoogleFonts.notoSerif(fontSize: W * 0.035, color: Colors.black87);
-    final gateStyle = GoogleFonts.notoSerif(fontSize: W * 0.025, color: Colors.red[800]);
-    final luoshuStyle = GoogleFonts.notoSerif(fontSize: W * 0.035, color: Colors.black87);
-    final centerStyle = GoogleFonts.notoSerif(fontSize: W * 0.030, color: Colors.purple[800]);
+    final outerStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.02, color: Colors.black87);
+    final godSingleStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: Colors.black87);
+    final gateStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.025, color: Colors.red[800]);
+    final luoshuStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: Colors.black87);
+    final centerStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.030, color: Colors.purple[800]);
 
     void drawCenterText(String text, TextStyle style, double cx, double cy) {
       final tp = TextPainter(text: TextSpan(text: text, style: style), textAlign: TextAlign.center, textDirection: TextDirection.ltr);
@@ -265,7 +265,7 @@ class _TaiYiPanPainterV2 extends CustomPainter {
       drawCenterText("$godName\n$singleName", godSingleStyle, cx, cy);
     }
 
-    // W1-W2 (8 Gates placeholder, placing on midlines/diagonals)
+    // W1-W2 八门(目前在中线/对角线方位绘制,详细落宫规则归 Task 14/15)
     final gates = ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门'];
     final gateDirs = [
       Offset(0, -1), Offset(1, -1), Offset(1, 0), Offset(1, 1),

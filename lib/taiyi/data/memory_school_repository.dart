@@ -1,7 +1,14 @@
+import 'package:meta/meta.dart';
+
 import '../core/school_repository.dart';
 import '../core/school_config.dart';
 import '../core/deity_definition.dart';
 
+/// 测试专用的内存 Repository。
+///
+/// **严禁在生产装配 (TaiYiDataAssembly.create) 中引用本类。**
+/// 生产入口应使用 Drift + OfficialJson + SharedPreferences。
+@visibleForTesting
 class MemorySchoolRepository implements SchoolRepository, UserSchoolRepository, DeityRepository {
   final Map<String, TaiYiSchool> _schools = {};
   final Map<String, DeityDefinition> _deities = {};

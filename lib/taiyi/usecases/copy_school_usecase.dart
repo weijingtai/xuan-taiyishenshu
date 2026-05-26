@@ -19,26 +19,32 @@ class CopySchoolUseCase {
   }) async {
     // Try official first, then user
     TaiYiSchool? source = await _officialRepo.loadSchool(sourceId);
-    String rootOfficialId;
-    String sourceLineage;
 
     if (source != null) {
-      rootOfficialId = sourceId;
-      sourceLineage = source.name;
-    } else {
-      source = await _userRepo.loadSchool(sourceId);
-      if (source == null) {
-        throw ArgumentError('Source school not found: $sourceId');
-      }
-      // For user schools, propagate root official id and extend lineage
-      rootOfficialId = sourceId; // simplified; real impl would read from source
-      sourceLineage = source.name;
+      final copied = source.copyWith(
+        id: newId,
+        name: newName ?? '${source.name}副本',
+        source: 'user',
+        sourceId: sourceId,
+        rootOfficialId: source.rootOfficialId ?? sourceId,
+        lineage: source.lineage != null ? '${source.lineage} -> $newId' : 'official($sourceId) -> $newId',
+      );
+      await _userRepo.saveUserSchool(copied);
+      return copied;
+    }
+
+    source = await _userRepo.loadSchool(sourceId);
+    if (source == null) {
+      throw ArgumentError('Source school not found: $sourceId');
     }
 
     final copied = source.copyWith(
       id: newId,
-      name: newName ?? '${source.name}-副本',
+      name: newName ?? '${source.name}副本',
       source: 'user',
+      sourceId: sourceId,
+      rootOfficialId: source.rootOfficialId,
+      lineage: '${source.lineage} -> $newId',
     );
 
     await _userRepo.saveUserSchool(copied);

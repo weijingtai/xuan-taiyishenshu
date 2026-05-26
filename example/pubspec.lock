@@ -1201,42 +1201,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.1"
-  xuan_common:
-    dependency: transitive
-    description:
-      path: "."
-      ref: main
-      resolved-ref: "86415270860dd77a780e9823ed0c537a56f286aa"
-      url: "http://xuan:wjt19951215@192.168.0.165:3000/xuan/xuan-common.git"
-    source: git
-    version: "1.0.0+1"
-  xuan_four_zhu_card:
-    dependency: transitive
-    description:
-      path: "."
-      ref: main
-      resolved-ref: "70600789c3849617920ee0acbfd920f15cefaa43"
-      url: "http://xuan:wjt19951215@192.168.0.165:3000/xuan/xuan-four-zhu-card.git"
-    source: git
-    version: "0.1.0"
-  xuan_four_zhu_host:
-    dependency: transitive
-    description:
-      path: "."
-      ref: main
-      resolved-ref: "220281d926b4ab5bf2fa995d9a463fbd4fe25cef"
-      url: "http://xuan:wjt19951215@192.168.0.165:3000/xuan/xuan-four-zhu-host.git"
-    source: git
-    version: "0.1.0"
-  xuan_four_zhu_templates:
-    dependency: transitive
-    description:
-      path: "."
-      ref: main
-      resolved-ref: "9a0e809deb5b3afb88c7a0cc1d4e438b0400e901"
-      url: "http://xuan:wjt19951215@192.168.0.165:3000/xuan/xuan-four-zhu-templates.git"
-    source: git
-    version: "0.1.0"
   yaml:
     dependency: transitive
     description:

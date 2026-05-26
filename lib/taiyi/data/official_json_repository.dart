@@ -20,32 +20,45 @@ class OfficialJsonSchoolRepository implements SchoolRepository {
   final Map<String, DeityDefinition> _deities = {};
   bool _loaded = false;
 
+  String _toKebabCase(String input) {
+    // Manual overrides for specific IDs if any (none needed yet as regex covers verified assets)
+    final result = input.replaceAllMapped(
+      RegExp(r'([a-z0-9])([A-Z])'),
+      (Match m) => '${m.group(1)}-${m.group(2)!.toLowerCase()}',
+    ).toLowerCase();
+    return result;
+  }
+
   Future<void> _ensureLoaded() async {
     if (_loaded) return;
 
     for (final id in schoolIds) {
+      final filename = _toKebabCase(id);
+      final path = 'assets/schools/$filename.json';
       try {
-        final jsonStr = await bundle.loadString('assets/schools/$id.json');
+        final jsonStr = await bundle.loadString(path);
         final json = jsonDecode(jsonStr);
         _schools[id] = TaiYiSchool.fromJson(json);
       } catch (e) {
-        // Log or handle missing asset
-        debugPrint('Warning: school asset not found for $id');
+        debugPrint('Warning: school asset not found for ID "$id" at path: $path');
       }
     }
 
     for (final id in deityIds) {
+      final filename = _toKebabCase(id);
+      final path = 'assets/deities/$filename.json';
       try {
-        final jsonStr = await bundle.loadString('assets/deities/$id.json');
+        final jsonStr = await bundle.loadString(path);
         final json = jsonDecode(jsonStr);
         _deities[id] = DeityDefinition.fromJson(json);
       } catch (e) {
-        debugPrint('Warning: deity asset not found for $id');
+        debugPrint('Warning: deity asset not found for ID "$id" at path: $path');
       }
     }
 
     _loaded = true;
   }
+
 
   @override
   Future<List<TaiYiSchool>> loadAllSchools() async {

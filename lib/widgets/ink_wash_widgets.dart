@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 import '../theme/taiyi_classic_theme.dart';
 
@@ -66,7 +65,6 @@ class _InkyPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-/// 一个带有传统风格标题的 Section 组件
 class ChineseSectionHeader extends StatelessWidget {
   final String title;
   const ChineseSectionHeader({super.key, required this.title});
@@ -91,7 +89,7 @@ class ChineseSectionHeader extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             title,
-            style: GoogleFonts.maShanZheng(
+            style: TaiYiClassicTheme.getTitleStyle(
               fontSize: 18,
               color: TaiYiClassicTheme.darkWood,
               fontWeight: FontWeight.bold,

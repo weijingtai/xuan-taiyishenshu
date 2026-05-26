@@ -5,6 +5,7 @@ import 'package:taiyishenshu/taiyi/usecases/calculate_pan_usecase.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
+import 'package:taiyishenshu/taiyi/pan_data_model.dart';
 import '../mocks/mock_repositories.dart';
 
 void main() {
@@ -77,6 +78,49 @@ void main() {
       // school_2: (2026 - 1) + 2000 = 4025
       expect(results[0].accumulatedYear, 3025);
       expect(results[1].accumulatedYear, 4025);
+    });
+
+    test('Rapid concurrent calls should return consistent results', () async {
+      final futures = List.generate(20, (i) => useCase.execute(
+        dateTime: DateTime(2026, 5, 24),
+        schoolId: i % 2 == 0 ? 'school_1' : 'school_2',
+        chartType: TaiYiChartType.year,
+      ));
+
+      final results = await Future.wait(futures);
+      expect(results.length, 20);
+      for (int i = 0; i < 20; i++) {
+        expect(results[i].input.schoolId, i % 2 == 0 ? 'school_1' : 'school_2');
+      }
+    });
+
+    test('MVVM State Sync: Final result matches last call', () async {
+      // Simulate a ViewModel state
+      PanDataModel? viewModelState;
+      int latestStartedId = -1;
+
+      Future<void> simulateUiRequest(int requestId) async {
+        if (requestId > latestStartedId) {
+          latestStartedId = requestId;
+        }
+        
+        final result = await useCase.execute(
+          dateTime: DateTime(2026, 5, 24),
+          schoolId: requestId % 2 == 0 ? 'school_1' : 'school_2',
+          chartType: TaiYiChartType.year,
+        );
+        
+        // Only update if this is still the latest request (simple sync logic)
+        if (requestId == latestStartedId) {
+          viewModelState = result;
+        }
+      }
+
+      // Fire 10 concurrent requests
+      await Future.wait(List.generate(10, (i) => simulateUiRequest(i)));
+
+      // The last request ID was 9 (odd), so schoolId should be school_2
+      expect(viewModelState?.input.schoolId, 'school_2');
     });
   });
 }

@@ -22,9 +22,12 @@ class CopyDeityUseCase {
     if (source != null) {
       final copied = source.copyWith(
         id: newId,
-        name: newName ?? '${source.name}-副本',
+        name: newName ?? '${source.name}副本',
         source: 'user',
-        description: '来源: ${source.name}',
+        sourceId: sourceId,
+        rootOfficialId: source.rootOfficialId ?? sourceId,
+        lineage: source.lineage != null ? '${source.lineage} -> $newId' : 'official($sourceId) -> $newId',
+        description: '派生自官方星神: ${source.name}',
       );
       await _userRepo.saveUserDeity(copied);
       return copied;
@@ -37,9 +40,12 @@ class CopyDeityUseCase {
 
     final copied = source.copyWith(
       id: newId,
-      name: newName ?? '${source.name}-副本',
+      name: newName ?? '${source.name}副本',
       source: 'user',
-      description: '来源: ${source.name}',
+      sourceId: sourceId,
+      rootOfficialId: source.rootOfficialId,
+      lineage: '${source.lineage} -> $newId',
+      description: '派生自用户星神: ${source.name}',
     );
     await _userRepo.saveUserDeity(copied);
     return copied;

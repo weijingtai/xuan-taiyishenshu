@@ -1,10 +1,12 @@
 import 'package:flutter/services.dart' show AssetBundle;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../database/taiyi_database.dart';
 import 'core/school_config.dart';
 import 'core/deity_definition.dart';
 import 'core/school_repository.dart';
 import 'data/official_json_repository.dart';
-import 'data/memory_school_repository.dart';
-import 'data/in_memory_deity_preference_repository.dart';
+import 'data/drift_user_repository.dart';
+import 'data/shared_preferences_deity_preference_repository.dart';
 import 'usecases/load_schools_usecase.dart';
 import 'usecases/copy_school_usecase.dart';
 import 'usecases/save_user_school_usecase.dart';
@@ -23,7 +25,7 @@ class TaiYiDataAssembly {
 
   // Repositories
   late final SchoolRepository officialRepo;
-  late final MemorySchoolRepository userRepo;
+  late final DriftUserRepository userRepo;
   late final DeityPreferenceRepository preferenceRepo;
   late final SchoolRepository compositeRepo;
 
@@ -39,7 +41,12 @@ class TaiYiDataAssembly {
   late final DeityAvailabilityUseCase deityAvailabilityUseCase;
   late final CalculatePanUseCase calculatePanUseCase;
 
-  TaiYiDataAssembly({this.bundle}) {
+  // Private constructor
+  TaiYiDataAssembly._({
+    this.bundle,
+    required SharedPreferences prefs,
+    required TaiYiDatabase db,
+  }) {
     officialRepo = OfficialJsonSchoolRepository(
       bundle: bundle,
       schoolIds: ['jingMirror', 'tongZong', 'jiCheng'],
@@ -54,8 +61,8 @@ class TaiYiDataAssembly {
         'wenChang', 'jiShen', 'shiJi',
       ],
     );
-    userRepo = MemorySchoolRepository();
-    preferenceRepo = InMemoryDeityPreferenceRepository();
+    userRepo = DriftUserRepository(db);
+    preferenceRepo = SharedPreferencesDeityPreferenceRepository(prefs);
     compositeRepo = MultiSchoolRepository([officialRepo, userRepo]);
 
     loadSchoolsUseCase = LoadSchoolsUseCase(officialRepo, userRepo);
@@ -74,7 +81,29 @@ class TaiYiDataAssembly {
       deityPreferenceRepository: preferenceRepo,
     );
   }
+
+  /// Factory method to create and initialize the assembly.
+  static Future<TaiYiDataAssembly> create({AssetBundle? bundle}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final db = TaiYiDatabase();
+    return TaiYiDataAssembly._(bundle: bundle, prefs: prefs, db: db);
+  }
+
+  /// Factory for testing with provided dependencies.
+  factory TaiYiDataAssembly.test({
+    AssetBundle? bundle,
+    required SharedPreferences prefs,
+    TaiYiDatabase? db,
+  }) {
+    return TaiYiDataAssembly._(
+      bundle: bundle,
+      prefs: prefs,
+      db: db ?? TaiYiDatabase.memory(),
+    );
+  }
 }
+
+
 
 class MultiSchoolRepository implements SchoolRepository {
   final List<SchoolRepository> repositories;

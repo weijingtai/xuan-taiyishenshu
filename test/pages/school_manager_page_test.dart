@@ -1,190 +1,126 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
+
+import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/pages/school_manager_page.dart';
-import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
-import 'package:taiyishenshu/taiyi/core/school_config.dart';
+import '../taiyi/test_harness.dart';
 
-class FakeSchoolViewModel extends ChangeNotifier implements SchoolViewModel {
-  @override
-  List<TaiYiSchool> schools = [
-    const TaiYiSchool(
-      id: 'test_school_1',
-      name: 'Test School 1',
-      source: 'official',
-      epoch: SchoolEpochConfig(ancientBase: 10153917, epochYear: 1984),
-      wenChangStayRule: true,
-      useTwelveJiShen: false,
-      palaceFormula: 'jingMirror',
-      eightDoorMode: 'dynamic',
-    ),
-  ];
-
-  @override
-  TaiYiSchool? currentSchool;
-
-  @override
-  bool isLoading = false;
-
-  @override
-  Future<void> loadSchools() async {}
-
-  @override
-  void selectSchool(String id) {
-    currentSchool = schools.firstWhere((s) => s.id == id);
-    notifyListeners();
-  }
-
-  @override
-  Future<void> copySchool({required String sourceId, required String newId, String? newName}) async {
-    final source = schools.firstWhere((s) => s.id == sourceId);
-    schools = List.from(schools)..add(source.copyWith(
-      id: newId,
-      name: newName ?? '${source.name} (Copy)',
-      source: 'user',
-    ));
-    notifyListeners();
-  }
-
-  @override
-  Future<void> saveSchool(TaiYiSchool school) async {
-    final index = schools.indexWhere((s) => s.id == school.id);
-    if (index != -1) {
-      schools = List.from(schools)..[index] = school;
-      notifyListeners();
-    }
-  }
-  
-  @override
-  get loadSchoolsUseCase => throw UnimplementedError();
-  @override
-  get copySchoolUseCase => throw UnimplementedError();
-  @override
-  get saveUserSchoolUseCase => throw UnimplementedError();
-}
-
+/// ZenTao Task 14 widget-level test for [SchoolManagerPage].
+///
+/// 这层测试聚焦于 UI 结构:
+/// - 真实装配 (`TaiYiTestHarness.createAssembly`) -> 真实 Drift / OfficialJson Repository。
+/// - 不使用 FakeViewModel-only。
+/// - 持久化、排盘变化等深度断言交给
+///   `test/integration/school_management_integration_test.dart`。
 void main() {
-  testWidgets('SchoolManagerPage shows a list of schools', (WidgetTester tester) async {
-    final fakeViewModel = FakeSchoolViewModel();
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider<SchoolViewModel>.value(
-          value: fakeViewModel,
-          child: const SchoolManagerPage(),
-        ),
-      ),
-    );
-
-    // Initial pump and maybe animation frame
-    await tester.pumpAndSettle();
-
-    // Verify it shows "Test School 1"
-    expect(find.text('Test School 1'), findsOneWidget);
+  setUpAll(() async {
+    await TaiYiTestHarness.setup();
   });
 
-  testWidgets('SchoolManagerPage allows copying a school', (WidgetTester tester) async {
-    final fakeViewModel = FakeSchoolViewModel();
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider<SchoolViewModel>.value(
-          value: fakeViewModel,
-          child: const SchoolManagerPage(),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    // Find copy button for the first school
-    final copyButton = find.byIcon(Icons.copy).first;
-    expect(copyButton, findsOneWidget);
-
-    // Tap copy button
-    await tester.tap(copyButton);
-    await tester.pumpAndSettle();
-
-    // Dialog appears, fill in new name
-    expect(find.text('Copy School'), findsOneWidget);
-    final textField = find.byType(TextField);
-    await tester.enterText(textField, 'Copied School');
-    
-    // Tap copy in dialog
-    await tester.tap(find.text('Copy'));
-    await tester.pumpAndSettle();
-
-    // Verify new school is in the list
-    expect(find.text('Copied School'), findsOneWidget);
-    // Custom schools should have an edit button, official ones don't
-    expect(find.byIcon(Icons.edit), findsOneWidget); 
+  tearDown(() async {
+    await TaiYiTestHarness.dispose();
   });
 
-  testWidgets('SchoolManagerPage allows editing a user-defined school', (WidgetTester tester) async {
-    final fakeViewModel = FakeSchoolViewModel();
-    // Add a custom school first
-    fakeViewModel.schools.add(const TaiYiSchool(
-      id: 'test_school_2',
-      name: 'Custom School',
-      source: 'user',
-      epoch: SchoolEpochConfig(ancientBase: 10153917, epochYear: 1984),
-    ));
+  group('SchoolManagerPage [Task 14]', () {
+    testWidgets('显示官方流派分区与官方三派', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1200, 1600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider<SchoolViewModel>.value(
-          value: fakeViewModel,
-          child: const SchoolManagerPage(),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      final assembly = await TaiYiTestHarness.createAssembly();
+      final controller = TaiYiPanController(assembly: assembly);
+      await controller.loadSchools();
 
-    expect(find.text('Custom School'), findsOneWidget);
+      await tester.pumpWidget(
+        MaterialApp(home: SchoolManagerPage(controller: controller)),
+      );
+      await tester.pumpAndSettle();
 
-    // Find edit button (only custom school has it)
-    final editButton = find.byIcon(Icons.edit);
-    expect(editButton, findsOneWidget);
+      expect(find.text('流派管理'), findsOneWidget);
+      expect(find.text('官方流派 (只读)'), findsOneWidget);
+      expect(find.text('我的流派 (可编辑)'), findsOneWidget);
+      expect(find.text('金镜派'), findsOneWidget);
+      expect(find.text('统宗派'), findsOneWidget);
+      expect(find.text('集成派'), findsOneWidget);
+    });
 
-    // Tap edit button
-    await tester.tap(editButton);
-    await tester.pumpAndSettle();
+    testWidgets('官方流派不暴露编辑入口 (反假完成红线 #5)', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1200, 1600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    // Dialog appears, change name
-    expect(find.text('Edit School'), findsOneWidget);
-    final textField = find.byType(TextField);
-    await tester.enterText(textField, 'Edited Custom School');
+      final assembly = await TaiYiTestHarness.createAssembly();
+      final controller = TaiYiPanController(assembly: assembly);
+      await controller.loadSchools();
 
-    // Tap save in dialog
-    await tester.tap(find.text('Save'));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        MaterialApp(home: SchoolManagerPage(controller: controller)),
+      );
+      await tester.pumpAndSettle();
 
-    // Verify name updated
-    expect(find.text('Edited Custom School'), findsOneWidget);
-    expect(find.text('Custom School'), findsNothing);
-  });
+      // 官方三派任何一个都不应该展示 edit 按钮
+      expect(find.byKey(const Key('edit-jingMirror')), findsNothing);
+      expect(find.byKey(const Key('edit-tongZong')), findsNothing);
+      expect(find.byKey(const Key('edit-jiCheng')), findsNothing);
 
-  testWidgets('SchoolManagerPage allows switching current school', (WidgetTester tester) async {
-    final fakeViewModel = FakeSchoolViewModel();
+      // 但 copy / info 入口必须存在
+      expect(find.byKey(const Key('copy-jingMirror')), findsOneWidget);
+      expect(find.byKey(const Key('info-jingMirror')), findsOneWidget);
+    });
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider<SchoolViewModel>.value(
-          value: fakeViewModel,
-          child: const SchoolManagerPage(),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
+    testWidgets('复制官方流派后用户分区出现新副本，并显示 edit 入口', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1200, 1600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    // Checkmark shouldn't be present initially because currentSchool is null
-    expect(find.byIcon(Icons.check), findsNothing);
+      final assembly = await TaiYiTestHarness.createAssembly();
+      final controller = TaiYiPanController(assembly: assembly);
+      await controller.loadSchools();
 
-    // Tap the list tile to select it
-    await tester.tap(find.text('Test School 1'));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        MaterialApp(home: SchoolManagerPage(controller: controller)),
+      );
+      await tester.pumpAndSettle();
 
-    // Now it should be the current school and show a checkmark
-    expect(fakeViewModel.currentSchool?.id, 'test_school_1');
-    expect(find.byIcon(Icons.check), findsOneWidget);
+      await tester.tap(find.byKey(const Key('copy-jingMirror')));
+      await tester.pumpAndSettle();
+
+      final nameField = find.byKey(const Key('copy-name-field'));
+      expect(nameField, findsOneWidget);
+      await tester.enterText(nameField, '我的金镜派-test');
+
+      await tester.tap(find.byKey(const Key('copy-confirm-button')));
+      await tester.pumpAndSettle();
+
+      // 用户副本应出现，且带 edit 按钮 (官方派生)
+      expect(find.text('我的金镜派-test'), findsOneWidget);
+      // 用户副本的 edit IconButton 应存在 (key 以 edit-user_jingMirror_* 前缀)
+      final editButtons =
+          find.byWidgetPredicate((w) => w is IconButton && (w.icon is Icon) && (w.icon as Icon).icon == Icons.edit);
+      expect(editButtons, findsWidgets);
+    });
+
+    testWidgets('点击行触发 switchSchool，盘面 input.schoolId 更新', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1200, 1600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      final assembly = await TaiYiTestHarness.createAssembly();
+      final controller = TaiYiPanController(assembly: assembly);
+      await controller.loadSchools();
+      // 先排一次盘以获得 panData.input
+      await controller.calculate(
+        dateTime: DateTime(2024, 5, 1),
+        schoolId: 'jingMirror',
+      );
+
+      expect(controller.panData?.input.schoolId, 'jingMirror');
+
+      await tester.pumpWidget(
+        MaterialApp(home: SchoolManagerPage(controller: controller)),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('school-row-tongZong')));
+      await tester.pumpAndSettle();
+
+      expect(controller.panData?.input.schoolId, 'tongZong');
+    });
   });
 }

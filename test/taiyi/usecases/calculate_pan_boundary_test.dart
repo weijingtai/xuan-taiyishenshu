@@ -6,6 +6,7 @@ import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
 import '../mocks/mock_repositories.dart';
+import 'dart:io';
 
 void main() {
   group('CalculatePanUseCase Boundary & Logic Test', () {
@@ -101,9 +102,13 @@ void main() {
     });
 
     test('Strict Boundary: UseCase should not touch concrete data sources', () {
-      // By using only mocks in this test environment, we implicitly verify 
-      // that CalculatePanUseCase does not have hidden dependencies on 
-      // rootBundle, Drift, or other concrete infrastructure.
+      final file = File('lib/taiyi/usecases/calculate_pan_usecase.dart');
+      final content = file.readAsStringSync();
+      
+      expect(content, isNot(contains('import \'package:drift/drift.dart\'')));
+      expect(content, isNot(contains('import \'package:shared_preferences/shared_preferences.dart\'')));
+      expect(content, isNot(contains('import \'package:path_provider/path_provider.dart\'')));
+      expect(content, isNot(contains('rootBundle')));
     });
   });
 }

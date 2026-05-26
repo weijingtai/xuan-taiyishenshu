@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TaiYiClassicTheme {
+  // ... existing colors ...
   static const Color inkBlack = Color(0xFF1A1A1A);
   static const Color cinnabar = Color(0xFFC23B22);
   static const Color goldLeaf = Color(0xFFD4A017);
@@ -13,6 +14,19 @@ class TaiYiClassicTheme {
   static const Color jadeGreen = Color(0xFF2E7D32);
   static const Color waterBlue = Color(0xFF1565C0);
   static const Color earthYellow = Color(0xFFBF8C3E);
+
+  /// Helper for font fallback in tests or restricted environments
+  static TextStyle getChineseStyle({double? fontSize, Color? color, FontStyle? fontStyle, FontWeight? fontWeight, double? height, List<Shadow>? shadows}) {
+    return TextStyle(fontSize: fontSize, color: color, fontStyle: fontStyle, fontWeight: fontWeight, height: height, shadows: shadows);
+  }
+
+  static TextStyle getTitleStyle({double? fontSize, Color? color, FontWeight? fontWeight, double? height, List<Shadow>? shadows}) {
+    return TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight, height: height, shadows: shadows);
+  }
+
+  static TextStyle getSerifStyle({double? fontSize, Color? color, FontWeight? fontWeight, double? height, List<Shadow>? shadows}) {
+    return TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight, height: height, shadows: shadows);
+  }
 
   static const gongBorderFar = BorderSide(color: inkBlack, width: 2);
   static const gongBorderNear = BorderSide(color: inkWash, width: 1);

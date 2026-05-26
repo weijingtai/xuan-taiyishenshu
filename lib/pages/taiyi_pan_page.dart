@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/taiyi_pan_controller.dart';
@@ -33,8 +32,16 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   late String _selectedSchoolId;
   late TaiYiChartType _selectedChartType;
   late TimeOfDay _selectedTime;
+  bool _isAssemblyLoading = true;
 
   List<(String, String)> get _defaultSchoolOptions {
+    if (_isAssemblyLoading) {
+      return const [
+        ('jingMirror', '金镜派'),
+        ('tongZong', '统宗派'),
+        ('jiCheng', '集成派'),
+      ];
+    }
     if (_controller.availableSchools.isNotEmpty) {
       return _controller.availableSchools
           .map((s) => (s.id, s.name))
@@ -49,32 +56,44 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
 
   @override
   void initState() {
-
     super.initState();
-    if (widget.controller != null) {
-      _controller = widget.controller!;
-    } else {
-      final assembly = TaiYiDataAssembly();
-      _controller = TaiYiPanController(assembly: assembly);
-    }
     _selectedDate = DateTime.now();
-
     _selectedTime = TimeOfDay.now();
     _selectedSchoolId = 'jingMirror';
     _selectedChartType = TaiYiChartType.year;
-    _controller.addListener(_onPanDataChanged);
-    _controller.loadSchools();
-    _calculate();
+    
+    _initController();
+  }
+
+  Future<void> _initController() async {
+    if (widget.controller != null) {
+      _controller = widget.controller!;
+    } else {
+      final assembly = await TaiYiDataAssembly.create();
+      _controller = TaiYiPanController(assembly: assembly);
+    }
+    
+    if (mounted) {
+      setState(() {
+        _isAssemblyLoading = false;
+      });
+      _controller.addListener(_onPanDataChanged);
+      _controller.loadSchools();
+      _calculate();
+    }
   }
 
   @override
   void dispose() {
-    _controller.removeListener(_onPanDataChanged);
-    if (widget.controller == null) {
-      _controller.dispose();
+    if (!_isAssemblyLoading) {
+      _controller.removeListener(_onPanDataChanged);
+      if (widget.controller == null) {
+        _controller.dispose();
+      }
     }
     super.dispose();
   }
+
 
   void _onPanDataChanged() {
     if (mounted) setState(() {});
@@ -97,7 +116,17 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isAssemblyLoading) {
+      return const Scaffold(
+        backgroundColor: TaiYiClassicTheme.ricePaper,
+        body: Center(
+          child: CircularProgressIndicator(color: TaiYiClassicTheme.inkBlack),
+        ),
+      );
+    }
+
     final isWide = MediaQuery.of(context).size.width > 900;
+
 
     return Scaffold(
       backgroundColor: TaiYiClassicTheme.ricePaper,
@@ -118,7 +147,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
       foregroundColor: TaiYiClassicTheme.paleGold,
       title: Text(
         '太乙神数',
-        style: GoogleFonts.maShanZheng(fontSize: 22, color: TaiYiClassicTheme.paleGold),
+        style: TaiYiClassicTheme.getTitleStyle(fontSize: 22, color: TaiYiClassicTheme.paleGold),
       ),
       actions: [
         IconButton(
@@ -156,12 +185,12 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
             const SizedBox(height: 12),
             Text(
               '起盘失败',
-              style: GoogleFonts.maShanZheng(fontSize: 20, color: TaiYiClassicTheme.cinnabar),
+              style: TaiYiClassicTheme.getTitleStyle(fontSize: 20, color: TaiYiClassicTheme.cinnabar),
             ),
             const SizedBox(height: 8),
             Text(
               _controller.error ?? '未知错误',
-              style: GoogleFonts.longCang(fontSize: 14, color: TaiYiClassicTheme.inkWash),
+              style: TaiYiClassicTheme.getChineseStyle(fontSize: 14, color: TaiYiClassicTheme.inkWash),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -225,7 +254,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                 const SizedBox(width: 8),
                 Text(
                   '部分基础星神或关键计算项已隐藏，盘面解释可能不完整。',
-                  style: GoogleFonts.longCang(color: TaiYiClassicTheme.cinnabar, fontSize: 14),
+                  style: TaiYiClassicTheme.getChineseStyle(color: TaiYiClassicTheme.cinnabar, fontSize: 14),
                 ),
               ],
             ),
@@ -302,7 +331,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
           const SizedBox(width: 4),
           Text(
             '盘型',
-            style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+            style: TaiYiClassicTheme.getTitleStyle(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
           ...TaiYiChartType.values.where((t) => t != TaiYiChartType.ke).map((t) {
             return ChoiceChip(
@@ -326,7 +355,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
           const SizedBox(width: 4),
           Text(
             '流派',
-            style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+            style: TaiYiClassicTheme.getTitleStyle(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
           ..._defaultSchoolOptions.map((s) {
             return ChoiceChip(
@@ -369,7 +398,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
           const SizedBox(width: 4),
           Text(
             '样式',
-            style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+            style: TaiYiClassicTheme.getTitleStyle(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
           ChoiceChip(
             label: const Text('经典'),
@@ -498,7 +527,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
             const SizedBox(width: 4),
             Text(
               label,
-              style: GoogleFonts.longCang(fontSize: 13, color: TaiYiClassicTheme.darkWood),
+              style: TaiYiClassicTheme.getChineseStyle(fontSize: 13, color: TaiYiClassicTheme.darkWood),
             ),
           ],
         ),
@@ -516,7 +545,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
               backgroundColor: TaiYiClassicTheme.ricePaper,
               title: Text(
                 '起盘参数',
-                style: GoogleFonts.maShanZheng(
+                style: TaiYiClassicTheme.getTitleStyle(
                   fontSize: 20,
                   color: TaiYiClassicTheme.darkWood,
                 ),
@@ -531,7 +560,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                       leading: const Icon(Icons.calendar_today, color: TaiYiClassicTheme.darkWood),
                       title: Text(
                         '${_selectedDate.year}年${_selectedDate.month}月${_selectedDate.day}日',
-                        style: GoogleFonts.longCang(color: TaiYiClassicTheme.inkBlack),
+                        style: TaiYiClassicTheme.getChineseStyle(color: TaiYiClassicTheme.inkBlack),
                       ),
                       onTap: () async {
                         final picked = await showDatePicker(
@@ -560,7 +589,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                       leading: const Icon(Icons.access_time, color: TaiYiClassicTheme.darkWood),
                       title: Text(
                         '${_selectedTime.hour}时${_selectedTime.minute}分',
-                        style: GoogleFonts.longCang(color: TaiYiClassicTheme.inkBlack),
+                        style: TaiYiClassicTheme.getChineseStyle(color: TaiYiClassicTheme.inkBlack),
                       ),
                       onTap: () async {
                         final picked = await showTimePicker(
@@ -665,7 +694,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
       padding: const EdgeInsets.only(top: 8, bottom: 4),
       child: Text(
         title,
-        style: GoogleFonts.maShanZheng(
+        style: TaiYiClassicTheme.getTitleStyle(
           fontSize: 14,
           color: TaiYiClassicTheme.inkBlack,
         ),

@@ -1,6 +1,13 @@
+import 'package:meta/meta.dart';
+
 import '../core/school_repository.dart';
 import '../core/deity_definition.dart';
 
+/// 测试专用的内存用户星神 Repository。
+///
+/// **严禁在生产装配 (TaiYiDataAssembly.create) 中引用本类。**
+/// 生产入口应使用 DriftUserRepository。
+@visibleForTesting
 class InMemoryUserDeityRepository implements DeityRepository {
   final Map<String, DeityDefinition> _store = {};
 

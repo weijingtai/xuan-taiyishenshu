@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taiyishenshu_example/main.dart';
-import 'package:taiyishenshu/theme/taiyi_classic_theme.dart';
 import 'package:taiyishenshu/widgets/ink_wash_widgets.dart';
 
 void main() {

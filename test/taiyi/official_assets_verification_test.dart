@@ -14,7 +14,6 @@ void main() {
   late OfficialJsonSchoolRepository repository;
   late DeityAlgorithmEngine engine;
 
-  // Mock AssetBundle to load local files during test
   final mockAssets = <String, String>{};
 
   setUpAll(() {
@@ -24,25 +23,22 @@ void main() {
       deityIds: ['taiYi', 'wenChang'],
     );
 
-    // Populate mockAssets from real local files
-    mockAssets['assets/schools/jingMirror.json'] =
+    mockAssets['assets/schools/jing-mirror.json'] =
         _readFile('assets/schools/jing-mirror.json');
-    mockAssets['assets/schools/tongZong.json'] =
+    mockAssets['assets/schools/tong-zong.json'] =
         _readFile('assets/schools/tong-zong.json');
-    mockAssets['assets/schools/jiCheng.json'] =
+    mockAssets['assets/schools/ji-cheng.json'] =
         _readFile('assets/schools/ji-cheng.json');
-    mockAssets['assets/deities/taiYi.json'] =
+    mockAssets['assets/deities/tai-yi.json'] =
         _readFile('assets/deities/tai-yi.json');
-    mockAssets['assets/deities/wenChang.json'] =
+    mockAssets['assets/deities/wen-chang.json'] =
         _readFile('assets/deities/wen-chang.json');
 
     ServicesBinding.instance.defaultBinaryMessenger.setMockMessageHandler(
       'flutter/assets',
       (message) async {
-        final Uint8List encoded = utf8.encoder.convert(message.toString());
-        final String assetPath = utf8.decode(encoded); // This is not quite right but let's see
-        // Actually rootBundle.loadString(path) sends path as message
-        final String key = message != null ? utf8.decode(message.buffer.asUint8List()) : '';
+        if (message == null) return null;
+        final String key = utf8.decode(message.buffer.asUint8List());
         if (mockAssets.containsKey(key)) {
           return utf8.encoder.convert(mockAssets[key]!).buffer.asByteData();
         }
@@ -71,13 +67,6 @@ void main() {
       );
 
       final result = engine.execute(deity!, ctx);
-      // 1938583 % 72 = 7, 7 ~/ 3 = 2, 乾(0) + 2 = 艮(2)? 
-      // Wait, 1938583 % 72 = 7 is WRONG. 
-      // 1938583 / 72 = 26924.76...
-      // 26924 * 72 = 1938528
-      // 1938583 - 1938528 = 55. 
-      // 55 ~/ 3 = 18. 
-      // 18 % 8 = 2. 0(乾), 1(离), 2(艮). Correct.
       expect(result.gong, EnumTaiYiGong.Gen);
     });
 
@@ -86,7 +75,7 @@ void main() {
       final deity = await repository.loadDeity('wenChang');
 
       final accumulatedYear = school!.epoch.calculateAccumulatedYear(2026);
-      final juNumber = (accumulatedYear - 1) % 60 + 1; // 55
+      final juNumber = (accumulatedYear - 1) % 60 + 1;
 
       final ctx = CalculationContext(
         ji: accumulatedYear,
@@ -97,10 +86,23 @@ void main() {
       );
 
       final result = engine.execute(deity!, ctx);
-      // juNumber = 55. 55 % 18 = 1.
-      // 申(0) + 0 = 申.
-      expect(result.gong, EnumTaiYiGong.Kun); // 申位属于坤宫
+      expect(result.gong, EnumTaiYiGong.Kun);
     });
+
+   group('Regression - Official File Paths', () {
+    test('OfficialJsonSchoolRepository follows kebab-case convention', () async {
+      final repo = OfficialJsonSchoolRepository(
+        schoolIds: ['jingMirror'],
+        deityIds: ['taiYi'],
+      );
+      
+      final school = await repo.loadSchool('jingMirror');
+      final deity = await repo.loadDeity('taiYi');
+      
+      expect(school, isNotNull, reason: 'Should load jingMirror from assets/schools/jing-mirror.json');
+      expect(deity, isNotNull, reason: 'Should load taiYi from assets/deities/tai-yi.json');
+    });
+  });
   });
 }
 

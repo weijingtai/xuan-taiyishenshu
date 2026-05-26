@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../theme/taiyi_classic_theme.dart';
 import 'package:common/widgets/season_24_tag.dart';
 import 'package:tuple/tuple.dart';
 
@@ -353,7 +353,7 @@ class _RectanglePanelState extends State<RectanglePanel> {
     //       Shadow(color: Colors.white.withOpacity(.2),offset: Offset(1,1),blurRadius: 1)
     //     ]
     // );
-    TextStyle fontStyle = GoogleFonts.notoSerif(
+    TextStyle fontStyle = TaiYiClassicTheme.getSerifStyle(
         height: 1,
         fontSize: 14,
         fontWeight: isBold ? FontWeight.w600 : FontWeight.normal,
@@ -528,7 +528,7 @@ class _RectanglePanelState extends State<RectanglePanel> {
     fontSize: 70,
     height: 1,
   );
-  TextStyle nineGongNumberTextStyle = GoogleFonts.notoSerif(
+  TextStyle nineGongNumberTextStyle = TaiYiClassicTheme.getSerifStyle(
     color: Colors.grey,
     fontSize: 20,
     height: 1,
@@ -541,27 +541,26 @@ class _RectanglePanelState extends State<RectanglePanel> {
   late TextStyle eightSeasonTextStyle;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    eightSeasonTextStyle = GoogleFonts.maShanZheng(
+    eightSeasonTextStyle = TaiYiClassicTheme.getTitleStyle(
       color: Colors.grey,
       fontSize: 16,
       height: 1,
     );
-    twelveDiZhiTextStyle = GoogleFonts.longCang(
+    twelveDiZhiTextStyle = TaiYiClassicTheme.getChineseStyle(
       color: Colors.grey,
       fontSize: 24,
       height: 1,
       fontWeight: FontWeight.w500,
     );
-    nineAreaNameTextStyle = GoogleFonts.zhiMangXing(
+    nineAreaNameTextStyle = TextStyle(
       color: Colors.grey,
       fontSize: 16,
       height: 1,
     );
   }
 
-  TextStyle eightSkyDoorTextStyle = GoogleFonts.maShanZheng(
+  TextStyle eightSkyDoorTextStyle = TaiYiClassicTheme.getTitleStyle(
     fontSize: 16,
     color: Colors.grey,
     fontWeight: FontWeight.w600,

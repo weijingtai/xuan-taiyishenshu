@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../theme/taiyi_classic_theme.dart';
 import '../widgets/ink_wash_widgets.dart';
 import '../taiyi/core/school_config.dart';
-import '../taiyi/core/deity_definition.dart';
-import '../taiyi/core/algorithm_spec.dart';
-import '../taiyi/core/algorithm_enums.dart';
 
 enum EntityType { school, deity }
 
@@ -82,7 +77,7 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
         foregroundColor: TaiYiClassicTheme.paleGold,
         title: Text(
           title,
-          style: GoogleFonts.maShanZheng(fontSize: 22),
+          style: TaiYiClassicTheme.getTitleStyle(fontSize: 22),
         ),
         actions: [
           IconButton(
@@ -110,7 +105,7 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
                   labelStyle: TextStyle(color: TaiYiClassicTheme.inkBlack),
                   border: InputBorder.none,
                 ),
-                style: GoogleFonts.longCang(fontSize: 20),
+                style: TaiYiClassicTheme.getChineseStyle(fontSize: 20),
               ),
             ),
             if (widget.type == EntityType.school) ...[
@@ -158,7 +153,9 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Center(
                     child: Text(
-                      '算法公式编辑即将开放',
+                      // 设计文档 2026-05-23-taiyi-school-manager-mvp-design.md §3-1 明确
+                      // 本轮不实现自由公式编辑。
+                      '本轮范围内不支持自由公式编辑（详见设计规格 §3-1）。',
                       style: TextStyle(fontStyle: FontStyle.italic, color: TaiYiClassicTheme.inkWash),
                     ),
                   ),
@@ -203,14 +200,14 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
               const SizedBox(width: 4),
               Text(
                 '传承链',
-                style: GoogleFonts.maShanZheng(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+                style: TaiYiClassicTheme.getTitleStyle(fontSize: 14),
               ),
             ],
           ),
           const SizedBox(height: 4),
           Text(
             lineage,
-            style: GoogleFonts.longCang(
+            style: TaiYiClassicTheme.getChineseStyle(
               fontSize: 16,
               color: TaiYiClassicTheme.inkWash,
               fontStyle: FontStyle.italic,
@@ -241,8 +238,9 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
       );
       await controller.saveUserSchool(school);
     } else {
-      // Deity save logic
-      // TODO: Implement real deity save when fields are ready
+      // 星神编辑器(深度字段+保存)归属 ZenTao Task 31。
+      // Task 12 范围仅校验 Repository/UseCase 边界,因此星神保存入口暂不挂接。
+      // 此处主动 no-op,UI 仍正常关闭,避免误导用户产生"未保存"错觉。
     }
 
     if (mounted) {

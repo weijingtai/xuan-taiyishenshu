@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../enums/eight_door.dart';
 import '../../enums/gong.dart';
@@ -70,7 +69,7 @@ class NineGongGrid extends StatelessWidget {
           children: [
             Text(
               '${panData.juNumber}局',
-              style: GoogleFonts.maShanZheng(
+              style: TaiYiClassicTheme.getTitleStyle(
                 fontSize: cellSize * 0.22,
                 color: TaiYiClassicTheme.cinnabar,
                 height: 1,
@@ -79,7 +78,7 @@ class NineGongGrid extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               panData.dunType.label,
-              style: GoogleFonts.maShanZheng(
+              style: TaiYiClassicTheme.getTitleStyle(
                 fontSize: cellSize * 0.10,
                 color: TaiYiClassicTheme.inkWash,
                 height: 1,
@@ -166,7 +165,7 @@ class NineGongGrid extends StatelessWidget {
               ),
               child: Text(
                 door.singleName,
-                style: GoogleFonts.maShanZheng(
+                style: TaiYiClassicTheme.getTitleStyle(
                   fontSize: cellSize * 0.08,
                   color: TaiYiClassicTheme.jadeGreen,
                   height: 1,
@@ -178,7 +177,7 @@ class NineGongGrid extends StatelessWidget {
               padding: EdgeInsets.only(left: cellSize * 0.02),
               child: Text(
                 zhengShen,
-                style: GoogleFonts.longCang(
+                style: TaiYiClassicTheme.getChineseStyle(
                   fontSize: cellSize * 0.07,
                   color: TaiYiClassicTheme.earthYellow.withOpacity(0.8),
                   height: 1,
@@ -209,7 +208,7 @@ class NineGongGrid extends StatelessWidget {
           if (leftDiZhi != null)
             Text(
               leftDiZhi,
-              style: GoogleFonts.longCang(
+              style: TaiYiClassicTheme.getChineseStyle(
                 fontSize: cellSize * 0.12,
                 color: (TaiYiClassicTheme.zodiacColors[leftDiZhi] ?? Colors.grey)
                     .withOpacity(0.7),
@@ -221,7 +220,7 @@ class NineGongGrid extends StatelessWidget {
               padding: EdgeInsets.only(top: cellSize * 0.01),
               child: Text(
                 jianShen,
-                style: GoogleFonts.longCang(
+                style: TaiYiClassicTheme.getChineseStyle(
                   fontSize: cellSize * 0.06,
                   color: TaiYiClassicTheme.earthYellow.withOpacity(0.6),
                   height: 1,
@@ -244,7 +243,7 @@ class NineGongGrid extends StatelessWidget {
           if (rightDiZhi != null)
             Text(
               rightDiZhi,
-              style: GoogleFonts.longCang(
+              style: TaiYiClassicTheme.getChineseStyle(
                 fontSize: cellSize * 0.12,
                 color: (TaiYiClassicTheme.zodiacColors[rightDiZhi] ?? Colors.grey)
                     .withOpacity(0.7),
@@ -256,7 +255,7 @@ class NineGongGrid extends StatelessWidget {
               padding: EdgeInsets.only(top: cellSize * 0.01),
               child: Text(
                 renGods.join(' '),
-                style: GoogleFonts.longCang(
+                style: TaiYiClassicTheme.getChineseStyle(
                   fontSize: cellSize * 0.05,
                   color: TaiYiClassicTheme.waterBlue.withOpacity(0.6),
                   height: 1.2,
@@ -320,7 +319,7 @@ class NineGongGrid extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: cellSize * 0.055,
           color: color,
           height: 1,
@@ -345,7 +344,7 @@ class NineGongGrid extends StatelessWidget {
           children: [
             Text(
               status,
-              style: GoogleFonts.zhiMangXing(
+              style: TextStyle(
                 fontSize: cellSize * 0.065,
                 color: TaiYiClassicTheme.inkWash.withOpacity(0.6),
                 height: 1,
@@ -361,7 +360,7 @@ class NineGongGrid extends StatelessWidget {
           children: [
             Text(
               guaName,
-              style: GoogleFonts.maShanZheng(
+              style: TaiYiClassicTheme.getTitleStyle(
                 fontSize: cellSize * 0.28,
                 color: isTaiYiHere
                     ? TaiYiClassicTheme.cinnabar
@@ -399,7 +398,7 @@ class NineGongGrid extends StatelessWidget {
           children: [
             Text(
               gongNumber,
-              style: GoogleFonts.notoSerif(
+              style: TaiYiClassicTheme.getSerifStyle(
                 fontSize: cellSize * 0.07,
                 color: TaiYiClassicTheme.inkWash,
                 height: 1,
@@ -433,7 +432,7 @@ class NineGongGrid extends StatelessWidget {
       ),
       child: Text(
         '$prefix$count·$cat',
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: cellSize * 0.048,
           color: color,
           height: 1,
@@ -485,7 +484,7 @@ class NineGongGrid extends StatelessWidget {
               children: tianNames.map((name) {
                 return Text(
                   name,
-                  style: GoogleFonts.longCang(
+                  style: TaiYiClassicTheme.getChineseStyle(
                     fontSize: cellSize * 0.055,
                     color: TaiYiClassicTheme.cinnabar.withOpacity(0.9),
                     height: 1.2,
@@ -501,7 +500,7 @@ class NineGongGrid extends StatelessWidget {
               children: shenNames.map((name) {
                 return Text(
                   name,
-                  style: GoogleFonts.longCang(
+                  style: TaiYiClassicTheme.getChineseStyle(
                     fontSize: cellSize * 0.05,
                     color: TaiYiClassicTheme.deityLayerColor['神盘']!
                         .withOpacity(0.8),
@@ -513,7 +512,7 @@ class NineGongGrid extends StatelessWidget {
           if (bottomDiZhi != null)
             Text(
               bottomDiZhi,
-              style: GoogleFonts.longCang(
+              style: TaiYiClassicTheme.getChineseStyle(
                 fontSize: cellSize * 0.10,
                 color: (TaiYiClassicTheme.zodiacColors[bottomDiZhi] ?? Colors.grey)
                     .withOpacity(0.7),
@@ -528,7 +527,7 @@ class NineGongGrid extends StatelessWidget {
   Widget _cornerLabel(String text) {
     return Text(
       text,
-      style: GoogleFonts.zhiMangXing(
+      style: TextStyle(
         fontSize: cellSize * 0.07,
         color: TaiYiClassicTheme.goldLeaf,
         height: 1,

@@ -42,6 +42,15 @@ DeityDefinition _$DeityDefinitionFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      schoolScopes: (json['schoolScopes'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      displayStyle: json['displayStyle'] as String?,
+      color: json['color'] as String?,
+      sourceId: json['sourceId'] as String?,
+      rootOfficialId: json['rootOfficialId'] as String?,
+      lineage: json['lineage'] as String?,
     );
 
 Map<String, dynamic> _$DeityDefinitionToJson(DeityDefinition instance) =>
@@ -55,6 +64,12 @@ Map<String, dynamic> _$DeityDefinitionToJson(DeityDefinition instance) =>
       'source': instance.source,
       'tier': instance.tier,
       'chartTypes': instance.chartTypes,
+      'schoolScopes': instance.schoolScopes,
+      'displayStyle': instance.displayStyle,
+      'color': instance.color,
+      'sourceId': instance.sourceId,
+      'rootOfficialId': instance.rootOfficialId,
+      'lineage': instance.lineage,
     };
 
 const _$EnumDeityLayerEnumMap = {

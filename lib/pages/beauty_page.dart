@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:common/painter/text_circle_ring_painter.dart';
 import 'package:common/painter/circle_ring_printer.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../theme/taiyi_classic_theme.dart';
 import 'package:tuple/tuple.dart';
 
 import '../models/ConstantNineGongDataClass.dart';
@@ -28,7 +28,7 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
     "乾",
   ].reversed.toList();
   TextStyle zodiacTextStyle =
-      GoogleFonts.notoSerif(fontSize: 48, color: Colors.black, height: 1);
+      TaiYiClassicTheme.getSerifStyle(fontSize: 48, color: Colors.black, height: 1);
 
   // 十二星次 从大梁开始
   TextStyle starTextStyle = const TextStyle(
@@ -83,27 +83,26 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // zodiacTextList = zodiacList.map((e) => Text(e,style: zodiacTextStyle,)).toList();
     zodiacTextList = zodiacList.map((e) => const Text("")).toList();
     sixteenGongNameSeq = sixteenGongNameList
         .map((e) =>
-            Text(e, style: GoogleFonts.maShanZheng(fontSize: 16, height: 1)))
+            Text(e, style: TaiYiClassicTheme.getTitleStyle(fontSize: 16, height: 1)))
         .toList();
     sixteenGodsNameSeq = sixteenGodsNameList
         .map((e) =>
-            Text(e, style: GoogleFonts.maShanZheng(fontSize: 16, height: 1)))
+            Text(e, style: TaiYiClassicTheme.getTitleStyle(fontSize: 16, height: 1)))
         .toList();
   }
 
-  TextStyle eightSkyDoorTextStyle = GoogleFonts.maShanZheng(
+  TextStyle eightSkyDoorTextStyle = TaiYiClassicTheme.getTitleStyle(
     fontSize: 14,
     color: Colors.grey,
     fontWeight: FontWeight.w600,
   );
 
-  TextStyle eightSeasonTextStyle = GoogleFonts.maShanZheng(
+  TextStyle eightSeasonTextStyle = TaiYiClassicTheme.getTitleStyle(
     color: Colors.grey,
     fontSize: 14,
     height: 1,
@@ -114,13 +113,13 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
     fontSize: 70,
     height: 1,
   );
-  TextStyle nineGongNumberTextStyle = GoogleFonts.notoSerif(
+  TextStyle nineGongNumberTextStyle = TaiYiClassicTheme.getSerifStyle(
     color: Colors.grey,
     fontSize: 20,
     height: 1,
   );
-  // TextStyle nineAreaNameTextStyle = GoogleFonts.zhiMangXing(
-  TextStyle nineAreaNameTextStyle = GoogleFonts.maShanZheng(
+  // TextStyle nineAreaNameTextStyle = TextStyle(
+  TextStyle nineAreaNameTextStyle = TaiYiClassicTheme.getTitleStyle(
     color: Colors.grey,
     fontSize: 14,
     height: 1,
@@ -289,11 +288,11 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
         children: [
           Text(
             first,
-            style: GoogleFonts.longCang(
+            style: TaiYiClassicTheme.getChineseStyle(
                 height: 1.0, fontSize: 24, fontWeight: FontWeight.w700),
           ),
           Text(second,
-              style: GoogleFonts.longCang(
+              style: TaiYiClassicTheme.getChineseStyle(
                   height: 1.0, fontSize: 24, fontWeight: FontWeight.w700))
         ],
       ),
@@ -829,13 +828,13 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         "太",
-                                        style: GoogleFonts.longCang(
+                                        style: TaiYiClassicTheme.getChineseStyle(
                                             height: 1.0,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       Text("乙",
-                                          style: GoogleFonts.longCang(
+                                          style: TaiYiClassicTheme.getChineseStyle(
                                               height: 1.0,
                                               fontSize: 24,
                                               fontWeight: FontWeight.w700))
@@ -859,13 +858,13 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         "始",
-                                        style: GoogleFonts.longCang(
+                                        style: TaiYiClassicTheme.getChineseStyle(
                                             height: 1.0,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       Text("击",
-                                          style: GoogleFonts.longCang(
+                                          style: TaiYiClassicTheme.getChineseStyle(
                                               height: 1.0,
                                               fontSize: 24,
                                               fontWeight: FontWeight.w700))
@@ -889,13 +888,13 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         "客",
-                                        style: GoogleFonts.longCang(
+                                        style: TaiYiClassicTheme.getChineseStyle(
                                             height: 1.0,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       Text("大",
-                                          style: GoogleFonts.longCang(
+                                          style: TaiYiClassicTheme.getChineseStyle(
                                               height: 1.0,
                                               fontSize: 24,
                                               fontWeight: FontWeight.w700))
@@ -919,13 +918,13 @@ class _BeautyPageState extends State<BeautyPage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         "飞",
-                                        style: GoogleFonts.longCang(
+                                        style: TaiYiClassicTheme.getChineseStyle(
                                             height: 1.0,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700),
                                       ),
                                       Text("符 ",
-                                          style: GoogleFonts.longCang(
+                                          style: TaiYiClassicTheme.getChineseStyle(
                                               height: 1.0,
                                               fontSize: 24,
                                               fontWeight: FontWeight.w700))

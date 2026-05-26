@@ -30,6 +30,14 @@ class DeityDefinition {
   final String source;
   final String tier;
   final List<String> chartTypes;
+  final List<String> schoolScopes;
+  final String? displayStyle;
+  final String? color;
+  
+  // Derivation tracking
+  final String? sourceId;
+  final String? rootOfficialId;
+  final String? lineage;
 
   const DeityDefinition({
     required this.id,
@@ -41,6 +49,12 @@ class DeityDefinition {
     this.source = 'official',
     this.tier = 'core',
     this.chartTypes = const [],
+    this.schoolScopes = const [],
+    this.displayStyle,
+    this.color,
+    this.sourceId,
+    this.rootOfficialId,
+    this.lineage,
   });
 
   DeityDefinition copyWith({
@@ -53,6 +67,12 @@ class DeityDefinition {
     String? source,
     String? tier,
     List<String>? chartTypes,
+    List<String>? schoolScopes,
+    String? displayStyle,
+    String? color,
+    String? sourceId,
+    String? rootOfficialId,
+    String? lineage,
   }) {
     return DeityDefinition(
       id: id ?? this.id,
@@ -64,6 +84,12 @@ class DeityDefinition {
       source: source ?? this.source,
       tier: tier ?? this.tier,
       chartTypes: chartTypes ?? this.chartTypes,
+      schoolScopes: schoolScopes ?? this.schoolScopes,
+      displayStyle: displayStyle ?? this.displayStyle,
+      color: color ?? this.color,
+      sourceId: sourceId ?? this.sourceId,
+      rootOfficialId: rootOfficialId ?? this.rootOfficialId,
+      lineage: lineage ?? this.lineage,
     );
   }
 

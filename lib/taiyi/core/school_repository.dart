@@ -36,3 +36,13 @@ abstract class DeityPreferenceRepository {
   Future<void> setEnabled(String deityId, bool enabled);
   Future<Map<String, bool>> loadEnabledMap();
 }
+
+class DummyDeityPreferenceRepository implements DeityPreferenceRepository {
+  @override
+  Future<bool> isEnabled(String deityId) async => true;
+  @override
+  Future<void> setEnabled(String deityId, bool enabled) async {}
+  @override
+  Future<Map<String, bool>> loadEnabledMap() async => {};
+}
+

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../enums/gong.dart';
-import '../../enums/gui_shen.dart';
 import '../../taiyi/pan_data_model.dart';
 import '../../taiyi/pan_enums.dart';
 import '../../theme/taiyi_classic_theme.dart';
@@ -73,7 +71,7 @@ class PanInfoPanel extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             title,
-            style: GoogleFonts.maShanZheng(
+            style: TaiYiClassicTheme.getTitleStyle(
               fontSize: 18,
               color: color ?? TaiYiClassicTheme.inkBlack,
               height: 1.2,
@@ -90,7 +88,7 @@ class PanInfoPanel extends StatelessWidget {
       children: [
         Text(
           '太乙神数',
-          style: GoogleFonts.maShanZheng(
+          style: TaiYiClassicTheme.getTitleStyle(
             fontSize: 24,
             color: TaiYiClassicTheme.cinnabar,
             height: 1,
@@ -105,7 +103,7 @@ class PanInfoPanel extends StatelessWidget {
           ),
           child: Text(
             '${panData.input.schoolName}·${panData.input.chartType.label}',
-            style: GoogleFonts.longCang(
+            style: TaiYiClassicTheme.getChineseStyle(
               fontSize: 14,
               color: TaiYiClassicTheme.goldLeaf,
               height: 1,
@@ -299,7 +297,7 @@ class PanInfoPanel extends StatelessWidget {
         child: Center(
           child: Text(
             '${label}算',
-            style: GoogleFonts.maShanZheng(
+            style: TaiYiClassicTheme.getTitleStyle(
               fontSize: 14,
               color: label == '主'
               ? TaiYiClassicTheme.cinnabar
@@ -321,7 +319,7 @@ class PanInfoPanel extends StatelessWidget {
                                 // 宫名+阴阳
         Text(
           '${palace.gua.name}宫(${isYang ? "阳" : "阴"})',
-          style: GoogleFonts.notoSerif(
+          style: TaiYiClassicTheme.getSerifStyle(
             fontSize: 14,
             color: TaiYiClassicTheme.inkBlack,
             fontWeight: FontWeight.w600,
@@ -332,7 +330,7 @@ class PanInfoPanel extends StatelessWidget {
         // 数值
         Text(
           '= $count',
-          style: GoogleFonts.notoSerif(
+          style: TaiYiClassicTheme.getSerifStyle(
             fontSize: 15,
             color: TaiYiClassicTheme.inkBlack,
             fontWeight: FontWeight.bold,
@@ -350,7 +348,7 @@ class PanInfoPanel extends StatelessWidget {
                                   ),
         child: Text(
           cat,
-          style: GoogleFonts.maShanZheng(
+          style: TaiYiClassicTheme.getTitleStyle(
             fontSize: 14,
             color: color,
             height: 1.2,
@@ -362,7 +360,7 @@ class PanInfoPanel extends StatelessWidget {
                             const SizedBox(height: 2),
       Text(
         desc,
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: 12,
           color: TaiYiClassicTheme.darkWood,
           height: 1.4,
@@ -398,14 +396,14 @@ class PanInfoPanel extends StatelessWidget {
             children: [
       Text(
         '${label}算',
-        style: GoogleFonts.maShanZheng(
+        style: TaiYiClassicTheme.getTitleStyle(
           fontSize: 16,
           color: TaiYiClassicTheme.inkBlack,
         ),
       ),
       Text(
         '$count',
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: 20,
           color: label == '主'
               ? TaiYiClassicTheme.cinnabar
@@ -420,7 +418,7 @@ class PanInfoPanel extends StatelessWidget {
           const SizedBox(height: 2),
     Text(
       '落${palace.gua.name}宫',
-      style: GoogleFonts.notoSerif(
+      style: TaiYiClassicTheme.getSerifStyle(
         fontSize: 13,
         color: TaiYiClassicTheme.darkWood,
       ),
@@ -448,7 +446,7 @@ class PanInfoPanel extends StatelessWidget {
               const SizedBox(height: 2),
       Text(
         detail.detail!,
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: 12,
           color: TaiYiClassicTheme.darkWood,
           height: 1.3,
@@ -500,7 +498,7 @@ class PanInfoPanel extends StatelessWidget {
                   ),
         child: Text(
           p.type.label,
-          style: GoogleFonts.maShanZheng(
+          style: TaiYiClassicTheme.getTitleStyle(
             fontSize: 15,
             color: TaiYiClassicTheme.cinnabar,
           ),
@@ -510,7 +508,7 @@ class PanInfoPanel extends StatelessWidget {
                 Expanded(
         child: Text(
           p.description,
-          style: GoogleFonts.notoSerif(
+          style: TaiYiClassicTheme.getSerifStyle(
             fontSize: 13,
             color: TaiYiClassicTheme.darkWood,
           ),
@@ -564,7 +562,7 @@ class PanInfoPanel extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 2),
         child: Text(
           '${e.key.gua.name}宫：${e.value.join('、')}',
-          style: GoogleFonts.notoSerif(
+          style: TaiYiClassicTheme.getSerifStyle(
             fontSize: 13,
             color: TaiYiClassicTheme.darkWood,
           ),
@@ -662,7 +660,7 @@ class PanInfoPanel extends StatelessWidget {
         _sectionTitle('贵神·九宫排布', color: const Color(0xFF8B5E3C)),
     Text(
       '值事贵神：${gs.zhiShiGuiShen.label}（${gs.zhiShiGuiShen.meaning}）',
-      style: GoogleFonts.notoSerif(
+      style: TaiYiClassicTheme.getSerifStyle(
         fontSize: 14,
         color: TaiYiClassicTheme.inkBlack,
         fontWeight: FontWeight.w500,
@@ -697,7 +695,7 @@ class PanInfoPanel extends StatelessWidget {
                 children: [
                   Text(
                     gong.gua.name,
-                    style: GoogleFonts.notoSerif(
+                    style: TaiYiClassicTheme.getSerifStyle(
                       fontSize: 12,
                       color: TaiYiClassicTheme.mediumWood,
                       height: 1.2,
@@ -706,7 +704,7 @@ class PanInfoPanel extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     deity?.shortLabel ?? '—',
-                    style: GoogleFonts.maShanZheng(
+                    style: TaiYiClassicTheme.getTitleStyle(
                       fontSize: 20,
                       color: isZhiShi
                           ? TaiYiClassicTheme.cinnabar
@@ -717,7 +715,7 @@ class PanInfoPanel extends StatelessWidget {
                   if (deity != null)
                     Text(
                       deity.label,
-                      style: GoogleFonts.notoSerif(
+                      style: TaiYiClassicTheme.getSerifStyle(
                         fontSize: 11,
                         color: TaiYiClassicTheme.darkWood,
                         height: 1.2,
@@ -742,7 +740,7 @@ class PanInfoPanel extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 2),
       child: Text(
         '· $w',
-        style: GoogleFonts.notoSerif(
+        style: TaiYiClassicTheme.getSerifStyle(
           fontSize: 13,
           color: Colors.orange.shade700,
         ),
@@ -764,7 +762,7 @@ class PanInfoPanel extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Text(
             '星神：${palace.stars.join('、')}',
-            style: GoogleFonts.notoSerif(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+            style: TaiYiClassicTheme.getSerifStyle(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
         ),
       if (palace.doors.isNotEmpty)
@@ -772,13 +770,13 @@ class PanInfoPanel extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Text(
             '八门：${palace.doors.join('、')}',
-            style: GoogleFonts.notoSerif(fontSize: 14, color: TaiYiClassicTheme.darkWood),
+            style: TaiYiClassicTheme.getSerifStyle(fontSize: 14, color: TaiYiClassicTheme.darkWood),
           ),
         ),
       if (palace.note != null)
         Text(
           palace.note!,
-          style: GoogleFonts.notoSerif(fontSize: 13, color: TaiYiClassicTheme.goldLeaf),
+          style: TaiYiClassicTheme.getSerifStyle(fontSize: 13, color: TaiYiClassicTheme.goldLeaf),
         ),
       ],
     );
@@ -797,7 +795,7 @@ class PanInfoPanel extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.notoSerif(
+            style: TaiYiClassicTheme.getSerifStyle(
               fontSize: 13,
               color: TaiYiClassicTheme.mediumWood,
               fontWeight: FontWeight.w500,
@@ -807,7 +805,7 @@ class PanInfoPanel extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             value,
-            style: GoogleFonts.notoSerif(
+            style: TaiYiClassicTheme.getSerifStyle(
               fontSize: 14,
               color: TaiYiClassicTheme.inkBlack,
               fontWeight: FontWeight.w700,
@@ -829,7 +827,7 @@ class PanInfoPanel extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: GoogleFonts.notoSerif(fontSize: 12, color: color, fontWeight: FontWeight.w600, height: 1.2),
+        style: TaiYiClassicTheme.getSerifStyle(fontSize: 12, color: color, fontWeight: FontWeight.w600, height: 1.2),
       ),
     );
   }

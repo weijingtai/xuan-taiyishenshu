@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../theme/taiyi_classic_theme.dart';
 import '../taiyi/core/deity_definition.dart';
-import 'ink_wash_widgets.dart';
+import '../taiyi/core/school_config.dart';
 import '../pages/entity_editor_page.dart';
+import 'ink_wash_widgets.dart';
 
-class DeityManagementDialog extends StatelessWidget {
+/// 星神管理 Dialog
+///
+/// 三区结构 (系统内置 / 我的星神 / Marketplace 预留),
+/// 复制官方 → 我的, 我的可编辑可删除, Checkbox 偏好走 Repository。
+/// 不可用项置灰 + 文字原因 (反 lock-only) + checkbox.onChanged==null。
+/// 隐藏关键项时, Dialog 顶部显示警告 Banner。
+class DeityManagementDialog extends StatefulWidget {
   const DeityManagementDialog({super.key});
 
+  @override
+  State<DeityManagementDialog> createState() => _DeityManagementDialogState();
+}
+
+class _DeityManagementDialogState extends State<DeityManagementDialog> {
+  /// tier code -> 中文分组标签
   static const Map<String, String> _tierLabels = {
     'core': '核心枢轴',
     'generals': '主客将领',
@@ -23,33 +35,42 @@ class DeityManagementDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<TaiYiPanController>();
-    final officialDeities = controller.officialDeities;
+    final theme = Theme.of(context);
 
-    // Group deities by tier
+    // 区分官方/用户:用 source 字段, 不依赖 id 前缀。
+    final allDeities = controller.allDeities;
+    final officialDeities =
+        allDeities.where((d) => d.source == 'official').toList()
+          ..sort((a, b) => a.priority.compareTo(b.priority));
+    final userDeities = allDeities.where((d) => d.source == 'user').toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
+
+    // Group official deities by tier
     final Map<String, List<DeityDefinition>> grouped = {};
     for (final deity in officialDeities) {
-      final tier = deity.tier;
-      grouped.putIfAbsent(tier, () => []).add(deity);
+      grouped.putIfAbsent(deity.tier, () => []).add(deity);
     }
-
-    // Sort tiers according to _tierLabels order
-    final sortedTiers = _tierLabels.keys.where((t) => grouped.containsKey(t)).toList();
-    // Add any remaining tiers not in _tierLabels
+    final sortedTiers = _tierLabels.keys
+        .where((t) => grouped.containsKey(t))
+        .toList();
     sortedTiers.addAll(grouped.keys.where((t) => !_tierLabels.containsKey(t)));
 
     return AlertDialog(
       backgroundColor: TaiYiClassicTheme.ricePaper,
       surfaceTintColor: Colors.transparent,
       title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '星神管理',
-            style: GoogleFonts.maShanZheng(
-              fontSize: 24,
-              color: TaiYiClassicTheme.darkWood,
-            ),
+            style: TextStyle(fontSize: 22, color: TaiYiClassicTheme.darkWood),
           ),
-          const Divider(color: TaiYiClassicTheme.goldLeaf, thickness: 1),
+          const SizedBox(height: 4),
+          const Divider(
+            color: TaiYiClassicTheme.goldLeaf,
+            thickness: 1,
+            height: 4,
+          ),
         ],
       ),
       content: SizedBox(
@@ -59,49 +80,48 @@ class DeityManagementDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 顶部隐藏关键项警告 Banner (AC13)
+              if (controller.showHiddenWarning)
+                _HiddenCoreWarning(theme: theme),
+
+              // === Section 1: 系统内置 ===
               const ChineseSectionHeader(title: '系统内置'),
-              ...sortedTiers.map((tier) => _buildTierSection(context, controller, tier, grouped[tier]!)),
-              const SizedBox(height: 24),
-              const ChineseSectionHeader(title: '我的'),
-              InkyBorder(
-                color: TaiYiClassicTheme.goldLeaf,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Center(
-                    child: Text('暂无自定义星神', style: TextStyle(fontStyle: FontStyle.italic, color: TaiYiClassicTheme.inkWash)),
+              if (officialDeities.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text('未载入官方星神'),
+                )
+              else
+                ...sortedTiers.map(
+                  (tier) => _OfficialTierSection(
+                    tier: tier,
+                    label: _tierLabels[tier] ?? '其他',
+                    deities: grouped[tier]!,
+                    controller: controller,
                   ),
                 ),
+
+              const SizedBox(height: 16),
+
+              // === Section 2: 我的星神 ===
+              const ChineseSectionHeader(title: '我的星神'),
+              _MyDeitiesSection(
+                userDeities: userDeities,
+                controller: controller,
               ),
-              const SizedBox(height: 24),
+
+              const SizedBox(height: 16),
+
+              // === Section 3: Marketplace (产品占位, 唯一一处 "即将开放") ===
               const ChineseSectionHeader(title: 'Marketplace'),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Opacity(
-                  opacity: 0.5,
-                  child: Text('即将上线', style: TextStyle(fontStyle: FontStyle.italic, color: TaiYiClassicTheme.inkWash)),
-                ),
-              ),
+              const _MarketplacePlaceholder(),
+              const SizedBox(height: 8),
             ],
           ),
         ),
       ),
+      actionsPadding: const EdgeInsets.fromLTRB(8, 0, 16, 8),
       actions: [
-        if (controller.showHiddenWarning)
-          Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 8),
-            child: Row(
-              children: [
-                const Icon(Icons.warning, color: TaiYiClassicTheme.cinnabar, size: 14),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    '部分基础星神已隐藏，盘面解释可能不完整。',
-                    style: TextStyle(color: TaiYiClassicTheme.cinnabar, fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
-          ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('关闭'),
@@ -109,110 +129,473 @@ class DeityManagementDialog extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildTierSection(BuildContext context, TaiYiPanController controller, String tier, List<DeityDefinition> deities) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+/// 隐藏核心星神警告 Banner (AC13)
+class _HiddenCoreWarning extends StatelessWidget {
+  final ThemeData theme;
+  const _HiddenCoreWarning({required this.theme});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: TaiYiClassicTheme.cinnabar.withValues(alpha: 0.08),
+        border: Border.all(
+          color: TaiYiClassicTheme.cinnabar.withValues(alpha: 0.4),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 8),
-            child: Text(
-              _tierLabels[tier] ?? '其他星神',
-              style: GoogleFonts.maShanZheng(fontSize: 16, color: TaiYiClassicTheme.inkBlack.withValues(alpha: 0.7)),
-            ),
+          const Icon(
+            Icons.warning_amber,
+            color: TaiYiClassicTheme.cinnabar,
+            size: 18,
           ),
-          InkyBorder(
-            padding: 12,
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: deities.map((deity) => _buildDeityChip(context, controller, deity)).toList(),
+          const SizedBox(width: 8),
+          const Expanded(
+            child: Text(
+              '部分基础星神或关键计算项已隐藏，盘面解释可能不完整。',
+              style: TextStyle(
+                color: TaiYiClassicTheme.cinnabar,
+                fontSize: 13,
+                height: 1.4,
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildDeityChip(BuildContext context, TaiYiPanController controller, DeityDefinition deity) {
+/// 官方星神按 tier 分组的小节
+class _OfficialTierSection extends StatelessWidget {
+  final String tier;
+  final String label;
+  final List<DeityDefinition> deities;
+  final TaiYiPanController controller;
+
+  const _OfficialTierSection({
+    required this.tier,
+    required this.label,
+    required this.deities,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 4),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                color: TaiYiClassicTheme.inkBlack.withValues(alpha: 0.7),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          InkyBorder(
+            padding: 4,
+            child: Column(
+              children: deities
+                  .map(
+                    (deity) => _OfficialDeityTile(
+                      deity: deity,
+                      controller: controller,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 单条官方星神:Checkbox + 名称 + 不可用原因 + "复制到我的" 按钮
+class _OfficialDeityTile extends StatelessWidget {
+  final DeityDefinition deity;
+  final TaiYiPanController controller;
+
+  const _OfficialDeityTile({required this.deity, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
     final isVisible = controller.isDeityVisible(deity.id);
-    // Real logic: check chartType restriction
-    final bool available = deity.chartTypes.isEmpty || 
-                           deity.chartTypes.contains(controller.panData?.input.chartType.name);
+    final unavailableReason = _resolveUnavailableReason(deity, controller);
+    final available = unavailableReason == null;
 
     return Opacity(
-      opacity: available ? 1.0 : 0.4,
-      child: InkWell(
-        onTap: available ? () => controller.setDeityVisibility(deity.id, !isVisible) : null,
-        onLongPress: available ? () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (ctx) => EntityEditorPage(
-                type: EntityType.deity,
-                entityId: deity.id,
-                initialName: deity.name,
-                lineage: deity.source == 'official' ? '官方系统' : '自定义派生',
-                controller: controller,
+      opacity: available ? 1.0 : 0.55,
+      child: ListTile(
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        leading: Checkbox(
+          value: available && isVisible,
+          // 反 fake completion: 不可用必须 onChanged==null,使 checkbox 真的禁用
+          onChanged: available
+              ? (v) => controller.setDeityVisibility(deity.id, v ?? false)
+              : null,
+          activeColor: TaiYiClassicTheme.cinnabar,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        title: GestureDetector(
+          onTap: available
+              ? () => controller.setDeityVisibility(deity.id, !isVisible)
+              : null,
+          // 长按官方项打开只读 Editor (查看 lineage / 配置, 不可改)。
+          // 与 “复制到我的” 按钮分工:复制后才能编辑;长按只是查看。
+          onLongPress: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => EntityEditorPage(
+                  type: EntityType.deity,
+                  entityId: deity.id,
+                  initialName: deity.name,
+                  lineage: '官方系统',
+                  controller: controller,
+                ),
               ),
+            );
+          },
+          child: Text(
+            deity.name,
+            style: TextStyle(
+              fontSize: 15,
+              color: available
+                  ? TaiYiClassicTheme.inkBlack
+                  : TaiYiClassicTheme.inkWash,
             ),
-          );
-        } : null,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            color: isVisible ? TaiYiClassicTheme.cinnabar.withValues(alpha: 0.1) : Colors.transparent,
-            border: Border.all(
-              color: isVisible ? TaiYiClassicTheme.cinnabar : TaiYiClassicTheme.inkWash.withValues(alpha: 0.3),
-              width: 0.8,
-            ),
-            borderRadius: BorderRadius.circular(4),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                isVisible ? Icons.check_box : Icons.check_box_outline_blank,
-                size: 14,
-                color: isVisible ? TaiYiClassicTheme.cinnabar : TaiYiClassicTheme.inkWash,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                deity.name,
-                style: GoogleFonts.longCang(
-                  color: isVisible ? TaiYiClassicTheme.inkBlack : TaiYiClassicTheme.inkWash.withValues(alpha: 0.6),
-                  fontSize: 16,
+        ),
+        subtitle: unavailableReason == null
+            ? null
+            : Text(
+                // 反 lock-only: 必须有文字原因
+                unavailableReason,
+                key: const ValueKey('deity-unavailable-reason'),
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: TaiYiClassicTheme.inkWash,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
-              if (deity.source == 'official')
-                IconButton(
-                  icon: const Icon(Icons.copy, size: 12),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: () async {
-                    await controller.deityViewModel.copyDeity(
-                      sourceId: deity.id,
-                      newId: 'user_deity_${DateTime.now().millisecondsSinceEpoch}',
-                      newName: '${deity.name}副本',
-                    );
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('已复制星神: ${deity.name}')),
-                      );
-                    }
-                  },
-                ),
-              if (!available)
-
-                const Padding(
-                  padding: EdgeInsets.only(left: 4),
-                  child: Icon(Icons.lock_outline, size: 12, color: TaiYiClassicTheme.inkWash),
-                ),
-            ],
+        trailing: Tooltip(
+          message: '复制到我的星神',
+          child: IconButton(
+            icon: const Icon(Icons.copy, size: 16),
+            color: TaiYiClassicTheme.goldLeaf,
+            tooltip: '复制到我的星神',
+            onPressed: () => _onCopy(context),
           ),
         ),
       ),
     );
   }
+
+  Future<void> _onCopy(BuildContext context) async {
+    final newId = 'user_${deity.id}_${DateTime.now().millisecondsSinceEpoch}';
+    final newName = '${deity.name}副本';
+
+    await controller.deityViewModel.copyDeity(
+      sourceId: deity.id,
+      newId: newId,
+      newName: newName,
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('已复制到我的星神: $newName'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+}
+
+/// "我的星神" 区:用户副本列表 + 编辑/删除入口
+class _MyDeitiesSection extends StatelessWidget {
+  final List<DeityDefinition> userDeities;
+  final TaiYiPanController controller;
+
+  const _MyDeitiesSection({
+    required this.userDeities,
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (userDeities.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: InkyBorder(
+          padding: 12,
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: 16,
+                color: TaiYiClassicTheme.inkWash.withValues(alpha: 0.7),
+              ),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text(
+                  '暂无自定义星神,可从系统内置星神点 “复制” 按钮派生。',
+                  key: ValueKey('my-deities-empty'),
+                  style: TextStyle(
+                    color: TaiYiClassicTheme.inkWash,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: InkyBorder(
+        padding: 4,
+        child: Column(
+          children: userDeities
+              .map(
+                (deity) =>
+                    _UserDeityTile(deity: deity, controller: controller),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+
+/// 单条用户星神:Checkbox + 名称 + 不可用原因 + 编辑 + 删除
+class _UserDeityTile extends StatelessWidget {
+  final DeityDefinition deity;
+  final TaiYiPanController controller;
+
+  const _UserDeityTile({required this.deity, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final isVisible = controller.isDeityVisible(deity.id);
+    final unavailableReason = _resolveUnavailableReason(deity, controller);
+    final available = unavailableReason == null;
+
+    return Opacity(
+      opacity: available ? 1.0 : 0.55,
+      child: ListTile(
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        leading: Checkbox(
+          value: available && isVisible,
+          onChanged: available
+              ? (v) => controller.setDeityVisibility(deity.id, v ?? false)
+              : null,
+          activeColor: TaiYiClassicTheme.cinnabar,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        title: GestureDetector(
+          onTap: available
+              ? () => controller.setDeityVisibility(deity.id, !isVisible)
+              : null,
+          child: Text(
+            deity.name,
+            style: TextStyle(
+              fontSize: 15,
+              color: available
+                  ? TaiYiClassicTheme.inkBlack
+                  : TaiYiClassicTheme.inkWash,
+            ),
+          ),
+        ),
+        subtitle: Text(
+          unavailableReason ?? '派生自: ${deity.lineage ?? deity.sourceId ?? "(未知)"}',
+          style: TextStyle(
+            fontSize: 11,
+            color: TaiYiClassicTheme.inkWash,
+            fontStyle: unavailableReason == null
+                ? FontStyle.normal
+                : FontStyle.italic,
+          ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Tooltip(
+              message: '编辑',
+              child: IconButton(
+                icon: const Icon(Icons.edit, size: 16),
+                color: TaiYiClassicTheme.darkWood,
+                tooltip: '编辑',
+                onPressed: () => _onEdit(context),
+              ),
+            ),
+            Tooltip(
+              message: '删除',
+              child: IconButton(
+                key: ValueKey('delete-user-deity-${deity.id}'),
+                icon: const Icon(Icons.delete_outline, size: 16),
+                color: TaiYiClassicTheme.cinnabar,
+                tooltip: '删除',
+                onPressed: () => _onDelete(context),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onEdit(BuildContext context) {
+    // 期望路由 /taiyishenshu/deity-editor (Task 31 创建)。
+    // Master 后续 wire 路由表。这里走临时 MaterialPageRoute 兜底。
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => EntityEditorPage(
+          type: EntityType.deity,
+          entityId: deity.id,
+          initialName: deity.name,
+          lineage: deity.lineage ?? deity.sourceId ?? '(未知)',
+          controller: controller,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onDelete(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: TaiYiClassicTheme.ricePaper,
+        title: const Text('删除星神'),
+        content: Text('确定要删除「${deity.name}」吗?该操作不可撤销。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: TextButton.styleFrom(
+              foregroundColor: TaiYiClassicTheme.cinnabar,
+            ),
+            child: const Text('删除'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await controller.deityViewModel.deleteDeity(deity.id);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('已删除星神: ${deity.name}')),
+        );
+      }
+    }
+  }
+}
+
+/// Marketplace 预留区 (产品占位, 唯一一处 "即将开放")
+class _MarketplacePlaceholder extends StatelessWidget {
+  const _MarketplacePlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: InkyBorder(
+        padding: 12,
+        // 整体灰阶 + 不可交互:placeholder 不能被勾选
+        child: AbsorbPointer(
+          absorbing: true,
+          child: Opacity(
+            opacity: 0.45,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.storefront,
+                  size: 18,
+                  color: TaiYiClassicTheme.inkWash.withValues(alpha: 0.6),
+                ),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'Marketplace 即将开放 (产品占位)',
+                    key: ValueKey('marketplace-placeholder'),
+                    style: TextStyle(
+                      color: TaiYiClassicTheme.inkWash,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 同时考虑当前流派 (deityIds 白名单 + schoolScopes) 和当前盘型 (chartTypes)。
+/// 返回 null 表示可用,否则返回中文原因字符串。
+String? _resolveUnavailableReason(
+  DeityDefinition deity,
+  TaiYiPanController controller,
+) {
+  final input = controller.panData?.input;
+  final schoolId = input?.schoolId;
+  final chartType = input?.chartType.name;
+
+  // 当前盘型限制
+  if (chartType != null &&
+      deity.chartTypes.isNotEmpty &&
+      !deity.chartTypes.contains(chartType)) {
+    return '不适用于当前盘型 ($chartType)';
+  }
+
+  // schoolScopes 显式限制
+  if (schoolId != null &&
+      deity.schoolScopes.isNotEmpty &&
+      !deity.schoolScopes.contains(schoolId)) {
+    return '不适用于当前流派 ($schoolId)';
+  }
+
+  // 当前流派 deityIds 白名单
+  if (schoolId != null) {
+    final school = _findSchool(controller, schoolId);
+    if (school != null &&
+        school.deityIds.isNotEmpty &&
+        !school.deityIds.contains(deity.id)) {
+      return '当前流派 ($schoolId) 未启用该项';
+    }
+  }
+
+  return null;
+}
+
+TaiYiSchool? _findSchool(TaiYiPanController controller, String schoolId) {
+  for (final s in controller.availableSchools) {
+    if (s.id == schoolId) return s;
+  }
+  return null;
 }

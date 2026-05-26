@@ -1,5 +1,5 @@
+import "../theme/taiyi_classic_theme.dart";
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../enums/deity_kind.dart';
 import '../../enums/gong.dart';
@@ -204,7 +204,7 @@ class _TaiYiPanPainter extends CustomPainter {
 
   void _drawInnerGridText(Canvas canvas, Size size, double offI, double cellI) {
     const numbers = ['九', '二', '七', '四', '五', '六', '三', '八', '一'];
-    final textStyle = GoogleFonts.notoSerif(
+    final textStyle = TaiYiClassicTheme.getSerifStyle(
       fontSize: cellI * 0.35,
       color: Colors.black87,
     );
@@ -234,11 +234,11 @@ class _TaiYiPanPainter extends CustomPainter {
   }
 
   void _drawMiddleRingText(Canvas canvas, Size size, double offM, double offI, double Wm, double Wi) {
-    final singleNameStyle = GoogleFonts.notoSerif(
+    final singleNameStyle = TaiYiClassicTheme.getSerifStyle(
       fontSize: (offI - offM) * 0.35,
       color: Colors.black87,
     );
-    final godNameStyle = GoogleFonts.notoSerif(
+    final godNameStyle = TaiYiClassicTheme.getSerifStyle(
       fontSize: (offI - offM) * 0.22,
       color: Colors.black87,
     );
@@ -290,7 +290,7 @@ class _TaiYiPanPainter extends CustomPainter {
   }
 
   void _drawOuterRingText(Canvas canvas, Size size, double offO, double offM, double W, double Wm) {
-    final textStyle = GoogleFonts.notoSerif(
+    final textStyle = TaiYiClassicTheme.getSerifStyle(
       fontSize: (offM - offO) * 0.18,
       color: Colors.black87,
     );

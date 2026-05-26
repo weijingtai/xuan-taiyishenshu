@@ -11,23 +11,57 @@ class SchoolEpochConfig {
   final int correction;
   final double tropicalYear;
 
+  final int ancientMonthBase;
+  final int ancientDayBase;
+  final int ancientHourBase;
+  final int zhangSui;
+  final int zhangYue;
+  final int dayOffset;
+  final int hourOffset;
+
   const SchoolEpochConfig({
     required this.ancientBase,
     required this.epochYear,
     this.correction = 0,
     this.tropicalYear = 365.2425,
+    this.ancientMonthBase = 0,
+    this.ancientDayBase = 0,
+    this.ancientHourBase = 0,
+    this.zhangSui = 0,
+    this.zhangYue = 0,
+    this.dayOffset = 0,
+    this.hourOffset = 0,
   });
 
   int calculateAccumulatedYear(int targetYear) {
     return ancientBase + (targetYear - epochYear) + correction;
   }
 
-  SchoolEpochConfig copyWith({int? correction}) {
+  SchoolEpochConfig copyWith({
+    int? ancientBase,
+    int? epochYear,
+    int? correction,
+    double? tropicalYear,
+    int? ancientMonthBase,
+    int? ancientDayBase,
+    int? ancientHourBase,
+    int? zhangSui,
+    int? zhangYue,
+    int? dayOffset,
+    int? hourOffset,
+  }) {
     return SchoolEpochConfig(
-      ancientBase: ancientBase,
-      epochYear: epochYear,
+      ancientBase: ancientBase ?? this.ancientBase,
+      epochYear: epochYear ?? this.epochYear,
       correction: correction ?? this.correction,
-      tropicalYear: tropicalYear,
+      tropicalYear: tropicalYear ?? this.tropicalYear,
+      ancientMonthBase: ancientMonthBase ?? this.ancientMonthBase,
+      ancientDayBase: ancientDayBase ?? this.ancientDayBase,
+      ancientHourBase: ancientHourBase ?? this.ancientHourBase,
+      zhangSui: zhangSui ?? this.zhangSui,
+      zhangYue: zhangYue ?? this.zhangYue,
+      dayOffset: dayOffset ?? this.dayOffset,
+      hourOffset: hourOffset ?? this.hourOffset,
     );
   }
 
@@ -51,6 +85,11 @@ class TaiYiSchool {
   final Map<String, ChartConfig> chartConfigs;
   final Map<String, DeityOverride> deityConfigs;
   final List<String> privateDeities;
+  
+  // Derivation tracking
+  final String? sourceId;
+  final String? rootOfficialId;
+  final String? lineage;
 
   const TaiYiSchool({
     required this.id,
@@ -66,6 +105,9 @@ class TaiYiSchool {
     this.chartConfigs = const {},
     this.deityConfigs = const {},
     this.privateDeities = const [],
+    this.sourceId,
+    this.rootOfficialId,
+    this.lineage,
   });
 
   TaiYiSchool copyWith({
@@ -82,6 +124,9 @@ class TaiYiSchool {
     Map<String, ChartConfig>? chartConfigs,
     Map<String, DeityOverride>? deityConfigs,
     List<String>? privateDeities,
+    String? sourceId,
+    String? rootOfficialId,
+    String? lineage,
   }) {
     return TaiYiSchool(
       id: id ?? this.id,
@@ -97,6 +142,9 @@ class TaiYiSchool {
       chartConfigs: chartConfigs ?? this.chartConfigs,
       deityConfigs: deityConfigs ?? this.deityConfigs,
       privateDeities: privateDeities ?? this.privateDeities,
+      sourceId: sourceId ?? this.sourceId,
+      rootOfficialId: rootOfficialId ?? this.rootOfficialId,
+      lineage: lineage ?? this.lineage,
     );
   }
 

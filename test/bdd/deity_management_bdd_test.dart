@@ -1,122 +1,103 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/entity_editor_page.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
-import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
-
-
-import 'package:google_fonts/google_fonts.dart';
-
-
-class MockAssetBundle extends Fake implements AssetBundle {
-  final Map<String, String> assets;
-  MockAssetBundle(this.assets);
-
-  @override
-  Future<String> loadString(String key, {bool cache = true}) async {
-    if (assets.containsKey(key)) return assets[key]!;
-    if (key.contains('AssetManifest')) return '{}';
-    if (key.contains('FontManifest')) return '[]';
-    throw FlutterError('Asset not found: $key');
-  }
-
-  @override
-  Future<ByteData> load(String key) async {
-    if (assets.containsKey(key)) {
-      return ByteData.view(Uint8List.fromList(utf8.encode(assets[key]!)).buffer);
-    }
-    if (key.contains('AssetManifest')) return ByteData(0);
-    throw FlutterError('Asset not found: $key');
-  }
-}
+import '../taiyi/test_harness.dart';
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  GoogleFonts.config.allowRuntimeFetching = false;
+  setUpAll(() async {
+    await TaiYiTestHarness.setup();
+  });
 
-  final Map<String, String> mockAssets = {};
-
-  setUpAll(() {
-    final schoolIds = ['jing-mirror', 'tong-zong', 'ji-cheng'];
-    for (final id in schoolIds) {
-      final camelId = id == 'jing-mirror' ? 'jingMirror' : id == 'tong-zong' ? 'tongZong' : 'jiCheng';
-      mockAssets['assets/schools/$camelId.json'] =
-          File('assets/schools/$id.json').readAsStringSync();
-    }
-    
-    final deityIds = ['tai-yi', 'wen-chang'];
-    for (final id in deityIds) {
-      final parts = id.split('-');
-      String camelId = parts[0];
-      for (int i = 1; i < parts.length; i++) {
-        camelId += parts[i][0].toUpperCase() + parts[i].substring(1);
-      }
-      mockAssets['assets/deities/$camelId.json'] = 
-          File('assets/deities/$id.json').readAsStringSync();
-    }
+  tearDown(() async {
+    await TaiYiTestHarness.dispose();
   });
 
   group('Deity Management BDD', () {
     testWidgets('AC8: Dialog shows sections', (tester) async {
-      // Mock only 2 deities to avoid long list issues
-      final bundle = MockAssetBundle(mockAssets);
-      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final assembly = await TaiYiTestHarness.createAssembly();
       final controller = TaiYiPanController(assembly: assembly);
 
-      
-      // We manually populate the official deities to control the test
-      // Actually loadSchools will load them from mockAssets.
-      
       await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
 
-      await tester.tap(find.byIcon(Icons.auto_awesome));
-      await tester.pumpAndSettle();
+      // Find by icon is safer if we know which one it is
+      final managementBtn = find.byIcon(Icons.auto_awesome);
+      await tester.tap(managementBtn);
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.text('系统内置'), findsOneWidget);
-      // "我的" might be offstage if the list is long, but with 2 deities it should be on screen.
-      // Use find.textContaining for robustness
-      expect(find.textContaining('我的'), findsOneWidget);
+      expect(find.text('我的星神'), findsOneWidget);
       expect(find.text('Marketplace'), findsOneWidget);
+
+      // Marketplace placeholder is present and shown as 即将开放 (产品占位)
+      expect(find.byKey(const ValueKey('marketplace-placeholder')),
+          findsOneWidget);
+      // 我的星神区初始为空: 显示空状态指引
+      expect(find.byKey(const ValueKey('my-deities-empty')), findsOneWidget);
     });
 
     testWidgets('AC10: Copy deity shows SnackBar', (tester) async {
-      final bundle = MockAssetBundle(mockAssets);
-      final assembly = TaiYiDataAssembly(bundle: bundle);
+      final assembly = await TaiYiTestHarness.createAssembly();
       final controller = TaiYiPanController(assembly: assembly);
       await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
 
-      await tester.tap(find.byIcon(Icons.auto_awesome));
-      await tester.pumpAndSettle();
+      final managementBtn = find.byIcon(Icons.auto_awesome);
+      await tester.tap(managementBtn);
+      await tester.pump(const Duration(milliseconds: 500));
 
       final copyBtn = find.byIcon(Icons.copy).first;
       await tester.tap(copyBtn);
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
+      expect(find.byType(SnackBar), findsOneWidget);
       expect(find.textContaining('已复制'), findsOneWidget);
     });
 
-    testWidgets('AC12: Editor shows lineage', (tester) async {
-
-
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: EntityEditorPage(
-            type: EntityType.deity,
-            initialName: '我的太乙',
-            lineage: '官方 > 我的派生',
-          ),
-        ),
+    testWidgets('AC11: 我的区出现可编辑/可删除入口', (tester) async {
+      final assembly = await TaiYiTestHarness.createAssembly();
+      final controller = TaiYiPanController(assembly: assembly);
+      // 直接通过 ViewModel 复制一个 (绕过 UI 触发,本测试聚焦 “我的区入口”)
+      await controller.deityViewModel.copyDeity(
+        sourceId: 'taiYi',
+        newId: 'user_taiYi_bdd',
+        newName: '太乙(我的)',
       );
-      await tester.pumpAndSettle();
 
-      expect(find.text('传承链'), findsOneWidget);
-      expect(find.text('官方 > 我的派生'), findsOneWidget);
+      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await tester.tap(find.byIcon(Icons.auto_awesome));
+      await tester.pump(const Duration(milliseconds: 500));
+
+      // 我的区出现复制后的名字
+      expect(find.text('太乙(我的)'), findsOneWidget);
+
+      // 我的区有 delete 入口 (用 ValueKey 精确定位, 反 fake completion)
+      expect(
+        find.byKey(const ValueKey('delete-user-deity-user_taiYi_bdd')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('AC12: Editor shows lineage', (tester) async {
+        final assembly = await TaiYiTestHarness.createAssembly();
+        await tester.pumpWidget(
+          MaterialApp(
+            home: EntityEditorPage(
+              type: EntityType.deity,
+              initialName: '我的太乙',
+              lineage: '官方 > 我的派生',
+              controller: TaiYiPanController(assembly: assembly),
+            ),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 100));
+
+        expect(find.text('传承链'), findsOneWidget);
+        expect(find.text('官方 > 我的派生'), findsOneWidget);
     });
   });
 }

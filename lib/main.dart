@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/taiyi_pan_page.dart';
 import 'theme/taiyi_classic_theme.dart';
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         scaffoldBackgroundColor: TaiYiClassicTheme.ricePaper,
-        textTheme: GoogleFonts.notoSerifKhitanSmallScriptTextTheme(),
+        textTheme: Typography.blackMountainView,
         appBarTheme: const AppBarTheme(
           backgroundColor: TaiYiClassicTheme.darkWood,
           foregroundColor: TaiYiClassicTheme.paleGold,

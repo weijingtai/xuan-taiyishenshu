@@ -12,6 +12,13 @@ SchoolEpochConfig _$SchoolEpochConfigFromJson(Map<String, dynamic> json) =>
       epochYear: (json['epochYear'] as num).toInt(),
       correction: (json['correction'] as num?)?.toInt() ?? 0,
       tropicalYear: (json['tropicalYear'] as num?)?.toDouble() ?? 365.2425,
+      ancientMonthBase: (json['ancientMonthBase'] as num?)?.toInt() ?? 0,
+      ancientDayBase: (json['ancientDayBase'] as num?)?.toInt() ?? 0,
+      ancientHourBase: (json['ancientHourBase'] as num?)?.toInt() ?? 0,
+      zhangSui: (json['zhangSui'] as num?)?.toInt() ?? 0,
+      zhangYue: (json['zhangYue'] as num?)?.toInt() ?? 0,
+      dayOffset: (json['dayOffset'] as num?)?.toInt() ?? 0,
+      hourOffset: (json['hourOffset'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$SchoolEpochConfigToJson(SchoolEpochConfig instance) =>
@@ -20,6 +27,13 @@ Map<String, dynamic> _$SchoolEpochConfigToJson(SchoolEpochConfig instance) =>
       'epochYear': instance.epochYear,
       'correction': instance.correction,
       'tropicalYear': instance.tropicalYear,
+      'ancientMonthBase': instance.ancientMonthBase,
+      'ancientDayBase': instance.ancientDayBase,
+      'ancientHourBase': instance.ancientHourBase,
+      'zhangSui': instance.zhangSui,
+      'zhangYue': instance.zhangYue,
+      'dayOffset': instance.dayOffset,
+      'hourOffset': instance.hourOffset,
     };
 
 TaiYiSchool _$TaiYiSchoolFromJson(Map<String, dynamic> json) => TaiYiSchool(
@@ -50,6 +64,9 @@ TaiYiSchool _$TaiYiSchoolFromJson(Map<String, dynamic> json) => TaiYiSchool(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      sourceId: json['sourceId'] as String?,
+      rootOfficialId: json['rootOfficialId'] as String?,
+      lineage: json['lineage'] as String?,
     );
 
 Map<String, dynamic> _$TaiYiSchoolToJson(TaiYiSchool instance) =>
@@ -69,4 +86,7 @@ Map<String, dynamic> _$TaiYiSchoolToJson(TaiYiSchool instance) =>
       'deityConfigs':
           instance.deityConfigs.map((k, e) => MapEntry(k, e.toJson())),
       'privateDeities': instance.privateDeities,
+      'sourceId': instance.sourceId,
+      'rootOfficialId': instance.rootOfficialId,
+      'lineage': instance.lineage,
     };

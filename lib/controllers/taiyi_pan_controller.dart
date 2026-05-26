@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show AssetBundle;
 
 import '../taiyi/taiyi_assembly.dart';
 import '../taiyi/viewmodels/school_view_model.dart';
@@ -59,23 +58,57 @@ class TaiYiPanController extends ChangeNotifier {
   final Map<String, bool> _localVisibilityCache = {};
 
   bool isDeityVisible(String id) {
+    // If not in cache, we assume visible for now, 
+    // but the real source is the preference repo via CalculatePanUseCase.
     return _localVisibilityCache[id] ?? true;
   }
 
-  void setDeityVisibility(String id, bool visible) {
+  Future<void> setDeityVisibility(String id, bool visible) async {
     _localVisibilityCache[id] = visible;
-    deityViewModel.toggleDeityPreference(id);
-    notifyListeners();
+    await deityViewModel.toggleDeityPreference(id);
+    
+    // Immediately re-calculate to refresh UI with new visibility settings
+    if (_panData != null) {
+      await calculate(
+        dateTime: _panData!.input.dateTime,
+        schoolId: _panData!.input.schoolId,
+        chartType: _panData!.input.chartType,
+      );
+    } else {
+      notifyListeners();
+    }
   }
 
   Future<void> loadSchools() async {
     await schoolViewModel.loadSchools();
     await deityViewModel.loadDeities();
+    
+    // Initialize local visibility cache from preference repository
+    final prefs = await assembly.preferenceRepo.loadEnabledMap();
+    _localVisibilityCache.addAll(prefs);
+    notifyListeners();
   }
 
 
   Future<void> saveUserSchool(TaiYiSchool school) async {
     await schoolViewModel.saveSchool(school);
+  }
+
+  /// 切换当前流派并重新排盘。
+  ///
+  /// 内部直接调用 [calculate]，复用上次 [PanDataModel.input] 的 dateTime
+  /// 与 chartType（若已有 panData）；否则回退到当前时间与 year 盘。
+  ///
+  /// 该方法是流派管理页面在用户点击列表行后触发"切换流派"动作的入口。
+  /// 切换后 panData.accumulatedYear / juNumber / 主算落宫等参数会随流派
+  /// epoch 与算法开关而变化，UI 监听 [notifyListeners] 即自动刷新。
+  Future<void> switchSchool(String schoolId) async {
+    final last = _panData?.input;
+    await calculate(
+      dateTime: last?.dateTime ?? DateTime.now(),
+      schoolId: schoolId,
+      chartType: last?.chartType ?? TaiYiChartType.year,
+    );
   }
 
   Future<void> calculate({
