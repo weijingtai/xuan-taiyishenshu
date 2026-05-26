@@ -58,5 +58,10 @@ example/.chrome-profile/
 # RBDDS subagent state files (per .ai-governance/policies/rbdds-sprouting.md)
 tmp/
 
+# Playwright BDD test artifacts
+test/bdd/node_modules/
+test/bdd/test-results/
+test/bdd/playwright-report/
+
 # Local-only gitignore overlays
 .gitignore.local

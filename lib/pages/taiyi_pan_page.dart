@@ -640,17 +640,23 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                       spacing: 8,
                       children: [
                         ..._defaultSchoolOptions.map((s) {
-                          return ChoiceChip(
-                            label: Text(s.$2),
+                          return Semantics(
+                            identifier: 'settings-school-chip-${s.$1}',
+                            button: true,
                             selected: _selectedSchoolId == s.$1,
-                            onSelected: (_) {
-                              setDialogState(() => _selectedSchoolId = s.$1);
-                            },
-                            selectedColor: TaiYiClassicTheme.darkWood,
-                            labelStyle: TextStyle(
-                              color: _selectedSchoolId == s.$1
-                                  ? TaiYiClassicTheme.paleGold
-                                  : TaiYiClassicTheme.inkBlack,
+                            label: '选择 ${s.$2}',
+                            child: ChoiceChip(
+                              label: Text(s.$2),
+                              selected: _selectedSchoolId == s.$1,
+                              onSelected: (_) {
+                                setDialogState(() => _selectedSchoolId = s.$1);
+                              },
+                              selectedColor: TaiYiClassicTheme.darkWood,
+                              labelStyle: TextStyle(
+                                color: _selectedSchoolId == s.$1
+                                    ? TaiYiClassicTheme.paleGold
+                                    : TaiYiClassicTheme.inkBlack,
+                              ),
                             ),
                           );
                         }).toList(),
@@ -694,16 +700,21 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
                   onPressed: () => Navigator.of(ctx).pop(),
                   child: Text('取消', style: TextStyle(color: TaiYiClassicTheme.inkWash)),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    _calculate();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: TaiYiClassicTheme.cinnabar,
-                    foregroundColor: Colors.white,
+                Semantics(
+                  identifier: 'settings-submit-button',
+                  button: true,
+                  label: '起盘 / 应用参数',
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                      _calculate();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: TaiYiClassicTheme.cinnabar,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('起盘'),
                   ),
-                  child: const Text('起盘'),
                 ),
               ],
             );

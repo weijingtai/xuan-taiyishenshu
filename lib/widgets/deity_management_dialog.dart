@@ -75,7 +75,11 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        child: SingleChildScrollView(
+        child: Semantics(
+          identifier: 'deity-management-dialog',
+          container: true,
+          label: '星神管理对话框',
+          child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +89,10 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
                 _HiddenCoreWarning(theme: theme),
 
               // === Section 1: 系统内置 ===
-              const ChineseSectionHeader(title: '系统内置'),
+              Semantics(
+                identifier: 'deity-section-official',
+                child: const ChineseSectionHeader(title: '系统内置'),
+              ),
               if (officialDeities.isEmpty)
                 const Padding(
                   padding: EdgeInsets.all(16),
@@ -104,7 +111,10 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
               const SizedBox(height: 16),
 
               // === Section 2: 我的星神 ===
-              const ChineseSectionHeader(title: '我的星神'),
+              Semantics(
+                identifier: 'deity-section-user',
+                child: const ChineseSectionHeader(title: '我的星神'),
+              ),
               _MyDeitiesSection(
                 userDeities: userDeities,
                 controller: controller,
@@ -113,18 +123,26 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
               const SizedBox(height: 16),
 
               // === Section 3: Marketplace (产品占位, 唯一一处 "即将开放") ===
-              const ChineseSectionHeader(title: 'Marketplace'),
+              Semantics(
+                identifier: 'deity-section-marketplace',
+                child: const ChineseSectionHeader(title: 'Marketplace'),
+              ),
               const _MarketplacePlaceholder(),
               const SizedBox(height: 8),
             ],
           ),
         ),
+        ),
       ),
       actionsPadding: const EdgeInsets.fromLTRB(8, 0, 16, 8),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('关闭'),
+        Semantics(
+          identifier: 'deity-dialog-close',
+          button: true,
+          child: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('关闭'),
+          ),
         ),
       ],
     );
@@ -138,7 +156,11 @@ class _HiddenCoreWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Semantics(
+      identifier: 'deity-dialog-hidden-warning',
+      label: '隐藏关键星神警告',
+      container: true,
+      child: Container(
       margin: const EdgeInsets.fromLTRB(0, 4, 0, 8),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -169,6 +191,7 @@ class _HiddenCoreWarning extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
@@ -239,10 +262,18 @@ class _OfficialDeityTile extends StatelessWidget {
 
     return Opacity(
       opacity: available ? 1.0 : 0.55,
-      child: ListTile(
+      child: Semantics(
+        identifier: 'deity-tile-${deity.id}',
+        container: true,
+        child: ListTile(
         dense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-        leading: Checkbox(
+        leading: Semantics(
+          identifier: 'deity-checkbox-${deity.id}',
+          checked: available && isVisible,
+          enabled: available,
+          label: '${deity.name} 显示开关',
+          child: Checkbox(
           value: available && isVisible,
           // 反 fake completion: 不可用必须 onChanged==null,使 checkbox 真的禁用
           onChanged: available
@@ -250,6 +281,7 @@ class _OfficialDeityTile extends StatelessWidget {
               : null,
           activeColor: TaiYiClassicTheme.cinnabar,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
         ),
         title: GestureDetector(
           onTap: available
@@ -270,37 +302,51 @@ class _OfficialDeityTile extends StatelessWidget {
               ),
             );
           },
-          child: Text(
-            deity.name,
-            style: TextStyle(
-              fontSize: 15,
-              color: available
-                  ? TaiYiClassicTheme.inkBlack
-                  : TaiYiClassicTheme.inkWash,
+          child: Semantics(
+            identifier: 'deity-name-${deity.id}',
+            label: deity.name,
+            child: Text(
+              deity.name,
+              style: TextStyle(
+                fontSize: 15,
+                color: available
+                    ? TaiYiClassicTheme.inkBlack
+                    : TaiYiClassicTheme.inkWash,
+              ),
             ),
           ),
         ),
         subtitle: unavailableReason == null
             ? null
-            : Text(
-                // 反 lock-only: 必须有文字原因
-                unavailableReason,
-                key: const ValueKey('deity-unavailable-reason'),
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: TaiYiClassicTheme.inkWash,
-                  fontStyle: FontStyle.italic,
+            : Semantics(
+                identifier: 'deity-reason-${deity.id}',
+                label: unavailableReason,
+                child: Text(
+                  // 反 lock-only: 必须有文字原因
+                  unavailableReason,
+                  key: const ValueKey('deity-unavailable-reason'),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: TaiYiClassicTheme.inkWash,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
         trailing: Tooltip(
           message: '复制到我的星神',
-          child: IconButton(
-            icon: const Icon(Icons.copy, size: 16),
-            color: TaiYiClassicTheme.goldLeaf,
-            tooltip: '复制到我的星神',
-            onPressed: () => _onCopy(context),
+          child: Semantics(
+            identifier: 'deity-copy-${deity.id}',
+            button: true,
+            label: '复制 ${deity.name} 到我的星神',
+            child: IconButton(
+              icon: const Icon(Icons.copy, size: 16),
+              color: TaiYiClassicTheme.goldLeaf,
+              tooltip: '复制到我的星神',
+              onPressed: () => _onCopy(context),
+            ),
           ),
         ),
+      ),
       ),
     );
   }
@@ -400,39 +446,56 @@ class _UserDeityTile extends StatelessWidget {
 
     return Opacity(
       opacity: available ? 1.0 : 0.55,
-      child: ListTile(
+      child: Semantics(
+        identifier: 'deity-tile-${deity.id}',
+        container: true,
+        child: ListTile(
         dense: true,
         contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-        leading: Checkbox(
-          value: available && isVisible,
-          onChanged: available
-              ? (v) => controller.setDeityVisibility(deity.id, v ?? false)
-              : null,
-          activeColor: TaiYiClassicTheme.cinnabar,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        leading: Semantics(
+          identifier: 'deity-checkbox-${deity.id}',
+          checked: available && isVisible,
+          enabled: available,
+          label: '${deity.name} 显示开关',
+          child: Checkbox(
+            value: available && isVisible,
+            onChanged: available
+                ? (v) => controller.setDeityVisibility(deity.id, v ?? false)
+                : null,
+            activeColor: TaiYiClassicTheme.cinnabar,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
         title: GestureDetector(
           onTap: available
               ? () => controller.setDeityVisibility(deity.id, !isVisible)
               : null,
-          child: Text(
-            deity.name,
-            style: TextStyle(
-              fontSize: 15,
-              color: available
-                  ? TaiYiClassicTheme.inkBlack
-                  : TaiYiClassicTheme.inkWash,
+          child: Semantics(
+            identifier: 'deity-name-${deity.id}',
+            label: deity.name,
+            child: Text(
+              deity.name,
+              style: TextStyle(
+                fontSize: 15,
+                color: available
+                    ? TaiYiClassicTheme.inkBlack
+                    : TaiYiClassicTheme.inkWash,
+              ),
             ),
           ),
         ),
-        subtitle: Text(
-          unavailableReason ?? '派生自: ${deity.lineage ?? deity.sourceId ?? "(未知)"}',
-          style: TextStyle(
-            fontSize: 11,
-            color: TaiYiClassicTheme.inkWash,
-            fontStyle: unavailableReason == null
-                ? FontStyle.normal
-                : FontStyle.italic,
+        subtitle: Semantics(
+          identifier: 'deity-lineage-${deity.id}',
+          label: '${deity.name} 传承',
+          child: Text(
+            unavailableReason ?? '派生自: ${deity.lineage ?? deity.sourceId ?? "(未知)"}',
+            style: TextStyle(
+              fontSize: 11,
+              color: TaiYiClassicTheme.inkWash,
+              fontStyle: unavailableReason == null
+                  ? FontStyle.normal
+                  : FontStyle.italic,
+            ),
           ),
         ),
         trailing: Row(
@@ -440,25 +503,36 @@ class _UserDeityTile extends StatelessWidget {
           children: [
             Tooltip(
               message: '编辑',
-              child: IconButton(
-                icon: const Icon(Icons.edit, size: 16),
-                color: TaiYiClassicTheme.darkWood,
-                tooltip: '编辑',
-                onPressed: () => _onEdit(context),
+              child: Semantics(
+                identifier: 'deity-edit-${deity.id}',
+                button: true,
+                label: '编辑 ${deity.name}',
+                child: IconButton(
+                  icon: const Icon(Icons.edit, size: 16),
+                  color: TaiYiClassicTheme.darkWood,
+                  tooltip: '编辑',
+                  onPressed: () => _onEdit(context),
+                ),
               ),
             ),
             Tooltip(
               message: '删除',
-              child: IconButton(
-                key: ValueKey('delete-user-deity-${deity.id}'),
-                icon: const Icon(Icons.delete_outline, size: 16),
-                color: TaiYiClassicTheme.cinnabar,
-                tooltip: '删除',
-                onPressed: () => _onDelete(context),
+              child: Semantics(
+                identifier: 'deity-delete-${deity.id}',
+                button: true,
+                label: '删除 ${deity.name}',
+                child: IconButton(
+                  key: ValueKey('delete-user-deity-${deity.id}'),
+                  icon: const Icon(Icons.delete_outline, size: 16),
+                  color: TaiYiClassicTheme.cinnabar,
+                  tooltip: '删除',
+                  onPressed: () => _onDelete(context),
+                ),
               ),
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -521,7 +595,11 @@ class _MarketplacePlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: InkyBorder(
+      child: Semantics(
+        identifier: 'marketplace-placeholder-container',
+        label: 'Marketplace 预留区，即将开放',
+        container: true,
+        child: InkyBorder(
         padding: 12,
         // 整体灰阶 + 不可交互:placeholder 不能被勾选
         child: AbsorbPointer(
@@ -551,6 +629,7 @@ class _MarketplacePlaceholder extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

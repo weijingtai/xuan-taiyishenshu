@@ -220,13 +220,18 @@ class _SchoolManagerScaffold extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            TextField(
-              key: const Key('copy-name-field'),
-              controller: textController,
-              decoration: const InputDecoration(
-                labelText: '新流派名称',
-                border: OutlineInputBorder(),
-                isDense: true,
+            Semantics(
+              identifier: 'copy-name-input',
+              textField: true,
+              label: '新流派名称输入框',
+              child: TextField(
+                key: const Key('copy-name-field'),
+                controller: textController,
+                decoration: const InputDecoration(
+                  labelText: '新流派名称',
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
               ),
             ),
           ],
@@ -236,10 +241,15 @@ class _SchoolManagerScaffold extends StatelessWidget {
             onPressed: () => Navigator.of(ctx).pop(),
             child: const Text('取消'),
           ),
-          TextButton(
-            key: const Key('copy-confirm-button'),
-            onPressed: () => Navigator.of(ctx).pop(textController.text.trim()),
-            child: const Text('复制'),
+          Semantics(
+            identifier: 'copy-confirm-button',
+            button: true,
+            label: '确认复制',
+            child: TextButton(
+              key: const Key('copy-confirm-button'),
+              onPressed: () => Navigator.of(ctx).pop(textController.text.trim()),
+              child: const Text('复制'),
+            ),
           ),
         ],
       ),
@@ -283,29 +293,42 @@ class _SchoolManagerScaffold extends StatelessWidget {
       builder: (ctx) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                school.name,
-                style: TaiYiClassicTheme.getTitleStyle(
-                  fontSize: 20,
-                  color: TaiYiClassicTheme.darkWood,
-                  fontWeight: FontWeight.bold,
+          child: Semantics(
+            identifier: 'school-lineage-sheet-${school.id}',
+            container: true,
+            label: '${school.name} 详情与传承链',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  school.name,
+                  style: TaiYiClassicTheme.getTitleStyle(
+                    fontSize: 20,
+                    color: TaiYiClassicTheme.darkWood,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              _kv('ID', school.id),
-              _kv('来源', school.source == 'official' ? '官方资产' : '用户派生'),
-              _kv('积年基数', school.epoch.ancientBase.toString()),
-              _kv('起算年份', school.epoch.epochYear.toString()),
-              _kv('修正值', school.epoch.correction.toString()),
-              if (school.lineage != null)
-                _kv('传承链', school.lineage!),
-              if (school.rootOfficialId != null)
-                _kv('根官方流派', school.rootOfficialId!),
-            ],
+                const SizedBox(height: 8),
+                _kv('ID', school.id),
+                _kv('来源', school.source == 'official' ? '官方资产' : '用户派生'),
+                _kv('积年基数', school.epoch.ancientBase.toString()),
+                _kv('起算年份', school.epoch.epochYear.toString()),
+                _kv('修正值', school.epoch.correction.toString()),
+                if (school.lineage != null)
+                  Semantics(
+                    identifier: 'school-lineage-text',
+                    label: '传承链 ${school.lineage!}',
+                    child: _kv('传承链', school.lineage!),
+                  ),
+                if (school.rootOfficialId != null)
+                  Semantics(
+                    identifier: 'school-root-official',
+                    label: '根官方流派 ${school.rootOfficialId!}',
+                    child: _kv('根官方流派', school.rootOfficialId!),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -381,7 +404,12 @@ class SchoolListItem extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Material(
+      child: Semantics(
+        identifier: 'school-row-${school.id}',
+        label: school.name,
+        selected: isCurrent,
+        container: true,
+        child: Material(
         color: isCurrent
             ? TaiYiClassicTheme.paleGold.withValues(alpha: 0.35)
             : Colors.transparent,
@@ -420,77 +448,103 @@ class SchoolListItem extends StatelessWidget {
                       Row(
                         children: [
                           Flexible(
-                            child: Text(
-                              school.name,
-                              style: TaiYiClassicTheme.getTitleStyle(
-                                fontSize: 16,
-                                color: TaiYiClassicTheme.darkWood,
-                                fontWeight: FontWeight.w600,
+                            child: Semantics(
+                              identifier: 'school-name-${school.id}',
+                              label: school.name,
+                              child: Text(
+                                school.name,
+                                style: TaiYiClassicTheme.getTitleStyle(
+                                  fontSize: 16,
+                                  color: TaiYiClassicTheme.darkWood,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           if (isCurrent) ...[
                             const SizedBox(width: 6),
-                            const Icon(
-                              Icons.check_circle,
-                              size: 16,
-                              color: TaiYiClassicTheme.jadeGreen,
-                              semanticLabel: '当前流派',
+                            Semantics(
+                              identifier: 'school-current-marker-${school.id}',
+                              label: '当前流派',
+                              child: const Icon(
+                                Icons.check_circle,
+                                size: 16,
+                                color: TaiYiClassicTheme.jadeGreen,
+                                semanticLabel: '当前流派',
+                              ),
                             ),
                           ],
                         ],
                       ),
                       const SizedBox(height: 2),
-                      Text(
-                        _isOfficial
-                            ? '官方 · 积年基数 ${school.epoch.ancientBase}'
-                            : (school.lineage ?? '用户派生'),
-                        style: TaiYiClassicTheme.getChineseStyle(
-                          fontSize: 12,
-                          color: TaiYiClassicTheme.inkWash,
-                          fontStyle: _isOfficial
-                              ? FontStyle.normal
-                              : FontStyle.italic,
+                      Semantics(
+                        identifier: 'school-subtitle-${school.id}',
+                        child: Text(
+                          _isOfficial
+                              ? '官方 · 积年基数 ${school.epoch.ancientBase}'
+                              : (school.lineage ?? '用户派生'),
+                          style: TaiYiClassicTheme.getChineseStyle(
+                            fontSize: 12,
+                            color: TaiYiClassicTheme.inkWash,
+                            fontStyle: _isOfficial
+                                ? FontStyle.normal
+                                : FontStyle.italic,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
                       ),
                     ],
                   ),
                 ),
-                IconButton(
-                  key: Key('info-${school.id}'),
-                  icon: const Icon(Icons.info_outline, size: 20),
-                  color: TaiYiClassicTheme.inkWash,
-                  tooltip: '详情与传承链',
-                  onPressed: onShowLineage,
-                  constraints: const BoxConstraints(
-                    minWidth: 44,
-                    minHeight: 44,
-                  ),
-                ),
-                IconButton(
-                  key: Key('copy-${school.id}'),
-                  icon: const Icon(Icons.copy, size: 20),
-                  color: TaiYiClassicTheme.darkWood,
-                  tooltip: '复制为用户流派',
-                  onPressed: onCopy,
-                  constraints: const BoxConstraints(
-                    minWidth: 44,
-                    minHeight: 44,
-                  ),
-                ),
-                if (!_isOfficial && onEdit != null)
-                  IconButton(
-                    key: Key('edit-${school.id}'),
-                    icon: const Icon(Icons.edit, size: 20),
-                    color: TaiYiClassicTheme.cinnabar,
-                    tooltip: '编辑用户流派',
-                    onPressed: onEdit,
+                Semantics(
+                  identifier: 'school-info-${school.id}',
+                  button: true,
+                  label: '查看 ${school.name} 详情与传承链',
+                  child: IconButton(
+                    key: Key('info-${school.id}'),
+                    icon: const Icon(Icons.info_outline, size: 20),
+                    color: TaiYiClassicTheme.inkWash,
+                    tooltip: '详情与传承链',
+                    onPressed: onShowLineage,
                     constraints: const BoxConstraints(
                       minWidth: 44,
                       minHeight: 44,
+                    ),
+                  ),
+                ),
+                Semantics(
+                  identifier: 'school-copy-${school.id}',
+                  button: true,
+                  label: '复制 ${school.name} 为用户流派',
+                  child: IconButton(
+                    key: Key('copy-${school.id}'),
+                    icon: const Icon(Icons.copy, size: 20),
+                    color: TaiYiClassicTheme.darkWood,
+                    tooltip: '复制为用户流派',
+                    onPressed: onCopy,
+                    constraints: const BoxConstraints(
+                      minWidth: 44,
+                      minHeight: 44,
+                    ),
+                  ),
+                ),
+                if (!_isOfficial && onEdit != null)
+                  Semantics(
+                    identifier: 'school-edit-${school.id}',
+                    button: true,
+                    label: '编辑 ${school.name}',
+                    child: IconButton(
+                      key: Key('edit-${school.id}'),
+                      icon: const Icon(Icons.edit, size: 20),
+                      color: TaiYiClassicTheme.cinnabar,
+                      tooltip: '编辑用户流派',
+                      onPressed: onEdit,
+                      constraints: const BoxConstraints(
+                        minWidth: 44,
+                        minHeight: 44,
+                      ),
                     ),
                   ),
                 // 官方流派: 显式不渲染 edit/delete IconButton (反假完成红线#5)。
@@ -498,6 +552,7 @@ class SchoolListItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

@@ -1,428 +1,472 @@
 /**
- * 太乙神数流派管理系统 BDD Step Definitions
+ * 太乙神数流派管理 — Playwright BDD 真实页面验收
  *
- * 覆盖 AC8-AC14, AC16 的页面验收场景。
+ * 任务: ZenTao Task #25 [QA-9] (合并 #10)。
+ * 覆盖 AC: AC8 / AC9 / AC10 / AC11 / AC12 / AC13 / AC14 / AC16 的页面层。
  *
- * Flutter Web 注意事项：
- * - Flutter web (HTML renderer) 使用标准 DOM，可用 CSS 选择器
- * - Flutter web (CanvasKit renderer) 使用 canvas，需用 flt-semantics 节点
- * - 本测试假设使用 HTML renderer，选择器需根据实际构建调整
+ * 设计原则:
+ *   1. identifier 优先于 text — 通过 flt-semantics-identifier 定位，
+ *      Flutter widget 重命名/本地化时不破坏 spec。
+ *   2. 不依赖外部状态 — 每个用例用 beforeEach 自备数据，无 SP/Drift 种子要求。
+ *   3. 真实数据断言 — 切换流派后 expect 具体积年数变化，不是只点完按钮就 PASS。
+ *   4. 正逆都验 — 每个 AC 既有 happy path，也有 negative path。
+ *   5. 反伪 — 零 `if (count > 0) { ... }`、零 `test.skip / test.fixme`、零 TODO。
+ *
+ * 运行前提（见 README.md）:
+ *   npm install
+ *   flutter build web --web-renderer html
+ *   cd build/web && python3 -m http.server 8080 &
+ *   npx playwright test --reporter=list --trace=on
  */
 
-import { test, expect, Page, Locator } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import {
+  byId,
+  byIdInside,
+  waitAppReady,
+  readAccumulatedYear,
+  readCurrentSchoolName,
+  openDeityDialog,
+  closeDeityDialog,
+  createUserSchoolByCopy,
+  expectAtLeastNWithLabel,
+} from './_helpers';
+
+// 默认官方流派 ID（与 lib/taiyi/data 中 assets 一致）
+const SCHOOL_JING_MIRROR = 'jingMirror';
+const SCHOOL_TONG_ZONG = 'tongZong';
+const SCHOOL_JI_CHENG = 'jiCheng';
+
+// 核心星神 ID（用于 AC13 验证警告触发）
+const DEITY_TAIYI = 'taiYi';
+const DEITY_WENCHANG = 'wenChang';
+
+test.describe.configure({ mode: 'serial' });
+
+test.beforeEach(async ({ page }) => {
+  await page.goto('/');
+  await waitAppReady(page);
+});
 
 // ============================================================
-// Helper: Flutter web 页面中的通用定位器
+// AC14: 多流派切换（通过主页的设置对话框）
 // ============================================================
-
-/** 通过语义文本定位元素 */
-function byText(text: string): string {
-  return `text="${text}"`;
-}
-
-/** 通过 tooltip/aria-label 定位按钮 */
-function byRole(role: string, name?: string): string {
-  if (name) return `[role="${role}"][aria-label*="${name}"], [role="${role}"]:has-text("${name}")`;
-  return `[role="${role}"]`;
-}
-
-/** Checkbox 定位器 */
-function checkboxFor(label: string): string {
-  return `[role="checkbox"][aria-label*="${label}"], input[type="checkbox"][aria-label*="${label}"]`;
-}
-
-// ============================================================
-// AC14: 多流派切换
-// ============================================================
-
 test.describe('AC14: 多流派切换', () => {
+  test('happy: 切换到统宗派后积年数应不同于金镜派', async ({ page }) => {
+    const initialSchool = await readCurrentSchoolName(page);
+    const initialAccum = await readAccumulatedYear(page);
+    expect(initialAccum).toBeGreaterThan(0);
 
-  test('切换到统宗派后重新排盘', async ({ page }) => {
-    await page.goto('/');
-    // 假设默认是金镜派
-    await expect(page.locator(byText('金镜派'))).toBeVisible();
+    await page.locator(byId('open-settings-dialog')).click();
+    await page.locator(byId(`settings-school-chip-${SCHOOL_TONG_ZONG}`)).click();
+    await page.locator(byId('settings-submit-button')).click();
 
-    // 打开流派选择器
-    await page.locator(byText('金镜派')).click();
+    await page.waitForFunction(
+      (initial) => {
+        const grid = document.querySelector('[flt-semantics-identifier="pan-grid"]');
+        const label = grid?.getAttribute('aria-label') ?? '';
+        return !label.includes(`流派 ${initial}`);
+      },
+      initialSchool,
+      { timeout: 15000 },
+    );
 
-    // 选择统宗派
-    await page.locator(byText('统宗派')).click();
-
-    // 盘面刷新，验证积年数变化
-    await expect(page.locator(byText('统宗派'))).toBeVisible();
-    // 具体积年数值需要根据实际 UI 调整
+    const newSchool = await readCurrentSchoolName(page);
+    const newAccum = await readAccumulatedYear(page);
+    expect(newSchool, '流派名称应变化').not.toBe(initialSchool);
+    expect(newAccum, '积年数应使用统宗派公式重新计算').not.toBe(initialAccum);
   });
 
-  test('切换到用户自定义流派', async ({ page }) => {
-    await page.goto('/');
-    // 前置条件：用户已创建"我的金镜派"
-    // 这里测试 UI 切换行为
-    await page.locator(byText('金镜派')).click();
-
-    // 验证用户流派出现在列表中
-    const userSchool = page.locator(byText('我的金镜派'));
-    await expect(userSchool).toBeVisible();
-
-    // 切换到用户流派
-    await userSchool.click();
-
-    // 验证盘面刷新
-    await expect(page.locator(byText('我的金镜派'))).toBeVisible();
+  test('negative: 不存在的 schoolId chip 不渲染', async ({ page }) => {
+    await page.locator(byId('open-settings-dialog')).click();
+    await expect(page.locator(byId('settings-school-chip-non_existent'))).toHaveCount(0);
+    // 验证默认三个官方流派都存在
+    await expect(page.locator(byId(`settings-school-chip-${SCHOOL_JING_MIRROR}`))).toBeVisible();
+    await expect(page.locator(byId(`settings-school-chip-${SCHOOL_TONG_ZONG}`))).toBeVisible();
+    await expect(page.locator(byId(`settings-school-chip-${SCHOOL_JI_CHENG}`))).toBeVisible();
   });
 
-  test('从自定义流派切回官方流派', async ({ page }) => {
-    await page.goto('/');
-    // 假设当前是用户流派
-    await page.locator(byText('我的金镜派')).click();
-    await page.locator(byText('金镜派')).click();
+  test('happy: 切换到集成派后积年数应再次变化', async ({ page }) => {
+    const beforeAccum = await readAccumulatedYear(page);
+    await page.locator(byId('open-settings-dialog')).click();
+    await page.locator(byId(`settings-school-chip-${SCHOOL_JI_CHENG}`)).click();
+    await page.locator(byId('settings-submit-button')).click();
 
-    // 验证切回官方流派
-    await expect(page.locator(byText('金镜派'))).toBeVisible();
+    await page.waitForFunction(
+      (before) => {
+        const grid = document.querySelector('[flt-semantics-identifier="pan-grid"]');
+        const label = grid?.getAttribute('aria-label') ?? '';
+        const m = label.match(/积年\s*(\d+)/);
+        return m ? parseInt(m[1], 10) !== before : false;
+      },
+      beforeAccum,
+      { timeout: 15000 },
+    );
+
+    const afterAccum = await readAccumulatedYear(page);
+    expect(afterAccum, '集成派应给出不同积年数').not.toBe(beforeAccum);
   });
 });
 
 // ============================================================
-// AC8: 星神 Dialog
+// AC8: 星神 Dialog 三分区 + 置灰 + Marketplace
 // ============================================================
-
 test.describe('AC8: 星神 Dialog', () => {
+  test('happy: Dialog 包含三个分区与至少 20 个核心 Checkbox', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    await expect(byIdInside(dialog, 'deity-section-official')).toBeVisible();
+    await expect(byIdInside(dialog, 'deity-section-user')).toBeVisible();
+    await expect(byIdInside(dialog, 'deity-section-marketplace')).toBeVisible();
 
-  test('打开星神 Dialog', async ({ page }) => {
-    await page.goto('/');
+    // Marketplace 应不可勾选 (AbsorbPointer)
+    await expect(byIdInside(dialog, 'marketplace-placeholder-container')).toBeVisible();
 
-    // 点击星神管理按钮
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    // 验证 Dialog 出现
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    await expect(dialog).toBeVisible();
-
-    // 验证三个分区
-    await expect(dialog.locator(byText('系统内置'))).toBeVisible();
-    await expect(dialog.locator(byText('我的'))).toBeVisible();
-    await expect(dialog.locator(byText('Marketplace'))).toBeVisible();
+    // 至少 20 个核心 deity-checkbox (含官方+用户)
+    const checkboxes = dialog.locator('[flt-semantics-identifier^="deity-checkbox-"]');
+    await expectAtLeastNWithLabel(checkboxes, 20);
+    await closeDeityDialog(page);
   });
 
-  test('系统内置核心星神列表完整', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-
-    // 核心层 20 个星神
-    const coreDeities = [
-      '太乙', '文昌', '计神', '始击',
-      '主大将', '客大将', '主参将', '客参将', '定大将', '定参将',
-      '君基', '臣基', '民基', '五福', '大游', '小游',
-      '太岁', '岁破', '直符', '合神', '四神', '天乙', '地乙', '飞符',
-    ];
-
-    for (const deity of coreDeities) {
-      await expect(dialog.locator(byText(deity))).toBeVisible();
+  test('happy: 不可用项必须有文字原因（不允许仅靠灰色视觉）', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    const reasons = dialog.locator('[flt-semantics-identifier^="deity-reason-"]');
+    // 反伪: jingMirror+year 配置下应至少有 1 个受限星神 (chartTypes/schoolScopes 受限)。
+    await expect(reasons.first(), 'AC8 要求"置灰必须有文字原因"，前提是至少存在一个受限项').toBeVisible({ timeout: 10000 });
+    const count = await reasons.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    for (let i = 0; i < count; i++) {
+      const label = await reasons.nth(i).getAttribute('aria-label');
+      expect(label, '不可用项必须有文字原因').toBeTruthy();
+      expect(label!.length).toBeGreaterThan(0);
     }
+    await closeDeityDialog(page);
   });
 
-  test('每个星神旁有 Checkbox', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    // 验证至少有 Checkbox 存在
-    const checkboxes = dialog.locator('[role="checkbox"], input[type="checkbox"]');
-    await expect(checkboxes.first()).toBeVisible();
-    const count = await checkboxes.count();
-    expect(count).toBeGreaterThanOrEqual(20); // 至少核心层 20 个
+  test('negative: 不可用 Checkbox 的 aria-disabled 应为 true', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    const reasons = dialog.locator('[flt-semantics-identifier^="deity-reason-"]');
+    await expect(reasons.first(), '应至少有一个不可用项以验证 disabled 行为').toBeVisible({ timeout: 10000 });
+    const count = await reasons.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    for (let i = 0; i < count; i++) {
+      const reasonId = await reasons.nth(i).getAttribute('flt-semantics-identifier');
+      const deityId = reasonId!.replace('deity-reason-', '');
+      const cb = dialog.locator(byId(`deity-checkbox-${deityId}`));
+      const disabled = await cb.getAttribute('aria-disabled');
+      expect(disabled, `Checkbox for ${deityId} should be disabled`).toBe('true');
+    }
+    await closeDeityDialog(page);
   });
 });
 
 // ============================================================
-// AC9: 星神显示偏好
+// AC9: 星神显示偏好持久化（含 SP 跨刷新）
 // ============================================================
-
 test.describe('AC9: 星神显示偏好', () => {
+  test('happy: 取消勾选后盘面消失对应星神，刷新页面后偏好保留', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    const taiyiCb = dialog.locator(byId(`deity-checkbox-${DEITY_TAIYI}`));
+    const wasChecked = (await taiyiCb.getAttribute('aria-checked')) === 'true';
+    if (!wasChecked) {
+      // 先勾选回基线
+      await taiyiCb.click();
+      await expect(taiyiCb).toHaveAttribute('aria-checked', 'true');
+    }
+    // 现在取消勾选
+    await taiyiCb.click();
+    await expect(taiyiCb).toHaveAttribute('aria-checked', 'false');
+    await closeDeityDialog(page);
 
-  test('勾选星神后盘面立即刷新', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+    // 警告 banner 应出现 (AC13 关联)
+    await expect(page.locator(byId('hidden-warning-banner'))).toBeVisible();
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    // 假设"君基"当前未勾选
-    const junJiCheckbox = dialog.locator(checkboxFor('君基'));
-    await junJiCheckbox.click();
-
-    // 关闭 Dialog
-    await page.keyboard.press('Escape');
-
-    // 验证盘面上出现"君基"
-    await expect(page.locator(byText('君基'))).toBeVisible();
+    // 刷新页面，验证偏好持久化
+    await page.reload();
+    await waitAppReady(page);
+    await expect(page.locator(byId('hidden-warning-banner'))).toBeVisible();
+    const dialog2 = await openDeityDialog(page);
+    const taiyiCb2 = dialog2.locator(byId(`deity-checkbox-${DEITY_TAIYI}`));
+    await expect(taiyiCb2).toHaveAttribute('aria-checked', 'false');
+    // 恢复（清理副作用）
+    await taiyiCb2.click();
+    await closeDeityDialog(page);
   });
 
-  test('取消勾选星神后盘面立即隐藏', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+  test('negative: 不可用 Checkbox 点击应无效，状态保持', async ({ page }) => {
+    // 反伪: 不允许"找不到对象=PASS"。先断言至少存在一个 reason，否则 fail。
+    // 数据契约: jingMirror + year 配置下，schoolScopes 或 chartTypes 受限的星神
+    // 应至少有 1 个 (例如 仅 hour 适用的 太岁副、岁破副 等)。
+    const dialog = await openDeityDialog(page);
+    const reasons = dialog.locator('[flt-semantics-identifier^="deity-reason-"]');
+    await expect(reasons.first(), '应至少存在一个不可用星神以验证 disabled checkbox 行为').toBeVisible({ timeout: 10000 });
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    // 假设"君基"当前已勾选
-    const junJiCheckbox = dialog.locator(checkboxFor('君基'));
-    await junJiCheckbox.click(); // 取消勾选
-
-    await page.keyboard.press('Escape');
-
-    // 验证盘面上"君基"消失（在落宫区域，非 Dialog 内）
-    // 具体断言需要根据实际 UI 结构调整
+    const firstReasonId = await reasons.first().getAttribute('flt-semantics-identifier');
+    const deityId = firstReasonId!.replace('deity-reason-', '');
+    const cb = dialog.locator(byId(`deity-checkbox-${deityId}`));
+    const before = await cb.getAttribute('aria-checked');
+    await cb.click({ force: true }).catch(() => null);
+    const after = await cb.getAttribute('aria-checked');
+    expect(after, '不可用 checkbox 点击不应改变状态').toBe(before);
+    await closeDeityDialog(page);
   });
 });
 
 // ============================================================
-// AC8 (续): 不可用项置灰
+// AC10 / AC12 / AC16: 复制官方星神 + 传承链 + 不修改官方
 // ============================================================
+test.describe('AC10/AC12/AC16: 复制官方星神为用户星神', () => {
+  test('happy: 复制后我的星神区出现新行，官方仍存在', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    // 找到任意一个有 copy 按钮的官方星神
+    const copyBtns = dialog.locator('[flt-semantics-identifier^="deity-copy-"]');
+    await expect(copyBtns.first()).toBeVisible();
+    const firstCopyId = await copyBtns.first().getAttribute('flt-semantics-identifier');
+    const sourceDeityId = firstCopyId!.replace('deity-copy-', '');
 
-test.describe('AC8: 星神可用性', () => {
+    // 记录复制前官方该 deity 的存在
+    const officialTile = dialog.locator(byId(`deity-tile-${sourceDeityId}`));
+    await expect(officialTile).toBeVisible();
 
-  test('不可用的星神置灰并显示原因', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+    // 触发复制 (会创建 user_<id>_<ts>)
+    await copyBtns.first().click();
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
+    // SnackBar / 等待新 user tile 出现
+    const userTiles = dialog.locator(`[flt-semantics-identifier^="deity-tile-user_${sourceDeityId}_"]`);
+    await expect(userTiles.first()).toBeVisible({ timeout: 10000 });
 
-    // 查找置灰的星神项
-    const greyedItems = dialog.locator('.disabled, [aria-disabled="true"], .greyed-out');
-    const count = await greyedItems.count();
+    // 验证官方仍存在
+    await expect(officialTile).toBeVisible();
 
-    if (count > 0) {
-      // 验证置灰项有不可用原因说明
-      for (let i = 0; i < count; i++) {
-        const item = greyedItems.nth(i);
-        const reasonText = await item.locator('.reason, .tooltip, [title]').textContent();
-        expect(reasonText).toBeTruthy();
-      }
-    }
+    // AC12: 用户星神应有 lineage subtitle (非空 aria-label)
+    const userTileFirst = userTiles.first();
+    const userTileId = await userTileFirst.getAttribute('flt-semantics-identifier');
+    const userDeityId = userTileId!.replace('deity-tile-', '');
+    const lineage = dialog.locator(byId(`deity-lineage-${userDeityId}`));
+    await expect(lineage).toBeVisible();
+    const lineageLabel = await lineage.getAttribute('aria-label');
+    expect(lineageLabel, 'lineage label 应非空').toBeTruthy();
+    expect(lineageLabel!.length).toBeGreaterThan(0);
+
+    await closeDeityDialog(page);
   });
 
-  test('置灰的星神 Checkbox 不可勾选', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+  test('negative: 用户星神 delete 按钮存在；官方星神不应有 delete 按钮', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    // 先复制一个以保证至少一个用户 deity
+    const copyBtns = dialog.locator('[flt-semantics-identifier^="deity-copy-"]');
+    await copyBtns.first().click();
+    const userTiles = dialog.locator('[flt-semantics-identifier^="deity-tile-user_"]');
+    await expect(userTiles.first()).toBeVisible({ timeout: 10000 });
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    const disabledCheckbox = dialog.locator('[role="checkbox"][aria-disabled="true"], input[type="checkbox"]:disabled');
+    // 验证用户 tile 有 delete 按钮
+    const userTileId = await userTiles.first().getAttribute('flt-semantics-identifier');
+    const userDeityId = userTileId!.replace('deity-tile-', '');
+    await expect(dialog.locator(byId(`deity-delete-${userDeityId}`))).toBeVisible();
 
-    const count = await disabledCheckbox.count();
-    if (count > 0) {
-      // 验证不可勾选
-      await expect(disabledCheckbox.first()).toBeDisabled();
-    }
-  });
-});
+    // 验证官方 tile 不存在对应 delete identifier
+    const officialCopyBtns = dialog.locator('[flt-semantics-identifier^="deity-copy-"]');
+    const firstOfficialCopyId = await officialCopyBtns.first().getAttribute('flt-semantics-identifier');
+    const officialDeityId = firstOfficialCopyId!.replace('deity-copy-', '');
+    // 官方 deity 不应有 deity-delete- identifier
+    await expect(dialog.locator(byId(`deity-delete-${officialDeityId}`))).toHaveCount(0);
 
-// ============================================================
-// AC10: 我的星神
-// ============================================================
-
-test.describe('AC10: 我的星神', () => {
-
-  test('复制官方星神为我的星神', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-
-    // 找到"阳九"并点击复制
-    const yangJiu = dialog.locator(byText('阳九')).first();
-    await yangJiu.locator('..').locator('button:has-text("复制"), [aria-label*="复制"]').click();
-
-    // 编辑对话框
-    const editDialog = page.locator('[role="dialog"]:not(:has-text("系统内置"))');
-    await expect(editDialog).toBeVisible();
-
-    // 修改名称
-    const nameInput = editDialog.locator('input[aria-label*="名称"], input[name*="name"]');
-    await nameInput.clear();
-    await nameInput.fill('阳九-红色实验版');
-
-    // 保存
-    await editDialog.locator('button:has-text("保存")').click();
-
-    // 验证"我的"分区出现新星神
-    const mySection = dialog.locator(':text("我的")').locator('..');
-    await expect(mySection.locator(byText('阳九-红色实验版'))).toBeVisible();
-
-    // 验证官方"阳九"未被修改
-    await expect(dialog.locator(':text("系统内置")').locator('..').locator(byText('阳九'))).toBeVisible();
-  });
-
-  test('复制后的星神默认对所有流派和盘型可用', async ({ page }) => {
-    // 验证复制时 applicableSchools 和 applicableChartTypes 为空
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    const mySection = dialog.locator(':text("我的")').locator('..');
-    const myDeity = mySection.locator(byText('我的阳九'));
-
-    // 点击编辑查看适用范围
-    await myDeity.locator('..').locator('button:has-text("编辑"), [aria-label*="编辑"]').click();
-
-    // 验证适用流派为空（全部可用）
-    const schoolSelector = page.locator('[aria-label*="适用流派"]');
-    // 具体断言需根据 UI 实现调整
-  });
-
-  test('官方和用户星神可同盘显示', async ({ page }) => {
-    await page.goto('/');
-
-    // 前置：确保官方"阳九"和"我的阳九"都已勾选
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-
-    // 勾选两个
-    await dialog.locator(checkboxFor('阳九')).first().check();
-    await dialog.locator(checkboxFor('我的阳九')).check();
-    await page.keyboard.press('Escape');
-
-    // 验证盘面上两个都显示
-    // 具体断言需根据 UI 结构调整
-  });
-
-  test('复制的星神不可修改 templateId', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    const mySection = dialog.locator(':text("我的")').locator('..');
-    await mySection.locator(byText('我的阳九')).locator('..').locator('button:has-text("编辑")').click();
-
-    // 验证 templateId 字段不可编辑
-    const templateField = page.locator('[aria-label*="templateId"], [name*="template"]');
-    if (await templateField.isVisible()) {
-      await expect(templateField).toBeDisabled();
-    }
+    await closeDeityDialog(page);
   });
 });
 
 // ============================================================
 // AC11: 我的流派
+//
+// 前置依赖: SchoolManagerPage 必须可通过路由可达。当前 main.dart 中
+// home=TaiYiPanPage，未 wire `/school-manager` 路由。这些场景将通过
+// 直接 navigate 到 `/#/school-manager` 验证；若 Master 尚未 wire 路由，
+// 它们会 fail 并暴露路由缺失 (这是显式失败，不是 fake pass)。
 // ============================================================
-
-test.describe('AC11: 我的流派', () => {
-
-  test('官方流派不可修改', async ({ page }) => {
-    await page.goto('/');
-    // 查看官方流派
-    await page.locator(byText('金镜派')).click();
-
-    // 验证没有编辑/删除按钮
-    const editBtn = page.locator('button:has-text("编辑"), [aria-label*="编辑"]');
-    const deleteBtn = page.locator('button:has-text("删除"), [aria-label*="删除"]');
-    await expect(editBtn).not.toBeVisible();
-    await expect(deleteBtn).not.toBeVisible();
-
-    // 只有复制按钮
-    const copyBtn = page.locator('button:has-text("复制"), [aria-label*="复制"]');
-    await expect(copyBtn).toBeVisible();
+test.describe('AC11: 我的流派 (依赖 SchoolManagerPage 路由)', () => {
+  test.beforeEach(async ({ page }) => {
+    // 试图导航到 SchoolManagerPage
+    await page.goto('/#/school-manager');
+    // 等待 row 出现或显式 fail
+    await page.locator(byId(`school-row-${SCHOOL_JING_MIRROR}`)).waitFor({
+      state: 'visible',
+      timeout: 15000,
+    });
   });
 
-  test('复制官方流派创建用户流派', async ({ page }) => {
-    await page.goto('/');
-    // 点击金镜派的复制按钮
-    await page.locator(byText('金镜派')).locator('..').locator('button:has-text("复制")').click();
-
-    // 编辑对话框
-    const editDialog = page.locator('[role="dialog"], .modal');
-    await expect(editDialog).toBeVisible();
-
-    // 修改名称
-    const nameInput = editDialog.locator('input[aria-label*="名称"], input[name*="name"]');
-    await nameInput.clear();
-    await nameInput.fill('太乙新法');
-
-    // 修改 ancientBase
-    const baseInput = editDialog.locator('input[aria-label*="积年"], input[name*="ancientBase"]');
-    if (await baseInput.isVisible()) {
-      await baseInput.clear();
-      await baseInput.fill('2000000');
-    }
-
-    // 保存
-    await editDialog.locator('button:has-text("保存")').click();
-
-    // 验证列表出现新流派
-    await expect(page.locator(byText('太乙新法'))).toBeVisible();
-
-    // 验证金镜派未被修改
-    await expect(page.locator(byText('金镜派'))).toBeVisible();
+  test('happy: 官方流派 row 没有 edit 按钮，只有 copy + info', async ({ page }) => {
+    const officialRow = page.locator(byId(`school-row-${SCHOOL_JING_MIRROR}`));
+    await expect(officialRow).toBeVisible();
+    await expect(page.locator(byId(`school-copy-${SCHOOL_JING_MIRROR}`))).toBeVisible();
+    await expect(page.locator(byId(`school-info-${SCHOOL_JING_MIRROR}`))).toBeVisible();
+    await expect(page.locator(byId(`school-edit-${SCHOOL_JING_MIRROR}`))).toHaveCount(0);
   });
 
-  test('用户流派保存传承链', async ({ page }) => {
-    await page.goto('/');
-    // 查看用户流派详情
-    await page.locator(byText('我的金镜派')).click();
-    await page.locator('button:has-text("详情"), [aria-label*="详情"]').click();
+  test('happy: 复制流派后我的流派 row 有 edit 按钮', async ({ page }) => {
+    const newName = `太乙新法_${Date.now()}`;
+    await createUserSchoolByCopy(page, SCHOOL_JING_MIRROR, newName);
+    const userRow = page.locator(byId('school-row-')).filter({ hasText: newName }).first();
+    await expect(userRow).toBeVisible();
 
-    // 验证传承路径
-    await expect(page.locator(byText('金镜派 > 我的金镜派'))).toBeVisible();
+    const userRowId = await userRow.getAttribute('flt-semantics-identifier');
+    const userSchoolId = userRowId!.replace('school-row-', '');
+    await expect(page.locator(byId(`school-edit-${userSchoolId}`))).toBeVisible();
   });
 });
 
 // ============================================================
-// AC13: 隐藏关键项提醒
+// AC12: 传承链 (依赖 SchoolManagerPage 路由)
 // ============================================================
+test.describe('AC12: 传承链', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/#/school-manager');
+    await page.locator(byId(`school-row-${SCHOOL_JING_MIRROR}`)).waitFor({
+      state: 'visible',
+      timeout: 15000,
+    });
+  });
 
+  test('happy: 用户流派 info 弹窗显示传承链字段', async ({ page }) => {
+    const newName = `传承测试_${Date.now()}`;
+    await createUserSchoolByCopy(page, SCHOOL_JING_MIRROR, newName);
+    const userRow = page.locator(byId('school-row-')).filter({ hasText: newName }).first();
+    const userRowId = await userRow.getAttribute('flt-semantics-identifier');
+    const userSchoolId = userRowId!.replace('school-row-', '');
+
+    await page.locator(byId(`school-info-${userSchoolId}`)).click();
+    const sheet = page.locator(byId(`school-lineage-sheet-${userSchoolId}`));
+    await expect(sheet).toBeVisible();
+
+    const lineageText = sheet.locator(byId('school-lineage-text'));
+    await expect(lineageText).toBeVisible();
+    const lineageLabel = await lineageText.getAttribute('aria-label');
+    expect(lineageLabel, '传承链 label 应非空').toBeTruthy();
+    expect(lineageLabel!).toMatch(/传承链/);
+  });
+
+  test('negative: 官方流派 info 弹窗不显示传承链字段', async ({ page }) => {
+    await page.locator(byId(`school-info-${SCHOOL_JING_MIRROR}`)).click();
+    const sheet = page.locator(byId(`school-lineage-sheet-${SCHOOL_JING_MIRROR}`));
+    await expect(sheet).toBeVisible();
+    await expect(sheet.locator(byId('school-lineage-text'))).toHaveCount(0);
+  });
+});
+
+// ============================================================
+// AC13: 隐藏关键项警告（含 false-positive 防御）
+// ============================================================
 test.describe('AC13: 隐藏关键项提醒', () => {
+  test('happy: 隐藏核心星神触发警告 banner', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    const taiyiCb = dialog.locator(byId(`deity-checkbox-${DEITY_TAIYI}`));
+    const initial = await taiyiCb.getAttribute('aria-checked');
+    if (initial === 'false') {
+      // 先勾上确保起点为 true
+      await taiyiCb.click();
+    }
+    await taiyiCb.click(); // 取消勾选
+    await expect(taiyiCb).toHaveAttribute('aria-checked', 'false');
+    await closeDeityDialog(page);
 
-  test('隐藏核心星神时显示提醒', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+    // 主页面 banner 必须可见
+    await expect(page.locator(byId('hidden-warning-banner'))).toBeVisible();
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-
-    // 取消勾选核心星神"太乙"
-    await dialog.locator(checkboxFor('太乙')).click();
-
-    // 验证提醒出现
-    await expect(page.locator(byText('盘面解释可能不完整'))).toBeVisible();
+    // 恢复
+    const dialog2 = await openDeityDialog(page);
+    await dialog2.locator(byId(`deity-checkbox-${DEITY_TAIYI}`)).click();
+    await closeDeityDialog(page);
   });
 
-  test('恢复所有核心星神后提醒消失', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
+  test('happy: 恢复核心星神后警告消失', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    const taiyiCb = dialog.locator(byId(`deity-checkbox-${DEITY_TAIYI}`));
+    if ((await taiyiCb.getAttribute('aria-checked')) === 'true') {
+      await taiyiCb.click();
+    }
+    await expect(taiyiCb).toHaveAttribute('aria-checked', 'false');
+    await closeDeityDialog(page);
+    await expect(page.locator(byId('hidden-warning-banner'))).toBeVisible();
 
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
+    // 恢复
+    const dialog2 = await openDeityDialog(page);
+    await dialog2.locator(byId(`deity-checkbox-${DEITY_TAIYI}`)).click();
+    await closeDeityDialog(page);
+    await expect(page.locator(byId('hidden-warning-banner'))).toHaveCount(0);
+  });
 
-    // 先隐藏太乙
-    await dialog.locator(checkboxFor('太乙')).click();
-    await expect(page.locator(byText('盘面解释可能不完整'))).toBeVisible();
+  test('negative: 隐藏非核心星神不应触发警告（防 false positive）', async ({ page }) => {
+    const dialog = await openDeityDialog(page);
+    // 数据契约: jingMirror 流派应至少有一个非核心星神可点 (tianYi/diYi/feiFu 任一)。
+    // 反伪: 若全找不到则 expect 失败，不允许"找不到=PASS"。
+    const candidates = ['tianYi', 'diYi', 'feiFu'];
+    let toggledId: string | null = null;
+    for (const id of candidates) {
+      const cb = dialog.locator(byId(`deity-checkbox-${id}`));
+      const exists = (await cb.count()) === 1;
+      if (!exists) continue;
+      const disabled = await cb.getAttribute('aria-disabled');
+      const checked = (await cb.getAttribute('aria-checked')) === 'true';
+      if (disabled !== 'true' && checked) {
+        await cb.click();
+        toggledId = id;
+        break;
+      }
+    }
+    expect(toggledId, '应至少有一个非核心星神 (tianYi/diYi/feiFu) 可被取消勾选').toBeTruthy();
+    await closeDeityDialog(page);
 
-    // 恢复太乙
-    await dialog.locator(checkboxFor('太乙')).click();
+    // 警告 banner 不应出现 (核心星神未隐藏)
+    await expect(page.locator(byId('hidden-warning-banner'))).toHaveCount(0);
 
-    // 验证提醒消失
-    await expect(page.locator(byText('盘面解释可能不完整'))).not.toBeVisible();
+    // 恢复
+    const dialog2 = await openDeityDialog(page);
+    await dialog2.locator(byId(`deity-checkbox-${toggledId}`)).click();
+    await closeDeityDialog(page);
   });
 });
 
 // ============================================================
-// AC16: 官方资产派生原则
+// AC16: 官方资产派生原则 (依赖 SchoolManagerPage 路由)
 // ============================================================
-
 test.describe('AC16: 官方资产派生原则', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/#/school-manager');
+    await page.locator(byId(`school-row-${SCHOOL_JING_MIRROR}`)).waitFor({
+      state: 'visible',
+      timeout: 15000,
+    });
+  });
 
-  test('派生对象保留传承链字段', async ({ page }) => {
-    await page.goto('/');
+  test('happy: 派生后官方流派的 subtitle 显示不变', async ({ page }) => {
+    // 读官方 subtitle (含 "积年基数 N")
+    const officialSubtitle = page.locator(byId(`school-subtitle-${SCHOOL_JING_MIRROR}`));
+    await expect(officialSubtitle).toBeVisible();
+    const beforeText = await officialSubtitle.textContent();
 
-    // 复制官方星神
-    await page.locator('[aria-label*="星神"], button:has-text("星神")').click();
-    const dialog = page.locator('[role="dialog"], .dialog, .modal');
-    await dialog.locator(byText('阳九')).first().locator('..').locator('button:has-text("复制")').click();
+    // 派生
+    const newName = `派生检测_${Date.now()}`;
+    await createUserSchoolByCopy(page, SCHOOL_JING_MIRROR, newName);
 
-    const editDialog = page.locator('[role="dialog"]:not(:has-text("系统内置"))');
-    await editDialog.locator('input[aria-label*="名称"]').fill('测试派生');
-    await editDialog.locator('button:has-text("保存")').click();
+    // 官方 subtitle 文本应不变
+    const afterText = await officialSubtitle.textContent();
+    expect(afterText).toBe(beforeText);
+  });
 
-    // 验证派生对象有 lineage 字段（通过详情查看）
-    const mySection = dialog.locator(':text("我的")').locator('..');
-    await mySection.locator(byText('测试派生')).locator('..').locator('button:has-text("详情")').click();
+  test('happy: 用户流派的 root_official 应指向源 (lineage 包含源名)', async ({ page }) => {
+    const newName = `根追溯_${Date.now()}`;
+    await createUserSchoolByCopy(page, SCHOOL_JING_MIRROR, newName);
+    const userRow = page.locator(byId('school-row-')).filter({ hasText: newName }).first();
+    const userRowId = await userRow.getAttribute('flt-semantics-identifier');
+    const userSchoolId = userRowId!.replace('school-row-', '');
 
-    // 验证显示来源路径
-    await expect(page.locator(byText('阳九 > 测试派生'))).toBeVisible();
+    await page.locator(byId(`school-info-${userSchoolId}`)).click();
+    const sheet = page.locator(byId(`school-lineage-sheet-${userSchoolId}`));
+    await expect(sheet).toBeVisible();
+
+    // 根官方流派应非空，且 label 包含某个官方流派 id 关键字
+    const rootText = sheet.locator(byId('school-root-official'));
+    await expect(rootText).toBeVisible();
+    const rootLabel = await rootText.getAttribute('aria-label');
+    expect(rootLabel).toBeTruthy();
+    expect(rootLabel!).toMatch(/jingMirror|tongZong|jiCheng/);
   });
 });

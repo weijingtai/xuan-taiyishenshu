@@ -783,7 +783,29 @@ class PanInfoPanel extends StatelessWidget {
   }
 
   Widget _infoChip(String label, String value) {
-    return Container(
+    // Map 中文 label 到稳定 identifier，供 Playwright BDD 按 identifier 抓数值。
+    // 详见 docs/wjt-Claude/qa/zt-25-playwright-2026-05-26/superpowers/specs/
+    const idMap = <String, String>{
+      '积年': 'pan-accumulated-year',
+      '积月': 'pan-accumulated-month',
+      '积日': 'pan-accumulated-day',
+      '积时': 'pan-accumulated-hour',
+      '积刻': 'pan-accumulated-ke',
+      '局数': 'pan-ju-number',
+      '遁法': 'pan-dun-type',
+      '太乙宫': 'pan-taiyi-palace',
+      '文昌宫': 'pan-wenchang-palace',
+      '计神宫': 'pan-jishen-palace',
+      '基数': 'pan-school-base',
+      '时间': 'pan-input-datetime',
+      '纪数': 'pan-ji-number',
+      '五子元局': 'pan-wuzi-yuan-ju',
+    };
+    final identifier = idMap[label] ?? 'pan-chip-${label.hashCode}';
+    return Semantics(
+      identifier: identifier,
+      label: '$label $value',
+      child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: TaiYiClassicTheme.ricePaper,
@@ -814,6 +836,7 @@ class PanInfoPanel extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 
