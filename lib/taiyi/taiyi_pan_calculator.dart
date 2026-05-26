@@ -76,6 +76,7 @@ class TaiYiPanCalculator {
     required TaiYiChartType chartType,
     bool useTrueSolarTime = false,
     String? location,
+    Set<String> hiddenDeityIds = const {},
   }) {
     return _calculate(
       dateTime: dateTime,
@@ -85,6 +86,7 @@ class TaiYiPanCalculator {
       useTrueSolarTime: useTrueSolarTime,
       location: location,
       definitions: definitions,
+      hiddenDeityIds: hiddenDeityIds,
     );
   }
 
@@ -162,6 +164,7 @@ class TaiYiPanCalculator {
     required bool useTrueSolarTime,
     required String? location,
     required List<DeityDefinition> definitions,
+    Set<String> hiddenDeityIds = const {},
   }) {
     final input = PanInputModel(
       dateTime: dateTime,
@@ -308,7 +311,16 @@ class TaiYiPanCalculator {
           !builtInItems.any((bi) => bi.name == item.name)),
     ];
 
-    final palaces = _buildPalaces(items: placedItems);
+    // 按用户偏好过滤可隐藏的内置星神与引擎星神。
+    // builtIn 中只过滤 4 个明确支持的核心 ID (太乙/文昌/计神/始击),
+    // 其余项 (八门/主算/客算/天盘其它) 不在 SPEC AC9 范围内, 不受偏好控制。
+    final filteredPlacedItems = hiddenDeityIds.isEmpty
+        ? placedItems
+        : placedItems
+            .where((item) => !_isItemHiddenByPreference(item, hiddenDeityIds))
+            .toList();
+
+    final palaces = _buildPalaces(items: filteredPlacedItems);
 
     final guiShen = _buildGuiShen(accumulatedSeqValue);
 
@@ -1220,6 +1232,59 @@ List<PanComputedItem> _buildBuiltInItems({
         priority: 45));
   }
   return items;
+}
+
+/// 用户偏好可隐藏的内置星神 ID 白名单 (built-in 直接占位项)。
+///
+/// 仅这 4 个核心 ID 由 `_buildBuiltInItems` 直接产生 `builtIn:<id>` 形式的 PanComputedItem,
+/// 它们独立于 deity definitions 列表, 必须显式过滤。
+const Set<String> _filterableBuiltInDeityIds = {
+  'taiYi',
+  'wenChang',
+  'jiShen',
+  'shiJi',
+};
+
+/// 判定单个 PanComputedItem 是否应被用户偏好过滤。
+///
+/// 适用 ID 模式 (与 _buildBuiltInItems / engine 输出一致):
+/// - `builtIn:<deityId>`           (太乙/文昌/计神/始击 4 核心, 白名单)
+/// - `builtIn:tian:<kind>`         (天盘小游/飞符/君基/臣基/民基 等; kind 与 deity ID 同名)
+/// - `builtIn:shen:<kind>`         (神盘太岁/岁破/青龙/朱雀/白虎/玄武 等; kind 与 deity ID 同名)
+/// - `engine:<deityId>`            (引擎对自定义/扩展 deity 算出来的项)
+///
+/// 不过滤:
+/// - `builtIn:eightDoor:*`         (八门, SPEC AC9 不在偏好范围)
+/// - `builtIn:hostCount` / `builtIn:guestCount` (主算 / 客算)
+bool _isItemHiddenByPreference(
+  PanComputedItem item,
+  Set<String> hiddenDeityIds,
+) {
+  if (hiddenDeityIds.isEmpty) return false;
+  final parts = item.id.split(':');
+  if (parts.length < 2) return false;
+  final prefix = parts[0];
+
+  if (prefix == 'engine') {
+    final deityId = parts[1];
+    return hiddenDeityIds.contains(deityId);
+  }
+
+  if (prefix == 'builtIn') {
+    // builtIn:<deityId> 形式 (4 核心)
+    if (parts.length == 2) {
+      final deityId = parts[1];
+      return _filterableBuiltInDeityIds.contains(deityId) &&
+          hiddenDeityIds.contains(deityId);
+    }
+    // builtIn:tian:<kind> / builtIn:shen:<kind>
+    if (parts.length >= 3 && (parts[1] == 'tian' || parts[1] == 'shen')) {
+      final kind = parts[2];
+      return hiddenDeityIds.contains(kind);
+    }
+  }
+
+  return false;
 }
 
 RenPanModel _buildRenPan({

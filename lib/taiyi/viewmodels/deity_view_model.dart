@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../core/deity_definition.dart';
+import '../core/school_repository.dart';
 import '../usecases/load_deities_usecase.dart';
 import '../usecases/save_user_deity_usecase.dart';
 import '../usecases/copy_deity_usecase.dart';
@@ -14,6 +15,9 @@ class DeityViewModel extends ChangeNotifier {
   final DeleteUserDeityUseCase deleteUserDeityUseCase;
   final ToggleDeityPreferenceUseCase toggleDeityPreferenceUseCase;
   final DeityAvailabilityUseCase deityAvailabilityUseCase;
+  // 偏好 Repository 直接注入, 用于支持 “设定偏好为某个具体值” (区别于 toggle)。
+  // 修复 ZT-21 中 setDeityVisibility(id, false) 调 toggle 的脱钩漏洞。
+  final DeityPreferenceRepository? _preferenceRepository;
 
   List<DeityDefinition> _deities = [];
   bool _isLoading = false;
@@ -25,7 +29,8 @@ class DeityViewModel extends ChangeNotifier {
     required this.deleteUserDeityUseCase,
     required this.toggleDeityPreferenceUseCase,
     required this.deityAvailabilityUseCase,
-  });
+    DeityPreferenceRepository? preferenceRepository,
+  }) : _preferenceRepository = preferenceRepository;
 
   List<DeityDefinition> get deities => _deities;
   bool get isLoading => _isLoading;
@@ -91,6 +96,20 @@ class DeityViewModel extends ChangeNotifier {
 
   Future<bool> toggleDeityPreference(String deityId) async {
     return await toggleDeityPreferenceUseCase(deityId);
+  }
+
+  /// 把指定星神的显示偏好设为具体值 (区别于 toggle)。
+  ///
+  /// 修复 ZT-21 toggle 漏洞: setDeityVisibility(id, false) 反复调用会
+  /// 在 toggle 路径下交替翻转, 与本地 cache 脱钩。
+  /// 调用方需注入 [DeityPreferenceRepository], 否则抛 StateError。
+  Future<void> setDeityPreference(String deityId, bool enabled) async {
+    if (_preferenceRepository == null) {
+      throw StateError(
+        'DeityViewModel.setDeityPreference 需要在构造时注入 preferenceRepository',
+      );
+    }
+    await _preferenceRepository.setEnabled(deityId, enabled);
   }
 
   Future<bool> checkAvailability({

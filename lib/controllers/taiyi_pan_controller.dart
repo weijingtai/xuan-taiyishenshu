@@ -31,6 +31,7 @@ class TaiYiPanController extends ChangeNotifier {
       deleteUserDeityUseCase: assembly.deleteUserDeityUseCase,
       toggleDeityPreferenceUseCase: assembly.toggleDeityPreferenceUseCase,
       deityAvailabilityUseCase: assembly.deityAvailabilityUseCase,
+      preferenceRepository: assembly.preferenceRepo,
     );
 
     // Forward notifications from ViewModels
@@ -65,8 +66,9 @@ class TaiYiPanController extends ChangeNotifier {
 
   Future<void> setDeityVisibility(String id, bool visible) async {
     _localVisibilityCache[id] = visible;
-    await deityViewModel.toggleDeityPreference(id);
-    
+    // ZT-21 修复: 直接 setEnabled(id, visible), 不再 toggle, 防止重复调用脱钩。
+    await deityViewModel.setDeityPreference(id, visible);
+
     // Immediately re-calculate to refresh UI with new visibility settings
     if (_panData != null) {
       await calculate(

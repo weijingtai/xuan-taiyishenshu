@@ -57,9 +57,17 @@ class CalculatePanUseCase {
       final isEnabled = preferenceMap[d.id] ?? true;
       final inSchoolScope = d.schoolScopes.isEmpty || d.schoolScopes.contains(schoolId);
       final inChartTypeScope = d.chartTypes.isEmpty || d.chartTypes.contains(chartType.name);
-      
+
       return isEnabled && inSchoolScope && inChartTypeScope;
     }).toList();
+
+    // 4b. 构造被用户显式禁用的 deity ID 集合, 用于过滤内置占位项 (太乙/文昌/计神/始击)。
+    // 这是 AC9 "勾选后盘面立即刷新" 的算法层基础: 仅靠 activeDefinitions 不够, 因为
+    // calculator 的 _buildBuiltInItems 会硬塞 4 个核心 PanComputedItem 不看 definitions。
+    final hiddenDeityIds = preferenceMap.entries
+        .where((entry) => entry.value == false)
+        .map((entry) => entry.key)
+        .toSet();
 
     // 5. 执行计算
     return calculator.calculateWithConfig(
@@ -69,6 +77,7 @@ class CalculatePanUseCase {
       chartType: chartType,
       useTrueSolarTime: useTrueSolarTime,
       location: location,
+      hiddenDeityIds: hiddenDeityIds,
     );
   }
 }

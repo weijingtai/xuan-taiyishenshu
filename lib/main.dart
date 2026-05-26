@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 
 import 'pages/taiyi_pan_page.dart';
 import 'theme/taiyi_classic_theme.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // 显式启用 Semantics：让 Flutter Web 把 widget tree 的语义节点投射到 DOM。
+  // 这是无障碍生产改进，同时也是 Playwright BDD 验收（ZT-25/10）可以稳定按
+  // identifier 定位的前置。详见 docs/wjt-Claude/qa/zt-25-playwright-2026-05-26/
+  // 下的 SPEC 第 3.1 节。
+  SemanticsBinding.instance.ensureSemantics();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

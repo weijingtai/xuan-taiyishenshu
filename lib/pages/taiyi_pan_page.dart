@@ -150,15 +150,25 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
         style: TaiYiClassicTheme.getTitleStyle(fontSize: 22, color: TaiYiClassicTheme.paleGold),
       ),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.auto_awesome, color: TaiYiClassicTheme.goldLeaf),
-          onPressed: _showDeityManagementDialog,
-          tooltip: '星神管理',
+        Semantics(
+          identifier: 'open-deity-dialog',
+          button: true,
+          label: '打开星神管理',
+          child: IconButton(
+            icon: const Icon(Icons.auto_awesome, color: TaiYiClassicTheme.goldLeaf),
+            onPressed: _showDeityManagementDialog,
+            tooltip: '星神管理',
+          ),
         ),
-        IconButton(
-          icon: const Icon(Icons.settings, color: TaiYiClassicTheme.goldLeaf),
-          onPressed: _showSettingsDialog,
-          tooltip: '起盘参数',
+        Semantics(
+          identifier: 'open-settings-dialog',
+          button: true,
+          label: '打开起盘参数',
+          child: IconButton(
+            icon: const Icon(Icons.settings, color: TaiYiClassicTheme.goldLeaf),
+            onPressed: _showSettingsDialog,
+            tooltip: '起盘参数',
+          ),
         ),
       ],
     );
@@ -211,28 +221,37 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   Widget _buildContent(bool isWide, PanDataModel panData) {
     final screenWidth = MediaQuery.of(context).size.width;
     final gridWidth = isWide ? screenWidth * 0.6 : screenWidth - 24;
-    final grid = _useV2
-        ? TaiYiPanGridV2(
-            panData: panData,
-            totalWidth: gridWidth.clamp(320.0, 900.0),
-            onGongTap: (gong) {
-              setState(() {
-                _selectedGong = _selectedGong == gong ? null : gong;
-              });
-            },
-          )
-        : TaiYiPanGrid(
-            panData: panData,
-            totalWidth: gridWidth.clamp(320.0, 900.0),
-            onGongTap: (gong) {
-              setState(() {
-                _selectedGong = _selectedGong == gong ? null : gong;
-              });
-            },
-          );
-    final info = PanInfoPanel(
-      panData: panData,
-      selectedGong: _selectedGong,
+    final grid = Semantics(
+      identifier: 'pan-grid',
+      label: '当前盘面，流派 ${panData.input.schoolName}，积年 ${panData.accumulatedYear}',
+      container: true,
+      child: _useV2
+          ? TaiYiPanGridV2(
+              panData: panData,
+              totalWidth: gridWidth.clamp(320.0, 900.0),
+              onGongTap: (gong) {
+                setState(() {
+                  _selectedGong = _selectedGong == gong ? null : gong;
+                });
+              },
+            )
+          : TaiYiPanGrid(
+              panData: panData,
+              totalWidth: gridWidth.clamp(320.0, 900.0),
+              onGongTap: (gong) {
+                setState(() {
+                  _selectedGong = _selectedGong == gong ? null : gong;
+                });
+              },
+            ),
+    );
+    final info = Semantics(
+      identifier: 'pan-info-panel',
+      container: true,
+      child: PanInfoPanel(
+        panData: panData,
+        selectedGong: _selectedGong,
+      ),
     );
 
     final selectorBar = _buildSelectorBar();
@@ -240,23 +259,28 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     return Column(
       children: [
         if (_controller.showHiddenWarning)
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: TaiYiClassicTheme.cinnabar.withValues(alpha: 0.08),
-              border: const Border(bottom: BorderSide(color: TaiYiClassicTheme.cinnabar, width: 0.5)),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.warning_amber_rounded, color: TaiYiClassicTheme.cinnabar, size: 16),
-                const SizedBox(width: 8),
-                Text(
-                  '部分基础星神或关键计算项已隐藏，盘面解释可能不完整。',
-                  style: TaiYiClassicTheme.getChineseStyle(color: TaiYiClassicTheme.cinnabar, fontSize: 14),
-                ),
-              ],
+          Semantics(
+            identifier: 'hidden-warning-banner',
+            label: '隐藏关键星神警告',
+            container: true,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: TaiYiClassicTheme.cinnabar.withValues(alpha: 0.08),
+                border: const Border(bottom: BorderSide(color: TaiYiClassicTheme.cinnabar, width: 0.5)),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: TaiYiClassicTheme.cinnabar, size: 16),
+                  const SizedBox(width: 8),
+                  Text(
+                    '部分基础星神或关键计算项已隐藏，盘面解释可能不完整。',
+                    style: TaiYiClassicTheme.getChineseStyle(color: TaiYiClassicTheme.cinnabar, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
           ),
         Expanded(
