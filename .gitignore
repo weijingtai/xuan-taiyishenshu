@@ -54,3 +54,9 @@ docs/superpowers/
 # Chrome profile
 .chrome-profile/
 example/.chrome-profile/
+
+# RBDDS subagent state files (per .ai-governance/policies/rbdds-sprouting.md)
+tmp/
+
+# Local-only gitignore overlays
+.gitignore.local
