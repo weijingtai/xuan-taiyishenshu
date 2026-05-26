@@ -2,12 +2,15 @@
 
      1|     1|
      2|
-     3|## 铁律：禁止在程序标识符中使用 xuan- / xuan_ 前缀
+     3|## 铁律：程序标识符前缀策略（2026-05-26 调整）
      4|
-     5|`xuan-` / `xuan_` 前缀仅用于给人区分项目（目录名、仓库名），不得出现在程序标识符中。
-     6|禁止：pubspec name、library 声明、import 文件名、依赖 key 中使用 `xuan_` 前缀。
-     7|例外：`XuanLogger` 等功能品牌名、`tai_xuan` 等玄学术语、Git URL/目录名。
-     8|详见根目录 AGENTS.md 铁律 #6。
+     5|`xuan-` / `xuan_` 前缀主要用于给人区分项目（目录名、仓库名）。程序标识符默认避免 `xuan_` 前缀。
+     6|白名单（允许程序标识符使用 `xuan_` 前缀）：
+     7|- `xuan_common`：共享基础包。`common` 过于宽泛，与 dart pub 生态及 CI 工具链冲突；
+     8|  2026-05 起统一为 `xuan_common` 作为 pubspec name 与 import 路径（`package:xuan_common/...`）。
+     9|- `XuanLogger` 等功能品牌名；`tai_xuan` 等玄学术语；Git URL、目录名。
+    10|白名单之外的程序标识符（pubspec name、library 声明、import 文件名、依赖 key）保持直接名字，例如 `account`、`four_zhu_card`、`taiyishenshu`。
+    11|历史：原规则全面禁止 `xuan_` 前缀（参见根目录 AGENTS.md 旧条款）。本次调整由 ecosystem consistency 决策驱动（commits b8e533a/f04a277/fa6c1eb）。
      9|     2|
     10|     3|## 铁律：主分支代码保护
     11|     4|

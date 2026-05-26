@@ -38,13 +38,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  common:
+  xuan_common:
     git:
       url: http://xuan:wjt19951215@192.168.0.165:3000/xuan/xuan-common.git
       ref: main
 
 dependency_overrides:
-  common:
+  xuan_common:
     path: ../xuan-common
   four_zhu_card:
     path: ../xuan-four-zhu-card
