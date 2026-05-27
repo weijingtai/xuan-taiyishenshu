@@ -63,9 +63,9 @@ test.describe('AC14: 多流派切换', () => {
 
     await page.waitForFunction(
       (initial) => {
-        const grid = document.querySelector('[flt-semantics-identifier="pan-grid"]');
-        const label = grid?.getAttribute('aria-label') ?? '';
-        return !label.includes(`流派 ${initial}`);
+        const chip = document.querySelector('[flt-semantics-identifier="pan-school-base"]');
+        const text = chip?.textContent ?? '';
+        return text.length > 0 && !text.includes(initial);
       },
       initialSchool,
       { timeout: 15000 },
@@ -94,9 +94,9 @@ test.describe('AC14: 多流派切换', () => {
 
     await page.waitForFunction(
       (before) => {
-        const grid = document.querySelector('[flt-semantics-identifier="pan-grid"]');
-        const label = grid?.getAttribute('aria-label') ?? '';
-        const m = label.match(/积年\s*(\d+)/);
+        const chip = document.querySelector('[flt-semantics-identifier="pan-accumulated-year"]');
+        const text = chip?.textContent ?? '';
+        const m = text.match(/积年\s*(\d+)/);
         return m ? parseInt(m[1], 10) !== before : false;
       },
       beforeAccum,

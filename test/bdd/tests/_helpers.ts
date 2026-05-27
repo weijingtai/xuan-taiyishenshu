@@ -47,24 +47,26 @@ export async function waitAppReady(page: Page, timeoutMs = 30000): Promise<void>
 export async function readAccumulatedYear(page: Page): Promise<number> {
   const chip = page.locator(byId('pan-accumulated-year'));
   await chip.waitFor({ state: 'visible' });
-  const label = await chip.getAttribute('aria-label');
-  // aria-label 格式: "积年 1938583"
-  const match = (label ?? '').match(/积年\s*(\d+)/);
-  if (!match) throw new Error(`Cannot parse accumulated year from aria-label: ${label}`);
+  // Flutter Web 把 Text 内容投射到 <span> 子节点；aria-label 默认为空
+  const label = (await chip.textContent()) ?? '';
+  // textContent 格式: "积年 1938583\n积年\n1938583"（Chip label + 子 Text 重复）
+  const match = label.match(/积年\s*(\d+)/);
+  if (!match) throw new Error(`Cannot parse accumulated year from textContent: ${label}`);
   return parseInt(match[1], 10);
 }
 
 /**
- * 读取当前流派名称（来自 pan-grid 的 label）。
+ * 读取当前流派名称（来自 pan-grid 的 textContent）。
  */
 export async function readCurrentSchoolName(page: Page): Promise<string> {
-  const grid = page.locator(byId('pan-grid'));
-  await grid.waitFor({ state: 'visible' });
-  const label = (await grid.getAttribute('aria-label')) ?? '';
-  // 格式: "当前盘面，流派 金镜派，积年 1938583"
-  const match = label.match(/流派\s*([^，,]+)/);
-  if (!match) throw new Error(`Cannot parse school name from pan-grid label: ${label}`);
-  return match[1];
+  // 流派名在 pan-school-base chip 的 textContent（pan-grid 容器本身无文本）
+  const chip = page.locator(byId('pan-school-base'));
+  await chip.waitFor({ state: 'visible' });
+  const label = (await chip.textContent()) ?? '';
+  // textContent 格式: "基数 金镜派基数: 1937281\n基数\n金镜派基数: 1937281"
+  const match = label.match(/基数\s*([^基\s:：]+?)派/);
+  if (!match) throw new Error(`Cannot parse school name from pan-school-base textContent: ${label}`);
+  return match[1] + '派';
 }
 
 /**
