@@ -1,4 +1,4 @@
-import 'package:common/models/ConstantNineGongDataClass.dart';
+import 'package:metaphysics_core/models/ConstantNineGongDataClass.dart';
 import 'package:tuple/tuple.dart';
 
 class ConstantTaiYiNineGongDataClass extends ConstantNineGongDataClass {

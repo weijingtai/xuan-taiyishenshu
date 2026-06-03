@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/taiyi_classic_theme.dart';
-import 'package:common/widgets/season_24_tag.dart';
+import 'package:xuan_common/widgets/season_24_tag.dart';
 import 'package:tuple/tuple.dart';
 
 import '../models/ConstantNineGongDataClass.dart';
