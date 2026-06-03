@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xuan_common/widgets/season_24_tag.dart';
+import 'package:xuan_four_zhu_card/widgets/season_24_tag.dart';
 
 import '../models/ConstantNineGongDataClass.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:xuan_common/painter/text_circle_ring_painter.dart';
-import 'package:xuan_common/painter/circle_ring_printer.dart';
+import 'package:xuan_four_zhu_card/painter/text_circle_ring_painter.dart';
+import 'package:xuan_four_zhu_card/painter/circle_ring_printer.dart';
 import 'package:flutter/material.dart';
 import '../theme/taiyi_classic_theme.dart';
 import 'package:tuple/tuple.dart';
