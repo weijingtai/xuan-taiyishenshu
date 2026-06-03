@@ -21,6 +21,10 @@ environment:
   sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
+  persistence_core:
+    path: ../xuan-storage/core
+  xuan_four_zhu_card:
+    path: ../xuan-four-zhu-card
   metaphysics_core:
     path: ../xuan-metaphysics-core
   flutter:
@@ -48,11 +52,13 @@ dependencies:
 dependency_overrides:
   xuan_common:
     path: ../xuan-common
-  four_zhu_card:
+  persistence_core:
+    path: ../xuan-storage/core
+  xuan_four_zhu_card:
     path: ../xuan-four-zhu-card
-  four_zhu_host:
+  xuan_four_zhu_host:
     path: ../xuan-four-zhu-host
-  four_zhu_templates:
+  xuan_four_zhu_templates:
     path: ../xuan-four-zhu-templates
 
 dev_dependencies:

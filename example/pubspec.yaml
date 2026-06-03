@@ -11,17 +11,19 @@ dependencies:
     sdk: flutter
   taiyishenshu:
     path: ../
-  google_fonts: ^8.0.0
+  google_fonts: ^6.2.1
 
 dependency_overrides:
   xuan_common:
     path: ../../xuan-common
-  four_zhu_card:
+  xuan_four_zhu_card:
     path: ../../xuan-four-zhu-card
-  four_zhu_host:
+  xuan_four_zhu_host:
     path: ../../xuan-four-zhu-host
-  four_zhu_templates:
+  xuan_four_zhu_templates:
     path: ../../xuan-four-zhu-templates
+  persistence_core:
+    path: ../../xuan-storage/core
 
 dev_dependencies:
   flutter_test:
