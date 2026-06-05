@@ -1,8 +1,68 @@
 {
   "version": "1.0.0",
-  "gitCommitHash": "070a04da022c907f509774638048ec9830d3aa11",
-  "generatedAt": "2026-05-21T10:47:55.345Z",
+  "gitCommitHash": "9d4a2cdf3d6b98520e9613d37ed97df7508472f1",
+  "generatedAt": "2026-06-03T00:20:43.111Z",
   "files": {
+    ".agents/skills/gitnexus/gitnexus-cli/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-cli/SKILL.md",
+      "contentHash": "9f033ba8ccc1afec441b3aea079ba2d5019365dc09cc57a48de7231dfad14e41",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 84,
+      "hasStructuralAnalysis": true
+    },
+    ".agents/skills/gitnexus/gitnexus-debugging/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-debugging/SKILL.md",
+      "contentHash": "4a1e82aa835c52e38227d853c20ef05ea33be1dfb6aa6511474d15357f1d3f2e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 90,
+      "hasStructuralAnalysis": true
+    },
+    ".agents/skills/gitnexus/gitnexus-exploring/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-exploring/SKILL.md",
+      "contentHash": "ffafeaa0ce52be079e4d4b3a48c0a166728c009380a243c394c4e08f728527bb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    ".agents/skills/gitnexus/gitnexus-guide/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-guide/SKILL.md",
+      "contentHash": "40b047beeb9a7c5d47f17426b4061d2c2562c85c11288fa7f8da376d910e4f91",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 65,
+      "hasStructuralAnalysis": true
+    },
+    ".agents/skills/gitnexus/gitnexus-impact-analysis/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-impact-analysis/SKILL.md",
+      "contentHash": "a4d6e8003c4a822c380b0e81b2fa0d642612236c734a9d51834e362c4be52f33",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 98,
+      "hasStructuralAnalysis": true
+    },
+    ".agents/skills/gitnexus/gitnexus-refactoring/SKILL.md": {
+      "filePath": ".agents/skills/gitnexus/gitnexus-refactoring/SKILL.md",
+      "contentHash": "6aab994ee0266063245245483ee3280645aca66c0c5e56730ffad3f32ecbbc5c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 122,
+      "hasStructuralAnalysis": true
+    },
     ".claude/skills/gitnexus/gitnexus-cli/SKILL.md": {
       "filePath": ".claude/skills/gitnexus/gitnexus-cli/SKILL.md",
       "contentHash": "a699a9dd168a68e7357b1704be0ff5ceee30b2a348042789355cca171c060e02",
@@ -73,14 +133,54 @@
       "totalLines": 11,
       "hasStructuralAnalysis": false
     },
-    "AGENTS.md": {
-      "filePath": "AGENTS.md",
-      "contentHash": "0d7a24a466540c4c6f6eeb714e49912afcbf0f7d86e95fc33789cd9906e1e8a4",
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "5ab4262860740cda2df40e2b2608d3466c1ff82aae86ed1efc6f77de54c6fa8f",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 43,
+      "totalLines": 42,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/fingerprints.json": {
+      "filePath": ".understand-anything/fingerprints.json",
+      "contentHash": "25df23badde05c885338b22b8dcdb4108ef3a4486945e8cd5b14a07f2df87a0a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1357,
+      "hasStructuralAnalysis": true
+    },
+    ".understand-anything/knowledge-graph.json": {
+      "filePath": ".understand-anything/knowledge-graph.json",
+      "contentHash": "104904d08ab2fa5c8f680e8e24be353b9af56d95182c0f4d46decd5ddc6f0587",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6795,
+      "hasStructuralAnalysis": true
+    },
+    ".understand-anything/meta.json": {
+      "filePath": ".understand-anything/meta.json",
+      "contentHash": "3b29da4e5f83a19cb990ab3fad8e261351caecdba1f3b4baa3334f06b62659ac",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "aa05d0479f7e2f38a8d17b773aee46a55d58be9f9fc7de4bcba9ec66d8e97e6a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 76,
       "hasStructuralAnalysis": true
     },
     "AI_README.md": {
@@ -93,25 +193,15 @@
       "totalLines": 173,
       "hasStructuralAnalysis": true
     },
-    "CLAUDE.md": {
-      "filePath": "CLAUDE.md",
-      "contentHash": "0d7a24a466540c4c6f6eeb714e49912afcbf0f7d86e95fc33789cd9906e1e8a4",
+    "all_files.txt": {
+      "filePath": "all_files.txt",
+      "contentHash": "2225932c67b54a2e19c1a5550b80251ca2cb52e62e3b5b06a969c75ce92f2527",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 43,
-      "hasStructuralAnalysis": true
-    },
-    "README.md": {
-      "filePath": "README.md",
-      "contentHash": "bf2b05bfbec10b703b17eba213b067755c67880d77d6c5cbe2ef207620906841",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 58,
-      "hasStructuralAnalysis": true
+      "totalLines": 146,
+      "hasStructuralAnalysis": false
     },
     "analysis_options.yaml": {
       "filePath": "analysis_options.yaml",
@@ -125,372 +215,372 @@
     },
     "assets/deities/bai-hu.json": {
       "filePath": "assets/deities/bai-hu.json",
-      "contentHash": "f48bcec3a914bbe510f8a4d6f3eca113b0299dce0c45221b37cfc253f51e6da8",
+      "contentHash": "f38ba27f2d2990840a0066d5f7385797d1f029e3262dd9eb8e7ff298a7ba0731",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/bai-liu.json": {
       "filePath": "assets/deities/bai-liu.json",
-      "contentHash": "b57bf6f49d02ff60bc0f26188b4c1446a6739d6c95dd86ecb4dcd123ed62cb4e",
+      "contentHash": "780e341bdb093e38a233092de164d3050d1e53c56c3b73e8b1864d2a33b34ad5",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 33,
       "hasStructuralAnalysis": true
     },
     "assets/deities/chen-ji.json": {
       "filePath": "assets/deities/chen-ji.json",
-      "contentHash": "8749326b2e3ed7c3531042b3ee3e22a532ddacbe40ed8d81e89a15ef2666fb4d",
+      "contentHash": "ac77ee68050886e9a6ebae44fda17de0fea528bcf9e1e6bb1b49c48700cf8112",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 29,
       "hasStructuralAnalysis": true
     },
     "assets/deities/chi-qi.json": {
       "filePath": "assets/deities/chi-qi.json",
-      "contentHash": "e567ae79c38e9bc4bd51148a68e23d02c858b599db89e3bb621d6e6128fc867d",
+      "contentHash": "322a995d050e8a98128d63ba76606734fc83deddb7197b7595d62d22d402312b",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/da-you.json": {
       "filePath": "assets/deities/da-you.json",
-      "contentHash": "7fd40f2eba45ad28504f28a91b3b3b22adf76266667cad1d68ad8ed08fd874c3",
+      "contentHash": "fe5a082a492a4c9dcf8e7145fd1d9c0bb510572b221f0320d872ce76173a6feb",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 50,
       "hasStructuralAnalysis": true
     },
     "assets/deities/di-yi.json": {
       "filePath": "assets/deities/di-yi.json",
-      "contentHash": "2cfbd82ccade76e18ea93820bd3310ff9eaca0731612d107fba90e2bfe138389",
+      "contentHash": "285e93aa0e00f68540e50b0d9fc6c23fc3c872d71d6b7652729a30a7a1d74a9d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 67,
       "hasStructuralAnalysis": true
     },
     "assets/deities/ding-can-jiang.json": {
       "filePath": "assets/deities/ding-can-jiang.json",
-      "contentHash": "2999381a2305b8829a8ff5058539435894bb6d62743dda8695ace2cf2d3776c7",
+      "contentHash": "a669680da77c33705026ee845c9b091feb14206c78c11cca6e1cc494c19b3f97",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/ding-da-jiang.json": {
       "filePath": "assets/deities/ding-da-jiang.json",
-      "contentHash": "a8891a7564fce9c7dc11573e3e5c4d550148569e3dd6a92031eae34806cb90db",
+      "contentHash": "7f27a2e91a63782d1c75e7ab6367dbf308160e0c8a0d59ef0fbeca659ee8b154",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/fei-fu.json": {
       "filePath": "assets/deities/fei-fu.json",
-      "contentHash": "8306d3e23175ff51dfe371c0c25c4a31ee141502f8a470c8f23bbeb34ba45aba",
+      "contentHash": "11822277cf55622c437a39fa34c90577e22fed449ab87b14d17bd46470e50875",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 15,
       "hasStructuralAnalysis": true
     },
     "assets/deities/feng-bo.json": {
       "filePath": "assets/deities/feng-bo.json",
-      "contentHash": "ea560d7391ff72e815102296b66628e5fb1d2aa693382b77daf63feda5588700",
+      "contentHash": "16355748ea4731c5095b84aea5a4a294262082e383aef44b03ac7171e6f4cd22",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 28,
       "hasStructuralAnalysis": true
     },
     "assets/deities/gui-shen-zhi-shi.json": {
       "filePath": "assets/deities/gui-shen-zhi-shi.json",
-      "contentHash": "0f23b84b95188705371cd5ce6edc45957ab13c724e1819be698b19ec207beafc",
+      "contentHash": "8f982157dbb54d0d3e6ce64636ec49b5dbcaff2372c88f47d60fe084bc23768e",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/he-shen.json": {
       "filePath": "assets/deities/he-shen.json",
-      "contentHash": "f03a8c33799b54c720de0bb386d2dea287fbc93131b619864caa5ad1d174af5c",
+      "contentHash": "ce4aa3054bf3b89c29b6f52fda100c066320346cd5c4f5d17fd405a85b6bbcdb",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 15,
       "hasStructuralAnalysis": true
     },
     "assets/deities/hei-qi.json": {
       "filePath": "assets/deities/hei-qi.json",
-      "contentHash": "92d03badfdf1f83f03c5fdad90a1d90b4929ed87d682239a1d77a3912513e9d9",
+      "contentHash": "ac732f1839f183fc016ab0d508dbcb85b0b92b15fa2a1cb500552282a3250c28",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/ji-shen.json": {
       "filePath": "assets/deities/ji-shen.json",
-      "contentHash": "58c6b93d0839d1a38d122e98d58c7e3a0eecfcdf59c0acdf418aa55d54bcc01e",
+      "contentHash": "d5d64d8ff5de67cb6fb5393961a036e363a444c7cc668229bb1e01317628ae02",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 32,
       "hasStructuralAnalysis": true
     },
     "assets/deities/jun-ji.json": {
       "filePath": "assets/deities/jun-ji.json",
-      "contentHash": "3b7be056d46cd41a6d37659a5157bd0397fa902d19fa7e946da9d12cfc0d502b",
+      "contentHash": "e6d93c6f52369f032d5e192ca30a448801c469b1566cbde3d2fe0e81296ddee2",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/ke-can-jiang.json": {
       "filePath": "assets/deities/ke-can-jiang.json",
-      "contentHash": "396fabe81010759326ecf8838ef8dd7cae670164d875d069a63bcbc64c1f807b",
+      "contentHash": "2005c9f0090add4fb5098d05cc5885e93cd84d63550b29949695570d155aca54",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/ke-da-jiang.json": {
       "filePath": "assets/deities/ke-da-jiang.json",
-      "contentHash": "8d0894b5ff287f60400e270ab1b921a82f189f070aaa2f538f5ccb6803d21d0e",
+      "contentHash": "e6c762cb34c7e1d2ca6b8bb079d9e3d2124cf0a371dcfb09e61d45c243fad0f3",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/min-ji.json": {
       "filePath": "assets/deities/min-ji.json",
-      "contentHash": "318b5937d0234c8520bea5fe6c327c6cf79e65a945b06d92c19cea8118fbde90",
+      "contentHash": "38a8f136490d4e82c01a5511fc2bffd72d3f37502272dd035d6cdbe8b442bbab",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/qing-long-qi.json": {
       "filePath": "assets/deities/qing-long-qi.json",
-      "contentHash": "5767123765b52db785db55991c58cdf2884d2068648b65fa8f629b2b0c47a866",
+      "contentHash": "9ffdebf8a96496373ea8bfad6aef866129f75b8b1d450f26a155ede3df3cb551",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 15,
       "hasStructuralAnalysis": true
     },
     "assets/deities/qing-long.json": {
       "filePath": "assets/deities/qing-long.json",
-      "contentHash": "44d5f06773303d63c207fa1b95210839b9ccf97cbba444a72be2e879eef4f341",
+      "contentHash": "6e7a893131c858edae3ba937831ad5f6cbe3503822945377e57399ab7c523217",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/shi-ji.json": {
       "filePath": "assets/deities/shi-ji.json",
-      "contentHash": "bc7f9cf45a7f92990d5b63b3a0b9b151fc700ec4d224a96dafe1cde228d4a0b1",
+      "contentHash": "b7d73bb5b63c5e350cbb23aecaea3f886b59a63f765c435b43ae77b41be6b905",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 16,
       "hasStructuralAnalysis": true
     },
     "assets/deities/si-shen.json": {
       "filePath": "assets/deities/si-shen.json",
-      "contentHash": "ef4a32782d8e788034debc9ec1d7264db02ca39326776db78679f461a06fac78",
+      "contentHash": "9197340550ca2c527ddc93f93646f5acfd80a3590974f4b458dbcda0ecabe005",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 62,
       "hasStructuralAnalysis": true
     },
     "assets/deities/sui-po.json": {
       "filePath": "assets/deities/sui-po.json",
-      "contentHash": "e706ee881d4ff16893ad06a969bad3d978a86cc145380d21d4a4918c6d0a6bf9",
+      "contentHash": "ade73e04ca47829376358e709b2d2f05d12551421d7526d1ac05b6b7a05b0e6a",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 15,
       "hasStructuralAnalysis": true
     },
     "assets/deities/tai-sui.json": {
       "filePath": "assets/deities/tai-sui.json",
-      "contentHash": "b26d2a4c3e789ea264a6121c9125d2795f39bc142539f1fb350f9acb9a5ab1e8",
+      "contentHash": "7863f0ca15ca194501f0ddbd76608f476eec989705bfcc020a4ec8b6c954457a",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 28,
       "hasStructuralAnalysis": true
     },
     "assets/deities/tai-yi.json": {
       "filePath": "assets/deities/tai-yi.json",
-      "contentHash": "a74f783689cceb27755bcf8c1b514888847f7b8571a764383a63881ceaeda12f",
+      "contentHash": "bf941c92a19ef1e65942721515e0947e0f99b1457f70d45fbd0d18d847aca001",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 24,
       "hasStructuralAnalysis": true
     },
     "assets/deities/tian-yi-star.json": {
       "filePath": "assets/deities/tian-yi-star.json",
-      "contentHash": "8e7a23effd9b91a0d77b4af609999f1ef5a49c29f241a1d37b420eab1d112b37",
+      "contentHash": "e9086d4c60a72a6797f338338d845d47479e649d7cbbff458865dbea835f1709",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 67,
       "hasStructuralAnalysis": true
     },
     "assets/deities/wen-chang.json": {
       "filePath": "assets/deities/wen-chang.json",
-      "contentHash": "e834ca96fa91df0cba9cebcebfb3aae4d908003995b1908003e56ca3e47bafe1",
+      "contentHash": "4ce1ad58601c27a0de18f095830d0ec02a95b712fb3723c5b1c6f78546ff2f3d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 134,
       "hasStructuralAnalysis": true
     },
     "assets/deities/wu-fu.json": {
       "filePath": "assets/deities/wu-fu.json",
-      "contentHash": "4c6102b232eca530c1777bab08875864eacb7fb8a8ac1fba47a6d8cdb9475ea3",
+      "contentHash": "e137be5b6b80d03b174efe429341b6685413b327d625871d69816d334104bfb9",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 41,
       "hasStructuralAnalysis": true
     },
     "assets/deities/xiao-you.json": {
       "filePath": "assets/deities/xiao-you.json",
-      "contentHash": "320bfc05d4af6f29df3426d1fdf16363a58f8882a08d090a4d5c2a2f6c4827a3",
+      "contentHash": "3c70aaec45fdabe6299e5e4ec0e392af722da82c3d7497dcc78882b23e06d29e",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 55,
       "hasStructuralAnalysis": true
     },
     "assets/deities/xuan-wu.json": {
       "filePath": "assets/deities/xuan-wu.json",
-      "contentHash": "e0ee26e34b58bfa3f2c4f9e66fcdda68e677c968fe76d8260b80a9bd69b7bf22",
+      "contentHash": "0b44b465611edd84bef41c478bcea8de924c6b375f93d70047b9d69bd2dccde5",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/yang-jiu.json": {
       "filePath": "assets/deities/yang-jiu.json",
-      "contentHash": "d6652b26ef22bab5715ee217d1799b8dae1b30a42b951d45f8c3052395d09421",
+      "contentHash": "fa39842495cb372d397d9cd619d9aff0b8c329f2cec3bef2fe504cbb223533d3",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 33,
       "hasStructuralAnalysis": true
     },
     "assets/deities/yu-shi.json": {
       "filePath": "assets/deities/yu-shi.json",
-      "contentHash": "752347ce54285617cbb94b07c7c74ca2d0903cd3c5d3b2914634d6617b3a16b2",
+      "contentHash": "e5f3d01e6d6a2633d70fa960c053e867d96f2885f37f58e35371d132a53c0315",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 28,
       "hasStructuralAnalysis": true
     },
     "assets/deities/zhi-fu-star.json": {
       "filePath": "assets/deities/zhi-fu-star.json",
-      "contentHash": "700c28bd2256037046492912f0569fe23567fab8c940be5a645e7937e1c47791",
+      "contentHash": "a9f78757e544c44b6bd37cd07b41b678484690d8dcd945907ae08067c6267862",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 67,
       "hasStructuralAnalysis": true
     },
     "assets/deities/zhi-fu.json": {
       "filePath": "assets/deities/zhi-fu.json",
-      "contentHash": "4785de660349ff2a0cc0a6a823bcfc06cd00011d8f6fa3d47ff1241498d32da3",
+      "contentHash": "70afce4eb915a111eef80079b59233beb8585702c5da785ccf60e35c8b405dfd",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 25,
       "hasStructuralAnalysis": true
     },
     "assets/deities/zhu-can-jiang.json": {
       "filePath": "assets/deities/zhu-can-jiang.json",
-      "contentHash": "18e344b16551c6668d3fcee11eb2081843f67b3e58e7eb04b8347d1efc06dcf1",
+      "contentHash": "4ed55da73205a8b669f45dbc2943451f32f781476ce426da1285f27c69b46797",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/zhu-da-jiang.json": {
       "filePath": "assets/deities/zhu-da-jiang.json",
-      "contentHash": "4df7659045e800c544e185c697bb9e822ce7c9ed0c315545a9705be51ba4474d",
+      "contentHash": "ebec614545ee206baa077c8607a2441ef92e43a08e8de6e39a12f0c34b12c3ea",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/deities/zhu-que.json": {
       "filePath": "assets/deities/zhu-que.json",
-      "contentHash": "c23fd9e5169310862db1701575f63c06f47773ec3f1559d136209ad85f5a8632",
+      "contentHash": "03aa1da9765d4f02eceab1fc7974a9f661c6ff89a97ee7370978e314a869eca7",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 6,
+      "totalLines": 14,
       "hasStructuralAnalysis": true
     },
     "assets/schools/ji-cheng.json": {
@@ -533,34 +623,24 @@
       "totalLines": 23,
       "hasStructuralAnalysis": true
     },
-    "docs/Plans.md": {
-      "filePath": "docs/Plans.md",
-      "contentHash": "621ce92f232054608cb752ab6673659143de51124ee621a6de196d229af1fa44",
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "8510a49d6c62ab854aa48341a201432892e4c069b5b935a9dd4ecb16741c7cd6",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 748,
+      "totalLines": 44,
       "hasStructuralAnalysis": true
     },
-    "docs/README.md": {
-      "filePath": "docs/README.md",
-      "contentHash": "7a4cc9d45baf2aad1541014ffb25d1bab4bcc4e7498a5771f96bf036904c8019",
+    "docs/ai_dev_init/wjt-Claude/SELF.md": {
+      "filePath": "docs/ai_dev_init/wjt-Claude/SELF.md",
+      "contentHash": "8f05257f4df07278f2c8101fa6f04cfdfbeb07ac8f9c1fa8b14c0dc014625905",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 47,
-      "hasStructuralAnalysis": true
-    },
-    "docs/ai/CONSTITUTION.md": {
-      "filePath": "docs/ai/CONSTITUTION.md",
-      "contentHash": "6c625214c923021b3c6ca2ee6fb6b0446f0455284ee9541bae98cd0dec11eb6e",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 47,
+      "totalLines": 30,
       "hasStructuralAnalysis": true
     },
     "docs/ai/board-protocol.md": {
@@ -581,6 +661,16 @@
       "imports": [],
       "exports": [],
       "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ai/CONSTITUTION.md": {
+      "filePath": "docs/ai/CONSTITUTION.md",
+      "contentHash": "6c625214c923021b3c6ca2ee6fb6b0446f0455284ee9541bae98cd0dec11eb6e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
       "hasStructuralAnalysis": true
     },
     "docs/ai/delivery-pipeline.md": {
@@ -673,16 +763,6 @@
       "totalLines": 44,
       "hasStructuralAnalysis": true
     },
-    "docs/ai_dev_init/wjt-Claude/SELF.md": {
-      "filePath": "docs/ai_dev_init/wjt-Claude/SELF.md",
-      "contentHash": "8f05257f4df07278f2c8101fa6f04cfdfbeb07ac8f9c1fa8b14c0dc014625905",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 30,
-      "hasStructuralAnalysis": true
-    },
     "docs/board/PROGRESS.md": {
       "filePath": "docs/board/PROGRESS.md",
       "contentHash": "a8b1c75867c0fbeec8add1c3f9b2f4ba4e4a111467f0470de4f796c2337b1aac",
@@ -713,14 +793,14 @@
       "totalLines": 38,
       "hasStructuralAnalysis": true
     },
-    "docs/project/README.md": {
-      "filePath": "docs/project/README.md",
-      "contentHash": "8fd7b9b6992e37b637c7fa0c8f7fb75c477a61968093b17d62e126f82d910256",
+    "docs/Plans.md": {
+      "filePath": "docs/Plans.md",
+      "contentHash": "621ce92f232054608cb752ab6673659143de51124ee621a6de196d229af1fa44",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 29,
+      "totalLines": 748,
       "hasStructuralAnalysis": true
     },
     "docs/project/architecture/001-system-architecture.md": {
@@ -763,6 +843,136 @@
       "totalLines": 69,
       "hasStructuralAnalysis": true
     },
+    "docs/project/README.md": {
+      "filePath": "docs/project/README.md",
+      "contentHash": "8fd7b9b6992e37b637c7fa0c8f7fb75c477a61968093b17d62e126f82d910256",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "docs/README.md": {
+      "filePath": "docs/README.md",
+      "contentHash": "7a4cc9d45baf2aad1541014ffb25d1bab4bcc4e7498a5771f96bf036904c8019",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-16-googlefonts-decouple-2026-05-26/SELF.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-16-googlefonts-decouple-2026-05-26/SELF.md",
+      "contentHash": "2edc56b501922b8765a2074e8fbeb7ed6bbd5c193670e3f27867f3a3a7e6ea63",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-16-googlefonts-decouple-2026-05-26/superpowers/specs/2026-05-26-googlefonts-removal-design.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-16-googlefonts-decouple-2026-05-26/superpowers/specs/2026-05-26-googlefonts-removal-design.md",
+      "contentHash": "8b276da1771bff3faeb1bf81e160b66f776e0bf1b446a2b7572f1024a00f958e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 162,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-17-ac-matrix-2026-05-26/AC_TEST_MATRIX.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-17-ac-matrix-2026-05-26/AC_TEST_MATRIX.md",
+      "contentHash": "8cf95616e9200c7f6bcf6b1e66170e6fa48a133de7d3c3de27b7577e9f33f3db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 452,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-21-dialog-preference-2026-05-26/SELF.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-21-dialog-preference-2026-05-26/SELF.md",
+      "contentHash": "ed9851761cdd5a601a9b421832f50843f833bc1494c3d8f2c078b308af763be9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-21-dialog-preference-2026-05-26/superpowers/specs/2026-05-26-ac8-ac9-ac13-real-acceptance-design.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-21-dialog-preference-2026-05-26/superpowers/specs/2026-05-26-ac8-ac9-ac13-real-acceptance-design.md",
+      "contentHash": "16358c1ebbdaaaff3590ce23b16e37b8a531ab2cdb9095c8984a341a7c0bd099",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 203,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-25-playwright-2026-05-26/superpowers/specs/2026-05-26-playwright-bdd-real-acceptance-design.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-25-playwright-2026-05-26/superpowers/specs/2026-05-26-playwright-bdd-real-acceptance-design.md",
+      "contentHash": "b2e0cedc3f17743335821372ba9063c1c6bf3d45b0e9c74aa0ba4401a87c196c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 242,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-30-story5-integration-2026-05-26/SELF.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-30-story5-integration-2026-05-26/SELF.md",
+      "contentHash": "a587e4da190f139e1ea55ab8ee2b131b6b5ed7afda698ddc7977a7ad20199f80",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/qa/zt-30-story5-integration-2026-05-26/superpowers/specs/2026-05-26-story5-mvvm-fullchain-integration-design.md": {
+      "filePath": "docs/wjt-Claude/qa/zt-30-story5-integration-2026-05-26/superpowers/specs/2026-05-26-story5-mvvm-fullchain-integration-design.md",
+      "contentHash": "7676bf49be0b8977a43337337274ab96d980fb3d0915cc81834537f2fbb113d2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 205,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/RESUME-2026-05-27.md": {
+      "filePath": "docs/wjt-Claude/RESUME-2026-05-27.md",
+      "contentHash": "f08c4aa2917878f79706c7f6a52986042754e1cb10ff8fd0e274ec2955c06618",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 146,
+      "hasStructuralAnalysis": true
+    },
+    "docs/wjt-Claude/RESUME-2026-05-28.md": {
+      "filePath": "docs/wjt-Claude/RESUME-2026-05-28.md",
+      "contentHash": "b89f0cf420896353409c407e94499384caa14e3b6d766e2639d605663bb5f350",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 178,
+      "hasStructuralAnalysis": true
+    },
+    "example/.metadata": {
+      "filePath": "example/.metadata",
+      "contentHash": "2b298f3cef256e1f7209baea6a16ab33d7248184b10c25923931225691978fc4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": false
+    },
     "example/analysis_options.yaml": {
       "filePath": "example/analysis_options.yaml",
       "contentHash": "c1e9534c05acb3643e72a82ad3d92d56d2ba9b0df2add014c18f7e1d462f24e4",
@@ -773,24 +983,54 @@
       "totalLines": 2,
       "hasStructuralAnalysis": true
     },
-    "example/lib/main.dart": {
-      "filePath": "example/lib/main.dart",
-      "contentHash": "8ec748a139a94f533afd14ae878bfba37143e3732cd600b6c165cc6146ebb74d",
+    "example/lib/deity_dialog_demo.dart": {
+      "filePath": "example/lib/deity_dialog_demo.dart",
+      "contentHash": "dff7d8238e2d6c07e75ff112df8b10b7b5190f33f2c1860c84e1f02fd2c93b4b",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 42,
+      "totalLines": 302,
+      "hasStructuralAnalysis": false
+    },
+    "example/lib/main_e2e.dart": {
+      "filePath": "example/lib/main_e2e.dart",
+      "contentHash": "5c50e94ec6c12abe1df026783ac495f76f4e8bd51b0e3e681f1db32a5af08855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 50,
+      "hasStructuralAnalysis": false
+    },
+    "example/lib/main.dart": {
+      "filePath": "example/lib/main.dart",
+      "contentHash": "ef6a9c7bee2a8e81b94e5d3865410f3c0032152028642a3c97556af424eccfa1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
       "hasStructuralAnalysis": false
     },
     "example/pubspec.yaml": {
       "filePath": "example/pubspec.yaml",
-      "contentHash": "131146e0ed959192d12de9990397bec38255659bcdf5115de3e67ffae16d2e79",
+      "contentHash": "3e22a642415101c10b4c4a1e28299e53858b416d6a61435fb1ae53ac816d9ed8",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 25,
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "example/README.md": {
+      "filePath": "example/README.md",
+      "contentHash": "299068ddf094d58cfa69f61798614840d1056ad7f6d08ce9368b687301a12127",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
       "hasStructuralAnalysis": true
     },
     "example/run_web.bat": {
@@ -813,14 +1053,114 @@
       "totalLines": 22,
       "hasStructuralAnalysis": true
     },
-    "lib/controllers/taiyi_pan_controller.dart": {
-      "filePath": "lib/controllers/taiyi_pan_controller.dart",
-      "contentHash": "73bfce76cab166e8e7afbb236cbdc744a8092e4abdd2d8c14dd5d25b9a361db0",
+    "example/taiyishenshu_example.iml": {
+      "filePath": "example/taiyishenshu_example.iml",
+      "contentHash": "078556ebd66f23eeb43b60557b1ed3d3e0b1a2a6297ccb71ad3b779316c7880d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 79,
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "example/test/smoke_test.dart": {
+      "filePath": "example/test/smoke_test.dart",
+      "contentHash": "5ffb08f85a402bb44fb3788a93dbde6953a6783aedc5d69e47603f84abb80b5e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": false
+    },
+    "example/test/widget_test.dart": {
+      "filePath": "example/test/widget_test.dart",
+      "contentHash": "8bf994597179b2fd043703b10c8d99d5df266ee6e87a338f23b1599fb0d70cff",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "example/web/drift_worker.js": {
+      "filePath": "example/web/drift_worker.js",
+      "contentHash": "ae8ad92104bee41fe843cbe074465ba71da454ea2cd0129dc89ee389e6fa4909",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13515,
+      "hasStructuralAnalysis": true
+    },
+    "example/web/index.html": {
+      "filePath": "example/web/index.html",
+      "contentHash": "f0938c342e5a22af691fd192f8358412de8c2debf90b8f416ddda1be736b6351",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "example/web/manifest.json": {
+      "filePath": "example/web/manifest.json",
+      "contentHash": "f3f3d5e73e6780ad63c4f629cdf75f202864390c98112d83bd6b742dfb5dff53",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": true
+    },
+    "example/web/sqlite3.wasm": {
+      "filePath": "example/web/sqlite3.wasm",
+      "contentHash": "da62e55c2e201db0f4ca610020911da6caa0b33ca00f0bbb0215a495f4907b19",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3795,
+      "hasStructuralAnalysis": false
+    },
+    "lib/controllers/taiyi_pan_controller.dart": {
+      "filePath": "lib/controllers/taiyi_pan_controller.dart",
+      "contentHash": "29abf96f62a6c59a60c0e214dda4de6ab7f2feab8fa412c437a27ba0752671ca",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 151,
+      "hasStructuralAnalysis": false
+    },
+    "lib/database/taiyi_database_memory_native.dart": {
+      "filePath": "lib/database/taiyi_database_memory_native.dart",
+      "contentHash": "64af6197e50998ccac3ae1881c46c3e7240023cbc191868754f47a38e90416c2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    "lib/database/taiyi_database_memory_stub.dart": {
+      "filePath": "lib/database/taiyi_database_memory_stub.dart",
+      "contentHash": "8f29ea64b1f69d6e9f9d01277d79ccf6210dee8f9809a3b416c2629a1ee888b0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "lib/database/taiyi_database.dart": {
+      "filePath": "lib/database/taiyi_database.dart",
+      "contentHash": "7cfa3cb60e9eda5039fc8faf60f05dfe426df08514f3ddac6dfd81af6622f7e2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 65,
       "hasStructuralAnalysis": false
     },
     "lib/enums/deity_kind.dart": {
@@ -865,7 +1205,7 @@
     },
     "lib/enums/god.dart": {
       "filePath": "lib/enums/god.dart",
-      "contentHash": "fb62bb6180a5664458d4d79a8304dc416bc8cd5c98ddd24eddde672a1a57a5c1",
+      "contentHash": "b4b0043e60c5a760f55ee3e45da123622320a5c684391f0edb0b19de22f5b3a4",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -875,7 +1215,7 @@
     },
     "lib/enums/gong.dart": {
       "filePath": "lib/enums/gong.dart",
-      "contentHash": "1c965cdabb1691caf523d2ff22325f791bf70ca44b6c484b4ff582a890549509",
+      "contentHash": "40bd2fdb294097c2bd7b2c71b4d3627d8fa08fe56f34d0ecb8423338d531dfd8",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -915,17 +1255,17 @@
     },
     "lib/main.dart": {
       "filePath": "lib/main.dart",
-      "contentHash": "176931bce80b1779f7e282ae900e02f328d9c4f0c6e7a84642d916b31f47761c",
+      "contentHash": "104089f9c9e1ab4ea9f1155018d8303fefa0c53e5f1d87fd06ed07c5d94d1c88",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 44,
+      "totalLines": 52,
       "hasStructuralAnalysis": false
     },
     "lib/models/ConstantNineGongDataClass.dart": {
       "filePath": "lib/models/ConstantNineGongDataClass.dart",
-      "contentHash": "2c0a568a5f2f3a59c4034d8dbf79efe1fbc91fb4026710fcd807886c512a892e",
+      "contentHash": "6c1485b7944efca647daef280d4120d83af863ae30c669cb82403fd2ab60ac51",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -1035,22 +1375,42 @@
     },
     "lib/navigator.dart": {
       "filePath": "lib/navigator.dart",
-      "contentHash": "a5968bbf194d26133689cc5d65d7adf7afe1b60cc0dec840b31957d0ce9a3c8d",
+      "contentHash": "72cb3f1b42d3dfed2221515299d034afb5a571b76227ab6a5411d8b73677ed93",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 74,
+      "totalLines": 144,
       "hasStructuralAnalysis": false
     },
     "lib/pages/beauty_page.dart": {
       "filePath": "lib/pages/beauty_page.dart",
-      "contentHash": "9b8d4b097de789d4bcc76322db861e2b6720483195eb0cbb86704ea5cb1f4653",
+      "contentHash": "54acaab7bfaa2a43dc22e2285b6dc467e821742477d8779e1b515d78bf6e27dd",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 1393,
+      "totalLines": 1392,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/deity_editor_page.dart": {
+      "filePath": "lib/pages/deity_editor_page.dart",
+      "contentHash": "7f944ca3829aa8377f046ebdf62b071721f01cc372ed1e1fda3c93c1ca94b80f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1040,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/entity_editor_page.dart": {
+      "filePath": "lib/pages/entity_editor_page.dart",
+      "contentHash": "feee971a9a98758c7a725660e36ec69073d6dfbf2e136e241e13d02463d326c0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 254,
       "hasStructuralAnalysis": false
     },
     "lib/pages/my_home_page.dart": {
@@ -1065,22 +1425,42 @@
     },
     "lib/pages/rectangle_pan.dart": {
       "filePath": "lib/pages/rectangle_pan.dart",
-      "contentHash": "0116c571a291991753f94cb2af6b97ca61a4d7e0dffc2de3642c8fee699d80da",
+      "contentHash": "cb9ba2b7ba3e5c3a3ddfd763487facc58c5d68b6209649195344d2ab5c527746",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 1194,
+      "totalLines": 1193,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/school_editor_page.dart": {
+      "filePath": "lib/pages/school_editor_page.dart",
+      "contentHash": "77b5b5ec5eaa1ecb702eaf9e0c679e9d14732e092fff0f5c104787f2d35fb3c4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 366,
+      "hasStructuralAnalysis": false
+    },
+    "lib/pages/school_manager_page.dart": {
+      "filePath": "lib/pages/school_manager_page.dart",
+      "contentHash": "9e9de9d4864313eb98f31147d88d58a0558549b12307d605e0a5e987e87a4acd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 560,
       "hasStructuralAnalysis": false
     },
     "lib/pages/taiyi_pan_page.dart": {
       "filePath": "lib/pages/taiyi_pan_page.dart",
-      "contentHash": "ecd747dd928571874c7c5e3252fed58a9540cfdcc72e1d4603f799096d36208a",
+      "contentHash": "3a1f12b6d282f9b0ee10bee8907b0ab75bbbb195534ec22cb24f62579f841417",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 589,
+      "totalLines": 740,
       "hasStructuralAnalysis": false
     },
     "lib/painter/pie_segment_painter.dart": {
@@ -1095,32 +1475,32 @@
     },
     "lib/taiyi/core/algorithm_engine.dart": {
       "filePath": "lib/taiyi/core/algorithm_engine.dart",
-      "contentHash": "7db73b4369209d2ae57265f01ac217b648e06e2119b8d6726926a0730c861a30",
+      "contentHash": "6e07682250bff9e8d70b9a069c0b8cf11310c637c2c17621738deabab5f47b8b",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 386,
+      "totalLines": 397,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/core/algorithm_enums.dart": {
       "filePath": "lib/taiyi/core/algorithm_enums.dart",
-      "contentHash": "bcf02dbda4c2a5aa51260c773a78788745b39ed07ed7ba53bd82652c056bcf07",
+      "contentHash": "f28c9ffd3b43f900e24f7c9da7716aeb42c82b7ae2a5acb3b0c89a3d7b2ef76f",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 20,
+      "totalLines": 27,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/core/algorithm_spec.dart": {
       "filePath": "lib/taiyi/core/algorithm_spec.dart",
-      "contentHash": "dc97b8b6cc92fb3594527d639bea969a3e3e9361b033891a1e722288990ba0bb",
+      "contentHash": "b121ccea046ff956a4df1f2421c85b5686859cad75021c626ce0531ff4b46374",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 103,
+      "totalLines": 105,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/core/calculation_context.dart": {
@@ -1133,14 +1513,34 @@
       "totalLines": 64,
       "hasStructuralAnalysis": false
     },
-    "lib/taiyi/core/deity_definition.dart": {
-      "filePath": "lib/taiyi/core/deity_definition.dart",
-      "contentHash": "dd8a5aa59b93371fb63e9e7166e4171016582bebba7407f0a4e7b719dd001140",
+    "lib/taiyi/core/chart_config.dart": {
+      "filePath": "lib/taiyi/core/chart_config.dart",
+      "contentHash": "933ba66741ab6c968eb5ed9ee4f7aecdab2a64ccfb4d4aa323ab8208009c4553",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 46,
+      "totalLines": 29,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/deity_definition.dart": {
+      "filePath": "lib/taiyi/core/deity_definition.dart",
+      "contentHash": "1c1c0e532d7d8708b714a66588b8ddb2cfa94877b08befd4fd3f7302b636c082",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 100,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/core/deity_override.dart": {
+      "filePath": "lib/taiyi/core/deity_override.dart",
+      "contentHash": "a438bc059d28fce7c11662cd1a6bc2cf3afbedd02d7d4ce9aa9ecf815fa7cbb8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 24,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/core/expression_parser.dart": {
@@ -1155,32 +1555,92 @@
     },
     "lib/taiyi/core/school_config.dart": {
       "filePath": "lib/taiyi/core/school_config.dart",
-      "contentHash": "27cf1e85958818c71f73281ee28703fd9520c1cded51182bffcf0c1ca150e06f",
+      "contentHash": "3468ac1f77293961802af0e7bdac66a4e961f7858c7fe641ee4ae6c6769baaaa",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 58,
+      "totalLines": 155,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/core/school_repository.dart": {
       "filePath": "lib/taiyi/core/school_repository.dart",
-      "contentHash": "19d239d7ac6082f6949105d73cd2d1b8792d4ce357caa48d84221a64ffe964d4",
+      "contentHash": "1b4c1ee5fb9c77df8cd6a646c710ce40072f5c22798610bf4be9d06a2ad3d000",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 14,
+      "totalLines": 49,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/drift_user_repository.dart": {
+      "filePath": "lib/taiyi/data/drift_user_repository.dart",
+      "contentHash": "b9b0d497118a985de9794d1dfffa31b428eba6c28add5c727900250e8c7edfe2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 91,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/in_memory_deity_preference_repository.dart": {
+      "filePath": "lib/taiyi/data/in_memory_deity_preference_repository.dart",
+      "contentHash": "7e654bbcdefb6d2553b121ea827e91394029cddd7686968359964b4b58f0e09d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/in_memory_user_deity_repository.dart": {
+      "filePath": "lib/taiyi/data/in_memory_user_deity_repository.dart",
+      "contentHash": "a9baafca32efdc8fc9aa1c37d0397c155af00507f71f0f872d6c42167edfdbaa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/in_memory_user_school_repository.dart": {
+      "filePath": "lib/taiyi/data/in_memory_user_school_repository.dart",
+      "contentHash": "ac15179748dfff951f0bb1dba6a89a1b5930409f76b98de0d5506afed76c5f66",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/memory_school_repository.dart": {
+      "filePath": "lib/taiyi/data/memory_school_repository.dart",
+      "contentHash": "4e8af8c45fa88cf9cc46e93906ebe9b1e0a77abf97821e1e38a29c8f04a4806a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 87,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/data/official_json_repository.dart": {
       "filePath": "lib/taiyi/data/official_json_repository.dart",
-      "contentHash": "72ac2de99637073ba41d55a0d2761dd2a7ff983913efb15ed1c80f76b49ea51d",
+      "contentHash": "16453a8e5fd7a1d2fd1e1c15c61369a7e8101d351d535360a6fd7665e26671a8",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 77,
+      "totalLines": 103,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/data/shared_preferences_deity_preference_repository.dart": {
+      "filePath": "lib/taiyi/data/shared_preferences_deity_preference_repository.dart",
+      "contentHash": "b20c391e5ad6c6347ef03f0460346b907d167c8f2a2c40154319da7a70616922",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/pan_data_model.dart": {
@@ -1203,14 +1663,14 @@
       "totalLines": 46,
       "hasStructuralAnalysis": false
     },
-    "lib/taiyi/taiyi.dart": {
-      "filePath": "lib/taiyi/taiyi.dart",
-      "contentHash": "73cfc45519365e0386e392456af673e2f54ace0c84ab89b581e5bb8c93af80b1",
+    "lib/taiyi/taiyi_assembly.dart": {
+      "filePath": "lib/taiyi/taiyi_assembly.dart",
+      "contentHash": "6f8ee62e69615a9aa0b6ccd7e55f443711c7f281f7a3c243b801f183dde92aec",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 30,
+      "totalLines": 168,
       "hasStructuralAnalysis": false
     },
     "lib/taiyi/taiyi_constants.dart": {
@@ -1225,47 +1685,207 @@
     },
     "lib/taiyi/taiyi_pan_calculator.dart": {
       "filePath": "lib/taiyi/taiyi_pan_calculator.dart",
-      "contentHash": "0213095cb48c5d0e9a56d3a685cb9bd6989c314ac65b5f757d2872a433819f06",
+      "contentHash": "8ee12a80e95a16786fe0dc2199cadfba4e9d2aa41d8490f4085e014d98959b82",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 1743,
+      "totalLines": 2022,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/taiyi.dart": {
+      "filePath": "lib/taiyi/taiyi.dart",
+      "contentHash": "73cfc45519365e0386e392456af673e2f54ace0c84ab89b581e5bb8c93af80b1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 30,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/calculate_pan_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/calculate_pan_usecase.dart",
+      "contentHash": "f7305716b1502c3972fd60050ab37ab8aac6945b59847dbe66d8461e133931bb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 85,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/copy_deity_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/copy_deity_usecase.dart",
+      "contentHash": "1d206f3b477005f03285fefe8b3215581a6998ac59eb826b79b11306003cba52",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/copy_school_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/copy_school_usecase.dart",
+      "contentHash": "29d06fce8cf2031a9df032970e102ec848440d4045c3c3c416ca6d94c3041236",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/deity_availability_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/deity_availability_usecase.dart",
+      "contentHash": "585837f661f2b2f631e2a9bcc94b79de20206f5c5ef1c4f92934b9df39476213",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/delete_user_deity_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/delete_user_deity_usecase.dart",
+      "contentHash": "47254bdd3a8a2d393a641657c003785c5934bae0e973256c46481d829b21918b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/load_deities_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/load_deities_usecase.dart",
+      "contentHash": "df57df5c29a3f4f171cfa4bd7397bf3b03b65b543b97f05c1231bce6fbdad6bf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/load_schools_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/load_schools_usecase.dart",
+      "contentHash": "4abd5b7d7a506f03f3978710bb6700457fd876477d5732ecd18a89a6a3917274",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/save_user_deity_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/save_user_deity_usecase.dart",
+      "contentHash": "17d31ebbe1471842ec68a90839ddaad132f39d5ec30340a775d4a277247337ab",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/save_user_school_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/save_user_school_usecase.dart",
+      "contentHash": "8426e16a4eac3bed6f5e1f54331b455395e69bb91fa03340f76d56a66440d9b7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/usecases/toggle_deity_preference_usecase.dart": {
+      "filePath": "lib/taiyi/usecases/toggle_deity_preference_usecase.dart",
+      "contentHash": "0e8c8263ffccdad390781bba81fc32fd489db3a225191819f5e4c6c79949202f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/viewmodels/deity_view_model.dart": {
+      "filePath": "lib/taiyi/viewmodels/deity_view_model.dart",
+      "contentHash": "0e4724f43197d68cc7c57b267708467fbf0a0895c88b1dfebf3cb72eb8c39fc7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 125,
+      "hasStructuralAnalysis": false
+    },
+    "lib/taiyi/viewmodels/school_view_model.dart": {
+      "filePath": "lib/taiyi/viewmodels/school_view_model.dart",
+      "contentHash": "f2bad2a908c2784883b747f85fc949a583250fd9d345c5647a2fbc54d79745f4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 87,
       "hasStructuralAnalysis": false
     },
     "lib/theme/taiyi_classic_theme.dart": {
       "filePath": "lib/theme/taiyi_classic_theme.dart",
-      "contentHash": "6df764242d18e48332c7a09c929144dd08cb57d68cd0d29e70965fa8601b6dcb",
+      "contentHash": "987e05ee6cf2758b4d423fc175d0a06ab7e858fc56e4f5b66f9d8aa37704151d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 92,
+      "totalLines": 106,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/deity_management_dialog.dart": {
+      "filePath": "lib/widgets/deity_management_dialog.dart",
+      "contentHash": "d00691b9d10d73bf92dbb10473f1a8051b1c97490b6a9133cb32fa32c5468901",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 681,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/ink_wash_widgets.dart": {
+      "filePath": "lib/widgets/ink_wash_widgets.dart",
+      "contentHash": "e353611f29ae96d70466eead4fc8e33031faffd9906a5fb139b1aaf40402bc7b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 160,
       "hasStructuralAnalysis": false
     },
     "lib/widgets/nine_gong_grid.dart": {
       "filePath": "lib/widgets/nine_gong_grid.dart",
-      "contentHash": "00f4c15c9c2015e188494047271103a74e3dc3ff490386c580cc3a74a59ac442",
+      "contentHash": "5ceb456307eb0294837ed549b6a58bf215de81c007e184ff9abebbdf909d58f8",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 576,
+      "totalLines": 575,
       "hasStructuralAnalysis": false
     },
     "lib/widgets/pan_info_panel.dart": {
       "filePath": "lib/widgets/pan_info_panel.dart",
-      "contentHash": "3418b0c2f2a070f8e7a84a0abe33947a3a9ceee71b21149cfdd7d3cf8c2f4e29",
+      "contentHash": "43de27e07881b7367698b6ccb284dab7947241781e8984a8f87b58d1e0138984",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 837,
+      "totalLines": 858,
+      "hasStructuralAnalysis": false
+    },
+    "lib/widgets/school_editor/school_editor_sections.dart": {
+      "filePath": "lib/widgets/school_editor/school_editor_sections.dart",
+      "contentHash": "80a8d630a28a5b5ced00635df3dcf476375f2af6b0733602ac44484eb060fd8c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 615,
       "hasStructuralAnalysis": false
     },
     "lib/widgets/tai_yi_gong_content_background.dart": {
       "filePath": "lib/widgets/tai_yi_gong_content_background.dart",
-      "contentHash": "ae45deaae1b6b68488601f86d3c44e9b045f9abd5ac9d9ac2717374de59bff82",
+      "contentHash": "2337bec49416efba0bcfc530c5ae643b67b66de871711d014db9b3fa9016b864",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -1273,19 +1893,9 @@
       "totalLines": 183,
       "hasStructuralAnalysis": false
     },
-    "lib/widgets/taiyi_pan_grid.dart": {
-      "filePath": "lib/widgets/taiyi_pan_grid.dart",
-      "contentHash": "982f0df8d3202838ae58fac3f84758947c9c369ff9c7daffd85b2b49a203f63d",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 352,
-      "hasStructuralAnalysis": false
-    },
     "lib/widgets/taiyi_pan_grid_v2.dart": {
       "filePath": "lib/widgets/taiyi_pan_grid_v2.dart",
-      "contentHash": "52f749a76a26667a426a32da54ab761f1d7cac4f98da251b908464993c90ea5a",
+      "contentHash": "7b4f56dbb6da583b080bc4600b06022ba28cad8c82410c91165ec4564493f3aa",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -1293,29 +1903,159 @@
       "totalLines": 310,
       "hasStructuralAnalysis": false
     },
-    "pubspec.yaml": {
-      "filePath": "pubspec.yaml",
-      "contentHash": "38a25552fa1cb70b01d7d0b2067123a2379c215749c2efc5cc0d20c7b1f674df",
+    "lib/widgets/taiyi_pan_grid.dart": {
+      "filePath": "lib/widgets/taiyi_pan_grid.dart",
+      "contentHash": "e6c10c0a8fe5a7272826583256d32df0e76a6fdaf78a02d20005562fff72aee1",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 116,
-      "hasStructuralAnalysis": true
-    },
-    "test/taiyi/core/algorithm_engine_test.dart": {
-      "filePath": "test/taiyi/core/algorithm_engine_test.dart",
-      "contentHash": "8c4f8e8f0bae68b4593953c781db03b0b4b968bd1381e58ccbc23104976baea3",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 228,
+      "totalLines": 352,
       "hasStructuralAnalysis": false
     },
-    "test/taiyi/core/expression_parser_test.dart": {
-      "filePath": "test/taiyi/core/expression_parser_test.dart",
-      "contentHash": "6e2143e958b9043c51127d4888d5a59cee9668463682576a76a0e3e42aba3b59",
+    "pubspec.yaml": {
+      "filePath": "pubspec.yaml",
+      "contentHash": "ed0185356a9f791bb439c0210c853ac7b22cf89d9f74663d05847f6ea82c2237",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 124,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "bf2b05bfbec10b703b17eba213b067755c67880d77d6c5cbe2ef207620906841",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "start_task.js": {
+      "filePath": "start_task.js",
+      "contentHash": "4e8d999b3e6373743581b7b0fb0a42a01175cc91410916f66724f87de08dec47",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "subagent-report.md": {
+      "filePath": "subagent-report.md",
+      "contentHash": "ee562ee1d75c636db513fe06ab57f6a5f18ede276f3af7f1c5b8eb91cfc80145",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 218,
+      "hasStructuralAnalysis": true
+    },
+    "tasks.json": {
+      "filePath": "tasks.json",
+      "contentHash": "042127529c7fc83dba2e9f0e40c9c8c001b71881ea7e38a43e1262e8f469aa43",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "test/AC_TEST_MATRIX.md": {
+      "filePath": "test/AC_TEST_MATRIX.md",
+      "contentHash": "8c7cba3bf4ee42902a618b2b2806d3c2bbb195ca84dfda7017d4341cecd60b82",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 51,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/deity_management_bdd_test.dart": {
+      "filePath": "test/bdd/deity_management_bdd_test.dart",
+      "contentHash": "547e280d55c913b1b86824fe3cef99d2f457fb1458ba81b72562ff6b66a6d045",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 104,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/deity_visibility_bdd_test.dart": {
+      "filePath": "test/bdd/deity_visibility_bdd_test.dart",
+      "contentHash": "4e5c38f1d960b36f4855651bba2372f8cf040591ed7e4523d4f0f2c02685cde9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/editor_navigation_bdd_test.dart": {
+      "filePath": "test/bdd/editor_navigation_bdd_test.dart",
+      "contentHash": "f77dbabf944fffdcd1c03cb0906b152b78642898091bd8f3c4fea135c572fc60",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 96,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/features/deity_dialog.feature": {
+      "filePath": "test/bdd/features/deity_dialog.feature",
+      "contentHash": "616b2f420ea3581bd60be14e976463b1e02acaa4196df8336015fab5e307ce4b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 89,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/features/hidden_key_warning.feature": {
+      "filePath": "test/bdd/features/hidden_key_warning.feature",
+      "contentHash": "3a992bd3f9df3a84c189dc76fdbc923d5c32b28c21e23a98f2b3c2d7eb3a19ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/features/my_deity.feature": {
+      "filePath": "test/bdd/features/my_deity.feature",
+      "contentHash": "420a28fa4a61743381cca47ca65d72e716f14ba0869fe9e931783efa01f31d73",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 81,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/features/my_school.feature": {
+      "filePath": "test/bdd/features/my_school.feature",
+      "contentHash": "6d084e3610b1f1f2ecf68775ff051a74480372741d49cecd13f3d24a30d7ba0c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 73,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/features/school_switching.feature": {
+      "filePath": "test/bdd/features/school_switching.feature",
+      "contentHash": "cb73b6827b06df3655d6b14c09be38ddcc7c06391fefe673479ffb42753834ab",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/hidden_reminder_test.dart": {
+      "filePath": "test/bdd/hidden_reminder_test.dart",
+      "contentHash": "9899c8e1d38109e0ce8795ab637780a3af27bce60982a05da43597ff4bda74b6",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -1323,14 +2063,350 @@
       "totalLines": 38,
       "hasStructuralAnalysis": false
     },
-    "test/taiyi/core/official_json_repository_test.dart": {
-      "filePath": "test/taiyi/core/official_json_repository_test.dart",
-      "contentHash": "9deaebcb40c12eff199a708181b7166cf869bb439cb91e526ae6757d452dfef8",
+    "test/bdd/ink_wash_aesthetics_bdd_test.dart": {
+      "filePath": "test/bdd/ink_wash_aesthetics_bdd_test.dart",
+      "contentHash": "f632f88d09e8bc900fc6faaffb726cf5b4f2bdaa19728bf95fe63c7e13713207",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 128,
+      "totalLines": 59,
+      "hasStructuralAnalysis": false
+    },
+    "test/bdd/package.json": {
+      "filePath": "test/bdd/package.json",
+      "contentHash": "6cb2b694cffb103e820bcd4408b59f5a044b64cb8c39ef5d3696550830c12616",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/playwright.config.ts": {
+      "filePath": "test/bdd/playwright.config.ts",
+      "contentHash": "eeab23a1cdadfded8a8904ba035ffe4c24b9be322c484bf54b7fa4ec2504ad69",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@playwright/test",
+          "specifiers": [
+            "defineConfig",
+            "devices"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/README.md": {
+      "filePath": "test/bdd/README.md",
+      "contentHash": "a69f0c1153a6332e816eb565f8cb1f57af584c283a2f543b9ce21ecbcb6c8735",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 85,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/tests/_helpers.ts": {
+      "filePath": "test/bdd/tests/_helpers.ts",
+      "contentHash": "337e72fa358eff5c90fcc651969d8c367bf4b898ca84f0cb6cbc3a89bacdf307",
+      "functions": [
+        {
+          "name": "byId",
+          "params": [
+            "id"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "byIdInside",
+          "params": [
+            "scope",
+            "id"
+          ],
+          "returnType": "Locator",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "byAriaLabel",
+          "params": [
+            "label"
+          ],
+          "returnType": "string",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "waitAppReady",
+          "params": [
+            "page",
+            "timeoutMs"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "readAccumulatedYear",
+          "params": [
+            "page"
+          ],
+          "returnType": "Promise<number>",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "readCurrentSchoolName",
+          "params": [
+            "page"
+          ],
+          "returnType": "Promise<string>",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "openDeityDialog",
+          "params": [
+            "page"
+          ],
+          "returnType": "Promise<Locator>",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "closeDeityDialog",
+          "params": [
+            "page"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "createUserSchoolByCopy",
+          "params": [
+            "page",
+            "sourceOfficialId",
+            "newName"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "expectAtLeastNWithLabel",
+          "params": [
+            "locator",
+            "expectedMinCount"
+          ],
+          "returnType": "Promise<void>",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@playwright/test",
+          "specifiers": [
+            "Page",
+            "Locator",
+            "expect"
+          ]
+        }
+      ],
+      "exports": [
+        "byId",
+        "byIdInside",
+        "byAriaLabel",
+        "waitAppReady",
+        "readAccumulatedYear",
+        "readCurrentSchoolName",
+        "openDeityDialog",
+        "closeDeityDialog",
+        "createUserSchoolByCopy",
+        "expectAtLeastNWithLabel"
+      ],
+      "totalLines": 134,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/tests/school-manager.spec.ts": {
+      "filePath": "test/bdd/tests/school-manager.spec.ts",
+      "contentHash": "36f9b9955f9d3bd9e9fc4f8d53818282f3eb4524ca976c010596465d7a1b7b89",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@playwright/test",
+          "specifiers": [
+            "test",
+            "expect"
+          ]
+        },
+        {
+          "source": "./_helpers",
+          "specifiers": [
+            "byId",
+            "byIdInside",
+            "waitAppReady",
+            "readAccumulatedYear",
+            "readCurrentSchoolName",
+            "openDeityDialog",
+            "closeDeityDialog",
+            "createUserSchoolByCopy",
+            "expectAtLeastNWithLabel"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 473,
+      "hasStructuralAnalysis": true
+    },
+    "test/bdd/tsconfig.json": {
+      "filePath": "test/bdd/tsconfig.json",
+      "contentHash": "440d4a354714177e011855acef965a6b2d906c29170906f7fb7614d5452d83de",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    "test/integration/deity_dialog_integration_test.dart": {
+      "filePath": "test/integration/deity_dialog_integration_test.dart",
+      "contentHash": "d978e384aaec5f3ae21f524bf5cbf98a99fbf1ca9d1ae19a2adee46110219492",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 453,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/deity_editor_integration_test.dart": {
+      "filePath": "test/integration/deity_editor_integration_test.dart",
+      "contentHash": "33fc7ec984cef8b2e21b59c04184eec1dfc65e7eede552724224030ff94cb5af",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 543,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/school_editor_integration_test.dart": {
+      "filePath": "test/integration/school_editor_integration_test.dart",
+      "contentHash": "8d9fd985a18049e644302c68654af719788e7cda9a2a62e6f25f1c9131ea03c2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 280,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/school_management_integration_test.dart": {
+      "filePath": "test/integration/school_management_integration_test.dart",
+      "contentHash": "2363bce01c44d790c8e25470f7d57cdb3811c0e4c8915d3995a0ec5e2f90091b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 248,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt21_ac13_core_vs_noncore_test.dart": {
+      "filePath": "test/integration/zt21_ac13_core_vs_noncore_test.dart",
+      "contentHash": "e61d5d7ec4be724f5a9888cef538c5e9763634516398444f36e2510406453b27",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 238,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt21_sp_persistence_restart_test.dart": {
+      "filePath": "test/integration/zt21_sp_persistence_restart_test.dart",
+      "contentHash": "bcf5596d0efcf76afce75e8e46726cad49dfeb4587f5857da71eefc6a763c53a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 300,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt21_visibility_panel_refresh_test.dart": {
+      "filePath": "test/integration/zt21_visibility_panel_refresh_test.dart",
+      "contentHash": "50d661c6791ed914f5972f0fc0b53877d2c6c8f1dd7d0954b89b45f1e1a22f06",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 256,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt30_fullchain_deity_save_reload_test.dart": {
+      "filePath": "test/integration/zt30_fullchain_deity_save_reload_test.dart",
+      "contentHash": "b80de4241c4d8d39a21e1153def2f473276bc7966600847f4f2d92c7ab457ade",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 217,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt30_fullchain_school_save_recompute_test.dart": {
+      "filePath": "test/integration/zt30_fullchain_school_save_recompute_test.dart",
+      "contentHash": "2783f615a8d71d005e333be41191a0fcef1843cbe029f08d1cdf0b11e5aa8ddd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 204,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt30_multilevel_lineage_test.dart": {
+      "filePath": "test/integration/zt30_multilevel_lineage_test.dart",
+      "contentHash": "23ef954377b53cdb1315c14ed6439896f74237e69baf3d504e1edcdc25775e88",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 218,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt30_official_user_coexist_test.dart": {
+      "filePath": "test/integration/zt30_official_user_coexist_test.dart",
+      "contentHash": "c7b417f62a13d5dd0f903f99117f4b0944d020bac5ac1659cbcbe0eff174b496",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 215,
+      "hasStructuralAnalysis": false
+    },
+    "test/integration/zt30_school_scope_filter_test.dart": {
+      "filePath": "test/integration/zt30_school_scope_filter_test.dart",
+      "contentHash": "357652004c63476c65267306501d7c91154188b83f7e6e26f5f6da4e8ad5e0cc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 254,
+      "hasStructuralAnalysis": false
+    },
+    "test/pages/school_manager_page_test.dart": {
+      "filePath": "test/pages/school_manager_page_test.dart",
+      "contentHash": "96b009b02bf29631a1c32f6a2b09c591fe8e84dee90a25ce7146f1c4451dbcd2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 127,
       "hasStructuralAnalysis": false
     },
     "test/taiyi_pan_calculator_smoke.dart": {
@@ -1352,6 +2428,286 @@
       "exports": [],
       "totalLines": 260,
       "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/algorithm_engine_test.dart": {
+      "filePath": "test/taiyi/core/algorithm_engine_test.dart",
+      "contentHash": "8c4f8e8f0bae68b4593953c781db03b0b4b968bd1381e58ccbc23104976baea3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 228,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/derived_assets_test.dart": {
+      "filePath": "test/taiyi/core/derived_assets_test.dart",
+      "contentHash": "4d01c4241cca0abf0261b78a45fdf1a78be6c1d280c7bd0b47842adc39aa63f2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 71,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/domain_models_test.dart": {
+      "filePath": "test/taiyi/core/domain_models_test.dart",
+      "contentHash": "c1eb65d3fca760ef42d743af72002b0482c3892d727675b0d699bd366b9bfcee",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 165,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/expression_parser_test.dart": {
+      "filePath": "test/taiyi/core/expression_parser_test.dart",
+      "contentHash": "6e2143e958b9043c51127d4888d5a59cee9668463682576a76a0e3e42aba3b59",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/in_memory_repositories_test.dart": {
+      "filePath": "test/taiyi/core/in_memory_repositories_test.dart",
+      "contentHash": "9c4e5463527dc391a0dca0551ec7668eb342696dc23d50303ee735bc8c34cb87",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 132,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/official_json_repository_test.dart": {
+      "filePath": "test/taiyi/core/official_json_repository_test.dart",
+      "contentHash": "9deaebcb40c12eff199a708181b7166cf869bb439cb91e526ae6757d452dfef8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 128,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/core/repository_boundary_test.dart": {
+      "filePath": "test/taiyi/core/repository_boundary_test.dart",
+      "contentHash": "1ba96cb2c4d444356930df1086f5fa269c04bc43b23248190a098842b8835864",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 130,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/day_metadata_test.dart": {
+      "filePath": "test/taiyi/day_metadata_test.dart",
+      "contentHash": "c8cc1849ef23612e29a0d5431d23a43e9f44f5d321f346bf1ca735a0881ba6e2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 63,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/hour_metadata_test.dart": {
+      "filePath": "test/taiyi/hour_metadata_test.dart",
+      "contentHash": "d411d2b13bfef310f459f72998ecf2061771df1ed6e360becd76643da9053ca9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 63,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/metadata_verification_test.dart": {
+      "filePath": "test/taiyi/metadata_verification_test.dart",
+      "contentHash": "013e5ac64447f844149aa7941d928dd3cefcb0d73628e5750c9f85b8ecd710ee",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 50,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/mocks/mock_repositories.dart": {
+      "filePath": "test/taiyi/mocks/mock_repositories.dart",
+      "contentHash": "e34896732645bc501d49832109cc0348893112ec4e16f301050bf6682b9f77b1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 134,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/month_metadata_test.dart": {
+      "filePath": "test/taiyi/month_metadata_test.dart",
+      "contentHash": "bc2c15280eaaf6b3d3bfe00cd827b566748f92c12451e976d956fab64b3fd6ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 63,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/official_assets_verification_test.dart": {
+      "filePath": "test/taiyi/official_assets_verification_test.dart",
+      "contentHash": "de73444939cf285707f2bf37cb303b15ccd384c35ed0eecd1d6e8794df80bf9e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 112,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/regression_official_schools_test.dart": {
+      "filePath": "test/taiyi/regression_official_schools_test.dart",
+      "contentHash": "b644708007421c8fc61d27860e4fd937fbf3c6b7a1bf149e3aed4d71f03822f3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/test_harness.dart": {
+      "filePath": "test/taiyi/test_harness.dart",
+      "contentHash": "329bfdb63e52c17e87b8d13851e5c80014955759034c82fcd8a1af2aaa62556d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 119,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/calculate_pan_boundary_test.dart": {
+      "filePath": "test/taiyi/usecases/calculate_pan_boundary_test.dart",
+      "contentHash": "be647a200e032e8f04cd12704dcc1954c2f38c0546dd50e9c3d4b6615bac13e1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 115,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/calculate_pan_usecase_test.dart": {
+      "filePath": "test/taiyi/usecases/calculate_pan_usecase_test.dart",
+      "contentHash": "28e8ba2c3f294569e7f0a837478080590fc5570f9bbdc1b8b7b5696bc8c2cc02",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 146,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/deity_copy_and_scope_test.dart": {
+      "filePath": "test/taiyi/usecases/deity_copy_and_scope_test.dart",
+      "contentHash": "4f73f2a90789d53a12cde450fd14db70e857c0e184f447f0ccd1e12ef5f15eeb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 80,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/mvvm_state_sync_test.dart": {
+      "filePath": "test/taiyi/usecases/mvvm_state_sync_test.dart",
+      "contentHash": "f453c3f4bb7c73baf185313dc7a6e85406fb419bfb1bb064a22bef5606377be8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 127,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/robustness_test.dart": {
+      "filePath": "test/taiyi/usecases/robustness_test.dart",
+      "contentHash": "f123a98912f29f8784ee7bc90cb4a07ef46d00e1e8e5fd6aae69a6ca9a8212ef",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 133,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/usecases/usecases_test.dart": {
+      "filePath": "test/taiyi/usecases/usecases_test.dart",
+      "contentHash": "55dd949c42d577e020c314a48d247c6247d016f55d35474e2839a830f03049e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 259,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/viewmodels/deity_view_model_test.dart": {
+      "filePath": "test/taiyi/viewmodels/deity_view_model_test.dart",
+      "contentHash": "bb13e12dd4949acab6aa12fc344040c5026caa8476939b0858e462fe81982b01",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 214,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/viewmodels/school_view_model_test.dart": {
+      "filePath": "test/taiyi/viewmodels/school_view_model_test.dart",
+      "contentHash": "0fb7238324e3847323538f5450a77308a206378658d652bef3feb75813b3613b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 99,
+      "hasStructuralAnalysis": false
+    },
+    "test/taiyi/year_metadata_test.dart": {
+      "filePath": "test/taiyi/year_metadata_test.dart",
+      "contentHash": "ee71c084ae7e31dd1f394956aed4512343cce857ed58554326f5339b0f0e9505",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 63,
+      "hasStructuralAnalysis": false
+    },
+    "test/widget/deity_editor_widget_test.dart": {
+      "filePath": "test/widget/deity_editor_widget_test.dart",
+      "contentHash": "11abea0f717186fe4ae76f10e2078d33105489f9d8a571eefbca2c8817f56841",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 272,
+      "hasStructuralAnalysis": false
+    },
+    "test/widget/school_editor_widget_test.dart": {
+      "filePath": "test/widget/school_editor_widget_test.dart",
+      "contentHash": "7944a0d25332a64c21a2ec6315149a1321e50029e32ce7cee6689f7193cc7ec0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 197,
+      "hasStructuralAnalysis": false
+    },
+    "test/widget/zt21_dialog_sections_widget_test.dart": {
+      "filePath": "test/widget/zt21_dialog_sections_widget_test.dart",
+      "contentHash": "b4e80faf081acb980c66b2add6383c840c4d51f38ab9dc0c9cbc1237687199b4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 337,
+      "hasStructuralAnalysis": false
+    },
+    "ui-ux-design-contract.md": {
+      "filePath": "ui-ux-design-contract.md",
+      "contentHash": "2c79bbc54971cdabadc4a5c123db99c8c93181b91978b40f697ddf08b2c9f65f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 195,
+      "hasStructuralAnalysis": true
     }
   }
 }
