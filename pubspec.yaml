@@ -44,16 +44,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  repository_interface_taiyishenshu:
+    path: ../repository-interface-taiyishenshu
 
 dependency_overrides:
   persistence_core:
     path: ../xuan-storage/core
   xuan_four_zhu_card:
     path: ../xuan-four-zhu-card
-  xuan_four_zhu_host:
-    path: ../xuan-four-zhu-host
-  xuan_four_zhu_templates:
-    path: ../xuan-four-zhu-templates
+  repository_interface_taiyishenshu:
+    path: ../repository-interface-taiyishenshu
 
 dev_dependencies:
   flutter_test:
