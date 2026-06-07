@@ -1,48 +1,173 @@
+export 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
+    show
+        SchoolRepository,
+        UserSchoolRepository,
+        DeityRepository,
+        DeityPreferenceRepository,
+        DummyDeityPreferenceRepository,
+        TaiYiSchoolContract,
+        DeityDefinitionContract,
+        SchoolEpochConfigContract,
+        DeityAlgorithmSpecContract;
+
 import 'school_config.dart';
 import 'deity_definition.dart';
+import 'chart_config.dart';
+import 'deity_override.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'algorithm_enums.dart';
+import '../../enums/deity_kind.dart';
 
-/// Combined repository interface (backward-compatible).
-/// Existing tests and code depend on this exact shape.
-abstract class SchoolRepository {
-  Future<List<TaiYiSchool>> loadAllSchools();
-  Future<TaiYiSchool?> loadSchool(String id);
-  Future<List<DeityDefinition>> loadAllDeities();
-  Future<DeityDefinition?> loadDeity(String id);
-  Future<void> saveSchool(TaiYiSchool school);
-  Future<void> saveDeity(DeityDefinition deity);
-  Future<void> deleteSchool(String id);
-  Future<void> deleteDeity(String id);
+// ---------------------------------------------------------------------------
+// TaiYiSchool ↔ TaiYiSchoolContract (product boundary)
+// ---------------------------------------------------------------------------
+
+extension TaiYiSchoolProductMapper on TaiYiSchool {
+  TaiYiSchoolContract toContract() {
+    return TaiYiSchoolContract(
+      id: id,
+      name: name,
+      source: source,
+      epoch: epoch.toContract(),
+      deityIds: deityIds,
+      overrides: overrides,
+      wenChangStayRule: wenChangStayRule,
+      useTwelveJiShen: useTwelveJiShen,
+      palaceFormula: palaceFormula,
+      eightDoorMode: eightDoorMode,
+      chartConfigs: {
+        for (final e in chartConfigs.entries) e.key: e.value.toJson(),
+      },
+      deityConfigs: {
+        for (final e in deityConfigs.entries) e.key: e.value.toJson(),
+      },
+      privateDeities: privateDeities,
+      sourceId: sourceId,
+      rootOfficialId: rootOfficialId,
+      lineage: lineage,
+    );
+  }
 }
 
-/// User school repository — stores user-created/modified schools.
-abstract class UserSchoolRepository {
-  Future<List<TaiYiSchool>> loadUserSchools();
-  Future<TaiYiSchool?> loadSchool(String id);
-  Future<void> saveUserSchool(TaiYiSchool school);
-  Future<void> deleteUserSchool(String id);
+extension TaiYiSchoolContractProductMapper on TaiYiSchoolContract {
+  TaiYiSchool toModel() {
+    return TaiYiSchool(
+      id: id,
+      name: name,
+      source: source,
+      epoch: epoch.toModel(),
+      deityIds: deityIds,
+      overrides: overrides,
+      wenChangStayRule: wenChangStayRule,
+      useTwelveJiShen: useTwelveJiShen,
+      palaceFormula: palaceFormula,
+      eightDoorMode: eightDoorMode,
+      chartConfigs: {
+        for (final e in chartConfigs.entries)
+          e.key: ChartConfig.fromJson(Map<String, dynamic>.from(e.value)),
+      },
+      deityConfigs: {
+        for (final e in deityConfigs.entries)
+          e.key: DeityOverride.fromJson(Map<String, dynamic>.from(e.value)),
+      },
+      privateDeities: privateDeities,
+      sourceId: sourceId,
+      rootOfficialId: rootOfficialId,
+      lineage: lineage,
+    );
+  }
 }
 
-/// Deity repository — stores user-created/modified deities.
-abstract class DeityRepository {
-  Future<List<DeityDefinition>> loadUserDeities();
-  Future<DeityDefinition?> loadDeity(String id);
-  Future<void> saveUserDeity(DeityDefinition deity);
-  Future<void> deleteUserDeity(String id);
+// ---------------------------------------------------------------------------
+// SchoolEpochConfig ↔ SchoolEpochConfigContract
+// ---------------------------------------------------------------------------
+
+extension _SchoolEpochConfigProductMapper on SchoolEpochConfig {
+  SchoolEpochConfigContract toContract() {
+    return SchoolEpochConfigContract(
+      ancientBase: ancientBase,
+      epochYear: epochYear,
+      correction: correction,
+      tropicalYear: tropicalYear,
+      ancientMonthBase: ancientMonthBase,
+      ancientDayBase: ancientDayBase,
+      ancientHourBase: ancientHourBase,
+      zhangSui: zhangSui,
+      zhangYue: zhangYue,
+      dayOffset: dayOffset,
+      hourOffset: hourOffset,
+    );
+  }
 }
 
-/// Deity display preference repository.
-abstract class DeityPreferenceRepository {
-  Future<bool> isEnabled(String deityId);
-  Future<void> setEnabled(String deityId, bool enabled);
-  Future<Map<String, bool>> loadEnabledMap();
+extension _SchoolEpochConfigContractProductMapper on SchoolEpochConfigContract {
+  SchoolEpochConfig toModel() {
+    return SchoolEpochConfig(
+      ancientBase: ancientBase,
+      epochYear: epochYear,
+      correction: correction,
+      tropicalYear: tropicalYear,
+      ancientMonthBase: ancientMonthBase,
+      ancientDayBase: ancientDayBase,
+      ancientHourBase: ancientHourBase,
+      zhangSui: zhangSui,
+      zhangYue: zhangYue,
+      dayOffset: dayOffset,
+      hourOffset: hourOffset,
+    );
+  }
 }
 
-class DummyDeityPreferenceRepository implements DeityPreferenceRepository {
-  @override
-  Future<bool> isEnabled(String deityId) async => true;
-  @override
-  Future<void> setEnabled(String deityId, bool enabled) async {}
-  @override
-  Future<Map<String, bool>> loadEnabledMap() async => {};
+// ---------------------------------------------------------------------------
+// DeityDefinition ↔ DeityDefinitionContract
+// ---------------------------------------------------------------------------
+
+extension DeityDefinitionProductMapper on DeityDefinition {
+  DeityDefinitionContract toContract() {
+    return DeityDefinitionContract(
+      id: id,
+      name: name,
+      layer: layer.name,
+      algorithm: DeityAlgorithmSpecContract(
+        templateId: algorithm.templateId.name,
+        params: algorithm.params,
+      ),
+      priority: priority,
+      description: description,
+      source: source,
+      tier: tier,
+      chartTypes: chartTypes,
+      schoolScopes: schoolScopes,
+      displayStyle: displayStyle,
+      color: color,
+      sourceId: sourceId,
+      rootOfficialId: rootOfficialId,
+      lineage: lineage,
+    );
+  }
 }
 
+extension DeityDefinitionContractProductMapper on DeityDefinitionContract {
+  DeityDefinition toModel() {
+    return DeityDefinition(
+      id: id,
+      name: name,
+      layer: EnumDeityLayer.values.byName(layer),
+      algorithm: DeityAlgorithmSpec(
+        templateId: AlgorithmTemplateId.values.byName(algorithm.templateId),
+        params: algorithm.params,
+      ),
+      priority: priority,
+      description: description,
+      source: source,
+      tier: tier,
+      chartTypes: chartTypes,
+      schoolScopes: schoolScopes,
+      displayStyle: displayStyle,
+      color: color,
+      sourceId: sourceId,
+      rootOfficialId: rootOfficialId,
+      lineage: lineage,
+    );
+  }
+}
