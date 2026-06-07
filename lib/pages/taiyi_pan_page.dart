@@ -17,7 +17,8 @@ import '../taiyi/taiyi_assembly.dart';
 
 class TaiYiPanPage extends StatefulWidget {
   final TaiYiPanController? controller;
-  const TaiYiPanPage({super.key, this.controller});
+  final TaiYiDataAssembly? assembly; // NEW injected host-built assembly
+  const TaiYiPanPage({super.key, this.controller, this.assembly});
 
   @override
   State<TaiYiPanPage> createState() => _TaiYiPanPageState();
@@ -68,9 +69,13 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
   Future<void> _initController() async {
     if (widget.controller != null) {
       _controller = widget.controller!;
+    } else if (widget.assembly != null) {
+      _controller = TaiYiPanController(assembly: widget.assembly!);
     } else {
-      final assembly = await TaiYiDataAssembly.create();
-      _controller = TaiYiPanController(assembly: assembly);
+      throw UnsupportedError(
+        'Inject a TaiYiDataAssembly (built by the example host). '
+        'See storage-refactor §12-E2.',
+      );
     }
     
     if (mounted) {
