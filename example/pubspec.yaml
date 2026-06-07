@@ -12,6 +12,15 @@ dependencies:
   taiyishenshu:
     path: ../
   google_fonts: ^6.2.1
+  repository_interface_taiyishenshu:
+    path: ../../repository-interface-taiyishenshu
+  persistence_drift:
+    path: ../../xuan-storage/drift
+  persistence_preferences:
+    path: ../../xuan-storage/preferences
+  persistence_assets:
+    path: ../../xuan-storage/assets
+  shared_preferences: ^2.0.0
 
 dependency_overrides:
   xuan_four_zhu_card:
