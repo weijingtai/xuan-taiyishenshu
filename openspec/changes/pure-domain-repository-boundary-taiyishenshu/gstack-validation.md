@@ -35,3 +35,9 @@
 
 - Go to implementation only after OpenSpec validates and the main thread accepts Strategy A or explicitly selects Strategy B.
 - No-go if product `lib/taiyi/**` still imports contract/persistence packages, if `TaiYiDataAssembly` still accepts contract ports, or if tests rely on product-owned contract mappers.
+
+## Application Boundary
+
+This OpenSpec is package-local under `xuan-taiyishenshu/openspec/changes`. It is sufficient for package-local planning and validation. If the parent `xuan-migration` OpenSpec registry is the required source of truth for the implementation worker, copy or register this change under the parent registry and run validation from the parent root before code changes begin.
+
+Implementation SHALL remain documentation-gated until current regression changes in the working tree are isolated or accepted by the main thread. The repository boundary worker SHALL NOT include algorithm configuration changes in the same implementation pass.

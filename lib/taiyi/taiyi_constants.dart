@@ -85,15 +85,19 @@ const List<String> twelveDeities = [
 const Map<String, EnumTaiYiGong> branchPalace = {
   '子': EnumTaiYiGong.Kan,
   '丑': EnumTaiYiGong.Gen,
+  '艮': EnumTaiYiGong.Gen,
   '寅': EnumTaiYiGong.Gen,
   '卯': EnumTaiYiGong.Zhen,
   '辰': EnumTaiYiGong.Xun,
+  '巽': EnumTaiYiGong.Xun,
   '巳': EnumTaiYiGong.Xun,
   '午': EnumTaiYiGong.Li,
   '未': EnumTaiYiGong.Kun,
+  '坤': EnumTaiYiGong.Kun,
   '申': EnumTaiYiGong.Kun,
   '酉': EnumTaiYiGong.Dui,
   '戌': EnumTaiYiGong.Qian,
+  '乾': EnumTaiYiGong.Qian,
   '亥': EnumTaiYiGong.Qian,
 };
 

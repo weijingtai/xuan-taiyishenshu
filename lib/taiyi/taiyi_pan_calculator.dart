@@ -231,14 +231,15 @@ class TaiYiPanCalculator {
       taiYiPalace: taiYiPalace,
       rule: rule,
     );
-    final yearBranch = twelveBranches[_positiveModulo(dateTime.year - 4, 12)];
+    final currentBranch = _getCurrentBranch(dateTime, chartType);
     final hostGuest = _calculateHostGuest(
       juNumber: juNumber,
       taiYiPalace: taiYiPalace,
       wenChangPalace: wenChangPalace,
-      yearBranch: yearBranch,
+      currentBranch: currentBranch,
       rule: rule,
       dunType: dunType,
+      chartType: chartType,
     );
 
     final diPan = createDiPan();
@@ -644,50 +645,73 @@ class TaiYiPanCalculator {
     return Map.unmodifiable(result);
   }
 
+  String _getCurrentBranch(DateTime dateTime, TaiYiChartType chartType) {
+    switch (chartType) {
+      case TaiYiChartType.year:
+        return twelveBranches[_positiveModulo(dateTime.year - 4, 12)];
+      case TaiYiChartType.month:
+        return twelveBranches[dateTime.month % 12];
+      case TaiYiChartType.day:
+        final anchor = DateTime(2024, 1, 1);
+        final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
+        final diff = date.difference(anchor).inDays;
+        return twelveBranches[_positiveModulo(diff, 12)];
+      case TaiYiChartType.hour:
+        return twelveBranches[((dateTime.hour + 1) ~/ 2) % 12];
+      case TaiYiChartType.ke:
+        return twelveBranches[((dateTime.hour + 1) ~/ 2) % 12];
+    }
+  }
+
   HostGuestDataModel _calculateHostGuest({
     required int juNumber,
     required EnumTaiYiGong taiYiPalace,
     required EnumTaiYiGong wenChangPalace,
-    required String yearBranch,
+    required String currentBranch,
     required _RuleProfile rule,
     required DunType dunType,
+    required TaiYiChartType chartType,
   }) {
     final wenChangDeity = _findWenChangDeity(juNumber);
     final wenChangPos = _sixteenGodPosition(wenChangDeity);
     final taiYiPos = _palaceToZhengDeityPosition(taiYiPalace);
     final shiJiDeity = _findShiJiDeity(juNumber);
     final shiJiPos = _sixteenGodPosition(shiJiDeity);
-    final hostResult = _samePalaceCountWithDetail(
-          startDeity: wenChangDeity,
-          startPos: wenChangPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.name,
-        ) ??
-        _walkAndSumWithDetail(wenChangPos, taiYiPos, rule.school.name);
-    final guestResult = _samePalaceCountWithDetail(
-          startDeity: shiJiDeity,
-          startPos: shiJiPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.name,
-        ) ??
-        _walkAndSumWithDetail(shiJiPos, taiYiPos, rule.school.name);
+
+    // 时计分阴阳顺逆，其他暂定顺行
+    final bool clockwise =
+        (chartType == TaiYiChartType.hour) ? (dunType == DunType.yang) : true;
+
+    final hostResult = _walkAndSumWithDetail(
+      wenChangPos,
+      taiYiPos,
+      rule.school.name,
+      clockwise: clockwise,
+    );
+    final guestResult = _walkAndSumWithDetail(
+      shiJiPos,
+      taiYiPos,
+      rule.school.name,
+      clockwise: clockwise,
+    );
+
+    // 月计与日计通常不移定目，直接取文昌
+    final bool useShift =
+        (chartType != TaiYiChartType.month && chartType != TaiYiChartType.day);
 
     final dingMuName = _calculateDingMuPosition(
-      yearBranch: yearBranch,
+      currentBranch: currentBranch,
       wenChangDeity: wenChangDeity,
+      useShift: useShift,
     );
     final dingMuPos = _sixteenGodPosition(dingMuName);
     final dingMuPalace = _deityToPalace(dingMuName);
-    final dingResult = _samePalaceCountWithDetail(
-          startDeity: dingMuName,
-          startPos: dingMuPos,
-          taiYiPalace: taiYiPalace,
-          taiYiPos: taiYiPos,
-          schoolLabel: rule.school.name,
-        ) ??
-        _walkAndSumWithDetail(dingMuPos, taiYiPos, rule.school.name);
+    final dingResult = _walkAndSumWithDetail(
+      dingMuPos,
+      taiYiPos,
+      rule.school.name,
+      clockwise: clockwise,
+    );
     final dingCount = dingResult.count;
     final dingPalace = dingMuPalace;
 
@@ -1034,72 +1058,67 @@ int _hostGuestPalaceNumber(EnumTaiYiGong palace) {
   return palace.order >= 5 ? palace.order + 1 : palace.order;
 }
 
-({int count, String detail})? _samePalaceCountWithDetail({
-  required String startDeity,
-  required int startPos,
-  required EnumTaiYiGong taiYiPalace,
-  required int taiYiPos,
-  required String schoolLabel,
-}) {
-  final startPalace = _deityToPalace(startDeity);
-  if (startPalace != taiYiPalace) return null;
+({int count, String detail}) _walkAndSumWithDetail(
 
+    int startPos, int taiYiPos, String schoolLabel,
+    {bool clockwise = true}) {
+  final startDeity = _sixteenGodByPosition(startPos);
+  final taiYiDeity = _sixteenGodByPosition(taiYiPos);
+  final startPalace = _deityToPalace(startDeity);
+  final taiYiPalace = _deityToPalace(taiYiDeity);
+
+  // 1. 同位情况 (Same Position)
   if (startPos == taiYiPos) {
-    final count = _hostGuestPalaceNumber(taiYiPalace);
-    return (
-      count: count,
-      detail: '$schoolLabel: $startDeity(同宫同神取宫数$count) = $count',
-    );
+    final num = _hostGuestPalaceNumber(taiYiPalace);
+    return (count: num, detail: '$schoolLabel: $startDeity同位($num)');
   }
 
-  return (
-    count: 1,
-    detail: '$schoolLabel: $startDeity(同宫不同神取1) = 1',
-  );
-}
+  // 2. 同宫情况 (Same Palace Different Position)
+  if (startPalace == taiYiPalace) {
+    return (count: 10, detail: '$schoolLabel: $startDeity同宫取满数(10)');
+  }
 
-({int count, String detail}) _walkAndSumWithDetail(
-    int startPos, int taiYiPos, String schoolLabel) {
+  // 3. 正常巡行累加 (Normal Walk)
   int sum = 0;
   final steps = <String>[];
-  final startDeity = _deityAtPosition(startPos);
   if (_isZhengDeity(startPos)) {
-    final palace = _deityToPalace(startDeity);
-    final num = _hostGuestPalaceNumber(palace);
+    final num = _hostGuestPalaceNumber(startPalace);
     sum += num;
     steps.add('$startDeity($num)');
   } else {
     sum += 1;
-    steps.add('1(间神起)');
+    steps.add('$startDeity(1)');
   }
-  int cur = startPos % 16 + 1;
+
+  int cur = clockwise ? (startPos % 16 + 1) : ((startPos - 2 + 16) % 16 + 1);
   for (var i = 0; i < 16; i++) {
     if (cur == taiYiPos) break;
     if (_isZhengDeity(cur)) {
-      final deity = _deityAtPosition(cur);
+      final deity = _sixteenGodByPosition(cur);
       final palace = _deityToPalace(deity);
       final num = _hostGuestPalaceNumber(palace);
       sum += num;
       steps.add('$deity($num)');
     }
-    cur = cur % 16 + 1;
+    cur = clockwise ? (cur % 16 + 1) : ((cur - 2 + 16) % 16 + 1);
   }
   return (count: sum, detail: '$schoolLabel: ${steps.join(" + ")} = $sum');
 }
 
 String _calculateDingMuPosition({
-  required String yearBranch,
+  required String currentBranch,
   required String wenChangDeity,
+  bool useShift = true,
 }) {
-  final heShenBranch = _branchComplement(yearBranch);
-  final taiSuiPos = _sixteenGodPosition(yearBranch);
+  if (!useShift) return wenChangDeity;
+  final heShenBranch = _branchComplement(currentBranch);
+  final taiSuiPos = _sixteenGodPosition(currentBranch);
   final heShenPos = _sixteenGodPosition(heShenBranch);
   final wenChangPos = _sixteenGodPosition(wenChangDeity);
   final shift = taiSuiPos - heShenPos;
   final dingMuPos = _positiveModulo(wenChangPos + shift - 1, 16) + 1;
   return _sixteenGodByPosition(dingMuPos);
 }
-
 const _sixteenGodSequence = [
   '子',
   '丑',
