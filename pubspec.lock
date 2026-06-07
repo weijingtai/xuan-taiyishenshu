@@ -255,6 +255,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.31.0"
+  drift_flutter:
+    dependency: transitive
+    description:
+      name: drift_flutter
+      sha256: c07120854742a0cae2f7501a0da02493addde550db6641d284983c08762e60a7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.8"
   equatable:
     dependency: transitive
     description:
@@ -659,6 +667,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  persistence_drift:
+    dependency: "direct dev"
+    description:
+      path: "../xuan-storage/drift"
+      relative: true
+    source: path
+    version: "0.0.1"
   platform:
     dependency: transitive
     description:
@@ -723,10 +738,31 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  repository_interface_account:
+    dependency: transitive
+    description:
+      path: "../repository-interface-account"
+      relative: true
+    source: path
+    version: "0.0.0"
+  repository_interface_ai:
+    dependency: transitive
+    description:
+      path: "../repository-interface-ai"
+      relative: true
+    source: path
+    version: "0.0.0"
   repository_interface_four_zhu_card:
     dependency: transitive
     description:
       path: "../repository-interface-four-zhu-card"
+      relative: true
+    source: path
+    version: "0.0.0"
+  repository_interface_meihuayishu:
+    dependency: transitive
+    description:
+      path: "../repository-interface-meihuayishu"
       relative: true
     source: path
     version: "0.0.0"
@@ -862,6 +898,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.4"
+  sqlite3_flutter_libs:
+    dependency: transitive
+    description:
+      name: sqlite3_flutter_libs
+      sha256: eeb9e3a45207649076b808f8a5a74d68770d0b7f26ccef6d5f43106eee5375ad
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.42"
   sqlparser:
     dependency: transitive
     description:

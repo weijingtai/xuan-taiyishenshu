@@ -5,8 +5,9 @@ import 'package:taiyishenshu/taiyi/usecases/calculate_pan_usecase.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
-import 'package:taiyishenshu/database/taiyi_database.dart';
-import 'package:taiyishenshu/taiyi/data/drift_user_repository.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart' as contract;
+import 'package:taiyishenshu/taiyi/core/school_repository.dart' show SchoolRepository, TaiYiSchoolProductMapper, TaiYiSchoolContractProductMapper, DeityDefinitionProductMapper, DeityDefinitionContractProductMapper;
 import '../mocks/mock_repositories.dart';
 
 void main() {
@@ -66,7 +67,8 @@ void main() {
       // We simulate a situation where the database contains invalid JSON strings
       
       final db = TaiYiDatabase.memory();
-      final repo = DriftUserRepository(db);
+      final contractRepo = DriftUserRepository(db);
+      final repo = _ProductSchoolRepositoryAdapter(contractRepo);
       
       // Inject malformed JSON directly into the table
       await db.customStatement(
@@ -129,4 +131,52 @@ void main() {
       );
     });
   });
+}
+
+/// Adapter that wraps a contract-typed [contract.SchoolRepository] (e.g. DriftUserRepository)
+/// into the product-typed [SchoolRepository] used by product usecases.
+class _ProductSchoolRepositoryAdapter implements SchoolRepository {
+  final contract.SchoolRepository _delegate;
+
+  _ProductSchoolRepositoryAdapter(this._delegate);
+
+  @override
+  Future<List<TaiYiSchool>> loadAllSchools() async {
+    final contracts = await _delegate.loadAllSchools();
+    return contracts.map((c) => c.toModel()).toList();
+  }
+
+  @override
+  Future<TaiYiSchool?> loadSchool(String id) async {
+    final c = await _delegate.loadSchool(id);
+    return c?.toModel();
+  }
+
+  @override
+  Future<List<DeityDefinition>> loadAllDeities() async {
+    final contracts = await _delegate.loadAllDeities();
+    return contracts.map((c) => c.toModel()).toList();
+  }
+
+  @override
+  Future<DeityDefinition?> loadDeity(String id) async {
+    final c = await _delegate.loadDeity(id);
+    return c?.toModel();
+  }
+
+  @override
+  Future<void> saveSchool(TaiYiSchool school) async {
+    await _delegate.saveSchool(school.toContract());
+  }
+
+  @override
+  Future<void> saveDeity(DeityDefinition deity) async {
+    await _delegate.saveDeity(deity.toContract());
+  }
+
+  @override
+  Future<void> deleteSchool(String id) => _delegate.deleteSchool(id);
+
+  @override
+  Future<void> deleteDeity(String id) => _delegate.deleteDeity(id);
 }
