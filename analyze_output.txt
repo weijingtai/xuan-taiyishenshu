@@ -1,0 +1,262 @@
+Analyzing xuan-taiyishenshu...                                  
+
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion • example/lib/main_e2e.dart:25:38 • deprecated_member_use
+   info • The imported package 'drift' isn't a dependency of the importing package • lib/database/taiyi_database.dart:1:8 • depend_on_referenced_packages
+   info • The imported package 'drift_flutter' isn't a dependency of the importing package • lib/database/taiyi_database.dart:2:8 • depend_on_referenced_packages
+  error • Target of URI doesn't exist: 'package:drift_flutter/drift_flutter.dart' • lib/database/taiyi_database.dart:2:8 • uri_does_not_exist
+   info • The imported package 'path_provider' isn't a dependency of the importing package • lib/database/taiyi_database.dart:4:8 • depend_on_referenced_packages
+  error • The method 'driftDatabase' isn't defined for the type 'TaiYiDatabase' • lib/database/taiyi_database.dart:35:11 • undefined_method
+  error • The name 'DriftNativeOptions' isn't a class • lib/database/taiyi_database.dart:37:27 • creation_with_non_type
+  error • The method 'DriftWebOptions' isn't defined for the type 'TaiYiDatabase' • lib/database/taiyi_database.dart:40:18 • undefined_method
+   info • The imported package 'drift' isn't a dependency of the importing package • lib/database/taiyi_database_memory_native.dart:4:8 • depend_on_referenced_packages
+   info • The imported package 'drift' isn't a dependency of the importing package • lib/database/taiyi_database_memory_native.dart:5:8 • depend_on_referenced_packages
+   info • The imported package 'drift' isn't a dependency of the importing package • lib/database/taiyi_database_memory_stub.dart:5:8 • depend_on_referenced_packages
+   info • The constant name 'Tian' isn't a lowerCamelCase identifier • lib/enums/door.dart:2:3 • constant_identifier_names
+   info • The constant name 'Huo' isn't a lowerCamelCase identifier • lib/enums/door.dart:3:3 • constant_identifier_names
+   info • The constant name 'Gui' isn't a lowerCamelCase identifier • lib/enums/door.dart:4:3 • constant_identifier_names
+   info • The constant name 'Ri' isn't a lowerCamelCase identifier • lib/enums/door.dart:5:3 • constant_identifier_names
+   info • The constant name 'Yue' isn't a lowerCamelCase identifier • lib/enums/door.dart:6:3 • constant_identifier_names
+   info • The constant name 'Ren' isn't a lowerCamelCase identifier • lib/enums/door.dart:7:3 • constant_identifier_names
+   info • The constant name 'Shui' isn't a lowerCamelCase identifier • lib/enums/door.dart:8:3 • constant_identifier_names
+   info • The constant name 'Feng' isn't a lowerCamelCase identifier • lib/enums/door.dart:9:3 • constant_identifier_names
+   info • The constant name 'Center' isn't a lowerCamelCase identifier • lib/enums/door.dart:10:3 • constant_identifier_names
+   info • The constant name 'Zheng' isn't a lowerCamelCase identifier • lib/enums/god.dart:5:3 • constant_identifier_names
+   info • The constant name 'Jian' isn't a lowerCamelCase identifier • lib/enums/god.dart:6:3 • constant_identifier_names
+   info • The constant name 'WenChang_Seq' isn't a lowerCamelCase identifier • lib/enums/god.dart:15:7 • constant_identifier_names
+   info • The constant name 'JiShen_Seq' isn't a lowerCamelCase identifier • lib/enums/god.dart:36:7 • constant_identifier_names
+   info • The constant name 'Zi_DiZhu' isn't a lowerCamelCase identifier • lib/enums/god.dart:52:3 • constant_identifier_names
+   info • The constant name 'Qian_YangDe' isn't a lowerCamelCase identifier • lib/enums/god.dart:53:3 • constant_identifier_names
+   info • The constant name 'Gen_HeDe' isn't a lowerCamelCase identifier • lib/enums/god.dart:54:3 • constant_identifier_names
+   info • The constant name 'Yin_LvShen' isn't a lowerCamelCase identifier • lib/enums/god.dart:55:3 • constant_identifier_names
+   info • The constant name 'Mao_GaoCong' isn't a lowerCamelCase identifier • lib/enums/god.dart:57:3 • constant_identifier_names
+   info • The constant name 'Chen_TaiYang' isn't a lowerCamelCase identifier • lib/enums/god.dart:58:3 • constant_identifier_names
+   info • The constant name 'Xun_DaJiong' isn't a lowerCamelCase identifier • lib/enums/god.dart:59:3 • constant_identifier_names
+   info • The constant name 'Si_DaShen' isn't a lowerCamelCase identifier • lib/enums/god.dart:60:3 • constant_identifier_names
+   info • The constant name 'Wu_DaWei' isn't a lowerCamelCase identifier • lib/enums/god.dart:61:3 • constant_identifier_names
+   info • The constant name 'Wei_TianDao' isn't a lowerCamelCase identifier • lib/enums/god.dart:62:3 • constant_identifier_names
+   info • The constant name 'Kun_DaWu' isn't a lowerCamelCase identifier • lib/enums/god.dart:63:3 • constant_identifier_names
+   info • The constant name 'Shen_WuDe' isn't a lowerCamelCase identifier • lib/enums/god.dart:64:3 • constant_identifier_names
+   info • The constant name 'You_TaiCu' isn't a lowerCamelCase identifier • lib/enums/god.dart:65:3 • constant_identifier_names
+   info • The constant name 'Xu_YinZhu' isn't a lowerCamelCase identifier • lib/enums/god.dart:66:3 • constant_identifier_names
+   info • The constant name 'Chou_TaiYin' isn't a lowerCamelCase identifier • lib/enums/god.dart:67:3 • constant_identifier_names
+   info • The constant name 'Hai_DaYi' isn't a lowerCamelCase identifier • lib/enums/god.dart:68:3 • constant_identifier_names
+   info • Missing type annotation • lib/enums/god.dart:78:7 • strict_top_level_inference
+   info • Missing type annotation • lib/enums/god.dart:79:7 • strict_top_level_inference
+   info • The constant name 'Qian' isn't a lowerCamelCase identifier • lib/enums/gong.dart:5:3 • constant_identifier_names
+   info • The constant name 'Li' isn't a lowerCamelCase identifier • lib/enums/gong.dart:6:3 • constant_identifier_names
+   info • The constant name 'Gen' isn't a lowerCamelCase identifier • lib/enums/gong.dart:7:3 • constant_identifier_names
+   info • The constant name 'Zhen' isn't a lowerCamelCase identifier • lib/enums/gong.dart:8:3 • constant_identifier_names
+   info • The constant name 'Dui' isn't a lowerCamelCase identifier • lib/enums/gong.dart:9:3 • constant_identifier_names
+   info • The constant name 'Kun' isn't a lowerCamelCase identifier • lib/enums/gong.dart:10:3 • constant_identifier_names
+   info • The constant name 'Kan' isn't a lowerCamelCase identifier • lib/enums/gong.dart:11:3 • constant_identifier_names
+   info • The constant name 'Xun' isn't a lowerCamelCase identifier • lib/enums/gong.dart:12:3 • constant_identifier_names
+   info • The constant name 'Center' isn't a lowerCamelCase identifier • lib/enums/gong.dart:13:3 • constant_identifier_names
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion • lib/main.dart:26:38 • deprecated_member_use
+   info • The file name 'ConstantNineGongDataClass.dart' isn't a lower_case_with_underscores identifier • lib/models/ConstantNineGongDataClass.dart:1:1 • file_names
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/navigator.dart:3:8 • depend_on_referenced_packages
+   info • Missing type annotation • lib/navigator.dart:104:27 • strict_top_level_inference
+   info • The variable name 'Seasons24ColorMapper' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:152:22 • non_constant_identifier_names
+warning • The value of the local variable 'minSize' isn't used • lib/pages/beauty_page.dart:183:12 • unused_local_variable
+   info • The variable name 'build_body' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:192:10 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:212:43 • deprecated_member_use
+   info • The variable name 'gong_slot' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:223:10 • non_constant_identifier_names
+   info • The variable name 'star_gods_tag' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:277:10 • non_constant_identifier_names
+   info • The variable name 'star_gods_slot_for_one' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:302:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:303:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_two' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:320:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:321:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_three' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:346:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:347:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_four' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:379:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:380:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_five' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:421:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:422:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_six' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:471:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:472:12 • avoid_unnecessary_containers
+   info • The variable name 'star_gods_slot_for_seven' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:529:10 • non_constant_identifier_names
+   info • Unnecessary instance of 'Container' • lib/pages/beauty_page.dart:530:12 • avoid_unnecessary_containers
+   info • The variable name 'sixteen_gong_and_gods' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:595:10 • non_constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:610:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:621:53 • deprecated_member_use
+   info • The variable name 'eight_gong_ring' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:631:10 • non_constant_identifier_names
+   info • Missing a deprecation message • lib/pages/beauty_page.dart:718:3 • provide_deprecation_message
+   info • The variable name 'build_body_bak' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:719:10 • non_constant_identifier_names
+   info • The constant name 'TOTAL' isn't a lowerCamelCase identifier • lib/pages/beauty_page.dart:1154:20 • constant_identifier_names
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:1182:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:1187:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/beauty_page.dart:1192:29 • deprecated_member_use
+warning • The value of the local variable 'center' isn't used • lib/pages/beauty_page.dart:1204:11 • unused_local_variable
+warning • The value of the local variable 'textRotationAngle' isn't used • lib/pages/beauty_page.dart:1227:12 • unused_local_variable
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/pages/deity_editor_page.dart:3:8 • depend_on_referenced_packages
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/pages/entity_editor_page.dart:134:23 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/pages/entity_editor_page.dart:140:23 • deprecated_member_use
+warning • The value of the field '_animation' isn't used • lib/pages/my_home_page.dart:22:32 • unused_field
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/my_home_page.dart:71:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/my_home_page.dart:134:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/my_home_page.dart:139:29 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/my_home_page.dart:144:29 • deprecated_member_use
+   info • The variable name 'Seasons24ColorMapper' isn't a lowerCamelCase identifier • lib/pages/rectangle_pan.dart:41:22 • non_constant_identifier_names
+warning • Dead code • lib/pages/rectangle_pan.dart:344:5 • dead_code
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:363:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:388:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:522:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:670:50 • deprecated_member_use
+   info • Unnecessary instance of 'Container' • lib/pages/rectangle_pan.dart:719:17 • avoid_unnecessary_containers
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:770:50 • deprecated_member_use
+warning • The value of the local variable 'color' isn't used • lib/pages/rectangle_pan.dart:863:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:869:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/rectangle_pan.dart:947:55 • deprecated_member_use
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/pages/school_editor_page.dart:2:8 • depend_on_referenced_packages
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/pages/school_editor_page.dart:313:53 • deprecated_member_use
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/pages/school_manager_page.dart:2:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/pages/taiyi_pan_page.dart:2:8 • depend_on_referenced_packages
+   info • Unnecessary use of 'toList' in a spread • lib/pages/taiyi_pan_page.dart:662:28 • unnecessary_to_list_in_spreads
+warning • The declaration '_$DunVariantConfigToJson' isn't referenced • lib/taiyi/core/algorithm_spec.g.dart:41:22 • unused_element
+warning • The declaration '_$SteppedCycleParamsToJson' isn't referenced • lib/taiyi/core/algorithm_spec.g.dart:82:22 • unused_element
+   info • Angle brackets will be interpreted as HTML • lib/taiyi/core/expression_parser.dart:3:23 • unintended_html_in_doc_comment
+   info • The imported package 'drift' isn't a dependency of the importing package • lib/taiyi/data/drift_user_repository.dart:2:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • lib/taiyi/data/shared_preferences_deity_preference_repository.dart:2:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • lib/taiyi/taiyi_assembly.dart:2:8 • depend_on_referenced_packages
+warning • The declaration '_dateOfSummerSolstice' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:474:12 • unused_element
+warning • The declaration '_dateOfWinterSolstice' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:531:12 • unused_element
+warning • The declaration '_countingPositionForPalace' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:891:8 • unused_element
+warning • The declaration '_calculateSharedYearCount' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:905:5 • unused_element
+warning • The declaration '_calculateSharedYearDingMuPosition' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:947:8 • unused_element
+warning • The declaration '_calculateCustomItems' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1798:23 • unused_element
+warning • The declaration '_readString' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1836:9 • unused_element
+warning • The declaration '_readGongOrder' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1840:21 • unused_element
+warning • The declaration '_readInt' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1851:6 • unused_element
+warning • The declaration '_compareComputedItem' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1856:5 • unused_element
+warning • The declaration '_chineseHourIndex' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1862:5 • unused_element
+warning • The declaration '_cyclicDistance' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1867:5 • unused_element
+warning • The declaration '_passesTaiYiDoorConstraint' isn't referenced • lib/taiyi/taiyi_pan_calculator.dart:1903:16 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/theme/taiyi_classic_theme.dart:50:23 • deprecated_member_use
+   info • The imported package 'provider' isn't a dependency of the importing package • lib/widgets/deity_management_dialog.dart:2:8 • depend_on_referenced_packages
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:164:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:182:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:214:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:225:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:249:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:260:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:316:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:317:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:349:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:413:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:429:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:430:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:489:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:506:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/nine_gong_grid.dart:518:22 • deprecated_member_use
+   info • Unnecessary use of string interpolation • lib/widgets/pan_info_panel.dart:173:31 • unnecessary_string_interpolations
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:218:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:220:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:222:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:224:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:226:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:228:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:230:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:232:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:235:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:237:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/widgets/pan_info_panel.dart:239:7 • curly_braces_in_flow_control_structures
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:258:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:291:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:293:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:294:65 • deprecated_member_use
+   info • Unnecessary braces in a string interpolation • lib/widgets/pan_info_panel.dart:299:14 • unnecessary_brace_in_string_interps
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:345:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:346:69 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:387:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:388:62 • deprecated_member_use
+   info • Unnecessary braces in a string interpolation • lib/widgets/pan_info_panel.dart:398:10 • unnecessary_brace_in_string_interps
+   info • Unnecessary use of string interpolation • lib/widgets/pan_info_panel.dart:535:15 • unnecessary_string_interpolations
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:684:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:688:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:689:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:812:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:847:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/pan_info_panel.dart:848:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/school_editor/school_editor_sections.dart:20:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/school_editor/school_editor_sections.dart:131:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/school_editor/school_editor_sections.dart:132:43 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/widgets/school_editor/school_editor_sections.dart:350:17 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/widgets/school_editor/school_editor_sections.dart:387:17 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/school_editor/school_editor_sections.dart:527:53 • deprecated_member_use
+warning • This class (or a class that this class inherits from) is marked as '@immutable', but one or more of its instance fields aren't final: TaiYiGongContentBackground.eightGuaMapper, TaiYiGongContentBackground.zodiacColors, TaiYiGongContentBackground.seasons24ColorMapper, TaiYiGongContentBackground.nineGongNumberTextStyle, TaiYiGongContentBackground.nineGongNameTextStyle, TaiYiGongContentBackground.nineAreaNameTextStyle, TaiYiGongContentBackground.eightSeasonTextStyle, TaiYiGongContentBackground.eightSkyDoorTextStyle • lib/widgets/tai_yi_gong_content_background.dart:6:7 • must_be_immutable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/tai_yi_gong_content_background.dart:114:48 • deprecated_member_use
+   info • Unnecessary instance of 'Container' • lib/widgets/tai_yi_gong_content_background.dart:161:17 • avoid_unnecessary_containers
+   info • The variable name 'Wm' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid.dart:151:18 • non_constant_identifier_names
+   info • The variable name 'Wi' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid.dart:152:18 • non_constant_identifier_names
+   info • The variable name 'Wm' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid.dart:236:87 • non_constant_identifier_names
+   info • The variable name 'Wi' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid.dart:236:98 • non_constant_identifier_names
+   info • The variable name 'Wm' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid.dart:292:96 • non_constant_identifier_names
+   info • The variable name 'R4' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:166:18 • non_constant_identifier_names
+   info • The variable name 'R3' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:167:18 • non_constant_identifier_names
+   info • The variable name 'R2' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:168:18 • non_constant_identifier_names
+   info • The variable name 'R1' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:169:18 • non_constant_identifier_names
+   info • The variable name 'R1' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:210:66 • non_constant_identifier_names
+   info • The variable name 'R2' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:210:77 • non_constant_identifier_names
+   info • The variable name 'R3' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:210:88 • non_constant_identifier_names
+   info • The variable name 'R4' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:210:99 • non_constant_identifier_names
+   info • The variable name 'Wm' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:251:14 • non_constant_identifier_names
+   info • The variable name 'Wi' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:252:14 • non_constant_identifier_names
+   info • Empty catch block • lib/widgets/taiyi_pan_grid_v2.dart:263:115 • empty_catches
+   info • The variable name 'Wm' isn't a lowerCamelCase identifier • lib/widgets/taiyi_pan_grid_v2.dart:291:14 • non_constant_identifier_names
+warning • Publishable packages can't have 'path' dependencies • pubspec.yaml:25:5 • invalid_dependency
+warning • Publishable packages can't have 'path' dependencies • pubspec.yaml:27:5 • invalid_dependency
+warning • Publishable packages can't have 'path' dependencies • pubspec.yaml:29:5 • invalid_dependency
+   info • Use a 'SizedBox' to add whitespace to a layout • test/bdd/ink_wash_aesthetics_bdd_test.dart:18:22 • sized_box_for_whitespace
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/deity_dialog_integration_test.dart:9:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • test/integration/deity_dialog_integration_test.dart:10:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/deity_dialog_integration_test.dart:11:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/deity_editor_integration_test.dart:9:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • test/integration/deity_editor_integration_test.dart:10:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/deity_editor_integration_test.dart:11:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • test/integration/school_editor_integration_test.dart:13:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/school_management_integration_test.dart:8:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/school_management_integration_test.dart:9:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt21_ac13_core_vs_noncore_test.dart:25:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt21_ac13_core_vs_noncore_test.dart:26:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt21_sp_persistence_restart_test.dart:22:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt21_sp_persistence_restart_test.dart:23:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt21_visibility_panel_refresh_test.dart:20:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt21_visibility_panel_refresh_test.dart:21:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt30_fullchain_deity_save_reload_test.dart:20:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt30_fullchain_deity_save_reload_test.dart:21:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt30_fullchain_school_save_recompute_test.dart:20:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt30_fullchain_school_save_recompute_test.dart:21:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt30_multilevel_lineage_test.dart:18:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt30_multilevel_lineage_test.dart:19:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt30_official_user_coexist_test.dart:19:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt30_official_user_coexist_test.dart:20:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/integration/zt30_school_scope_filter_test.dart:19:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/integration/zt30_school_scope_filter_test.dart:20:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/taiyi/core/repository_boundary_test.dart:9:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/taiyi/core/repository_boundary_test.dart:10:8 • depend_on_referenced_packages
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/day_metadata_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/day_metadata_test.dart:5:8 • avoid_relative_lib_imports
+   info • The import of '../../lib/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of '../../lib/taiyi/taiyi.dart' • test/taiyi/day_metadata_test.dart:5:8 • unnecessary_import
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/hour_metadata_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/hour_metadata_test.dart:5:8 • avoid_relative_lib_imports
+   info • The import of '../../lib/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of '../../lib/taiyi/taiyi.dart' • test/taiyi/hour_metadata_test.dart:5:8 • unnecessary_import
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/metadata_verification_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/metadata_verification_test.dart:5:8 • avoid_relative_lib_imports
+   info • The import of '../../lib/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of '../../lib/taiyi/taiyi.dart' • test/taiyi/metadata_verification_test.dart:5:8 • unnecessary_import
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/month_metadata_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/month_metadata_test.dart:5:8 • avoid_relative_lib_imports
+   info • The import of '../../lib/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of '../../lib/taiyi/taiyi.dart' • test/taiyi/month_metadata_test.dart:5:8 • unnecessary_import
+   info • 'setMockMessageHandler' is deprecated and shouldn't be used. Use tester.binding.defaultBinaryMessenger.setMockMessageHandler or TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMessageHandler instead. For the first argument, pass channel.name. This feature was deprecated after v3.9.0-19.0.pre • test/taiyi/official_assets_verification_test.dart:37:53 • deprecated_member_use
+   info • The import of 'package:taiyishenshu/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of 'package:taiyishenshu/taiyi/taiyi.dart' • test/taiyi/regression_official_schools_test.dart:3:8 • unnecessary_import
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/taiyi/test_harness.dart:6:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/taiyi/test_harness.dart:10:8 • depend_on_referenced_packages
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/year_metadata_test.dart:4:8 • avoid_relative_lib_imports
+   info • Can't use a relative path to import a library in 'lib' • test/taiyi/year_metadata_test.dart:5:8 • avoid_relative_lib_imports
+   info • The import of '../../lib/taiyi/pan_enums.dart' is unnecessary because all of the used elements are also provided by the import of '../../lib/taiyi/taiyi.dart' • test/taiyi/year_metadata_test.dart:5:8 • unnecessary_import
+   info • The variable name 'expectYearRenPan_tongZong' isn't a lowerCamelCase identifier • test/taiyi_pan_calculator_smoke.dart:14:8 • non_constant_identifier_names
+   info • The import of 'package:taiyishenshu/enums/eight_door.dart' is unnecessary because all of the used elements are also provided by the import of 'package:taiyishenshu/taiyi/taiyi.dart' • test/taiyi_year_eye_rules_flutter_test.dart:3:8 • unnecessary_import
+   info • The imported package 'provider' isn't a dependency of the importing package • test/widget/deity_editor_widget_test.dart:10:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • test/widget/school_editor_widget_test.dart:5:8 • depend_on_referenced_packages
+   info • The imported package 'plugin_platform_interface' isn't a dependency of the importing package • test/widget/zt21_dialog_sections_widget_test.dart:26:8 • depend_on_referenced_packages
+   info • The imported package 'provider' isn't a dependency of the importing package • test/widget/zt21_dialog_sections_widget_test.dart:27:8 • depend_on_referenced_packages
+   info • The imported package 'shared_preferences' isn't a dependency of the importing package • test/widget/zt21_dialog_sections_widget_test.dart:28:8 • depend_on_referenced_packages
+

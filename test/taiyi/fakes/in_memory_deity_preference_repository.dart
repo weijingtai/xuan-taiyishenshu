@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../core/school_repository.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 
 /// 测试专用的内存星神偏好 Repository。
 ///

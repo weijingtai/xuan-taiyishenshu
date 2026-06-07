@@ -16,10 +16,6 @@ dependencies:
 dependency_overrides:
   xuan_four_zhu_card:
     path: ../../xuan-four-zhu-card
-  xuan_four_zhu_host:
-    path: ../../xuan-four-zhu-host
-  xuan_four_zhu_templates:
-    path: ../../xuan-four-zhu-templates
   persistence_core:
     path: ../../xuan-storage/core
 
