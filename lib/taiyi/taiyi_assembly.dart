@@ -1,6 +1,14 @@
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
+    show SchoolRepository, UserSchoolRepository, DeityRepository,
+         DeityPreferenceRepository, TaiYiSchoolContract, DeityDefinitionContract;
+import 'core/school_repository.dart'
+    show
+        TaiYiSchoolProductMapper,
+        TaiYiSchoolContractProductMapper,
+        DeityDefinitionProductMapper,
+        DeityDefinitionContractProductMapper;
 import 'core/school_config.dart';
 import 'core/deity_definition.dart';
-import 'core/school_repository.dart';
 import 'usecases/load_schools_usecase.dart';
 import 'usecases/copy_school_usecase.dart';
 import 'usecases/save_user_school_usecase.dart';
@@ -13,39 +21,70 @@ import 'usecases/deity_availability_usecase.dart';
 import 'usecases/calculate_pan_usecase.dart';
 
 // ---------------------------------------------------------------------------
-// Adapter: wraps UserSchoolRepository as SchoolRepository so the composite
-// can aggregate both official + user schools for pan calculations.
+// Adapters: wrap contract-typed repos (from interface package) into
+// product-typed repos (from core/school_repository.dart) so that product
+// usecases can consume them without knowing about the contract layer.
 // ---------------------------------------------------------------------------
 
-class _UserSchoolAsSchoolRepo implements SchoolRepository {
-  final UserSchoolRepository _userRepo;
-  _UserSchoolAsSchoolRepo(this._userRepo);
+/// Product-typed [SchoolRepository] that delegates to a contract-typed
+/// [SchoolRepository] from the interface package.
+class _ContractOfficialSchoolAdapter {
+  final SchoolRepository _inner;
+  _ContractOfficialSchoolAdapter(this._inner);
 
-  @override
-  Future<List<TaiYiSchool>> loadAllSchools() => _userRepo.loadUserSchools();
+  Future<List<TaiYiSchool>> loadAllSchools() async =>
+      (await _inner.loadAllSchools()).map((c) => c.toModel()).toList();
 
-  @override
-  Future<TaiYiSchool?> loadSchool(String id) => _userRepo.loadSchool(id);
+  Future<TaiYiSchool?> loadSchool(String id) async =>
+      (await _inner.loadSchool(id))?.toModel();
 
-  @override
-  Future<List<DeityDefinition>> loadAllDeities() async => [];
+  Future<List<DeityDefinition>> loadAllDeities() async =>
+      (await _inner.loadAllDeities()).map((c) => c.toModel()).toList();
 
-  @override
-  Future<DeityDefinition?> loadDeity(String id) async => null;
+  Future<DeityDefinition?> loadDeity(String id) async =>
+      (await _inner.loadDeity(id))?.toModel();
 
-  @override
   Future<void> saveSchool(TaiYiSchool school) =>
-      _userRepo.saveUserSchool(school);
+      _inner.saveSchool(school.toContract());
 
-  @override
-  Future<void> deleteSchool(String id) => _userRepo.deleteUserSchool(id);
+  Future<void> saveDeity(DeityDefinition deity) =>
+      _inner.saveDeity(deity.toContract());
 
-  @override
-  Future<void> saveDeity(DeityDefinition deity) async =>
-      throw UnimplementedError();
+  Future<void> deleteSchool(String id) => _inner.deleteSchool(id);
 
-  @override
-  Future<void> deleteDeity(String id) async => throw UnimplementedError();
+  Future<void> deleteDeity(String id) => _inner.deleteDeity(id);
+}
+
+class _ContractUserSchoolAdapter {
+  final UserSchoolRepository _inner;
+  _ContractUserSchoolAdapter(this._inner);
+
+  Future<List<TaiYiSchool>> loadUserSchools() async =>
+      (await _inner.loadUserSchools()).map((c) => c.toModel()).toList();
+
+  Future<TaiYiSchool?> loadSchool(String id) async =>
+      (await _inner.loadSchool(id))?.toModel();
+
+  Future<void> saveUserSchool(TaiYiSchool school) =>
+      _inner.saveUserSchool(school.toContract());
+
+  Future<void> deleteUserSchool(String id) => _inner.deleteUserSchool(id);
+}
+
+class _ContractDeityAdapter {
+  final DeityRepository _inner;
+  _ContractDeityAdapter(this._inner);
+
+  Future<List<DeityDefinition>> loadUserDeities() async =>
+      (await _inner.loadUserDeities()).map((c) => c.toModel()).toList();
+
+  Future<DeityDefinition?> loadDeity(String id) async =>
+      (await _inner.loadDeity(id))?.toModel();
+
+  Future<void> saveUserDeity(DeityDefinition deity) =>
+      _inner.saveUserDeity(deity.toContract());
+
+  Future<void> deleteUserDeity(String id) => _inner.deleteUserDeity(id);
 }
 
 // ---------------------------------------------------------------------------
@@ -57,12 +96,15 @@ class _UserSchoolAsSchoolRepo implements SchoolRepository {
 ///
 /// Constructed by the example host (TYSS-22) which provides the concrete
 /// backend repos. Product lib/ does NOT import any persistence_* package.
+///
+/// The constructor accepts **contract-typed** ports from the interface package.
+/// Internal adapter wrappers convert to product-typed ports for the usecases.
 class TaiYiDataAssembly {
-  final SchoolRepository officialRepo;
-  final UserSchoolRepository userRepo;
-  final DeityRepository deityRepo;
-  final DeityPreferenceRepository preferenceRepo;
-  late final SchoolRepository compositeRepo;
+  final SchoolRepository officialRepo;   // contract-typed (interface)
+  final UserSchoolRepository userRepo;   // contract-typed (interface)
+  final DeityRepository deityRepo;       // contract-typed (interface)
+  final DeityPreferenceRepository preferenceRepo; // interface (primitives only)
+  late final dynamic compositeRepo; // MultiSchoolRepository (product-typed)
 
   // UseCases
   late final LoadSchoolsUseCase loadSchoolsUseCase;
@@ -82,19 +124,24 @@ class TaiYiDataAssembly {
     required this.deityRepo,
     required this.preferenceRepo,
   }) {
+    // Wrap contract-typed repos into product-typed adapters for usecases.
+    final productOfficial = _ContractOfficialSchoolAdapter(officialRepo);
+    final productUser = _ContractUserSchoolAdapter(userRepo);
+    final productDeity = _ContractDeityAdapter(deityRepo);
+
     compositeRepo =
-        MultiSchoolRepository([officialRepo, _UserSchoolAsSchoolRepo(userRepo)]);
+        _MultiSchoolAdapter([productOfficial, productUser]);
 
-    loadSchoolsUseCase = LoadSchoolsUseCase(officialRepo, userRepo);
-    copySchoolUseCase = CopySchoolUseCase(officialRepo, userRepo);
-    saveUserSchoolUseCase = SaveUserSchoolUseCase(userRepo);
+    loadSchoolsUseCase = LoadSchoolsUseCase(productOfficial, productUser);
+    copySchoolUseCase = CopySchoolUseCase(productOfficial, productUser);
+    saveUserSchoolUseCase = SaveUserSchoolUseCase(productUser);
 
-    loadDeitiesUseCase = LoadDeitiesUseCase(officialRepo, deityRepo);
-    copyDeityUseCase = CopyDeityUseCase(officialRepo, deityRepo);
-    saveUserDeityUseCase = SaveUserDeityUseCase(deityRepo);
-    deleteUserDeityUseCase = DeleteUserDeityUseCase(deityRepo);
+    loadDeitiesUseCase = LoadDeitiesUseCase(productOfficial, productDeity);
+    copyDeityUseCase = CopyDeityUseCase(productOfficial, productDeity);
+    saveUserDeityUseCase = SaveUserDeityUseCase(productDeity);
+    deleteUserDeityUseCase = DeleteUserDeityUseCase(productDeity);
     toggleDeityPreferenceUseCase = ToggleDeityPreferenceUseCase(preferenceRepo);
-    deityAvailabilityUseCase = DeityAvailabilityUseCase(officialRepo, userRepo);
+    deityAvailabilityUseCase = DeityAvailabilityUseCase(productOfficial, productUser);
 
     calculatePanUseCase = CalculatePanUseCase(
       schoolRepository: compositeRepo,
@@ -105,12 +152,14 @@ class TaiYiDataAssembly {
   // create() and test() factories REMOVED — host constructs backends (TYSS-22)
 }
 
+// ---------------------------------------------------------------------------
+// MultiSchoolAdapter — aggregates product-typed adapters
+// ---------------------------------------------------------------------------
 
-class MultiSchoolRepository implements SchoolRepository {
-  final List<SchoolRepository> repositories;
-  MultiSchoolRepository(this.repositories);
+class _MultiSchoolAdapter {
+  final List<_ContractOfficialSchoolAdapter> repositories;
+  _MultiSchoolAdapter(this.repositories);
 
-  @override
   Future<List<TaiYiSchool>> loadAllSchools() async {
     final all = <TaiYiSchool>[];
     for (final repo in repositories) {
@@ -119,7 +168,6 @@ class MultiSchoolRepository implements SchoolRepository {
     return all;
   }
 
-  @override
   Future<TaiYiSchool?> loadSchool(String id) async {
     for (final repo in repositories) {
       final s = await repo.loadSchool(id);
@@ -128,7 +176,6 @@ class MultiSchoolRepository implements SchoolRepository {
     return null;
   }
 
-  @override
   Future<List<DeityDefinition>> loadAllDeities() async {
     final all = <DeityDefinition>[];
     for (final repo in repositories) {
@@ -137,7 +184,6 @@ class MultiSchoolRepository implements SchoolRepository {
     return all;
   }
 
-  @override
   Future<DeityDefinition?> loadDeity(String id) async {
     for (final repo in repositories) {
       final d = await repo.loadDeity(id);
@@ -146,22 +192,18 @@ class MultiSchoolRepository implements SchoolRepository {
     return null;
   }
 
-  @override
   Future<void> saveSchool(TaiYiSchool school) async {
     throw UnimplementedError('Use specific repository to save');
   }
 
-  @override
   Future<void> deleteSchool(String id) async {
     throw UnimplementedError('Use specific repository to delete');
   }
 
-  @override
   Future<void> saveDeity(DeityDefinition deity) async {
     throw UnimplementedError('Use specific repository to save');
   }
 
-  @override
   Future<void> deleteDeity(String id) async {
     throw UnimplementedError('Use specific repository to delete');
   }
