@@ -5,7 +5,7 @@ import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/usecases/load_schools_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/save_user_school_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/copy_school_usecase.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_school_repository.dart';
+import '../fakes/in_memory_user_school_repository.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
 
 class MockOfficialSchoolRepo implements SchoolRepository {

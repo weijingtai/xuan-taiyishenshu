@@ -3,9 +3,9 @@ import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_school_repository.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_deity_repository.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_deity_preference_repository.dart';
+import '../fakes/in_memory_user_school_repository.dart';
+import '../fakes/in_memory_user_deity_repository.dart';
+import '../fakes/in_memory_deity_preference_repository.dart';
 
 void main() {
   group('InMemoryUserSchoolRepository', () {

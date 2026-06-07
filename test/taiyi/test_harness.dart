@@ -56,8 +56,8 @@ class TaiYiTestHarness {
   static Future<TaiYiDataAssembly> createAssembly({Map<String, Object>? initialPrefs}) async {
     final bundle = createMockBundle();
 
-    final officialRepo = MemorySchoolRepository(bundle: bundle);
-    final userRepo = MemorySchoolRepository(bundle: bundle);
+    final officialRepo = MemorySchoolRepository();
+    final userRepo = MemorySchoolRepository();
     final preferenceRepo = InMemoryDeityPreferenceRepository();
 
     return TaiYiDataAssembly(

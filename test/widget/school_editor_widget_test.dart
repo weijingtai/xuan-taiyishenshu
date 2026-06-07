@@ -13,7 +13,7 @@ import 'package:taiyishenshu/taiyi/usecases/copy_school_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/load_schools_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/save_user_school_usecase.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_school_repository.dart';
+import '../taiyi/fakes/in_memory_user_school_repository.dart';
 
 TaiYiSchool _officialSchool() => const TaiYiSchool(
       id: 'jingMirror',

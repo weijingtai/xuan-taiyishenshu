@@ -12,9 +12,9 @@ import 'package:taiyishenshu/taiyi/usecases/save_user_deity_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/copy_deity_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/deity_availability_usecase.dart';
 import 'package:taiyishenshu/taiyi/usecases/toggle_deity_preference_usecase.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_school_repository.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_user_deity_repository.dart';
-import 'package:taiyishenshu/taiyi/data/in_memory_deity_preference_repository.dart';
+import '../fakes/in_memory_user_school_repository.dart';
+import '../fakes/in_memory_user_deity_repository.dart';
+import '../fakes/in_memory_deity_preference_repository.dart';
 
 // Minimal mock for SchoolRepository (official, read-only)
 class MockOfficialSchoolRepo implements SchoolRepository {
