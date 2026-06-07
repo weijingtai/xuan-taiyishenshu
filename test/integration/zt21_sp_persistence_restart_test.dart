@@ -129,11 +129,7 @@ void main() {
       final bundle = await _loadBundle();
 
       // === 第一轮 (写入偏好) ===
-      final assembly1 = TaiYiDataAssembly.test(
-        bundle: bundle,
-        prefs: prefs,
-        db: db,
-      );
+      final assembly1 = await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller1 = TaiYiPanController(assembly: assembly1);
       await controller1.loadSchools();
       await controller1.calculate(
@@ -166,11 +162,7 @@ void main() {
 
       // === 第二轮 (重建, 模拟应用重启) ===
       // 用同一 prefs (持久层未销毁) 和 同一 db 重建 assembly + controller
-      final assembly2 = TaiYiDataAssembly.test(
-        bundle: bundle,
-        prefs: prefs,
-        db: db,
-      );
+      final assembly2 = await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller2 = TaiYiPanController(assembly: assembly2);
       await controller2.loadSchools();
       await controller2.calculate(
@@ -215,11 +207,7 @@ void main() {
       final bundle = await _loadBundle();
 
       // === 第一轮: 隐藏 junJi ===
-      final assembly1 = TaiYiDataAssembly.test(
-        bundle: bundle,
-        prefs: prefs,
-        db: db,
-      );
+      final assembly1 = await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller1 = TaiYiPanController(assembly: assembly1);
       await controller1.loadSchools();
       await controller1.calculate(
@@ -235,11 +223,7 @@ void main() {
       controller1.dispose();
 
       // === 第二轮: 重建 + 恢复 ===
-      final assembly2 = TaiYiDataAssembly.test(
-        bundle: bundle,
-        prefs: prefs,
-        db: db,
-      );
+      final assembly2 = await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller2 = TaiYiPanController(assembly: assembly2);
       await controller2.loadSchools();
       await controller2.calculate(
@@ -276,11 +260,7 @@ void main() {
 
       // 再做一次"重启"以确认 true 状态本身可持久化
       controller2.dispose();
-      final assembly3 = TaiYiDataAssembly.test(
-        bundle: bundle,
-        prefs: prefs,
-        db: db,
-      );
+      final assembly3 = await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller3 = TaiYiPanController(assembly: assembly3);
       await controller3.loadSchools();
       await controller3.calculate(

@@ -159,7 +159,7 @@ void main() {
           reason: 'AC12: 二级派生 lineage 应该有三段 (official + userA + userB)');
 
       // 持久化验证: 重建 repository 后 lineage 仍正确
-      final reloadedB = await assembly.userRepo.loadDeity(userBId);
+      final reloadedB = await assembly.deityRepo.loadDeity(userBId);
       expect(reloadedB, isNotNull);
       expect(reloadedB!.lineage, userB.lineage,
           reason: 'AC3+AC12: lineage 字段必须真实持久化到 Drift, toJson/fromJson 不丢失');

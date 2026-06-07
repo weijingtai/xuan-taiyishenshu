@@ -139,7 +139,7 @@ extension _SchoolEpochConfigProductMapper on SchoolEpochConfig {
   }
 }
 
-extension _SchoolEpochConfigContractProductMapper on SchoolEpochConfigContract {
+extension SchoolEpochConfigContractProductMapper on SchoolEpochConfigContract {
   SchoolEpochConfig toModel() {
     return SchoolEpochConfig(
       ancientBase: ancientBase,

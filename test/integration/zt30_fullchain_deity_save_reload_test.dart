@@ -151,7 +151,7 @@ void main() {
         newName: '文昌·我的派生',
       );
       // 直接读 Drift 验证持久化
-      final fromDrift = await assembly.userRepo.loadDeity(copyId);
+      final fromDrift = await assembly.deityRepo.loadDeity(copyId);
       expect(fromDrift, isNotNull,
           reason: 'AC3: copyDeity 必须穿透 ViewModel 写入真 Drift');
       expect(fromDrift!.source, 'user');

@@ -104,7 +104,7 @@ void main() {
   Future<TaiYiPanController> buildController(TaiYiDatabase db) async {
     SharedPreferences.setMockInitialValues(<String, Object>{});
     final prefs = await SharedPreferences.getInstance();
-    final assembly = TaiYiDataAssembly.test(
+    final assembly = await TaiYiTestHarness.createAssemblyFrom(
       bundle: _MockAssetBundle(mockAssets),
       prefs: prefs,
       db: db,
@@ -240,7 +240,7 @@ void main() {
       addTearDown(controller.dispose);
 
       final userRepoSchools =
-          await controller.assembly.userRepo.loadAllSchools();
+          await controller.assembly.officialRepo.loadAllSchools();
       expect(userRepoSchools, isEmpty,
           reason: '初次打开时 Drift userSchools 必须为空，官方流派不可能写入用户表');
     });

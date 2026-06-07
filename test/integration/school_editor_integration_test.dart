@@ -17,6 +17,7 @@ import 'package:taiyishenshu/taiyi/core/chart_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_override.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/taiyi.dart' show TaiYiChartType;
+import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
 
 import '../taiyi/test_harness.dart';
@@ -46,7 +47,7 @@ void main() {
 
       // The editor blocks save via UI; the official repo itself refuses
       // direct writes.
-      expect(() async => await assembly.officialRepo.saveSchool(official),
+      expect(() async => await assembly.officialRepo.saveSchool(official.toContract()),
           throwsA(isA<UnsupportedError>()));
     });
 
@@ -119,7 +120,7 @@ void main() {
         privateDeities: const ['user_my_god_1', 'user_my_god_2'],
         overrides: const {'foo': 'bar', 'baz': 42},
       );
-      await assembly.userRepo.saveUserSchool(original);
+      await assembly.userRepo.saveUserSchool(original.toContract());
       await controller.schoolViewModel.loadSchools();
 
       // Editor save: copyWith(name, epoch, palaceFormula, wenChang, jiShen,
@@ -224,7 +225,7 @@ void main() {
       final shifted = copy.copyWith(
         epoch: copy.epoch.copyWith(epochYear: copy.epoch.epochYear + 100),
       );
-      await controller.schoolViewModel.saveSchool(shifted);
+      await controller.schoolViewModel.saveSchool(shifted.toModel());
 
       // 3) Recompute pan using the user copy.
       await controller.calculate(

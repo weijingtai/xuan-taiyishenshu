@@ -146,7 +146,7 @@ void main() {
       await controller.deityViewModel.saveDeity(scoped);
 
       // Drift 直接读验证 schoolScopes 真落盘
-      final fromDrift = await assembly.userRepo.loadDeity(scopedId);
+      final fromDrift = await assembly.deityRepo.loadDeity(scopedId);
       expect(fromDrift!.schoolScopes, equals(['jiCheng']),
           reason: 'AC10 前置: schoolScopes 必须真写入 Drift');
 

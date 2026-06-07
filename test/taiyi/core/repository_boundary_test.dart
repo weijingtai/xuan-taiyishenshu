@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
+import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 
 class FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -54,7 +55,7 @@ void main() {
           id: 'test',
           name: 'test',
           epoch: SchoolEpochConfig(ancientBase: 0, epochYear: 0),
-        )),
+        ).toContract()),
         throwsUnsupportedError,
       );
     });
@@ -66,7 +67,7 @@ void main() {
           name: 'test',
           layer: EnumDeityLayer.tianPan,
           algorithm: DeityAlgorithmSpec(templateId: AlgorithmTemplateId.fixedPosition, params: {}),
-        )),
+        ).toContract()),
         throwsUnsupportedError,
       );
     });
@@ -92,7 +93,7 @@ void main() {
         source: 'user',
       );
 
-      await repo1.saveSchool(school);
+      await repo1.saveSchool(school.toContract());
       await db1.close();
 
       // 2. Instantiate a NEW database and repository

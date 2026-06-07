@@ -1,3 +1,4 @@
+import 'package:taiyishenshu/taiyi/core/school_repository.dart' show TaiYiSchoolContractProductMapper;
 // ZT-30 — Story #5 全链路整合: 流派编辑→保存→盘面重算 (AC3 / AC7 / AC11 收尾)
 //
 // 反伪完成红线:
@@ -160,7 +161,7 @@ void main() {
           epochYear: fromDrift.epoch.epochYear + 100,
         ),
       );
-      await controller.schoolViewModel.saveSchool(shifted);
+      await controller.schoolViewModel.saveSchool(shifted.toModel());
 
       // 直接读 Drift 验证更新落到 SQLite
       final reloaded = await assembly.userRepo.loadSchool(copyId);

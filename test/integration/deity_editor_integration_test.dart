@@ -14,6 +14,7 @@ import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/pages/deity_editor_page.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
+import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import '../taiyi/test_harness.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/deity_view_model.dart';
@@ -206,7 +207,7 @@ void main() {
 
       // The Drift user repo must now contain exactly one derived deity whose
       // lineage references the official root.
-      final userDeities = await assembly.userRepo.loadUserDeities();
+      final userDeities = await assembly.deityRepo.loadUserDeities();
       expect(userDeities.length, 1,
           reason: '"Copy and edit" must write exactly one user deity to Drift');
       final copy = userDeities.single;
@@ -378,7 +379,7 @@ void main() {
         'rootOfficialId': 'taiYi',
         'lineage': 'official(taiYi) -> user_deity_reopen',
       });
-      await assembly.userRepo.saveUserDeity(persisted);
+      await assembly.deityRepo.saveUserDeity(persisted.toContract());
 
       final deityVM = DeityViewModel(
         loadDeitiesUseCase: assembly.loadDeitiesUseCase,
