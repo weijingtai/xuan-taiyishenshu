@@ -13,7 +13,6 @@ export 'core/school_config.dart';
 export 'core/algorithm_engine.dart';
 export 'core/expression_parser.dart';
 export 'core/school_repository.dart';
-export 'data/official_json_repository.dart';
 export '../enums/deity_kind.dart';
 export '../enums/eight_door.dart';
 export '../enums/geju.dart';
