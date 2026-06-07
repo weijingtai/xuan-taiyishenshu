@@ -20,8 +20,9 @@ import '../widgets/ink_wash_widgets.dart';
 /// 5. 官方流派只读: 不展示 edit / delete 入口。
 class SchoolManagerPage extends StatefulWidget {
   final TaiYiPanController? controller;
+  final TaiYiDataAssembly? assembly; // NEW injected host-built assembly
 
-  const SchoolManagerPage({super.key, this.controller});
+  const SchoolManagerPage({super.key, this.controller, this.assembly});
 
   @override
   State<SchoolManagerPage> createState() => _SchoolManagerPageState();
@@ -42,11 +43,15 @@ class _SchoolManagerPageState extends State<SchoolManagerPage> {
     if (widget.controller != null) {
       _controller = widget.controller;
       _ownsController = false;
-    } else {
-      final assembly = await TaiYiDataAssembly.create();
-      _controller = TaiYiPanController(assembly: assembly);
+    } else if (widget.assembly != null) {
+      _controller = TaiYiPanController(assembly: widget.assembly!);
       _ownsController = true;
       await _controller!.loadSchools();
+    } else {
+      throw UnsupportedError(
+        'Inject a TaiYiDataAssembly (built by the example host). '
+        'See storage-refactor §12-E2.',
+      );
     }
     if (mounted) setState(() => _isLoading = false);
   }
