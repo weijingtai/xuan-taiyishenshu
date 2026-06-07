@@ -11,7 +11,7 @@ void main() {
 
     setUpAll(() {
       calculator = const TaiYiPanCalculator();
-      final file = File('../test-vectors/taiyishenshu/year_metadata.json');
+      final file = File('test/taiyi/test_vectors/year_metadata.json');
       final jsonString = file.readAsStringSync();
       final data = json.decode(jsonString);
       testVectors = data['vectors'];

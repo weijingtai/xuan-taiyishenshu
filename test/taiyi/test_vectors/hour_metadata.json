@@ -1,0 +1,78 @@
+{
+  "project": "taiyishenshu",
+  "category": "hour_metadata",
+  "vectors": [
+    {
+      "id": "hour_2026_05_23_0825_tongzong",
+      "sect": "tongZong",
+      "description": "2026-05-23 08:25 统宗派时计元数据",
+      "input": {
+        "dateTime": "2026-05-23T08:25:00Z",
+        "schoolId": "tongZong",
+        "chartType": "hour"
+      },
+      "expected": {
+        "accumulatedYear": 8496682961,
+        "juNumber": 41,
+        "dunType": "yang",
+        "hostCount": 27,
+        "guestCount": 16,
+        "dingCount": 3
+      }
+    },
+    {
+      "id": "hour_2026_05_23_0825_jingmirror",
+      "sect": "jingMirror",
+      "description": "2026-05-23 08:25 金镜派时计元数据",
+      "input": {
+        "dateTime": "2026-05-23T08:25:00Z",
+        "schoolId": "jingMirror",
+        "chartType": "hour"
+      },
+      "expected": {
+        "accumulatedYear": 8374835945,
+        "juNumber": 65,
+        "dunType": "yang",
+        "hostCount": 15,
+        "guestCount": 1,
+        "dingCount": 28
+      }
+    },
+    {
+      "id": "hour_2028_05_23_0825_tongzong",
+      "sect": "tongZong",
+      "description": "2028-05-23 08:25 统宗派时计元数据",
+      "input": {
+        "dateTime": "2028-05-23T08:25:00Z",
+        "schoolId": "tongZong",
+        "chartType": "hour"
+      },
+      "expected": {
+        "accumulatedYear": 8496691733,
+        "juNumber": 29,
+        "dunType": "yang",
+        "hostCount": 13,
+        "guestCount": 39,
+        "dingCount": 26
+      }
+    },
+    {
+      "id": "hour_2028_05_23_0825_jingmirror",
+      "sect": "jingMirror",
+      "description": "2028-05-23 08:25 金镜派时计元数据",
+      "input": {
+        "dateTime": "2028-05-23T08:25:00Z",
+        "schoolId": "jingMirror",
+        "chartType": "hour"
+      },
+      "expected": {
+        "accumulatedYear": 8374844717,
+        "juNumber": 53,
+        "dunType": "yang",
+        "hostCount": 38,
+        "guestCount": 25,
+        "dingCount": 14
+      }
+    }
+  ]
+}

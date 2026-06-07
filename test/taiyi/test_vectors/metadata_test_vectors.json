@@ -1,0 +1,59 @@
+{
+  "project": "taiyishenshu",
+  "vectors": [
+    {
+      "id": "taiyi_month_metadata_001",
+      "tags": ["metadata", "month", "tongZong"],
+      "description": "验证统宗派月家太乙元数据",
+      "reasoning": "根据统宗派月家积月算法验证积月数与局数",
+      "authoritative_source": "《太乙统宗大全》",
+      "input": {
+        "dateTime": "2026-05-23T08:25:00Z",
+        "schoolId": "tongZong",
+        "chartType": "month"
+      },
+      "expected": {
+        "accumulatedYear": 10155943,
+        "sequenceIndex": 121871310,
+        "juNumber": 6,
+        "dunType": "yang"
+      }
+    },
+    {
+      "id": "taiyi_day_metadata_001",
+      "tags": ["metadata", "day", "tongZong"],
+      "description": "验证统宗派日家太乙元数据",
+      "reasoning": "根据统宗派日家积日算法验证积日数与局数",
+      "authoritative_source": "《太乙统宗大全》",
+      "input": {
+        "dateTime": "2026-05-23T08:25:00Z",
+        "schoolId": "tongZong",
+        "chartType": "day"
+      },
+      "expected": {
+        "accumulatedYear": 10155943,
+        "sequenceIndex": 708057099,
+        "juNumber": 27,
+        "dunType": "yang"
+      }
+    },
+    {
+      "id": "taiyi_hour_metadata_001",
+      "tags": ["metadata", "hour", "tongZong"],
+      "description": "验证统宗派时家太乙元数据",
+      "reasoning": "根据统宗派时家积时算法验证积时数与局数",
+      "authoritative_source": "《太乙统宗大全》",
+      "input": {
+        "dateTime": "2026-05-23T08:25:00Z",
+        "schoolId": "tongZong",
+        "chartType": "hour"
+      },
+      "expected": {
+        "accumulatedYear": 10155943,
+        "sequenceIndex": 8496682961,
+        "juNumber": 41,
+        "dunType": "yang"
+      }
+    }
+  ]
+}

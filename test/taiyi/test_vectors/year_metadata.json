@@ -1,0 +1,78 @@
+{
+  "project": "taiyishenshu",
+  "category": "year_metadata",
+  "vectors": [
+    {
+      "id": "year_2026_tongzong",
+      "sect": "tongZong",
+      "description": "2026 统宗派年计元数据",
+      "input": {
+        "dateTime": "2026-05-23T09:58:00Z",
+        "schoolId": "tongZong",
+        "chartType": "year"
+      },
+      "expected": {
+        "accumulatedYear": 10155943,
+        "juNumber": 55,
+        "dunType": "yang",
+        "hostCount": 16,
+        "guestCount": 3,
+        "dingCount": 22
+      }
+    },
+    {
+      "id": "year_2026_jingmirror",
+      "sect": "jingMirror",
+      "description": "2026 金镜派年计元数据",
+      "input": {
+        "dateTime": "2026-05-23T09:58:00Z",
+        "schoolId": "jingMirror",
+        "chartType": "year"
+      },
+      "expected": {
+        "accumulatedYear": 1938583,
+        "juNumber": 55,
+        "dunType": "yang",
+        "hostCount": 16,
+        "guestCount": 3,
+        "dingCount": 22
+      }
+    },
+    {
+      "id": "year_2028_tongzong",
+      "sect": "tongZong",
+      "description": "2028 统宗派年计元数据",
+      "input": {
+        "dateTime": "2028-05-23T09:58:00Z",
+        "schoolId": "tongZong",
+        "chartType": "year"
+      },
+      "expected": {
+        "accumulatedYear": 10155945,
+        "juNumber": 57,
+        "dunType": "yang",
+        "hostCount": 10,
+        "guestCount": 25,
+        "dingCount": 10
+      }
+    },
+    {
+      "id": "year_2028_jingmirror",
+      "sect": "jingMirror",
+      "description": "2028 金镜派年计元数据",
+      "input": {
+        "dateTime": "2028-05-23T09:58:00Z",
+        "schoolId": "jingMirror",
+        "chartType": "year"
+      },
+      "expected": {
+        "accumulatedYear": 1938585,
+        "juNumber": 57,
+        "dunType": "yang",
+        "hostCount": 10,
+        "guestCount": 25,
+        "dingCount": 10
+      }
+    }
+  ]
+}

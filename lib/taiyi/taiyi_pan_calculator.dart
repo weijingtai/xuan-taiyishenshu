@@ -505,7 +505,7 @@ class TaiYiPanCalculator {
     final nianGuaBianHao = accumulatedYear % 64;
     final taiYiXingGongNianShu = accumulatedYear % 24;
     final taiYiXingGongGongShu = taiYiXingGongNianShu ~/ 3 + 1;
-    final taiYiRuGongNianShu = taiYiXingGongNianShu % 3;
+    final taiYiRuGongNianShu = (juShuFixed - 1) % 3;
     final taiYiRuGongNianShuLabel = switch (taiYiRuGongNianShu) {
       0 => '理天',
       1 => '理地',
@@ -1533,8 +1533,10 @@ ShenPanModel _buildShenPan({
       branchPalace[yearBranch] ??
       EnumTaiYiGong.Kan;
   final heShenGong = engineResults['heShen']?.gong ?? _deityToPalace(heShenBranch);
-  final suiPoGongIndex = (taiYiPalaceOrder.indexOf(taiSuiGong) + 6) % 9;
-  final suiPoGong = engineResults['suiPo']?.gong ?? taiYiPalaceOrder[suiPoGongIndex];
+  final suiPoGong = engineResults['suiPo']?.gong ??
+      gongClash[taiSuiGong] ??
+      taiYiPalaceOrder[_positiveModulo(
+          taiYiPalaceOrder.indexOf(taiSuiGong) + 4, taiYiPalaceOrder.length)];
 
   EnumTaiYiGong? qingLongQiGong = engineResults['qingLongQi']?.gong;
   EnumTaiYiGong? heiQiGong = engineResults['heiQi']?.gong;
