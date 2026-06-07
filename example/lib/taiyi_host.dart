@@ -3,14 +3,18 @@ import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import 'taiyi_contract_adapters.dart';
 
 /// Constructs the three concrete backends and builds an injectable
 /// [TaiYiDataAssembly]. This is the P2 host seam — backend construction
 /// lives here, NOT inside product lib/.
+///
+/// Contract repos are wrapped into product-typed ports via adapters.
 Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
   final prefs = await SharedPreferences.getInstance();
   final db = TaiYiDatabase();
 
+  // Create contract-typed repos (from persistence packages)
   final officialRepo = OfficialJsonSchoolRepository(
     schoolIds: const ['jingMirror', 'tongZong', 'jiCheng'],
     deityIds: const [
@@ -29,10 +33,16 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
   final driftRepo = DriftUserRepository(db);
   final preferenceRepo = SharedPreferencesDeityPreferenceRepository(prefs);
 
+  // Wrap contract repos into product-typed ports
+  final productOfficial = ContractOfficialSchoolAdapter(officialRepo);
+  final productUser = ContractUserSchoolAdapter(driftRepo);
+  final productDeity = ContractDeityAdapter(driftRepo);
+  final productPreference = SharedPreferenceAdapter(preferenceRepo);
+
   return TaiYiDataAssembly(
-    officialRepo: officialRepo,
-    userRepo: driftRepo,
-    deityRepo: driftRepo,
-    preferenceRepo: preferenceRepo,
+    officialRepo: productOfficial,
+    userRepo: productUser,
+    deityRepo: productDeity,
+    preferenceRepo: productPreference,
   );
 }

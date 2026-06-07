@@ -1,5 +1,3 @@
-import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
-    as contract;
 import 'core/school_repository.dart' as product;
 import 'core/school_config.dart';
 import 'core/deity_definition.dart';
@@ -15,106 +13,23 @@ import 'usecases/deity_availability_usecase.dart';
 import 'usecases/calculate_pan_usecase.dart';
 
 // ---------------------------------------------------------------------------
-// Adapters: wrap contract-typed repos (from interface package) into
-// product-typed repos (from core/school_repository.dart) so that product
-// usecases can consume them without knowing about the contract layer.
-// ---------------------------------------------------------------------------
-
-/// Product-typed [SchoolRepository] that delegates to a contract-typed
-/// [SchoolRepository] from the interface package.
-class _ContractOfficialSchoolAdapter implements product.SchoolRepository {
-  final contract.SchoolRepository _inner;
-  _ContractOfficialSchoolAdapter(this._inner);
-
-  @override
-  Future<List<TaiYiSchool>> loadAllSchools() async =>
-      (await _inner.loadAllSchools()).map((c) => c.toModel()).toList();
-
-  @override
-  Future<TaiYiSchool?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toModel();
-
-  @override
-  Future<List<DeityDefinition>> loadAllDeities() async =>
-      (await _inner.loadAllDeities()).map((c) => c.toModel()).toList();
-
-  @override
-  Future<DeityDefinition?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toModel();
-
-  @override
-  Future<void> saveSchool(TaiYiSchool school) =>
-      _inner.saveSchool(school.toContract());
-
-  @override
-  Future<void> saveDeity(DeityDefinition deity) =>
-      _inner.saveDeity(deity.toContract());
-
-  @override
-  Future<void> deleteSchool(String id) => _inner.deleteSchool(id);
-
-  @override
-  Future<void> deleteDeity(String id) => _inner.deleteDeity(id);
-}
-
-class _ContractUserSchoolAdapter implements product.UserSchoolRepository {
-  final contract.UserSchoolRepository _inner;
-  _ContractUserSchoolAdapter(this._inner);
-
-  @override
-  Future<List<TaiYiSchool>> loadUserSchools() async =>
-      (await _inner.loadUserSchools()).map((c) => c.toModel()).toList();
-
-  @override
-  Future<TaiYiSchool?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toModel();
-
-  @override
-  Future<void> saveUserSchool(TaiYiSchool school) =>
-      _inner.saveUserSchool(school.toContract());
-
-  @override
-  Future<void> deleteUserSchool(String id) => _inner.deleteUserSchool(id);
-}
-
-class _ContractDeityAdapter implements product.DeityRepository {
-  final contract.DeityRepository _inner;
-  _ContractDeityAdapter(this._inner);
-
-  @override
-  Future<List<DeityDefinition>> loadUserDeities() async =>
-      (await _inner.loadUserDeities()).map((c) => c.toModel()).toList();
-
-  @override
-  Future<DeityDefinition?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toModel();
-
-  @override
-  Future<void> saveUserDeity(DeityDefinition deity) =>
-      _inner.saveUserDeity(deity.toContract());
-
-  @override
-  Future<void> deleteUserDeity(String id) => _inner.deleteUserDeity(id);
-}
-
-// ---------------------------------------------------------------------------
 // TaiYiDataAssembly — injectable, backend-agnostic
 // ---------------------------------------------------------------------------
 
 /// Handles the assembly of Repositories and UseCases.
 /// This ensures that ViewModels do not directly instantiate Repositories.
 ///
-/// Constructed by the example host (TYSS-22) which provides the concrete
-/// backend repos. Product lib/ does NOT import any persistence_* package.
+/// Constructed by the example host which provides the concrete
+/// backend repos wrapped as product-typed ports.
 ///
-/// The constructor accepts **contract-typed** ports from the interface package.
-/// Internal adapter wrappers convert to product-typed ports for the usecases.
+/// The constructor accepts **product-typed** ports.
+/// Contract adaptation is a host/adapter concern, not product logic.
 class TaiYiDataAssembly {
-  final contract.SchoolRepository officialRepo;   // contract-typed (interface)
-  final contract.UserSchoolRepository userRepo;   // contract-typed (interface)
-  final contract.DeityRepository deityRepo;       // contract-typed (interface)
-  final contract.DeityPreferenceRepository preferenceRepo; // interface (primitives only)
-  late final dynamic compositeRepo; // MultiSchoolRepository (product-typed)
+  final product.SchoolRepository officialRepo;
+  final product.UserSchoolRepository userRepo;
+  final product.DeityRepository deityRepo;
+  final product.DeityPreferenceRepository preferenceRepo;
+  late final product.SchoolRepository compositeRepo;
 
   // UseCases
   late final LoadSchoolsUseCase loadSchoolsUseCase;
@@ -134,32 +49,24 @@ class TaiYiDataAssembly {
     required this.deityRepo,
     required this.preferenceRepo,
   }) {
-    // Wrap contract-typed repos into product-typed adapters for usecases.
-    final productOfficial = _ContractOfficialSchoolAdapter(officialRepo);
-    final productUser = _ContractUserSchoolAdapter(userRepo);
-    final productDeity = _ContractDeityAdapter(deityRepo);
+    compositeRepo = _MultiSchoolAdapter([officialRepo]);
 
-    compositeRepo =
-        _MultiSchoolAdapter([productOfficial]);
+    loadSchoolsUseCase = LoadSchoolsUseCase(officialRepo, userRepo);
+    copySchoolUseCase = CopySchoolUseCase(officialRepo, userRepo);
+    saveUserSchoolUseCase = SaveUserSchoolUseCase(userRepo);
 
-    loadSchoolsUseCase = LoadSchoolsUseCase(productOfficial, productUser);
-    copySchoolUseCase = CopySchoolUseCase(productOfficial, productUser);
-    saveUserSchoolUseCase = SaveUserSchoolUseCase(productUser);
-
-    loadDeitiesUseCase = LoadDeitiesUseCase(productOfficial, productDeity);
-    copyDeityUseCase = CopyDeityUseCase(productOfficial, productDeity);
-    saveUserDeityUseCase = SaveUserDeityUseCase(productDeity);
-    deleteUserDeityUseCase = DeleteUserDeityUseCase(productDeity);
+    loadDeitiesUseCase = LoadDeitiesUseCase(officialRepo, deityRepo);
+    copyDeityUseCase = CopyDeityUseCase(officialRepo, deityRepo);
+    saveUserDeityUseCase = SaveUserDeityUseCase(deityRepo);
+    deleteUserDeityUseCase = DeleteUserDeityUseCase(deityRepo);
     toggleDeityPreferenceUseCase = ToggleDeityPreferenceUseCase(preferenceRepo);
-    deityAvailabilityUseCase = DeityAvailabilityUseCase(productOfficial, productUser);
+    deityAvailabilityUseCase = DeityAvailabilityUseCase(officialRepo, userRepo);
 
     calculatePanUseCase = CalculatePanUseCase(
       schoolRepository: compositeRepo,
       deityPreferenceRepository: preferenceRepo,
     );
   }
-
-  // create() and test() factories REMOVED — host constructs backends (TYSS-22)
 }
 
 // ---------------------------------------------------------------------------

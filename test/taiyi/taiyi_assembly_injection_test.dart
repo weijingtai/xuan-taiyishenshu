@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:taiyishenshu/taiyi/core/school_repository.dart';
+import 'package:taiyishenshu/taiyi/core/school_config.dart';
+import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 
 class FakeSchoolRepository implements SchoolRepository {
@@ -8,39 +10,39 @@ class FakeSchoolRepository implements SchoolRepository {
   @override
   Future<void> deleteSchool(String id) async {}
   @override
-  Future<List<DeityDefinitionContract>> loadAllDeities() async => [];
+  Future<List<DeityDefinition>> loadAllDeities() async => [];
   @override
-  Future<DeityDefinitionContract?> loadDeity(String id) async => null;
+  Future<DeityDefinition?> loadDeity(String id) async => null;
   @override
-  Future<List<TaiYiSchoolContract>> loadAllSchools() async => [];
+  Future<List<TaiYiSchool>> loadAllSchools() async => [];
   @override
-  Future<TaiYiSchoolContract?> loadSchool(String id) async => null;
+  Future<TaiYiSchool?> loadSchool(String id) async => null;
   @override
-  Future<void> saveDeity(DeityDefinitionContract deity) async {}
+  Future<void> saveDeity(DeityDefinition deity) async {}
   @override
-  Future<void> saveSchool(TaiYiSchoolContract school) async {}
+  Future<void> saveSchool(TaiYiSchool school) async {}
 }
 
 class FakeUserSchoolRepository implements UserSchoolRepository {
   @override
   Future<void> deleteUserSchool(String id) async {}
   @override
-  Future<TaiYiSchoolContract?> loadSchool(String id) async => null;
+  Future<TaiYiSchool?> loadSchool(String id) async => null;
   @override
-  Future<List<TaiYiSchoolContract>> loadUserSchools() async => [];
+  Future<List<TaiYiSchool>> loadUserSchools() async => [];
   @override
-  Future<void> saveUserSchool(TaiYiSchoolContract school) async {}
+  Future<void> saveUserSchool(TaiYiSchool school) async {}
 }
 
 class FakeDeityRepository implements DeityRepository {
   @override
   Future<void> deleteUserDeity(String id) async {}
   @override
-  Future<DeityDefinitionContract?> loadDeity(String id) async => null;
+  Future<DeityDefinition?> loadDeity(String id) async => null;
   @override
-  Future<List<DeityDefinitionContract>> loadUserDeities() async => [];
+  Future<List<DeityDefinition>> loadUserDeities() async => [];
   @override
-  Future<void> saveUserDeity(DeityDefinitionContract deity) async {}
+  Future<void> saveUserDeity(DeityDefinition deity) async {}
 }
 
 void main() {

@@ -599,13 +599,6 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
-  repository_interface_ai:
-    dependency: transitive
-    description:
-      path: "../../repository-interface-ai"
-      relative: true
-    source: path
-    version: "0.0.0"
   repository_interface_four_zhu_card:
     dependency: transitive
     description:

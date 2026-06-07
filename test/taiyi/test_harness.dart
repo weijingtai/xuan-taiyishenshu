@@ -9,11 +9,10 @@ import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
-import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
-    as contract;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'fakes/memory_school_repository.dart';
+import 'fakes/taiyi_contract_adapters.dart';
 
 /// A shared test harness for TaiYiShenShu BDD/UI tests.
 class TaiYiTestHarness {
@@ -63,10 +62,10 @@ class TaiYiTestHarness {
     final memoryRepo = MemorySchoolRepository();
 
     return TaiYiDataAssembly(
-      officialRepo: _ContractSchoolFake(memoryRepo),
-      userRepo: _ContractUserSchoolFake(memoryRepo),
-      deityRepo: _ContractDeityFake(memoryRepo),
-      preferenceRepo: contract.DummyDeityPreferenceRepository(),
+      officialRepo: memoryRepo,
+      userRepo: memoryRepo,
+      deityRepo: memoryRepo,
+      preferenceRepo: DummyDeityPreferenceRepository(),
     );
   }
 
@@ -93,97 +92,23 @@ class TaiYiTestHarness {
     final userRepo = DriftUserRepository(db);
     final prefRepo = SharedPreferencesDeityPreferenceRepository(prefs);
 
+    // Wrap contract repos into product-typed ports
+    final productOfficial = ContractOfficialSchoolAdapter(officialRepo);
+    final productUser = ContractUserSchoolAdapter(userRepo);
+    final productDeity = ContractDeityAdapter(userRepo);
+    final productPreference = SharedPreferenceAdapter(prefRepo);
+
     return TaiYiDataAssembly(
-      officialRepo: officialRepo,
-      userRepo: userRepo,
-      deityRepo: userRepo,
-      preferenceRepo: prefRepo,
+      officialRepo: productOfficial,
+      userRepo: productUser,
+      deityRepo: productDeity,
+      preferenceRepo: productPreference,
     );
   }
 
   static Future<void> dispose() async {
     // Nothing to dispose with in-memory fakes
   }
-}
-
-// ---------------------------------------------------------------------------
-// Contract wrappers — adapt MemorySchoolRepository (product-side) to
-// contract-typed interfaces required by TaiYiDataAssembly constructor.
-// ---------------------------------------------------------------------------
-
-class _ContractSchoolFake implements contract.SchoolRepository {
-  final MemorySchoolRepository _inner;
-  _ContractSchoolFake(this._inner);
-
-  @override
-  Future<List<contract.TaiYiSchoolContract>> loadAllSchools() async =>
-      (await _inner.loadAllSchools()).map((s) => s.toContract()).toList();
-
-  @override
-  Future<contract.TaiYiSchoolContract?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toContract();
-
-  @override
-  Future<List<contract.DeityDefinitionContract>> loadAllDeities() async =>
-      (await _inner.loadAllDeities()).map((d) => d.toContract()).toList();
-
-  @override
-  Future<contract.DeityDefinitionContract?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toContract();
-
-  @override
-  Future<void> saveSchool(contract.TaiYiSchoolContract school) async =>
-      _inner.saveSchool(school.toModel());
-
-  @override
-  Future<void> saveDeity(contract.DeityDefinitionContract deity) async =>
-      _inner.saveDeity(deity.toModel());
-
-  @override
-  Future<void> deleteSchool(String id) => _inner.deleteSchool(id);
-
-  @override
-  Future<void> deleteDeity(String id) => _inner.deleteDeity(id);
-}
-
-class _ContractUserSchoolFake implements contract.UserSchoolRepository {
-  final MemorySchoolRepository _inner;
-  _ContractUserSchoolFake(this._inner);
-
-  @override
-  Future<List<contract.TaiYiSchoolContract>> loadUserSchools() async =>
-      (await _inner.loadUserSchools()).map((s) => s.toContract()).toList();
-
-  @override
-  Future<contract.TaiYiSchoolContract?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toContract();
-
-  @override
-  Future<void> saveUserSchool(contract.TaiYiSchoolContract school) async =>
-      _inner.saveUserSchool(school.toModel());
-
-  @override
-  Future<void> deleteUserSchool(String id) => _inner.deleteUserSchool(id);
-}
-
-class _ContractDeityFake implements contract.DeityRepository {
-  final MemorySchoolRepository _inner;
-  _ContractDeityFake(this._inner);
-
-  @override
-  Future<List<contract.DeityDefinitionContract>> loadUserDeities() async =>
-      (await _inner.loadUserDeities()).map((d) => d.toContract()).toList();
-
-  @override
-  Future<contract.DeityDefinitionContract?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toContract();
-
-  @override
-  Future<void> saveUserDeity(contract.DeityDefinitionContract deity) async =>
-      _inner.saveUserDeity(deity.toModel());
-
-  @override
-  Future<void> deleteUserDeity(String id) => _inner.deleteUserDeity(id);
 }
 
 class _FakePathProviderPlatform extends Fake
