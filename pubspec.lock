@@ -653,6 +653,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  persistence_assets:
+    dependency: "direct dev"
+    description:
+      path: "../xuan-storage/assets"
+      relative: true
+    source: path
+    version: "0.0.1"
   persistence_core:
     dependency: "direct main"
     description:
@@ -674,6 +681,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  persistence_preferences:
+    dependency: "direct dev"
+    description:
+      path: "../xuan-storage/preferences"
+      relative: true
+    source: path
+    version: "0.0.0"
   platform:
     dependency: transitive
     description:
@@ -766,10 +780,24 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  repository_interface_qimendunjia:
+    dependency: transitive
+    description:
+      path: "../repository-interface-qimendunjia"
+      relative: true
+    source: path
+    version: "0.0.0"
   repository_interface_taiyishenshu:
     dependency: "direct main"
     description:
       path: "../repository-interface-taiyishenshu"
+      relative: true
+    source: path
+    version: "0.0.0"
+  repository_interface_tiebanshenshu:
+    dependency: transitive
+    description:
+      path: "../repository-interface-tiebanshenshu"
       relative: true
     source: path
     version: "0.0.0"

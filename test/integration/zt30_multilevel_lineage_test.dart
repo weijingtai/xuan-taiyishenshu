@@ -18,8 +18,9 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:taiyishenshu/database/taiyi_database.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import '../taiyi/test_harness.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -110,7 +111,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
 
       // Level 1: 官方 taiYi → user_a
       const userAId = 'user_taiyi_level1_zt30';
@@ -178,7 +179,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
 
       const userAId = 'user_jm_level1_zt30';
       final userA = await assembly.copySchoolUseCase(

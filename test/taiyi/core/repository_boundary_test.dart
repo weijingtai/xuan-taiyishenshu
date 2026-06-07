@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:taiyishenshu/taiyi/data/official_json_repository.dart';
+import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
@@ -8,9 +8,9 @@ import 'dart:io';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taiyishenshu/taiyi/data/drift_user_repository.dart';
-import 'package:taiyishenshu/taiyi/data/shared_preferences_deity_preference_repository.dart';
-import 'package:taiyishenshu/database/taiyi_database.dart';
+
+import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 
 class FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin

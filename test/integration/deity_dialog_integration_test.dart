@@ -11,9 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
-import 'package:taiyishenshu/database/taiyi_database.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import '../taiyi/test_harness.dart';
 import 'package:taiyishenshu/widgets/deity_management_dialog.dart';
 
 /// Deity Dialog 真集成测试。
@@ -165,7 +166,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       // 触发一个真实排盘,以便 panData.input.chartType / schoolId 有值
@@ -205,7 +206,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       await controller.calculate(
@@ -258,7 +259,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       await controller.calculate(
@@ -317,7 +318,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       await controller.calculate(
@@ -357,7 +358,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       await controller.calculate(
@@ -424,7 +425,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       await controller.calculate(

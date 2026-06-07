@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
+import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
+import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
@@ -63,6 +67,37 @@ class TaiYiTestHarness {
       userRepo: _ContractUserSchoolFake(memoryRepo),
       deityRepo: _ContractDeityFake(memoryRepo),
       preferenceRepo: contract.DummyDeityPreferenceRepository(),
+    );
+  }
+
+  /// Create assembly from explicit bundle/prefs/db (for integration tests).
+  static Future<TaiYiDataAssembly> createAssemblyFrom({
+    required AssetBundle bundle,
+    required SharedPreferences prefs,
+    required dynamic db,
+  }) async {
+    final officialRepo = OfficialJsonSchoolRepository(
+      schoolIds: ['jingMirror', 'tongZong', 'jiCheng'],
+      deityIds: [
+        'taiYi', 'zhuDaJiang', 'keDaJiang', 'zhuCanJiang', 'keCanJiang',
+        'dingDaJiang', 'dingCanJiang', 'junJi', 'chenJi', 'minJi',
+        'wuFu', 'daYou', 'xiaoYou', 'feiFu', 'siShen',
+        'tianYiStar', 'diYi', 'zhiFuStar', 'yangJiu', 'baiLiu',
+        'taiSui', 'suiPo', 'zhiFu', 'heShen',
+        'qingLong', 'zhuQue', 'baiHu', 'xuanWu', 'fengBo', 'yuShi',
+        'qingLongQi', 'heiQi', 'chiQi', 'guiShenZhiShi',
+        'wenChang', 'jiShen', 'shiJi',
+      ],
+      bundle: bundle,
+    );
+    final userRepo = DriftUserRepository(db);
+    final prefRepo = SharedPreferencesDeityPreferenceRepository(prefs);
+
+    return TaiYiDataAssembly(
+      officialRepo: officialRepo,
+      userRepo: userRepo,
+      deityRepo: userRepo,
+      preferenceRepo: prefRepo,
     );
   }
 

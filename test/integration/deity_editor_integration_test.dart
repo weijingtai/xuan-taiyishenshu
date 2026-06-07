@@ -10,12 +10,12 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:taiyishenshu/database/taiyi_database.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/pages/deity_editor_page.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
-import 'package:taiyishenshu/taiyi/data/drift_user_repository.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import '../taiyi/test_harness.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/deity_view_model.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
 
@@ -132,7 +132,7 @@ Future<TaiYiDataAssembly> _buildAssembly(
     TaiYiDatabase db, _MockAssetBundle bundle) async {
   SharedPreferences.setMockInitialValues(<String, Object>{});
   final prefs = await SharedPreferences.getInstance();
-  return TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+  return await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
 }
 
 void main() {

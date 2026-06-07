@@ -21,9 +21,10 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
-import 'package:taiyishenshu/database/taiyi_database.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import '../taiyi/test_harness.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -114,7 +115,7 @@ void main() {
       final db = TaiYiDatabase.memory();
       final bundle = await _loadBundle();
       final assembly =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
 
@@ -181,7 +182,7 @@ void main() {
       // 链路 4: 重建 controller (复用同 db+prefs) → 副本仍存在 + 仍可切换
       controller.dispose();
       final assembly2 =
-          TaiYiDataAssembly.test(bundle: bundle, prefs: prefs, db: db);
+          await TaiYiTestHarness.createAssemblyFrom(bundle: bundle, prefs: prefs, db: db);
       final controller2 = TaiYiPanController(assembly: assembly2);
       await controller2.loadSchools();
       expect(
