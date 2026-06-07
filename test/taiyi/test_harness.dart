@@ -3,17 +3,18 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
-import 'package:taiyishenshu/database/taiyi_database.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'fakes/memory_school_repository.dart';
+import 'fakes/in_memory_user_school_repository.dart';
+import 'fakes/in_memory_user_deity_repository.dart';
+import 'fakes/in_memory_deity_preference_repository.dart';
 
 /// A shared test harness for TaiYiShenShu BDD/UI tests.
 class TaiYiTestHarness {
   static final Map<String, String> _mockAssets = {};
   static bool _initialized = false;
-  static TaiYiDatabase? _db;
 
   static Future<void> setup() async {
     if (_initialized) return;
@@ -53,25 +54,22 @@ class TaiYiTestHarness {
   static MockAssetBundle createMockBundle() => MockAssetBundle(_mockAssets);
 
   static Future<TaiYiDataAssembly> createAssembly({Map<String, Object>? initialPrefs}) async {
-    SharedPreferences.setMockInitialValues(initialPrefs ?? {});
-    final prefs = await SharedPreferences.getInstance();
-    
-    // Ensure clean DB for each assembly in tests
-    if (_db != null) {
-      await _db!.close();
-    }
-    _db = TaiYiDatabase.memory();
-    
-    return TaiYiDataAssembly.test(
-      bundle: createMockBundle(),
-      prefs: prefs,
-      db: _db,
+    final bundle = createMockBundle();
+
+    final officialRepo = MemorySchoolRepository(bundle: bundle);
+    final userRepo = MemorySchoolRepository(bundle: bundle);
+    final preferenceRepo = InMemoryDeityPreferenceRepository();
+
+    return TaiYiDataAssembly(
+      officialRepo: officialRepo,
+      userRepo: userRepo,
+      deityRepo: userRepo,
+      preferenceRepo: preferenceRepo,
     );
   }
 
   static Future<void> dispose() async {
-    await _db?.close();
-    _db = null;
+    // Nothing to dispose with in-memory fakes
   }
 }
 

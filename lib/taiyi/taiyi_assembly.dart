@@ -1,12 +1,6 @@
-import 'package:flutter/services.dart' show AssetBundle;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../database/taiyi_database.dart';
 import 'core/school_config.dart';
 import 'core/deity_definition.dart';
 import 'core/school_repository.dart';
-import 'data/official_json_repository.dart';
-import 'data/drift_user_repository.dart';
-import 'data/shared_preferences_deity_preference_repository.dart';
 import 'usecases/load_schools_usecase.dart';
 import 'usecases/copy_school_usecase.dart';
 import 'usecases/save_user_school_usecase.dart';
@@ -18,15 +12,56 @@ import 'usecases/toggle_deity_preference_usecase.dart';
 import 'usecases/deity_availability_usecase.dart';
 import 'usecases/calculate_pan_usecase.dart';
 
+// ---------------------------------------------------------------------------
+// Adapter: wraps UserSchoolRepository as SchoolRepository so the composite
+// can aggregate both official + user schools for pan calculations.
+// ---------------------------------------------------------------------------
+
+class _UserSchoolAsSchoolRepo implements SchoolRepository {
+  final UserSchoolRepository _userRepo;
+  _UserSchoolAsSchoolRepo(this._userRepo);
+
+  @override
+  Future<List<TaiYiSchool>> loadAllSchools() => _userRepo.loadUserSchools();
+
+  @override
+  Future<TaiYiSchool?> loadSchool(String id) => _userRepo.loadSchool(id);
+
+  @override
+  Future<List<DeityDefinition>> loadAllDeities() async => [];
+
+  @override
+  Future<DeityDefinition?> loadDeity(String id) async => null;
+
+  @override
+  Future<void> saveSchool(TaiYiSchool school) =>
+      _userRepo.saveUserSchool(school);
+
+  @override
+  Future<void> deleteSchool(String id) => _userRepo.deleteUserSchool(id);
+
+  @override
+  Future<void> saveDeity(DeityDefinition deity) async =>
+      throw UnimplementedError();
+
+  @override
+  Future<void> deleteDeity(String id) async => throw UnimplementedError();
+}
+
+// ---------------------------------------------------------------------------
+// TaiYiDataAssembly — injectable, backend-agnostic
+// ---------------------------------------------------------------------------
+
 /// Handles the assembly of Repositories and UseCases.
 /// This ensures that ViewModels do not directly instantiate Repositories.
+///
+/// Constructed by the example host (TYSS-22) which provides the concrete
+/// backend repos. Product lib/ does NOT import any persistence_* package.
 class TaiYiDataAssembly {
-  final AssetBundle? bundle;
-
-  // Repositories
-  late final SchoolRepository officialRepo;
-  late final DriftUserRepository userRepo;
-  late final DeityPreferenceRepository preferenceRepo;
+  final SchoolRepository officialRepo;
+  final UserSchoolRepository userRepo;
+  final DeityRepository deityRepo;
+  final DeityPreferenceRepository preferenceRepo;
   late final SchoolRepository compositeRepo;
 
   // UseCases
@@ -41,38 +76,23 @@ class TaiYiDataAssembly {
   late final DeityAvailabilityUseCase deityAvailabilityUseCase;
   late final CalculatePanUseCase calculatePanUseCase;
 
-  // Private constructor
-  TaiYiDataAssembly._({
-    this.bundle,
-    required SharedPreferences prefs,
-    required TaiYiDatabase db,
+  TaiYiDataAssembly({
+    required this.officialRepo,
+    required this.userRepo,
+    required this.deityRepo,
+    required this.preferenceRepo,
   }) {
-    officialRepo = OfficialJsonSchoolRepository(
-      bundle: bundle,
-      schoolIds: ['jingMirror', 'tongZong', 'jiCheng'],
-      deityIds: [
-        'taiYi', 'zhuDaJiang', 'keDaJiang', 'zhuCanJiang', 'keCanJiang',
-        'dingDaJiang', 'dingCanJiang', 'junJi', 'chenJi', 'minJi',
-        'wuFu', 'daYou', 'xiaoYou', 'feiFu', 'siShen',
-        'tianYiStar', 'diYi', 'zhiFuStar', 'yangJiu', 'baiLiu',
-        'taiSui', 'suiPo', 'zhiFu', 'heShen',
-        'qingLong', 'zhuQue', 'baiHu', 'xuanWu', 'fengBo', 'yuShi',
-        'qingLongQi', 'heiQi', 'chiQi', 'guiShenZhiShi',
-        'wenChang', 'jiShen', 'shiJi',
-      ],
-    );
-    userRepo = DriftUserRepository(db);
-    preferenceRepo = SharedPreferencesDeityPreferenceRepository(prefs);
-    compositeRepo = MultiSchoolRepository([officialRepo, userRepo]);
+    compositeRepo =
+        MultiSchoolRepository([officialRepo, _UserSchoolAsSchoolRepo(userRepo)]);
 
     loadSchoolsUseCase = LoadSchoolsUseCase(officialRepo, userRepo);
     copySchoolUseCase = CopySchoolUseCase(officialRepo, userRepo);
     saveUserSchoolUseCase = SaveUserSchoolUseCase(userRepo);
 
-    loadDeitiesUseCase = LoadDeitiesUseCase(officialRepo, userRepo);
-    copyDeityUseCase = CopyDeityUseCase(officialRepo, userRepo);
-    saveUserDeityUseCase = SaveUserDeityUseCase(userRepo);
-    deleteUserDeityUseCase = DeleteUserDeityUseCase(userRepo);
+    loadDeitiesUseCase = LoadDeitiesUseCase(officialRepo, deityRepo);
+    copyDeityUseCase = CopyDeityUseCase(officialRepo, deityRepo);
+    saveUserDeityUseCase = SaveUserDeityUseCase(deityRepo);
+    deleteUserDeityUseCase = DeleteUserDeityUseCase(deityRepo);
     toggleDeityPreferenceUseCase = ToggleDeityPreferenceUseCase(preferenceRepo);
     deityAvailabilityUseCase = DeityAvailabilityUseCase(officialRepo, userRepo);
 
@@ -82,27 +102,8 @@ class TaiYiDataAssembly {
     );
   }
 
-  /// Factory method to create and initialize the assembly.
-  static Future<TaiYiDataAssembly> create({AssetBundle? bundle}) async {
-    final prefs = await SharedPreferences.getInstance();
-    final db = TaiYiDatabase();
-    return TaiYiDataAssembly._(bundle: bundle, prefs: prefs, db: db);
-  }
-
-  /// Factory for testing with provided dependencies.
-  factory TaiYiDataAssembly.test({
-    AssetBundle? bundle,
-    required SharedPreferences prefs,
-    TaiYiDatabase? db,
-  }) {
-    return TaiYiDataAssembly._(
-      bundle: bundle,
-      prefs: prefs,
-      db: db ?? TaiYiDatabase.memory(),
-    );
-  }
+  // create() and test() factories REMOVED — host constructs backends (TYSS-22)
 }
-
 
 
 class MultiSchoolRepository implements SchoolRepository {

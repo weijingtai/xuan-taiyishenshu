@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 
 /// 测试专用的内存星神偏好 Repository。
 ///
-/// **严禁在生产装配 (TaiYiDataAssembly.create) 中引用本类。**
+/// **严禁在生产装配 (TaiYiDataAssembly) 中引用本类。**
 /// 生产入口应使用 SharedPreferencesDeityPreferenceRepository。
 @visibleForTesting
 class InMemoryDeityPreferenceRepository implements DeityPreferenceRepository {

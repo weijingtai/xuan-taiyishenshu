@@ -1,15 +1,3 @@
-export 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
-    show
-        SchoolRepository,
-        UserSchoolRepository,
-        DeityRepository,
-        DeityPreferenceRepository,
-        DummyDeityPreferenceRepository,
-        TaiYiSchoolContract,
-        DeityDefinitionContract,
-        SchoolEpochConfigContract,
-        DeityAlgorithmSpecContract;
-
 import 'school_config.dart';
 import 'deity_definition.dart';
 import 'chart_config.dart';
@@ -17,6 +5,57 @@ import 'deity_override.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'algorithm_enums.dart';
 import '../../enums/deity_kind.dart';
+
+// ---------------------------------------------------------------------------
+// Re-export contract DTOs from the interface package
+// (NOT re-exporting SchoolRepository/UserSchoolRepository/DeityRepository
+// because this file defines product-typed versions for use by product code.)
+// ---------------------------------------------------------------------------
+
+export 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
+    show
+        TaiYiSchoolContract,
+        DeityDefinitionContract,
+        SchoolEpochConfigContract,
+        DeityAlgorithmSpecContract,
+        DeityPreferenceRepository,
+        DummyDeityPreferenceRepository;
+
+// ---------------------------------------------------------------------------
+// Product-typed repository interfaces (used by product usecases/viewmodels)
+//
+// These are SEPARATE from the contract-typed ports in the interface package.
+// Backends implement the contract-typed ports; the example host wraps them
+// into these product-typed interfaces via adapter classes in taiyi_assembly.dart.
+// ---------------------------------------------------------------------------
+
+abstract class SchoolRepository {
+  Future<List<TaiYiSchool>> loadAllSchools();
+  Future<TaiYiSchool?> loadSchool(String id);
+  Future<List<DeityDefinition>> loadAllDeities();
+  Future<DeityDefinition?> loadDeity(String id);
+  Future<void> saveSchool(TaiYiSchool school);
+  Future<void> saveDeity(DeityDefinition deity);
+  Future<void> deleteSchool(String id);
+  Future<void> deleteDeity(String id);
+}
+
+abstract class UserSchoolRepository {
+  Future<List<TaiYiSchool>> loadUserSchools();
+  Future<TaiYiSchool?> loadSchool(String id);
+  Future<void> saveUserSchool(TaiYiSchool school);
+  Future<void> deleteUserSchool(String id);
+}
+
+abstract class DeityRepository {
+  Future<List<DeityDefinition>> loadUserDeities();
+  Future<DeityDefinition?> loadDeity(String id);
+  Future<void> saveUserDeity(DeityDefinition deity);
+  Future<void> deleteUserDeity(String id);
+}
+
+// DeityPreferenceRepository + DummyDeityPreferenceRepository re-exported from
+// the interface package (they use only String/bool/Map — no product types).
 
 // ---------------------------------------------------------------------------
 // TaiYiSchool ↔ TaiYiSchoolContract (product boundary)

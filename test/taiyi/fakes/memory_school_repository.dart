@@ -1,13 +1,12 @@
 import 'package:meta/meta.dart';
 
-import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 
 /// 测试专用的内存 Repository。
 ///
-/// **严禁在生产装配 (TaiYiDataAssembly.create) 中引用本类。**
+/// **严禁在生产装配 (TaiYiDataAssembly) 中引用本类。**
 /// 生产入口应使用 Drift + OfficialJson + SharedPreferences。
 @visibleForTesting
 class MemorySchoolRepository implements SchoolRepository, UserSchoolRepository, DeityRepository {
@@ -15,57 +14,53 @@ class MemorySchoolRepository implements SchoolRepository, UserSchoolRepository, 
   final Map<String, DeityDefinition> _deities = {};
 
   @override
-  Future<List<TaiYiSchoolContract>> loadAllSchools() async {
-    return _schools.values.map((s) => s.toContract()).toList();
+  Future<List<TaiYiSchool>> loadAllSchools() async {
+    return _schools.values.toList();
   }
 
   @override
-  Future<List<TaiYiSchoolContract>> loadUserSchools() async {
-    return _schools.values.map((s) => s.toContract()).toList();
+  Future<List<TaiYiSchool>> loadUserSchools() async {
+    return _schools.values.toList();
   }
 
   @override
-  Future<TaiYiSchoolContract?> loadSchool(String id) async {
-    return _schools[id]?.toContract();
+  Future<TaiYiSchool?> loadSchool(String id) async {
+    return _schools[id];
   }
 
   @override
-  Future<List<DeityDefinitionContract>> loadAllDeities() async {
-    return _deities.values.map((d) => d.toContract()).toList();
+  Future<List<DeityDefinition>> loadAllDeities() async {
+    return _deities.values.toList();
   }
 
   @override
-  Future<List<DeityDefinitionContract>> loadUserDeities() async {
-    return _deities.values.map((d) => d.toContract()).toList();
+  Future<List<DeityDefinition>> loadUserDeities() async {
+    return _deities.values.toList();
   }
 
   @override
-  Future<DeityDefinitionContract?> loadDeity(String id) async {
-    return _deities[id]?.toContract();
+  Future<DeityDefinition?> loadDeity(String id) async {
+    return _deities[id];
   }
 
   @override
-  Future<void> saveSchool(TaiYiSchoolContract school) async {
-    final model = school.toModel();
-    _schools[model.id] = model;
+  Future<void> saveSchool(TaiYiSchool school) async {
+    _schools[school.id] = school;
   }
 
   @override
-  Future<void> saveUserSchool(TaiYiSchoolContract school) async {
-    final model = school.toModel();
-    _schools[model.id] = model;
+  Future<void> saveUserSchool(TaiYiSchool school) async {
+    _schools[school.id] = school;
   }
 
   @override
-  Future<void> saveDeity(DeityDefinitionContract deity) async {
-    final model = deity.toModel();
-    _deities[model.id] = model;
+  Future<void> saveDeity(DeityDefinition deity) async {
+    _deities[deity.id] = deity;
   }
 
   @override
-  Future<void> saveUserDeity(DeityDefinitionContract deity) async {
-    final model = deity.toModel();
-    _deities[model.id] = model;
+  Future<void> saveUserDeity(DeityDefinition deity) async {
+    _deities[deity.id] = deity;
   }
 
   @override
