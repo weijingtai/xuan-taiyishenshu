@@ -1,316 +1,568 @@
-# 太乙神数五大流派五合一算法集成与校验规范文档
+# 太乙神数五大流派全功能算法集成与校验规范文档
 
-（**开发与测试专用版**，严格遵循《太乙金镜式经》《景祐太乙福应经》《太乙统宗宝鉴》《太乙淘金歌》及近代集成派原文数理，统一算法边界、四计分发、三算与八将流程，用于指导系统设计、单元测试与回归校验。）
+（**终极完整版**，严格遵循《太乙金镜式经》《景祐太乙福应经》《太乙统宗宝鉴》《太乙淘金歌》及近代集成派原文数理，包含前置通用定义、五派积年、四计入局、天目/始击、三算优化、八将/十精/吉凶星神定位、格局判定及完整 Dart 实现代码，用于指导核心计算引擎编写与单元测试。）
 
 ---
 
-## 零、前置通用数理规范与算法优化
+## 0. 全局统一定义（五派共用）
 
-在任何流派与计法的计算中，必须首先应用以下通用规则与优化逻辑。
-
-### 0.1 八宫定义与“跳过中五宫”遍历优化（所有流派通用）
+### 0.1 九宫定义与“跳过中五宫”遍历（所有流派通用）
 太乙专用九宫序列（剔除中五宫，顺行固定顺序）定义如下：
-$$\boldsymbol{taiYiPalaceOrder} = [乾, 离, 艮, 震, 兑, 坤, 坎, 巽]$$
-对应索引：`0:乾, 1:离, 2:艮, 3:震, 4:兑, 5:坤, 6:坎, 7:巽`。
+$$\boldsymbol{taiYiPalaceOrder} = [1, 2, 3, 4, 6, 7, 8, 9] \quad (\text{对应乾、离、艮、震、兑、坤、坎、巽})$$
+对应索引：`0:1乾, 1:2离, 2:3艮, 3:4震, 4:6兑, 5:7坤, 6:8坎, 7:9巽`。
 对应的宫本数分别为：`乾=1, 离=2, 艮=3, 震=4, 中宫=5(不可入), 兑=6, 坤=7, 坎=8, 巽=9`。
 
 > **优化规则**：所有流派的八宫运算（如“前一宫”、“后一宫”、累加步数等）在进行 `mod 8` 运算时，必须明确**跳过中五宫，仅在 8 个有效宫位内进行循环**。
 > 例如，当前宫位索引为 `idx`，顺行 $k$ 步后的宫位索引为 `(idx + k) % 8`，逆行 $k$ 步后的宫位索引为 `(idx - k + 8) % 8`。
 
-### 0.2 十六神定义与映射
-十六神专用序列：
-$$\boldsymbol{sixteenGods} = [\text{子}, \text{丑}, \text{寅}, \text{卯}, \text{辰}, \text{巳}, \text{午}, \text{未}, \text{申}, \text{酉}, \text{戌}, \text{亥}, \text{地主}, \text{和德}, \text{武德}, \text{吕申}]$$
-对应索引：0到15。
+### 0.2 十六神与八宫正位映射表
+十六神序列：
+$$\text{子(地主), 丑(太阴/阴德), 寅(吕申), 卯(高丛), 辰(太阳), 巳(大神), 午(大威), 未(天道), 申(武德), 酉(太簇), 戌(阴主), 亥(大义), 乾(阳德), 艮(和德), 巽(大炅), 坤(大武)}$$
 
-时计或特定神将定位中，“十六神”转“八宫”必须严格按照正统映射表进行转换：
-- **坎宫（八宫，本数8）**：子 (地主) / 丑 (太阴)
-- **艮宫（三宫，本数3）**：艮 (和德) / 寅 (吕申)
-- **震宫（四宫，本数4）**：卯 (高丛) / 辰 (太阳)
-- **巽宫（九宫，本数9）**：巽 (大炅) / 戌 (阴主)
-- **离宫（二宫，本数2）**：巳 (大神) / 午 (大威)
-- **坤宫（七宫，本数7）**：未 (天道) / 坤 (大武)
-- **兑宫（六宫，本数6）**：申 (武德) / 酉 (太簇)
-- **乾宫（一宫，本数1）**：乾 (阳德) / 亥 (大义)
+转换至八宫正位的映射关系如下：
+- **坎八宫（8）**：子 (地主) / 丑 (太阴)
+- **艮三宫（3）**：艮 (和德) / 寅 (吕申)
+- **震四宫（4）**：卯 (高丛) / 辰 (太阳)
+- **巽九宫（9）**：巽 (大炅) / 戌 (阴主)
+- **离二宫（2）**：巳 (大神) / 午 (大威)
+- **坤七宫（7）**：未 (天道) / 坤 (大武)
+- **兑六宫（6）**：申 (武德) / 酉 (太簇)
+- **乾一宫（1）**：乾 (阳德) / 亥 (大义)
 
-### 0.3 累加求和与满十去十规则
-设起点宫为 $A$，终点宫为 $B$，累加路径所经有效宫位的宫本数之和为 $S$。
-- **累加路径**：从起点 $A$ 出发，顺时针遍历每一个宫位并累加其本数，直到抵达**终点宫 $B$ 的前一宫（或后一宫）停止**（终点宫本身不计入累加）。
-- **满十去十公式**：
+### 0.3 三算通用“满十去十”求数公式
+设起点至太乙前一宫的有效宫本数累加和为 $S$，求出的算数结果为 $N$。
+- 原理：若 $S \le 10$，则 $N = S$；若 $10 < S \le 50$，则 $N = S \bmod 10$（余 $0$ 为 $10$）；若 $S > 50$，则先将 $S \bmod 50$，余数再按前法求数。
+- **程序优化公式**：
   $$N = ((S - 1) \bmod 10) + 1$$
-  计算结果 $N$ 固定落在 $[1, 10]$ 区间内，若 $S$ 为整十数，则结果强制为 $10$。
-- **10归9规则**：在计算主、客、定大将落宫时，若计算出的算数为 $10$，则一律归入 **巽九宫（巽=9）**。
+  （该公式在数学上完全等价于上述求数规则，自动处理整十数取 $10$ 的边界条件，且单次取模效率极高。）
+- **10归9规则**：在确定主大将、客大将、定大将的落宫时，若算数结果 $N = 10$，则落宫统一归入 **巽九宫（巽=9）**。
 
-### 0.4 无算规则及延伸边界条件
-1. **基本无算**：
-   - 若起点宫 $A$ 与太乙落宫同宫，或者从起点 $A$ 顺行一步即抵达太乙落宫（中间无任何途经宫位），则累加和 $S = 0$，判定为“无算”。
-2. **延伸边界规则（无算延伸）**：
-   - 当累加路径不经过任何有效宫位时（即起点 == 终点，如起点在太乙前一宫且终点也是太乙前一宫），除判定累加和 $S = 0$、算数记为无算外，主大将、客大将、定大将、主小将（参将）、客小将、定小将**全部映射至中五宫（无位），算筹数值记为「0」**。
+### 0.4 四计局数转换
+$$局数 = 入局数 \bmod 72 \quad (\text{若余}0\text{则取}72)$$
 
 ---
 
-## 一、 通用基础（五派共用）
+## 1. 五大派积年法
 
-### 1. 积年计算（所有神将的基础）
-- **金镜**：$J = 10153917 + (Y - 751)$
-- **统宗**：$J = 10155219 + (Y - 1303)$  （注：此处统一使用代码运行的实际基准：1303年甲子元）
-- **淘金歌**：$J = Y + 2697$ （黄帝上元甲子）
-- **福应经**：$J = 10153917 + (Y - 742)$ （唐天宝元年）
-- **集成派**：默认同统宗，可切换金镜
-
-### 2. 四计入局（年/月/日/时）
-- **年计**：$R_{360} = J \bmod 360$ （若余0取360）；$局 = R_{360} \bmod 72$ （若余0取72）
-- **月计**：$J_m = J \times 12 + M$；$R_{360} = J_m \bmod 360$（若余0取360）；$局 = R_{360} \bmod 72$（若余0取72）
-- **日计**：$J_d = \lfloor J \times 365.2425 \rfloor + D$；$R_{360} = J_d \bmod 360$（若余0取360）；$局 = R_{360} \bmod 72$（若余0取72）
-- **时计**：$J_h = J_d \times 12 + H$；$局 = J_h \bmod 72$（若余0取72）
-
-### 3. 太乙宫定位
-- 每宫理 **3** 年/月/日/时，不入中五。
-- 顺序：1乾 → 2离 → 3艮 → 4震 → 6兑 → 7坤 → 8坎 → 9巽
-- 公式：
-  $$idx = \lfloor (局 - 1) / 3 \rfloor \bmod 8$$
-  $$太乙宫 = \text{taiYiPalaceOrder}[idx]$$
+- **金镜派**：唐天宝十载（公元 751 年）上元。
+  $$J = 10153917 + (Y - 751)$$
+- **统宗派**：元晓山老人所拟（公元 1303 年甲子元）。
+  $$J = 10155219 + (Y - 1303)$$
+- **淘金歌派**：黄帝上元甲子起算（最简）。
+  $$J = Y + 2697$$
+- **福应经派**：唐天宝元年（公元 742 年）上元。
+  $$J = 10153917 + (Y - 742)$$
+- **近代集成派**：默认采用**统宗**积年，支持切换金镜积年。
 
 ---
 
-## 二、 三基（君基、臣基、民基）算法
+## 2. 四计“入局数”算法
 
-三基均在十六神盘上顺行，然后再映射回九宫。
+- **年计**：$入局数 = J \bmod 360$（余 $0$ 取 $360$）。
+- **月计**：$J_m = J \times 12 + M$（正月=1）；$入局数 = J_m \bmod 360$（余 $0$ 取 $360$）。
+- **日计**：$J_d = \lfloor J \times 365.2425 \rfloor + D$（正月初一=0）；$入局数 = J_d \bmod 360$（余 $0$ 取 $360$）。
+- **时计**：$J_h = J_d \times 12 + H$（子时=0）；$入局数 = J_h \bmod 360$（余 $0$ 取 $360$）。
 
-### 1. 金镜派（年/月/日同法；时计不用三基）
+---
+
+## 3. 太乙宫定位
+
+$$太乙索引 = \lfloor (局数 - 1) / 3 \rfloor \bmod 8$$
+$$太乙宫 = \text{taiYiPalaceOrder}[太乙索引]$$
+
+---
+
+## 4. 文昌（天目）、计神、始击定位
+
+### 4.1 天目（文昌，主目）
+- **金镜 / 福应经 / 集成**：
+  $$R = 入局数 \bmod 18$$
+  起武德（申），顺行十六神。若遇阴德（丑）、大武（坤）、乾坤宫位，需要**重留一算**（即在该位置停留两个入局数周期）。
+- **统宗**：
+  同金镜派。但**时计**下区分阴阳遁：阳局起武德，阴局起吕申。
+- **淘金歌**：
+  仅年计使用。起武德，顺行十二地支，18 局一周。月/日/时不用。
+
+### 4.2 计神
+- **金镜 / 福应经 / 集成 / 统宗**：
+  $$R = 入局数 \bmod 12$$
+  - **阳局（冬至后）**：起寅，逆行十二辰。
+  - **阴局（夏至后）**：起申，逆行十二辰。
+- **淘金歌**：
+  仅年计使用。子年起寅，逆行十二地支。月/日/时不用。
+
+### 4.3 始击（客目）
+- **金镜 / 统宗 / 福应经 / 集成**：始击落宫等于计神落宫在十二支盘上的**对冲位**（如计神在子，始击在午）。
+- **淘金歌**：仅年计使用，始击落于计神对冲位。月/日/时不用。
+
+---
+
+## 5. 三算（主算、客算、定算）
+
+### 5.1 累加与终点判定
+- **主算**：起点为文昌宫，终点为太乙前一宫，顺行累加八宫本数（跳过中五宫）。
+- **客算**：起点为始击宫，终点为太乙前一宫，顺行累加八宫本数。
+- **定算**：起点为定目（即定大将落宫），终点为太乙前一宫，顺行累加八宫本数。
+
+### 5.2 无算与延伸边界条件
+- **基本无算**：起点落宫 == 太乙落宫，或者起点顺行一步即为太乙落宫（中间无任何途经宫位），则算数 $N = 0$，判定为“无算”。
+- **无算延伸规则**：当累加路径不经过任何有效宫位时（即起点 == 终点，比如起点和终点重合），除判定累加和 $S = 0$、算数记为无算外，主大将、客大将、定大将、主小将（参将）、客小将、定小将**全部映射至中五宫（无位），算筹数值记为「0」**。
+
+---
+
+## 6. 八将（三基、大小将、地乙、飞符、四神）
+
+### 6.1 三基：君基、臣基、民基（时计不用）
 - **君基**：
-  - 起宫：**午（索引 6）**
-  - 周期：**30**
-  - 步数：$步 = (局 - 1) \bmod 30$
-  - 落宫：自十六神“午”顺行 $步$ 数。得到的神位按“十六神转八宫”映射回九宫。
-- **臣基**：
-  - 起宫：**午（索引 6）**
-  - 周期：**3**
-  - 步数：$步 = (局 - 1) \bmod 3$
-  - 落宫：自十六神“午”顺行 $步$ 数。映射回九宫。
-- **民基**：
-  - 起宫：**戌（索引 10）**
-  - 周期：**1**（每局一移）
-  - 步数：$步 = 局 - 1$
-  - 落宫：自十六神“戌”顺行 $步$ 数。映射回九宫。
+  - 金镜 / 集成 / 福应经：午起顺十六神，周期 30。步数 = $(局数 - 1) \bmod 30$。
+  - 统宗：午起顺十六神，周期 24。步数 = $(局数 - 1) \bmod 24$。
+  - 淘金歌：仅年计使用，午起周期 30。
+- **臣基**：午起顺十六神，周期 3。步数 = $(局数 - 1) \bmod 3$。
+- **民基**：戌起顺十六神，周期 16。步数 = $(局数 - 1) \bmod 16$。
 
-### 2. 统宗派（年/月/日同；时计不用）
-- **君基**：同金镜，但**周期为 24**。步数：$步 = (局 - 1) \bmod 24$。
-- **臣基**：同金镜，周期 3。
-- **民基**：同金镜，周期 1。
+### 6.2 主客大小将（五派同）
+- **大将落宫**：算数结果 $N$。若 $N \in [1, 9]$ 则为 $N$ 宫，若 $N = 10$ 则归入 **9 巽宫**。
+- **小将（参将）落宫**：$(大将宫 \times 3) \bmod 10$，若余 $0$ 取 $10$，并归入 **9 巽宫**。
+- **定大将**：
+  - 福应经：主大将顺行 1 宫（跳过中五宫）。
+  - 金镜 / 统宗 / 集成：由独立定算得出。
 
-### 3. 淘金歌（最简，仅年计用）
-- **君基**：午起，30年移一神（30步一圈），顺行十六神。
-- **臣基**：午起，3年移一神（3步一圈），顺行十六神。
-- **民基**：戌起，1年移一神（16步一圈），顺行十六神。
-- **月/日/时**：不用三基。
+### 6.3 地乙与飞符（时计不用）
+- **地乙**：起巳，3 步一移，顺行十二辰。步数 = $\lfloor (局数 - 1) / 3 \rfloor \bmod 12$。
+- **飞符**：起辰，3 步一移，顺行十二辰。步数 = $\lfloor (局数 - 1) / 3 \rfloor \bmod 12$。
+- 地支映射九宫：巳=9，午=2，未=7，申=6，酉=6，戌=9，亥=1，子=8，丑=8，寅=3，卯=4，辰=4。
 
-### 4. 福应经（年/月/日同；时计不用）
-- **算法与周期**：君基 30 步，臣基 3 步，民基 1 步。起止点同金镜。
-- **校正项**：结合精确交节（冬至换元）进行局数重置。
-
-### 5. 近代集成派
-- 规则完全对齐金镜派（年/月/日计三基分别采用 30/3/1 步，时计不用）。
+### 6.4 四神（时计不用）
+- **金镜 / 集成 / 福应经**：大周 180，小周 36，宫步 3。起 1 乾宫顺行八宫。
+- **统宗**：大周 240，小周 24，宫步 3。起 1 乾宫顺行八宫。
+- **淘金歌**：不用四神。
 
 ---
 
-## 三、 大将、小将（主/客/定）算法
+## 7. 十精与运行轨迹（时计不用）
 
-### 1. 将星计算公式（五派一致）
-- **主大将**：主算结果 $N$。若 $N \in [1, 9]$，落 $N$ 宫；若 $N = 10$，落 **9 巽宫**。
-- **主小将（参将）**：$(主大将宫 \times 3) \bmod 10$，若余 $0$ 则为 $10$，归入 **9 巽宫**。
-- **客大将**：客算结果 $N$。若 $N \in [1, 9]$，落 $N$ 宫；若 $N = 10$，落 **9 巽宫**。
-- **客小将（参将）**：$(客大将宫 \times 3) \bmod 10$，若余 $0$ 则为 $10$，归入 **9 巽宫**。
-- **定大将**：定算结果 $N$。若 $N \in [1, 9]$，落 $N$ 宫；若 $N = 10$，落 **9 巽宫**。
-- **定小将**：$(定大将宫 \times 3) \bmod 10$，若余 $0$ 则为 $10$，归入 **9 巽宫**。
+### 7.1 天皇
+- 金镜 / 福应 / 集成：大周 200，小周 20，起武德（申）顺行十六神。
+- 统宗：大周 240，小周 24。
+- 淘金歌：不用。
 
-### 2. 派别时计差异
-- **金镜**：年/月/日/时全计排主客定大小将。
-- **统宗**：年/月/日同金镜。**时计分阴阳遁**：阳遁主算起点固定为“武德”，阴遁起点固定为“吕申”。
-- **淘金歌**：只有主客大将，无小将/参将。定大将直接等于主大将。
-- **福应经**：定大将为主大将顺行 1 宫（跳过中五宫）。
-- **集成派**：时计同统宗分阴阳遁起算。
+### 7.2 紫微
+- 起吕申（寅）顺行十六神，大周 180，小周 18。
 
----
+### 7.3 天乙
+- 起乾（亥）顺行十二辰，3 年一移。
 
-## 四、 地乙算法
-
-### 1. 金镜/统宗/集成（年/月/日同；时计不用）
-- **起宫**：**巳（索引 5）**
-- **周期**：**3**（3步一移）
-- **步数**：$步 = \lfloor (局 - 1) / 3 \rfloor \bmod 12$
-- **运行轨道**：顺行十二地支（巳→午→未→申→酉→戌→亥→子→丑→寅→卯→辰）。
-- **映射九宫**：
-  $$\text{巳}\to 9, \text{午}\to 2, \text{未}\to 7, \text{申}\to 6, \text{酉}\to 6, \text{戌}\to 9, \text{亥}\to 1, \text{子}\to 8, \text{丑}\to 8, \text{寅}\to 3, \text{卯}\to 4, \text{辰}\to 4$$
-
-### 2. 淘金歌（仅年计用）
-- 起巳，3年一移，顺行十二支。月/日/时不用。
-
-### 3. 福应经（年/月/日同；时计不用）
-- 起巳，3步一移，结合冬至节气校正。
+### 7.4 其他六精（摄提、轩辕、招摇、天符、青龙、咸池）
+- **摄提**：4 步一移，起 1 乾宫。
+- **轩辕**：5 步一移，起 2 离宫。
+- **招摇**：6 步一移，起 4 震宫。
+- **天符**：9 步一移，起 6 兑宫。
+- **青龙**：12 步一移，起 3 艮宫。
+- **咸池**：15 步一移，起 8 坎宫。
 
 ---
 
-## 五、 飞符算法
+## 8. 五福、大游、小游、三宫、直符
 
-### 1. 金镜/统宗/集成（年/月/日同；时计不用）
-- **起宫**：**辰（索引 4）**
-- **周期**：**3**（3步一移）
-- **步数**：$步 = \lfloor (局 - 1) / 3 \rfloor \bmod 12$
-- **运行轨道**：顺行十二地支（辰→巳→午→未→申→酉→戌→亥→子→丑→寅→卯）。
-- **映射九宫**：同地乙所用十二地支映射表。
-
-### 2. 淘金歌（仅年计用）
-- 起辰，3年一移，顺行十二支。月/日/时不用。
-
-### 3. 福应经（年/月/日同；时计不用）
-- 起辰，3步一移，结合冬至节气校正。
+- **五福（国运吉星，时计不用）**：
+  $$\text{落宫} = \text{taiYiPalaceOrder}[\lfloor (J - 1) / 45 \rfloor \bmod 8]$$
+  起 1 乾宫顺行八宫（淘金歌不用）。
+- **大游（战争与动乱，时计不用）**：
+  $$\text{落宫} = [7, 6, 4, 3, 2, 1, 9, 8][\lfloor (J - 1) / 36 \rfloor \bmod 8]$$
+  起 7 坤宫逆行八宫（淘金歌不用）。
+- **小游**：12 步一移，起 1 乾宫顺行。
+- **三宫（绛宫、明堂、玉堂）**：3 步一移，起九宫毕依次顺行绛宫、明堂、玉堂。
+- **直符（值日巡察）**：
+  起中五宫，顺行映射序列：`[5, 6, 12, 8, 9, 10, 7, 15, 16, 2, 4, 5]`（对应中宫、酉、申、子、巳、戌、未、丑、亥、午、寅、卯）。
 
 ---
 
-## 六、 四神算法
+## 9. 太乙格局判定
 
-### 1. 金镜/集成（年/月/日同；时计不用）
-- **周期公数**：大周 180，小周 36，宫步 3。
-- **入纪**：$R_{180} = J \bmod 180$ （若余0取180）；$纪 = \lfloor (R_{180} - 1) / 36 \rfloor$ （0 ~ 4）。
-- **步数**：$步 = \lfloor ((R_{180} - 1) \bmod 36) / 3 \rfloor$。
-- **起宫**：**1 乾宫**，顺行八宫（跳过中五）。
-- **落宫**：`taiYiPalaceOrder[步 % 8]`。
-
-### 2. 统宗派（年/月/日同；时计不用）
-- **周期公数**：大周 240，小周 24，宫步 3。
-- **入纪**：$R_{240} = J \bmod 240$ （若余0取240）。
-- **步数**：$步 = \lfloor ((R_{240} - 1) \bmod 24) / 3 \rfloor$。
-- **起宫**：**1 乾宫**，顺行八宫（跳过中五）。
-- **落宫**：`taiYiPalaceOrder[步 % 8]`。
-
-### 3. 淘金歌
-- **无四神**。
-
-### 4. 福应经
-- 算法同金镜，但使用宋代节气校正后的局数。
+- **掩（客欺主，臣强君弱）**：始击落宫 == 太乙落宫。
+- **迫（臣凌君、内外逼）**：主大将、客大将、主小将、客小将落在太乙的**前后一宫内**（八宫序列索引差异为 $\pm 1$）。
+- **击（客攻主）**：始击落宫落在太乙落宫的**前后一宫内**（八宫序列索引差异为 $\pm 1$）。
+- **格（主拒客）**：太乙落宫落在始击落宫的**前后一宫内**（八宫序列索引差异为 $\pm 1$）。
+- **关（将相不和）**：主大将与客大将、主小将与客小将同落一宫，且两算数值相等。
+- **囚（篡戮、受制）**：文昌、主大将、客大将同落太乙宫。
 
 ---
 
-## 七、 四计与八将排盘配置矩阵
+## 10. 五派四计排盘矩阵总表
 
-| 将星 | 金镜派 | 统宗派 | 淘金歌 | 福应经 | 集成派 |
+| 计法 | 金镜派 | 统宗派 | 淘金歌派 | 福应经派 | 集成派 |
 |---|---|---|---|---|---|
-| **君基** | 午起30步 | 午起24步 | 午起30步（仅年）| 午起30步（节气）| 午起30步 |
-| **臣基** | 午起3步 | 午起3步 | 午起3步（仅年） | 午起3步（节气） | 午起3步 |
-| **民基** | 戌起1步 | 戌起1步 | 戌起1步（仅年） | 戌起1步（节气） | 戌起1步 |
-| **主大将**| 主算 $\to$ 宫 | 主算 $\to$ 宫 | 主算 $\to$ 宫 | 主算 $\to$ 宫 | 主算 $\to$ 宫 |
-| **主小将**| 主大 $\times 3$ | 主大 $\times 3$ | 无 | 主大 $\times 3$ | 主大 $\times 3$ |
-| **客大将**| 客算 $\to$ 宫 | 客算 $\to$ 宫 | 客算 $\to$ 宫 | 客算 $\to$ 宫 | 客算 $\to$ 宫 |
-| **客小将**| 客大 $\times 3$ | 客大 $\times 3$ | 无 | 客大 $\times 3$ | 客大 $\times 3$ |
-| **地乙** | 巳起3步 | 巳起3步 | 巳起3步（仅年）| 巳起3步（节气）| 巳起3步 |
-| **飞符** | 辰起3步 | 辰起3步 | 辰起3步（仅年）| 辰起3步（节气）| 辰起3步 |
-| **四神** | 大周180/小周36 | 大周240/小周24 | 无 | 大周180（节气） | 大周180/小周36 |
-
-> **时计特殊规则**：
-> - 五派在**时计**下均**不排三基、地乙、飞符、四神**。
-> - 淘金歌时计下无八将。
-> - 统宗与集成派在时计下，主大将按阴阳遁从武德（阳）/吕申（阴）起算。
+| **年计** | 全神煞、全三算、全八将 | 全神煞、君基24步、全八将 | 仅三算、三基、大小将，其余不排 | 全神煞、节气校正、定大将顺移 | 默认统宗积年，全神煞与三算 |
+| **月计** | 同年计，使用月入局数 | 同年计，天目起阴德独立起局 | 仅排太乙、主客大将，余不排 | 同年计，使用18余数判定阴阳遁 | 同年计，使用月入局数 |
+| **日计** | 同年计，使用日入局数 | 同年计，冬夏至甲子日起局 | 仅排太乙、主客大将，余不排 | 同年计，精确节气校正 | 同年计，使用日局数 |
+| **时计** | 仅主客定大小将，无三基神煞 | 同左，阴阳遁起将（武德/吕申） | 无神煞，仅推太乙 | 同左，文昌起算 | 同统宗，时计分阴阳遁起将 |
 
 ---
 
-## 八、 主客定局神将配合规则（全局判定）
-
-在排盘完成后，根据神将落宫进行三局（主局、客局、定局）的成局判定：
-
-- **主局配置**：
-  $$\text{主局} = \{\text{太乙}, \text{文昌(主目)}, \text{主大将}, \text{主小将}, \text{君基}, \text{臣基}\}$$
-- **客局配置**：
-  $$\text{客局} = \{\text{太乙}, \text{始击(客目)}, \text{客大将}, \text{客小将}, \text{民基}, \text{飞符}\}$$
-- **定局配置**：
-  $$\text{定局} = \{\text{太乙}, \text{定目}, \text{定大将}, \text{定小将}, \text{地乙}, \text{四神}\}$$
-
----
-
-## 九、 核心算法的 Dart 实现伪代码
+## 11. 核心计算引擎的 Dart 完整实现代码
 
 ```dart
-// 八宫顺行队列（跳过中五宫）
-final List<int> taiYiPalaceOrder = [1, 2, 3, 4, 6, 7, 8, 9];
+// ==========================================
+// 太乙神数五合一计算核心引擎 (Dart 语言版)
+// ==========================================
 
-// 十六神对应八宫正位映射表
-final Map<String, int> sixteenGodToPalace = {
-  '子': 8, '丑': 8, '地主': 8,
-  '艮': 3, '寅': 3, '和德': 3, '吕申': 3,
-  '卯': 4, '辰': 4,
-  '巽': 9, '戌': 9,
-  '巳': 2, '午': 2,
-  '未': 7, '坤': 7,
-  '申': 6, '酉': 6, '武德': 6,
-  '乾': 1, '亥': 1
-};
+import 'dart:math';
 
-// 满十去十，10归9格式化
-int formatCountResult(int sum) {
-  if (sum == 0) return 0; // 无算
-  int res = ((sum - 1) % 10) + 1;
-  return res == 10 ? 9 : res;
+/// 流派枚举
+enum TaiYiSchool {
+  jingMirror,   // 金镜派
+  tongZong,     // 统宗派
+  taoJinGe,     // 淘金歌派
+  fuYing,       // 福应经派
+  jiCheng       // 近代集成派
 }
 
-// 顺行累加宫本数（带跳过中五宫及无算延伸边界处理）
-Map<String, dynamic> walkAndSum(int startPalace, int endPalace, int taiYiPalace) {
-  if (startPalace == taiYiPalace) {
-    return {'sum': 0, 'isNoCount': true, 'isExtendedBoundary': false};
-  }
-  
-  int startIdx = taiYiPalaceOrder.indexOf(startPalace);
-  int endIdx = taiYiPalaceOrder.indexOf(endPalace);
-  
-  if (startIdx == -1 || endIdx == -1) {
-    throw ArgumentError('无效的宫位数值');
-  }
-  
-  // 起点顺行一步即抵达太乙落宫
-  int nextIdx = (startIdx + 1) % 8;
-  if (taiYiPalaceOrder[nextIdx] == taiYiPalace) {
-    return {'sum': 0, 'isNoCount': true, 'isExtendedBoundary': false};
-  }
-  
-  // 无算延伸规则：起点 == 终点，路径为空
-  if (startPalace == endPalace) {
-    return {'sum': 0, 'isNoCount': true, 'isExtendedBoundary': true};
-  }
-  
-  int sum = 0;
-  int currentIdx = startIdx;
-  while (currentIdx != endIdx) {
-    sum += taiYiPalaceOrder[currentIdx];
-    currentIdx = (currentIdx + 1) % 8;
-  }
-  
-  return {'sum': sum, 'isNoCount': false, 'isExtendedBoundary': false};
+/// 计别枚举
+enum TaiYiChartType {
+  year,
+  month,
+  day,
+  hour
 }
 
-// 计算大将与小将
-Map<String, int?> calculateGenerals(int countResult, bool isExtendedBoundary) {
-  if (isExtendedBoundary || countResult == 0) {
-    return {
-      'dajiang': 5, // 中五宫（无位）
-      'xiaojiang': 5
-    };
-  }
-  
-  int dajiang = countResult;
-  int xiaojiang = (dajiang * 3) % 10;
-  if (xiaojiang == 0) xiaojiang = 9; // 10归9
-  
-  return {
-    'dajiang': dajiang,
-    'xiaojiang': xiaojiang
+/// 阴阳遁
+enum DunType {
+  yang, // 阳遁
+  yin   // 阴遁
+}
+
+/// 太乙九宫定义
+class TaiYiPalace {
+  static const List<int> order = [1, 2, 3, 4, 6, 7, 8, 9];
+  static const Map<int, int> baseNumbers = {
+    1: 1, 2: 2, 3: 3, 4: 4, 6: 6, 7: 7, 8: 8, 9: 9
   };
 }
 
-// 十六神顺行索引递增计算
-String getSixteenGodBySteps(String startGod, int steps) {
-  final List<String> gods = [
+/// 十六神定义
+class SixteenGods {
+  static const List<String> list = [
     '子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '地主', '和德', '武德', '吕申'
   ];
-  int startIdx = gods.indexOf(startGod);
-  int targetIdx = (startIdx + steps) % 16;
-  return gods[targetIdx];
+
+  static int toPalace(String god) {
+    switch (god) {
+      case '子': case '地主': return 8; // 坎
+      case '丑': return 8; // 丑也归坎
+      case '艮': case '和德': return 3; // 艮
+      case '寅': case '吕申': return 3; // 寅也归艮
+      case '卯': return 4; // 震
+      case '辰': return 4; // 辰也归震
+      case '巽': case '大炅': return 9; // 巽
+      case '戌': case '阴主': return 9; // 戌也归巽
+      case '巳': return 2; // 离
+      case '午': case '大威': return 2; // 午也归离
+      case '未': case '天道': return 7; // 坤
+      case '坤': case '大武': return 7; // 坤也归坤
+      case '申': case '武德': return 6; // 兑
+      case '酉': case '太簇': return 6; // 酉也归兑
+      case '乾': case '阳德': return 1; // 乾
+      case '亥': case '大义': return 1; // 亥也归乾
+      default: return 5; // 默认中宫
+    }
+  }
+
+  static String getGodBySteps(String start, int steps) {
+    int idx = list.indexOf(start);
+    if (idx == -1) return start;
+    return list[(idx + steps) % 16];
+  }
+}
+
+/// 太乙计算结果模型
+class TaiYiCalculationResult {
+  final int accumulatedYear;
+  final int juNumber;
+  final int taiYiPalace;
+  final String tianMu;
+  final int tianMuPalace;
+  final String jiShen;
+  final int jiShenPalace;
+  final String shiJi;
+  final int shiJiPalace;
+  
+  final int hostCount;
+  final int guestCount;
+  final int dingCount;
+  
+  final int hostDaJiang;
+  final int hostXiaoJiang;
+  final int guestDaJiang;
+  final int guestXiaoJiang;
+  final int dingDaJiang;
+  final int dingXiaoJiang;
+  
+  final int? junJi;
+  final int? chenJi;
+  final int? minJi;
+  final int? diYi;
+  final int?飞符;
+  final int?四神;
+  final int?五福;
+  final int?大游;
+
+  TaiYiCalculationResult({
+    required this.accumulatedYear,
+    required this.juNumber,
+    required this.taiYiPalace,
+    required this.tianMu,
+    required this.tianMuPalace,
+    required this.jiShen,
+    required this.jiShenPalace,
+    required this.shiJi,
+    required this.shiJiPalace,
+    required this.hostCount,
+    required this.guestCount,
+    required this.dingCount,
+    required this.hostDaJiang,
+    required this.hostXiaoJiang,
+    required this.guestDaJiang,
+    required this.guestXiaoJiang,
+    required this.dingDaJiang,
+    required this.dingXiaoJiang,
+    this.junJi,
+    this.chenJi,
+    this.minJi,
+    this.diYi,
+    this.飞符,
+    this.四神,
+    this.五福,
+    this.大游
+  });
+}
+
+/// 核心计算器
+class TaiYiCalculator {
+  
+  // 满十去十核心实现
+  static int formatCount(int sum) {
+    if (sum == 0) return 0;
+    int res = ((sum - 1) % 10) + 1;
+    return res == 10 ? 9 : res; // 10归9
+  }
+
+  // 累加求和算法（带跳过中五宫和无算延伸判定）
+  static Map<String, dynamic> walkAndSum(int startPalace, int endPalace, int taiYiPalace) {
+    if (startPalace == taiYiPalace) {
+      return {'count': 0, 'isExtendedBoundary': false};
+    }
+    
+    int startIdx = TaiYiPalace.order.indexOf(startPalace);
+    int endIdx = TaiYiPalace.order.indexOf(endPalace);
+    
+    // 起点顺行一步即抵达太乙落宫
+    int nextIdx = (startIdx + 1) % 8;
+    if (TaiYiPalace.order[nextIdx] == taiYiPalace) {
+      return {'count': 0, 'isExtendedBoundary': false};
+    }
+    
+    // 无算延伸规则：起点 == 终点
+    if (startPalace == endPalace) {
+      return {'count': 0, 'isExtendedBoundary': true};
+    }
+    
+    int sum = 0;
+    int currentIdx = startIdx;
+    while (currentIdx != endIdx) {
+      sum += TaiYiPalace.order[currentIdx];
+      currentIdx = (currentIdx + 1) % 8;
+    }
+    
+    return {'count': formatCount(sum), 'isExtendedBoundary': false};
+  }
+
+  // 核心计算入口
+  static TaiYiCalculationResult calculate({
+    required TaiYiSchool school,
+    required TaiYiChartType chartType,
+    required int year,
+    int month = 1,
+    int day = 0,
+    int hour = 0,
+    DunType dun = DunType.yang
+  }) {
+    // 1. 积年计算
+    int j = 0;
+    switch (school) {
+      case TaiYiSchool.jingMirror:
+        j = 10153917 + (year - 751);
+        break;
+      case TaiYiSchool.tongZong:
+      case TaiYiSchool.jiCheng:
+        j = 10155219 + (year - 1303);
+        break;
+      case TaiYiSchool.fuYing:
+        j = 10153917 + (year - 742);
+        break;
+      case TaiYiSchool.taoJinGe:
+        j = year + 2697;
+        break;
+    }
+
+    // 2. 入局数计算
+    int ruJu = 0;
+    switch (chartType) {
+      case TaiYiChartType.year:
+        ruJu = j % 360;
+        break;
+      case TaiYiChartType.month:
+        ruJu = (j * 12 + month) % 360;
+        break;
+      case TaiYiChartType.day:
+        ruJu = ((j * 365.2425).floor() + day) % 360;
+        break;
+      case TaiYiChartType.hour:
+        int jd = (j * 365.2425).floor() + day;
+        ruJu = (jd * 12 + hour) % 360;
+        break;
+    }
+    if (ruJu == 0) ruJu = 360;
+
+    int ju = ruJu % 72;
+    if (ju == 0) ju = 72;
+
+    // 3. 太乙落宫
+    int tyIdx = ((ju - 1) ~/ 3) % 8;
+    int taiYiPalace = TaiYiPalace.order[tyIdx];
+
+    // 4. 天目、计神、始击
+    String tianMu = '武德';
+    String jiShen = '子';
+    if (school != TaiYiSchool.taoJinGe) {
+      // 天目计算 (重留一算逻辑简化实现)
+      int tmStep = ruJu % 18;
+      tianMu = SixteenGods.getGodBySteps('武德', tmStep);
+      
+      // 计神计算
+      int jsStep = ruJu % 12;
+      jiShen = dun == DunType.yang 
+          ? SixteenGods.getGodBySteps('寅', -jsStep)
+          : SixteenGods.getGodBySteps('申', -jsStep);
+    } else {
+      // 淘金歌专属
+      tianMu = SixteenGods.getGodBySteps('武德', ju % 12);
+      jiShen = SixteenGods.getGodBySteps('寅', -ju % 12);
+    }
+
+    int tianMuPalace = SixteenGods.toPalace(tianMu);
+    int jiShenPalace = SixteenGods.toPalace(jiShen);
+    
+    // 始击 (计神对冲)
+    String shiJi = SixteenGods.getGodBySteps(jiShen, 8);
+    int shiJiPalace = SixteenGods.toPalace(shiJi);
+
+    // 5. 三算计算
+    int prevTy = TaiYiPalace.order[(tyIdx - 1 + 8) % 8];
+    int nextTy = TaiYiPalace.order[(tyIdx + 1) % 8];
+    
+    int endPalace = prevTy;
+    if (school == TaiYiSchool.tongZong && chartType == TaiYiChartType.hour && dun == DunType.yin) {
+      endPalace = nextTy; // 统宗阴时计对冲终点
+    }
+
+    // 主算
+    var hostWalk = walkAndSum(tianMuPalace, endPalace, taiYiPalace);
+    int hostCount = hostWalk['count'];
+    bool hostEB = hostWalk['isExtendedBoundary'];
+
+    // 客算
+    var guestWalk = walkAndSum(shiJiPalace, endPalace, taiYiPalace);
+    int guestCount = guestWalk['count'];
+    bool guestEB = guestWalk['isExtendedBoundary'];
+
+    // 定算与定大将落宫
+    int dingCount = 0;
+    int dingDaJiang = 5;
+    int dingXiaoJiang = 5;
+    
+    if (school != TaiYiSchool.taoJinGe) {
+      int dingStart = (school == TaiYiSchool.fuYing) 
+          ? TaiYiPalace.order[(TaiYiPalace.order.indexOf(formatCount(hostCount)) + 1) % 8]
+          : prevTy; // 默认以太乙前一宫作为定算起点
+          
+      var dingWalk = walkAndSum(dingStart, endPalace, taiYiPalace);
+      dingCount = dingWalk['count'];
+      var dingGens = calculateGenerals(dingCount, dingWalk['isExtendedBoundary']);
+      dingDaJiang = dingGens['dajiang']!;
+      dingXiaoJiang = dingGens['xiaojiang']!;
+    }
+
+    // 大小将计算
+    var hostGens = calculateGenerals(hostCount, hostEB);
+    int hostDaJiang = hostGens['dajiang']!;
+    int hostXiaoJiang = hostGens['xiaojiang']!;
+
+    var guestGens = calculateGenerals(guestCount, guestEB);
+    int guestDaJiang = guestGens['dajiang']!;
+    int guestXiaoJiang = guestGens['xiaojiang']!;
+
+    // 6. 八将计算
+    int? junJi, chenJi, minJi, diYi, 飞符, 四神;
+    if (chartType != TaiYiChartType.hour && school != TaiYiSchool.taoJinGe) {
+      // 君基
+      int jkCycle = (school == TaiYiSchool.tongZong) ? 24 : 30;
+      int jkSteps = (ju - 1) % jkCycle;
+      junJi = SixteenGods.toPalace(SixteenGods.getGodBySteps('午', jkSteps));
+      
+      // 臣基
+      chenJi = SixteenGods.toPalace(SixteenGods.getGodBySteps('午', (ju - 1) % 3));
+      
+      // 民基
+      minJi = SixteenGods.toPalace(SixteenGods.getGodBySteps('戌', (ju - 1) % 16));
+      
+      // 地乙与飞符
+      int dySteps = ((ju - 1) ~/ 3) % 12;
+      diYi = SixteenGods.toPalace(SixteenGods.getGodBySteps('巳', dySteps));
+      飞符 = SixteenGods.toPalace(SixteenGods.getGodBySteps('辰', dySteps));
+      
+      // 四神
+      int ssMax = (school == TaiYiSchool.tongZong) ? 240 : 180;
+      int ssMin = (school == TaiYiSchool.tongZong) ? 24 : 36;
+      int ssR = j % ssMax;
+      int ssSteps = ((ssR % ssMin) ~/ 3);
+      四神 = TaiYiPalace.order[ssSteps % 8];
+    }
+
+    // 7. 五福与大游
+    int?五福, 大游;
+    if (school != TaiYiSchool.taoJinGe && chartType != TaiYiChartType.hour) {
+      五福 = TaiYiPalace.order[((j - 1) ~/ 45) % 8];
+      大游 = [7, 6, 4, 3, 2, 1, 9, 8][((j - 1) ~/ 36) % 8];
+    }
+
+    return TaiYiCalculationResult(
+      accumulatedYear: j,
+      juNumber: ju,
+      taiYiPalace: taiYiPalace,
+      tianMu: tianMu,
+      tianMuPalace: tianMuPalace,
+      jiShen: jiShen,
+      jiShenPalace: jiShenPalace,
+      shiJi: shiJi,
+      shiJiPalace: shiJiPalace,
+      hostCount: hostCount,
+      guestCount: guestCount,
+      dingCount: dingCount,
+      hostDaJiang: hostDaJiang,
+      hostXiaoJiang: hostXiaoJiang,
+      guestDaJiang: guestDaJiang,
+      guestXiaoJiang: guestXiaoJiang,
+      dingDaJiang: dingDaJiang,
+      dingXiaoJiang: dingXiaoJiang,
+      junJi: junJi,
+      chenJi: chenJi,
+      minJi: minJi,
+      diYi: diYi,
+      飞符: 飞符,
+      四神: 四神,
+      五福: 五福,
+      大游: 大游
+    );
+  }
 }
 ```
