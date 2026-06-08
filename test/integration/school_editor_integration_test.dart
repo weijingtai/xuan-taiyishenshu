@@ -21,6 +21,7 @@ import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
 
 import '../taiyi/test_harness.dart';
+import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +48,9 @@ void main() {
 
       // The editor blocks save via UI; the official repo itself refuses
       // direct writes.
-      expect(() async => await assembly.officialRepo.saveSchool(official.toContract()),
+      expect(
+          () async =>
+              await assembly.officialRepo.saveSchool(official),
           throwsA(isA<UnsupportedError>()));
     });
 
@@ -118,9 +121,9 @@ void main() {
           'wenChang': DeityOverride(active: false),
         },
         privateDeities: const ['user_my_god_1', 'user_my_god_2'],
-        overrides: const {'foo': 'bar', 'baz': 42},
       );
-      await assembly.userRepo.saveUserSchool(original.toContract());
+      await assembly.userRepo.saveUserSchool(original);
+      await controller.schoolViewModel.saveSchool(original);
       await controller.schoolViewModel.loadSchools();
 
       // Editor save: copyWith(name, epoch, palaceFormula, wenChang, jiShen,
@@ -225,7 +228,7 @@ void main() {
       final shifted = copy.copyWith(
         epoch: copy.epoch.copyWith(epochYear: copy.epoch.epochYear + 100),
       );
-      await controller.schoolViewModel.saveSchool(shifted.toModel());
+      await controller.schoolViewModel.saveSchool(shifted);
 
       // 3) Recompute pan using the user copy.
       await controller.calculate(
@@ -265,15 +268,13 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(
-          find.byKey(const Key('official_readonly_banner')), findsOneWidget);
+      expect(find.byKey(const Key('official_readonly_banner')), findsOneWidget);
       expect(find.byKey(const Key('save_button')), findsNothing);
 
       // Copy via UI -> editable state.
       await tester.tap(find.byKey(const Key('copy_and_edit_button')));
       await tester.pumpAndSettle();
-      expect(
-          find.byKey(const Key('official_readonly_banner')), findsNothing);
+      expect(find.byKey(const Key('official_readonly_banner')), findsNothing);
       expect(find.byKey(const Key('save_button')), findsOneWidget);
     });
   });

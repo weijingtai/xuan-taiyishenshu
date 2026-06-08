@@ -3,7 +3,7 @@ import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
-import 'taiyi_contract_adapters.dart';
+import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
 
 /// Constructs the three concrete backends and builds an injectable
 /// [TaiYiDataAssembly]. This is the P2 host seam — backend construction

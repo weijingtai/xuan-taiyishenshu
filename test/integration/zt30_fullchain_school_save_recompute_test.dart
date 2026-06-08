@@ -26,6 +26,7 @@ import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import '../taiyi/test_harness.dart';
+import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -161,7 +162,7 @@ void main() {
           epochYear: fromDrift.epoch.epochYear + 100,
         ),
       );
-      await controller.schoolViewModel.saveSchool(shifted.toModel());
+      await controller.schoolViewModel.saveSchool(shifted);
 
       // 直接读 Drift 验证更新落到 SQLite
       final reloaded = await assembly.userRepo.loadSchool(copyId);

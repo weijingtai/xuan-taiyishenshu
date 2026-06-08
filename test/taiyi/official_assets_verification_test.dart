@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_engine.dart';
 import 'package:taiyishenshu/taiyi/core/calculation_context.dart';
 import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
+import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart' show SchoolEpochConfigContractProductMapper, DeityDefinitionContractProductMapper;
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/gong.dart';
