@@ -124,6 +124,29 @@ The product SHALL include Fu Ying Jing and Tao Jin Ge as first-class profiles wi
 - **WHEN** the user supplies authoritative Fu Ying Jing or Tao Jin Ge vectors
 - **THEN** this change or a follow-up change SHALL add numeric regression tests before claiming parity.
 
+### Requirement: Eight Generals Positioning And Chart Coordination Rules
+The product SHALL support calculating the Eight Generals (地乙, 君基, 臣基, 民基, 主大将, 主小将/参将, 飞符, 四神) under all four calculations (年/月/日/时) and resolve their chart coordination rules.
+
+#### Scenario: Eight Generals are calculated for Jing Mirror
+- **WHEN** the engine calculates Jing Mirror year, month, or day chart
+- **THEN** it SHALL calculate Jun Ji (午起30步), Chen Ji (午起3步), Min Ji (戌起1步), Di Yi (巳起3步), Fei Fu (辰起3步), and Si Shen (大周180/小周36/宫步3) based on the absolute year or division number.
+
+#### Scenario: Eight Generals are calculated for Tong Zong
+- **WHEN** the engine calculates Tong Zong year, month, or day chart
+- **THEN** it SHALL calculate Jun Ji (午起24步), Chen Ji (午起3步), Min Ji (戌起1步), Di Yi (巳起3步), Fei Fu (辰起3步), and Si Shen (大周240/小周24/宫步3).
+
+#### Scenario: Three-count results determine 大小将
+- **WHEN** three-count results are formatted
+- **THEN** the main general, guest general, and ding general (主大将, 客大将, 定大将) SHALL map to their corresponding palaces, and their corresponding deputy generals (主小将/参将, 客小将, 定小将) SHALL be computed as $(大将 \times 3) \bmod 10$ with 10 mapped to 9/Xun.
+
+#### Scenario: Hour chart excludes tri-bases and other auxiliary generals
+- **WHEN** any tradition calculates the hour chart
+- **THEN** the output SHALL exclude Jun Ji, Chen Ji, Min Ji, Di Yi, Fei Fu, and Si Shen, keeping only the core main and deputy generals.
+
+#### Scenario: Chart coordination rules are resolved
+- **WHEN** host, guest, and ding charts (主局, 客局, 定局) are assembled
+- **THEN** the configuration of each chart SHALL coordinate the corresponding eye, main general, deputy general, and auxiliary base/general.
+
 ### Requirement: Regression Evidence Is Required Before Completion
 The implementation SHALL provide validation evidence before being marked complete.
 

@@ -203,7 +203,7 @@ The `dingCountIsClassicalDingSuan` field prevents accidental conflation between 
 
 ## Jing Mirror And Tong Zong Implementable Rules
 
-Use `docs/classes/金镜_统宗_四计_三算_alg.md` as the immediate reference.
+Use `docs/classes/金镜_统宗_四计_三算_alg.md` and `docs/classes/5_in_one_classes_alg.md` as the immediate references.
 
 ### Shared Palace Rules
 
