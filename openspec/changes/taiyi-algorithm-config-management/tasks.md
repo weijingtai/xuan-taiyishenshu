@@ -109,8 +109,12 @@ All model, engine, and asset parsing tests pass.
 
 ## 6. Integrate With Existing Calculator
 
-- [ ] Run GitNexus impact analysis for `TaiYiPanCalculator`.
-- [ ] Wire `TaiYiPanCalculator` to obtain Layer 1 fields from `FoundationAlgorithmEngine`.
+- [ ] Run GitNexus impact analysis for `TaiYiPanCalculator` callers.
+- [ ] Implement the `FoundationAlgorithmConfigLoader` supporting async loading and parsed profile caching.
+- [ ] Change the signatures of `calculate`, `calculateWithConfig`, and `calculateWithCustomDeities` in `TaiYiPanCalculator` to return `Future<PanDataModel>`.
+- [ ] Wire `TaiYiPanCalculator` to obtain Layer 1 fields from `FoundationAlgorithmEngine` by asynchronously loading profiles.
+- [ ] Update all repository interfaces, view models, and UI pages to handle the asynchronous Future return type.
+- [ ] Convert all unit and integration tests calling `calculate` or `calculateWithConfig` to run asynchronously (using `Future<void>` and `await`).
 - [ ] Preserve existing downstream palace, count, deity, and metadata behavior.
 - [ ] Keep the old hardcoded foundation path only as a temporary adapter if needed for one incremental commit.
 - [ ] Run:
@@ -122,7 +126,7 @@ flutter test test/taiyi/algorithm_config/foundation_algorithm_vectors_test.dart 
 Expected result:
 
 ```text
-All focused tests pass.
+All focused tests pass asynchronously.
 ```
 
 ## 7. Validate Full Regression Scope

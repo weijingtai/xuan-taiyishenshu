@@ -53,8 +53,8 @@ Supported template names for Layer 1:
 - `linearYear`
 - `accumulatedYear`
 - `tianZhengMonth`
-- `tropicalDay`
-- `dayTimesChineseHour`
+- `tropicalDay` (supports optional `baseSchoolId` parameter to reference another school's accumulated year)
+- `dayTimesChineseHour` (supports optional `baseSchoolId` parameter to reference another school's accumulated year)
 - `juModuloThree`
 
 The model SHALL reject unknown template names with an explicit error that includes the profile id and field path.
@@ -72,6 +72,7 @@ assets/algorithms/foundation/
 
 Each profile SHALL include:
 
+#### 1. Jing Mirror Foundation Profile (`jing_mirror_foundation_v1.json`)
 ```json
 {
   "id": "jingMirror.foundation.v1",
@@ -88,6 +89,78 @@ Each profile SHALL include:
     "month": {"template": "tianZhengMonth"},
     "day": {"template": "tropicalDay", "dayOffset": 4235},
     "hour": {"template": "dayTimesChineseHour", "hourOffset": 121847027}
+  },
+  "ju": {"cycle": 72, "zeroAsCycle": true},
+  "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
+  "jiYuan": {"cycle": 60, "zeroAsCycle": true},
+  "yuan": {
+    "cycle": 72,
+    "names": ["甲子元", "丙子元", "戊子元", "庚子元", "壬子元"]
+  },
+  "ruGong": {
+    "template": "juModuloThree",
+    "labels": ["理天", "理地", "理人"]
+  }
+}
+```
+
+#### 2. Tongzong Foundation Profile (`tong_zong_foundation_v1.json`)
+```json
+{
+  "id": "tongZong.foundation.v1",
+  "school": "tongZong",
+  "version": 1,
+  "accumulatedYear": {
+    "template": "linearYear",
+    "ancientBase": 10155219,
+    "epochYear": 1303,
+    "correction": 1
+  },
+  "sequences": {
+    "year": {"template": "accumulatedYear"},
+    "month": {"template": "tianZhengMonth"},
+    "day": {
+      "template": "tropicalDay",
+      "dayOffset": 4420,
+      "baseSchoolId": "jingMirror"
+    },
+    "hour": {
+      "template": "dayTimesChineseHour",
+      "hourOffset": 2231,
+      "baseSchoolId": "jingMirror"
+    }
+  },
+  "ju": {"cycle": 72, "zeroAsCycle": true},
+  "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
+  "jiYuan": {"cycle": 60, "zeroAsCycle": true},
+  "yuan": {
+    "cycle": 72,
+    "names": ["甲子元", "丙子元", "戊子元", "庚子元", "壬子元"]
+  },
+  "ruGong": {
+    "template": "juModuloThree",
+    "labels": ["理天", "理地", "理人"]
+  }
+}
+```
+
+#### 3. Jicheng Foundation Profile (`ji_cheng_foundation_v1.json`)
+```json
+{
+  "id": "jiCheng.foundation.v1",
+  "school": "jiCheng",
+  "version": 1,
+  "accumulatedYear": {
+    "template": "linearYear",
+    "ancientBase": 0,
+    "epochYear": 1684,
+    "correction": 1
+  },
+  "sequences": {
+    "year": {"template": "accumulatedYear"},
+    "month": {"template": "tianZhengMonth"},
+    "day": {"template": "tropicalDay", "dayOffset": 0},
+    "hour": {"template": "dayTimesChineseHour", "hourOffset": 0}
   },
   "ju": {"cycle": 72, "zeroAsCycle": true},
   "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
@@ -128,9 +201,12 @@ The result SHALL include:
 2. Add model tests and implement `FoundationAlgorithmConfig`.
 3. Add engine tests and implement `FoundationAlgorithmEngine`.
 4. Add official JSON assets and asset-loading tests.
-5. Wire `TaiYiPanCalculator` to call the engine for foundation fields while keeping existing downstream logic.
-6. Run focused vector tests for Jing Mirror, TongZong, and JiCheng.
-7. Run analyzer and GitNexus detect-changes gates before any commit.
+5. Implement an asynchronous profile loader that reads assets asynchronously and parses them, caching the parsed config in an in-memory map.
+6. Convert `TaiYiPanCalculator`'s calculation methods (such as `calculate`, `calculateWithConfig`, `calculateWithCustomDeities`) to return `Future<PanDataModel>`.
+7. Wire `TaiYiPanCalculator` to asynchronously load the profile, get the engine result, and calculate foundation fields while keeping existing downstream logic.
+8. Update all repository interfaces, view models, pages, and tests that call `calculate` or `calculateWithConfig` to handle Futures using `await`.
+9. Run focused vector tests for Jing Mirror, TongZong, and JiCheng.
+10. Run analyzer and GitNexus detect-changes gates before any commit.
 
 ## Layer 2 Roadmap
 
@@ -249,3 +325,35 @@ This plan is application-ready only after:
   - Mitigation: keep profile ids versioned and require vector provenance for every official profile.
 - Risk: root-level governance ignores package-local OpenSpec.
   - Mitigation: if parent governance is required, copy this change under the root `openspec/changes/` directory and validate from the migration root before implementation.
+
+## GSTACK REVIEW REPORT
+
+### Step 0: Scope Challenge
+- **Decision**: Scope accepted as-is with specific refinements for cross-school sequence references (`baseSchoolId` parameter) and asynchronous conversion.
+- **Complexity Check**: Passed (touches 7 files, introduces modular configuration and engine classes).
+
+### Architecture & Design Review
+- **Issue**: Conversion of calculation path to asynchronous (`Future<PanDataModel>`) to support dynamic, non-blocking JSON asset loading.
+- **Decision**: Approved. Convert all `TaiYiPanCalculator` calculation methods to async.
+- **Issue**: Caching loaded profiles.
+- **Decision**: Approved. Cache parsed config profiles in memory after the first load to keep subsequent calculations instantaneous.
+
+### NOT in scope
+- **Layer 2 Algorithms**: Considered and explicitly deferred to later sublayer changes (2A/2B/2C/2D) to keep Layer 1 focused and low-risk.
+- **Repository Boundary Refactoring**: Explicitly deferred. The configuration engine operates inside existing repository boundaries.
+- **Runtime Code Execution**: Explicitly forbidden to avoid security risks (profiles are pure data parsed into templates).
+
+### What already exists
+- **Official JSON School Repository**: Reused. The existing asset system is leveraged to load the new foundation config files without reinventing the file storage mechanism.
+- **TaiYiPanCalculator Downstream Placement Logic**: Reused. The downstream logic is kept intact and only wired to the new engine outputs.
+
+### Failure modes
+- **Corrupted or Missing JSON profile**: Handled by throwing explicit parser errors during parsing. Unit tests verify that invalid profiles fail fast.
+- **Fast-changing dates/schools causing race conditions**: Handled by caching profiles in memory so I/O is performed only once.
+
+### Worktree parallelization strategy
+Sequential implementation, no parallelization opportunity since all Layer 1 tasks are tightly integrated in `lib/taiyi/core/` and `lib/taiyi/taiyi_pan_calculator.dart`.
+
+### Lake Score
+2/2 recommendations chose the complete option (fully asynchronous calculation path and robust in-memory caching).
+

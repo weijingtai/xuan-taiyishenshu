@@ -11,8 +11,9 @@ The immediate need is to protect recent Jing Mirror year-vector work while creat
 This change introduces a configuration-backed algorithm management plan with two layers:
 
 - Layer 1 SHALL be implemented first. It extracts foundation calculations into typed Dart configuration and a deterministic foundation engine.
-- Layer 2 SHALL be planned now, but not implemented in the Layer 1 change. It defines the downstream algorithms that consume Layer 1 outputs.
 - Official algorithm profiles SHALL be stored as JSON assets and interpreted by product-domain code, not by executable scripts or arbitrary expression strings.
+- The entire calculation path (including `TaiYiPanCalculator.calculate` and related repository/viewmodel layers) SHALL be converted to asynchronous (`Future<PanDataModel>`) to support dynamic, non-blocking JSON asset loading.
+- Loaded algorithm profiles SHALL be cached in memory to ensure subsequent calculations remain instantaneous.
 - Existing `TaiYiPanCalculator` behavior SHALL be preserved unless a failing authoritative vector proves a specific defect.
 
 ## Layer 1 Implementation Scope
