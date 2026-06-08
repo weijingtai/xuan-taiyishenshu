@@ -2,187 +2,153 @@
 
 ## Context
 
-The product has three separate concerns that must stay separated:
+The current implementation concentrates several different concerns in `TaiYiPanCalculator`:
 
-1. Storage and repository boundaries decide how schools, deities, and user preferences are loaded.
-2. Foundation algorithms derive accumulated sequence values and cycle identities from time, chart type, and school profile.
-3. Derived algorithms place Taiyi-related entities and calculate host/guest/ding values from foundation results.
+1. foundation sequence calculation,
+2. chart entry into palace or deity carriers,
+3. Tian Mu / Wen Chang, Shi Ji, Ji Shen, and Ding Da Jiang placement,
+4. host / guest / ding count calculation,
+5. downstream pan assembly.
 
-This design treats the foundation layer as the first configurable unit because every downstream algorithm depends on it. It also records a concrete Layer 2 roadmap so future work can proceed without mixing downstream placement logic into the foundation extraction.
+The implementation must become extensible enough to represent multiple Taiyi source traditions without adding more school-specific branches to the calculator.
+
+This design adopts option C: strategy registry + typed profiles + finite pluggable engines.
+
+## Source Documents
+
+Implementation workers must read:
+
+- `docs/classes/金镜_统宗_四计_三算_alg.md`
+- `docs/classes/4_classes_explain.md`
+- `docs/classes/4_classes_alg.md`
+- `docs/classes/ming_fa_vs_ming_gua.md`
+- `docs/classes/ming_fa_vs_ming_gua_2.md`
+
+Immediate production parity is based on `docs/classes/金镜_统宗_四计_三算_alg.md` for Jing Mirror and Tong Zong. The broader four-tradition documents govern profile naming and future extensibility.
 
 ## Design Principles
 
-- Configuration describes formulas; Dart code executes them through known typed templates.
-- Official profiles are immutable JSON assets.
-- User-editable school metadata can select an algorithm profile, but cannot provide executable code.
-- Foundation outputs are deterministic and serializable for vector tests.
-- Layer 2 consumes a `FoundationResult`; it does not recompute accumulated sequence logic.
+- Profiles describe source tradition, chart-type strategy ids, parameters, and verification status.
+- Dart code implements finite strategy ids. JSON cannot execute code and cannot contain arbitrary formulas evaluated at runtime.
+- `TaiYiPanCalculator` orchestrates engines; it does not own new algorithm law.
+- The first implementation keeps `TaiYiPanCalculator.calculate` synchronous.
+- Built-in profiles are available through a synchronous registry. A future async repository may load remote/user profiles without forcing this change to break public calculator callers.
+- Numeric outputs require vector evidence. Rule-only profiles must say so explicitly.
 
-## Layer 1 Architecture
+## Four First-Class Traditions
 
-```text
-DateTime + TaiYiChartType + school algorithm profile id
-  -> FoundationAlgorithmConfig
-  -> FoundationAlgorithmEngine
-  -> FoundationResult
-       accumulatedYear
-       sequenceIndex
-       juNumber
-       wuZiYuanJu
-       yuanShu
-       yuanName
-       ruJiJiShu
-       ruJiNianShu
-       ruGongLabel
-  -> existing TaiYiPanCalculator downstream logic
-```
+| Tradition | Profile id | Implementation status in this change | Verification |
+| --- | --- | --- | --- |
+| Jing Mirror | `jingMirror` | Implement foundation, entry, eyes, and three-count strategies | existing/current vectors plus new rule tests |
+| Fu Ying Jing | `fuYing` | Add first-class profile and rule-level strategy skeleton | `needsAuthoritativeVectors` |
+| Tong Zong | `tongZong` | Implement foundation, entry, eyes, and three-count strategies | existing/current vectors plus new rule tests |
+| Tao Jin Ge | `taoJinGe` | Add first-class profile and rule-level mnemonic strategies | `needsAuthoritativeVectors` |
 
-### FoundationAlgorithmConfig
+`jiCheng` remains supported as a compatibility/custom school through existing behavior or a later compatibility profile.
 
-`FoundationAlgorithmConfig` is a typed product-domain model loaded from JSON-like maps. The implementation SHALL include these model types:
-
-- `FoundationAlgorithmConfig`
-- `AccumulatedYearFormula`
-- `ChartSequenceFormula`
-- `CycleFormula`
-- `YuanFormula`
-- `RuGongFormula`
-
-Supported template names for Layer 1:
-
-- `linearYear`
-- `accumulatedYear`
-- `tianZhengMonth`
-- `tropicalDay` (supports optional `baseSchoolId` parameter to reference another school's accumulated year)
-- `dayTimesChineseHour` (supports optional `baseSchoolId` parameter to reference another school's accumulated year)
-- `juModuloThree`
-
-The model SHALL reject unknown template names with an explicit error that includes the profile id and field path.
-
-### JSON Asset Layout
-
-Official profiles SHALL live under:
+## Architecture
 
 ```text
-assets/algorithms/foundation/
-  jing_mirror_foundation_v1.json
-  tong_zong_foundation_v1.json
-  ji_cheng_foundation_v1.json
+DateTime + TaiYiChartType + schoolId
+  -> AlgorithmProfileRegistry
+  -> AlgorithmProfile
+  -> AlgorithmContext
+  -> FoundationEngine
+       FoundationResult
+  -> ChartEntryEngine
+       ChartEntryResult
+  -> EyeEngine
+       EyeResult
+  -> ThreeCountEngine
+       ThreeCountResult
+  -> TaiYiPanCalculator downstream pan assembly
 ```
 
-Each profile SHALL include:
+### Core Files
 
-#### 1. Jing Mirror Foundation Profile (`jing_mirror_foundation_v1.json`)
+```text
+lib/taiyi/core/algorithm_platform/
+  taiyi_algorithm_tradition.dart
+  algorithm_profile.dart
+  algorithm_registry.dart
+  algorithm_context.dart
+  foundation_engine.dart
+  chart_entry_engine.dart
+  eye_engine.dart
+  three_count_engine.dart
+  solar_term_provider.dart
+```
+
+### Profile Assets
+
+```text
+assets/algorithms/traditions/
+  jing-mirror.json
+  fu-ying.json
+  tong-zong.json
+  tao-jin-ge.json
+```
+
+Assets are the governed profile source. The synchronous registry may also embed the same profile maps to avoid immediate async asset loading in pure domain tests.
+
+## Profile Model
+
+Each official profile SHALL include:
+
+- `id`
+- `schoolId`
+- `tradition`
+- `sourceText`
+- `version`
+- `verificationStatus`
+- `foundation`
+- `charts.year`
+- `charts.month`
+- `charts.day`
+- `charts.hour`
+- `eyes`
+- `threeCounts`
+- `deities`
+- `discussionGates`
+
+Example:
+
 ```json
 {
-  "id": "jingMirror.foundation.v1",
-  "school": "jingMirror",
+  "id": "tongZong.official.v1",
+  "schoolId": "tongZong",
+  "tradition": "tongZong",
+  "sourceText": "太乙统宗宝鉴",
   "version": 1,
-  "accumulatedYear": {
-    "template": "linearYear",
-    "ancientBase": 1937281,
-    "epochYear": 724,
-    "correction": 0
+  "verificationStatus": "authoritativeVectorsAvailable",
+  "foundation": {
+    "strategy": "tongZongFoundation",
+    "absoluteYearBase": 10155960,
+    "baseYear": 1644
   },
-  "sequences": {
-    "year": {"template": "accumulatedYear"},
-    "month": {"template": "tianZhengMonth"},
-    "day": {"template": "tropicalDay", "dayOffset": 4235},
-    "hour": {"template": "dayTimesChineseHour", "hourOffset": 121847027}
+  "charts": {
+    "year": { "entryStrategy": "tongZongYearEntry" },
+    "month": { "entryStrategy": "tongZongMonthEntry" },
+    "day": { "entryStrategy": "tongZongDayEntry" },
+    "hour": { "entryStrategy": "tongZongHourEntry" }
   },
-  "ju": {"cycle": 72, "zeroAsCycle": true},
-  "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
-  "jiYuan": {"cycle": 60, "zeroAsCycle": true},
-  "yuan": {
-    "cycle": 72,
-    "names": ["甲子元", "丙子元", "戊子元", "庚子元", "壬子元"]
-  },
-  "ruGong": {
-    "template": "juModuloThree",
-    "labels": ["理天", "理地", "理人"]
-  }
+  "eyes": { "strategy": "tongZongEyes" },
+  "threeCounts": { "strategy": "tongZongThreeCounts" },
+  "deities": { "strategy": "compatibilityDeities" },
+  "discussionGates": []
 }
 ```
 
-#### 2. Tongzong Foundation Profile (`tong_zong_foundation_v1.json`)
-```json
-{
-  "id": "tongZong.foundation.v1",
-  "school": "tongZong",
-  "version": 1,
-  "accumulatedYear": {
-    "template": "linearYear",
-    "ancientBase": 10155219,
-    "epochYear": 1303,
-    "correction": 1
-  },
-  "sequences": {
-    "year": {"template": "accumulatedYear"},
-    "month": {"template": "tianZhengMonth"},
-    "day": {
-      "template": "tropicalDay",
-      "dayOffset": 4420,
-      "baseSchoolId": "jingMirror"
-    },
-    "hour": {
-      "template": "dayTimesChineseHour",
-      "hourOffset": 2231,
-      "baseSchoolId": "jingMirror"
-    }
-  },
-  "ju": {"cycle": 72, "zeroAsCycle": true},
-  "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
-  "jiYuan": {"cycle": 60, "zeroAsCycle": true},
-  "yuan": {
-    "cycle": 72,
-    "names": ["甲子元", "丙子元", "戊子元", "庚子元", "壬子元"]
-  },
-  "ruGong": {
-    "template": "juModuloThree",
-    "labels": ["理天", "理地", "理人"]
-  }
-}
-```
+Fu Ying Jing and Tao Jin Ge profiles SHALL use `verificationStatus: "needsAuthoritativeVectors"` until numeric vectors are confirmed.
 
-#### 3. Jicheng Foundation Profile (`ji_cheng_foundation_v1.json`)
-```json
-{
-  "id": "jiCheng.foundation.v1",
-  "school": "jiCheng",
-  "version": 1,
-  "accumulatedYear": {
-    "template": "linearYear",
-    "ancientBase": 0,
-    "epochYear": 1684,
-    "correction": 1
-  },
-  "sequences": {
-    "year": {"template": "accumulatedYear"},
-    "month": {"template": "tianZhengMonth"},
-    "day": {"template": "tropicalDay", "dayOffset": 0},
-    "hour": {"template": "dayTimesChineseHour", "hourOffset": 0}
-  },
-  "ju": {"cycle": 72, "zeroAsCycle": true},
-  "wuZiYuanJu": {"cycle": 360, "zeroAsCycle": true},
-  "jiYuan": {"cycle": 60, "zeroAsCycle": true},
-  "yuan": {
-    "cycle": 72,
-    "names": ["甲子元", "丙子元", "戊子元", "庚子元", "壬子元"]
-  },
-  "ruGong": {
-    "template": "juModuloThree",
-    "labels": ["理天", "理地", "理人"]
-  }
-}
-```
+## Result Model
 
 ### FoundationResult
 
-`FoundationResult` SHALL be a plain immutable value object. It SHALL carry enough fields to let downstream code use foundation outputs without reading configuration directly.
-
-The result SHALL include:
+Required fields:
 
 - `profileId`
+- `tradition`
 - `chartType`
 - `dateTime`
 - `accumulatedYear`
@@ -194,166 +160,179 @@ The result SHALL include:
 - `ruJiJiShu`
 - `ruJiNianShu`
 - `ruGongLabel`
+- `verificationStatus`
 
-## Layer 1 Migration Strategy
+### ChartEntryResult
 
-1. Freeze foundation vectors before production code changes.
-2. Add model tests and implement `FoundationAlgorithmConfig`.
-3. Add engine tests and implement `FoundationAlgorithmEngine`.
-4. Add official JSON assets and asset-loading tests.
-5. Implement an asynchronous profile loader that reads assets asynchronously and parses them, caching the parsed config in an in-memory map.
-6. Convert `TaiYiPanCalculator`'s calculation methods (such as `calculate`, `calculateWithConfig`, `calculateWithCustomDeities`) to return `Future<PanDataModel>`.
-7. Wire `TaiYiPanCalculator` to asynchronously load the profile, get the engine result, and calculate foundation fields while keeping existing downstream logic.
-8. Update all repository interfaces, view models, pages, and tests that call `calculate` or `calculateWithConfig` to handle Futures using `await`.
-9. Run focused vector tests for Jing Mirror, TongZong, and JiCheng.
-10. Run analyzer and GitNexus detect-changes gates before any commit.
+Required fields:
 
-## Layer 2 Roadmap
-
-Layer 2 SHALL be planned as four sublayers. These sublayers can become separate OpenSpec changes after Layer 1 is stable.
-
-### Layer 2A: Core Palace Derivation
-
-Inputs:
-
-- `FoundationResult`
-- chart type
-- school profile id
-- existing Taiyi palace order definitions
-
-Outputs:
-
+- `carrier`: `ninePalace`, `sixteenGod`, `mnemonicWheel`, or `mixed`
 - `taiYiPalace`
-- `wenChangPalace`
-- `jiShenPalace`
+- `entryPositionName`
+- `entryNumber`
+- `methodNote`
+
+### EyeResult
+
+Required fields:
+
+- `tianMuName`
+- `tianMuPalace`
+- `shiJiName`
 - `shiJiPalace`
+- `jiShenName`
+- `jiShenPalace`
+- `dingDaJiangName`
+- `dingDaJiangPalace`
+- `methodNote`
 
-Validation vectors:
+### ThreeCountResult
 
-- Jing Mirror year vectors for 1949, 2026, and 2027.
-- TongZong year/month/day/hour authoritative regression vectors.
-- JiCheng year/month/day/hour baseline vectors marked by source provenance.
-
-### Layer 2B: Host Guest Ding Counts
-
-Inputs:
-
-- `FoundationResult`
-- Layer 2A palace outputs
-- host/guest count route profile
-
-Outputs:
+Required fields:
 
 - `hostCount`
 - `guestCount`
 - `dingCount`
+- `hostClassicalName`
+- `guestClassicalName`
+- `dingClassicalName`
+- `dingCountIsClassicalDingSuan`
+- `detail`
 
-Relationship to accumulated sequence:
+The `dingCountIsClassicalDingSuan` field prevents accidental conflation between product `dingCount` and classical `定算`.
 
-- Counts SHALL NOT read raw accumulated sequence unless the configured school formula explicitly declares it.
-- The default route SHALL derive counts from Layer 2A positions, which themselves are derived from Layer 1 foundation outputs.
+## Jing Mirror And Tong Zong Implementable Rules
 
-### Layer 2C: Generals And Deputy Generals
+Use `docs/classes/金镜_统宗_四计_三算_alg.md` as the immediate reference.
 
-Inputs:
+### Shared Palace Rules
 
-- Layer 2B count outputs
-- general-selection profile
-- palace order profile
+- Taiyi traversal order is `[乾, 离, 艮, 震, 兑, 坤, 坎, 巽]` (index 0 to 7).
+- Middle palace (中五宫) is never part of traversal. All mod 8 operations and palace indexing/traversal SHALL explicitly skip the middle palace and only cycle within the 8 valid palaces.
+- Palace base numbers are `乾=1, 离=2, 艮=3, 震=4, 兑=6, 坤=7, 坎=8, 巽=9`.
+- Count result is `((sum - 1) % 10) + 1`.
+- If sum is zero, result is zero and means no-count (无算).
+- No-count (无算) applies when start and Taiyi are in the same palace, or one step from start reaches Taiyi with no traversed palace.
+- **Extended No-count Boundary Rule**: When the traversal path does not pass through any valid palace (i.e. start = end), in addition to setting the accumulated sum `S = 0` (no-count), the generals and deputy generals (大将, 参将) SHALL all be mapped to the middle palace (中五宫/无位), and the counting token (算筹) SHALL be recorded as `0`.
 
-Outputs:
+### Jing Mirror
 
-- `hostGeneral`
-- `hostDeputyGeneral`
-- `guestGeneral`
-- `guestDeputyGeneral`
+- Foundation uses `absoluteYear = 10153917 + (year - 751)` for the reference algorithm path.
+- Year/month/day use the same three-count logic.
+- Hour has independent entry data but still uses permanent forward walking, Wen Chang as the start for host count, and Taiyi previous palace as endpoint (converting sixteen-god positions to eight-palace positions based on the orthodox sixteen-god to eight-palace mapping table).
+- Yin/yang dun does not alter Jing Mirror hour-count direction.
 
-Relationship to accumulated sequence:
+### Tong Zong
 
-- Generals have an indirect relationship to accumulated sequence through Layer 1 and Layer 2B.
-- A direct accumulated-sequence shortcut SHALL be forbidden unless represented as a named school-specific formula template and covered by vectors.
+- Foundation uses `absoluteYear = 10155960 + (year - 1644)` for the reference algorithm path.
+- Year/month/day three-count logic matches Jing Mirror after entry positions are derived.
+- Month supports accumulated-month mode and independent branch-start mode as separate strategy ids.
+- Day supports solstice Jia Zi start mode as a separate strategy id.
+- Hour is the core difference:
+  - yang dun starts host count from Wu De;
+  - yin dun starts host count from Lu Shen;
+  - yang endpoint is Taiyi previous palace;
+  - yin endpoint is Taiyi next palace;
+  - walking remains forward.
 
-### Layer 2D: Derived Pan Placements
+## Solar Term Provider
 
-Inputs:
+The platform SHALL introduce `SolarTermProvider`:
 
-- Layer 2A palace outputs
-- Layer 2B counts
-- Layer 2C generals
-- deity and school configuration from existing product repositories
+```text
+SolarTermProvider.resolveDunType(DateTime dateTime)
+```
 
-Outputs:
+The first implementable provider may use a checked-in table for supported years. It must expose whether the result is precise or fallback. Final parity for Tong Zong hour/day behavior requires precise winter/summer solstice boundary data rather than fixed June/December dates.
 
-- tian pan placements
-- ren pan placements
-- shen pan placements
-- derived interpretive metadata already exposed by the product
+## Fu Ying Jing Boundary
 
-Acceptance requirement:
+Known from current docs:
 
-- Pan outputs SHALL match existing full metadata regression vectors before any Layer 2 sublayer can be marked complete.
+- It inherits the Jing Mirror foundation family with Song-calendar correction.
+- Month calculation (月计) determines yin/yang dun by taking `totalAccumulatedMonths % 18`: if the remainder is `1 to 9` (or `≤ 9`), it is Yang Dun; if it is `10 to 18` (or `0` / `> 9`), it is Yin Dun.
+- It uses strict yin/yang dun.
+- Yang starts from Wu De.
+- Yin starts from Lu Shen.
+- Tian Mu, Shi Ji, and host/guest behavior depend on yin/yang policy.
 
-## Configuration Governance
+Implementation in this change:
 
-Each official profile SHALL include:
+- Add `fuYing` profile.
+- Add strategy ids:
+  - `fuYingFoundation`
+  - `fuYingYearEntry`
+  - `fuYingMonthEntry`
+  - `fuYingDayEntry`
+  - `fuYingHourEntry`
+  - `fuYingEyes`
+  - `fuYingThreeCounts`
+- Add rule-level tests for profile parsing, yin/yang start selection, endpoint policy, and no executable JSON.
+- Do not assert numeric pan outputs until the user confirms vectors.
 
-- stable id
-- school key
-- version number
-- source note or vector provenance reference
-- supported chart types
-- supported templates
+Discussion gate:
 
-Profile version updates SHALL be treated as algorithm changes and require vector evidence. A profile id SHALL NOT be silently reused for incompatible behavior.
+- Ask the user for source text or numeric examples before claiming Fu Ying Jing year/month/day/hour parity.
 
-## gStack Application Notes
+## Tao Jin Ge Boundary
 
-This plan is application-ready only after:
+Known from current docs:
 
-- OpenSpec validation passes for `taiyi-algorithm-config-management`.
-- gStack readiness scan finds no empty planning text.
-- Current regression work is isolated from this documentation-only change.
-- The implementation worker starts from Layer 1 tests and does not implement Layer 2 behavior.
+- It uses a near-era Jia Zi anchor rather than huge ancient accumulated years.
+- Year/month/day/hour are mnemonic wheel style rules.
+- It is simplified and human-affair oriented.
 
-## Risks
+Implementation in this change:
+
+- Add `taoJinGe` profile.
+- Add strategy ids:
+  - `taoJinGeFoundation`
+  - `taoJinGeYearWheel`
+  - `taoJinGeMonthWheel`
+  - `taoJinGeDayWheel`
+  - `taoJinGeHourWheel`
+  - `taoJinGeEyes`
+  - `taoJinGeThreeCounts`
+- Add rule-level tests for near-era Jia Zi anchor, wheel rotation shape, profile parsing, and no executable JSON.
+- Do not assert numeric pan outputs until the user confirms the exact anchor and examples.
+
+Discussion gate:
+
+- Ask the user whether the near-era Jia Zi anchor is `423` or another source-specific value before claiming Tao Jin Ge parity.
+
+## Migration Strategy
+
+1. Freeze and label existing calculator behavior before code changes.
+2. Add profile model and four official profile assets.
+3. Add synchronous registry for built-in profiles.
+4. Add foundation engine.
+5. Add chart entry engine.
+6. Add eye engine.
+7. Add three-count engine.
+8. Integrate the platform behind `TaiYiPanCalculator` for Jing Mirror and Tong Zong while preserving current public API.
+9. Add Fu Ying Jing and Tao Jin Ge rule-only integration paths with clear warnings or verification metadata.
+10. Run focused vectors, metadata regressions, analyzer, and GitNexus detect-changes.
+
+## Risks And Mitigations
 
 - Risk: JSON becomes a hidden programming language.
-  - Mitigation: use finite typed templates only.
-- Risk: Layer 2 behavior changes accidentally while Layer 1 is migrated.
-  - Mitigation: freeze full metadata regression tests before wiring the calculator.
-- Risk: school profiles disagree on formula names.
-  - Mitigation: keep profile ids versioned and require vector provenance for every official profile.
-- Risk: root-level governance ignores package-local OpenSpec.
-  - Mitigation: if parent governance is required, copy this change under the root `openspec/changes/` directory and validate from the migration root before implementation.
+  - Mitigation: finite strategy ids only.
+- Risk: `dingCount` is confused with classical `定算`.
+  - Mitigation: result metadata names the classical mapping and whether equality is proven.
+- Risk: Fu Ying Jing or Tao Jin Ge outputs are invented.
+  - Mitigation: `needsAuthoritativeVectors` plus discussion gates.
+- Risk: immediate async conversion creates unrelated churn.
+  - Mitigation: built-in synchronous registry first; async profile repositories later.
+- Risk: fixed solstice dates remain hidden in implementation.
+  - Mitigation: route dun resolution through `SolarTermProvider`.
 
-## GSTACK REVIEW REPORT
+## Review Update
 
-### Step 0: Scope Challenge
-- **Decision**: Scope accepted as-is with specific refinements for cross-school sequence references (`baseSchoolId` parameter) and asynchronous conversion.
-- **Complexity Check**: Passed (touches 7 files, introduces modular configuration and engine classes).
+The earlier gStack review accepted a foundation-only scope and approved converting all calculator methods to `Future<PanDataModel>`. That review is superseded by this design because the user selected option C and requested four-tradition extensibility.
 
-### Architecture & Design Review
-- **Issue**: Conversion of calculation path to asynchronous (`Future<PanDataModel>`) to support dynamic, non-blocking JSON asset loading.
-- **Decision**: Approved. Convert all `TaiYiPanCalculator` calculation methods to async.
-- **Issue**: Caching loaded profiles.
-- **Decision**: Approved. Cache parsed config profiles in memory after the first load to keep subsequent calculations instantaneous.
+Updated recommendation:
 
-### NOT in scope
-- **Layer 2 Algorithms**: Considered and explicitly deferred to later sublayer changes (2A/2B/2C/2D) to keep Layer 1 focused and low-risk.
-- **Repository Boundary Refactoring**: Explicitly deferred. The configuration engine operates inside existing repository boundaries.
-- **Runtime Code Execution**: Explicitly forbidden to avoid security risks (profiles are pure data parsed into templates).
-
-### What already exists
-- **Official JSON School Repository**: Reused. The existing asset system is leveraged to load the new foundation config files without reinventing the file storage mechanism.
-- **TaiYiPanCalculator Downstream Placement Logic**: Reused. The downstream logic is kept intact and only wired to the new engine outputs.
-
-### Failure modes
-- **Corrupted or Missing JSON profile**: Handled by throwing explicit parser errors during parsing. Unit tests verify that invalid profiles fail fast.
-- **Fast-changing dates/schools causing race conditions**: Handled by caching profiles in memory so I/O is performed only once.
-
-### Worktree parallelization strategy
-Sequential implementation, no parallelization opportunity since all Layer 1 tasks are tightly integrated in `lib/taiyi/core/` and `lib/taiyi/taiyi_pan_calculator.dart`.
-
-### Lake Score
-2/2 recommendations chose the complete option (fully asynchronous calculation path and robust in-memory caching).
-
+- Implement a synchronous built-in registry first.
+- Implement the full Jing Mirror and Tong Zong four-count path in this change.
+- Include Fu Ying Jing and Tao Jin Ge as first-class but vector-gated profiles.
+- Split remote/profile repository async loading into a later change if still needed.

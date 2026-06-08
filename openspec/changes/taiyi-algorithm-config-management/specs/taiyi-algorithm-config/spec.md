@@ -1,64 +1,132 @@
 ## ADDED Requirements
 
-### Requirement: Foundation Algorithms Are Configuration Backed
-The TaiYiShenShu product SHALL support official foundation algorithm profiles represented as JSON assets and interpreted by typed Dart domain logic.
+### Requirement: Four Traditions Are First-Class Algorithm Profiles
+The TaiYiShenShu product SHALL represent Jing Mirror, Fu Ying Jing, Tong Zong, and Tao Jin Ge as first-class algorithm traditions.
 
-#### Scenario: Official profile is loaded
-- **WHEN** a foundation algorithm profile is loaded from `assets/algorithms/foundation/`
-- **THEN** the product SHALL parse it into `FoundationAlgorithmConfig` without requiring executable code or string-evaluated expressions.
+#### Scenario: Official profiles are parsed
+- **WHEN** official tradition profiles are loaded from `assets/algorithms/traditions/`
+- **THEN** each profile SHALL parse into a typed `AlgorithmProfile` without executable code or string-evaluated expressions.
 
-#### Scenario: Unknown formula template is rejected
-- **WHEN** a profile contains an unsupported template name
-- **THEN** parsing SHALL fail with an explicit error that includes the profile id and field path.
+#### Scenario: JiCheng remains compatibility-only
+- **WHEN** the registry describes source traditions
+- **THEN** `jiCheng` SHALL NOT be listed as one of the four source traditions and SHALL remain available only through compatibility or custom-school behavior.
 
-### Requirement: Foundation Engine Produces Layer 1 Outputs
-The foundation engine SHALL calculate accumulated sequence, ju number, wuzi yuan-ju, ji-yuan, yuan label, and ru-gong label for supported chart types.
+#### Scenario: Verification status is explicit
+- **WHEN** a profile lacks user-confirmed numeric vectors
+- **THEN** the profile SHALL expose `verificationStatus` as `needsAuthoritativeVectors`.
 
-#### Scenario: Jing Mirror year vector is reproduced
-- **WHEN** the engine calculates the Jing Mirror year profile for `2026-06-07 15:08`
-- **THEN** it SHALL produce accumulated year `1938583`, ju number `55`, wuzi yuan-ju `343`, and ru-gong label `理天`.
+### Requirement: Strategy Registry Provides Extensible Algorithm Dispatch
+The product SHALL dispatch algorithm work through a typed strategy registry rather than hard-coded school branches in `TaiYiPanCalculator`.
 
-#### Scenario: Year, month, day, and hour chart types use typed formulas
-- **WHEN** the engine calculates supported chart types
-- **THEN** each chart type SHALL use its configured typed formula and SHALL NOT duplicate hardcoded sequence math in downstream placement code.
+#### Scenario: Built-in registry is synchronous
+- **WHEN** `TaiYiPanCalculator.calculate` runs for built-in official profiles
+- **THEN** the registry SHALL provide the profile synchronously and SHALL NOT require changing the public return type to `Future<PanDataModel>` in this change.
 
-### Requirement: Layer 1 Preserves Existing Downstream Behavior
-Layer 1 implementation SHALL preserve existing downstream pan, palace, deity, host/guest, and metadata behavior unless an authoritative vector proves a defect.
+#### Scenario: Unknown strategy is rejected
+- **WHEN** a profile references an unsupported strategy id
+- **THEN** parsing or registry resolution SHALL fail with an explicit error containing the profile id, strategy id, and field path.
 
-#### Scenario: Calculator uses foundation result
-- **WHEN** `TaiYiPanCalculator` is wired to the foundation engine
-- **THEN** existing downstream behavior SHALL continue to pass focused Jing Mirror and metadata regression tests.
+### Requirement: Foundation Engine Produces Governed Foundation Outputs
+The foundation engine SHALL calculate accumulated year, sequence index, ju number, yuan/ji metadata, and ru-gong label where the selected tradition supports them.
 
-#### Scenario: Layer 2 behavior is not changed
-- **WHEN** the Layer 1 worker modifies production code
-- **THEN** it SHALL NOT introduce new palace, count, general, or pan placement formulas beyond consuming Layer 1 outputs.
+#### Scenario: Jing Mirror reference foundation is calculated
+- **WHEN** the engine calculates Jing Mirror for a supported vector
+- **THEN** it SHALL use the configured Jing Mirror foundation strategy and SHALL expose the selected profile id in the result.
 
-### Requirement: Layer 2 Is Planned As Downstream Algorithm Management
-Layer 2 SHALL be documented as downstream algorithm planning before implementation and SHALL consume `FoundationResult` as its primary input.
+#### Scenario: Tong Zong reference foundation is calculated
+- **WHEN** the engine calculates Tong Zong for a supported vector
+- **THEN** it SHALL use the configured Tong Zong foundation strategy and SHALL expose the selected profile id in the result.
 
-#### Scenario: Core palace derivation is planned
-- **WHEN** Layer 2A planning is prepared
-- **THEN** it SHALL define Taiyi palace, Wen Chang, Ji Shen, and Shi Ji inputs, outputs, formula profiles, and vector gates.
+#### Scenario: Tao Jin Ge near-era foundation is rule-tested
+- **WHEN** the engine calculates Tao Jin Ge without authoritative numeric vectors
+- **THEN** it SHALL use near-era Jia Zi profile parameters and SHALL mark the result as `needsAuthoritativeVectors`.
 
-#### Scenario: Host guest ding counts are planned
-- **WHEN** Layer 2B planning is prepared
-- **THEN** it SHALL define host count, guest count, ding count, their relationship to Layer 2A palace outputs, and their vector gates.
+### Requirement: Chart Entry Engine Separates Year Month Day Hour Rules
+The chart entry engine SHALL calculate chart-type-specific entry results independently of downstream pan assembly.
 
-#### Scenario: Generals are planned
-- **WHEN** Layer 2C planning is prepared
-- **THEN** it SHALL define host general, host deputy general, guest general, and guest deputy general selection profiles and vector gates.
+#### Scenario: Jing Mirror year month day share count logic
+- **WHEN** Jing Mirror year, month, or day chart entry is calculated
+- **THEN** the result SHALL be compatible with the shared Jing Mirror three-count logic for those chart types.
 
-#### Scenario: Derived pan placements are planned
-- **WHEN** Layer 2D planning is prepared
-- **THEN** it SHALL define tian pan, ren pan, shen pan, and derived metadata acceptance gates.
+#### Scenario: Jing Mirror hour uses independent hour entry
+- **WHEN** Jing Mirror hour chart entry is calculated
+- **THEN** the result SHALL keep permanent forward walking and Taiyi previous-palace endpoint policy.
 
-### Requirement: Algorithm Profile Versions Are Governed
-Official algorithm profile changes SHALL be versioned and validated by vector evidence.
+#### Scenario: Tong Zong hour uses yin-yang entry policy
+- **WHEN** Tong Zong hour chart entry is calculated
+- **THEN** the result SHALL expose enough information for the count engine to use Wu De for yang dun, Lu Shen for yin dun, Taiyi previous palace for yang endpoint, and Taiyi next palace for yin endpoint.
 
-#### Scenario: Profile behavior changes
-- **WHEN** an official profile changes behavior
-- **THEN** the change SHALL either increment the profile version or document why the correction is backwards-compatible and vector-proven.
+### Requirement: Eye Engine Produces Tian Mu Shi Ji Ji Shen And Ding Da Jiang
+The eye engine SHALL produce named and palatial eye outputs needed by the three-count engine.
 
-#### Scenario: Implementation is proposed for completion
-- **WHEN** the algorithm configuration implementation is proposed for review
-- **THEN** review evidence SHALL include OpenSpec validation, gStack readiness scan, focused vector tests, analyzer result, and GitNexus detect-changes output.
+#### Scenario: Jing Mirror eyes are calculated
+- **WHEN** Jing Mirror eyes are calculated for a supported chart type
+- **THEN** the engine SHALL return Tian Mu, Shi Ji, Ji Shen, and Ding Da Jiang data or an explicit unsupported field when a source vector does not include that element.
+
+#### Scenario: Fu Ying Jing yin-yang starts are rule-tested
+- **WHEN** Fu Ying Jing eyes are calculated for yang and yin dun
+- **THEN** yang SHALL start from Wu De and yin SHALL start from Lu Shen.
+
+### Requirement: Three Count Engine Implements Host Guest And Ding Count With Provenance
+The three-count engine SHALL calculate host count, guest count, and ding/fixed count with explicit classical mapping metadata.
+
+#### Scenario: Middle palace is excluded
+- **WHEN** count traversal walks palaces or mod 8 operations run
+- **THEN** the traversal/indexing SHALL use `[乾, 离, 艮, 震, 兑, 坤, 坎, 巽]` and SHALL explicitly skip the middle palace.
+
+#### Scenario: Full-ten rule is applied
+- **WHEN** a traversal sum is greater than zero
+- **THEN** the result SHALL be `((sum - 1) % 10) + 1`.
+
+#### Scenario: No-count boundary is applied
+- **WHEN** start and Taiyi are in the same palace or one step from start reaches Taiyi without traversed palace
+- **THEN** the count result SHALL be zero and the detail SHALL identify it as no-count.
+- **WHEN** the traversal path does not pass through any valid palace (start = end)
+- **THEN** the count result SHALL be zero, the generals and deputies SHALL map to the middle palace (中五宫), and the counting token SHALL be `0`.
+
+#### Scenario: Sixteen-god mapping is applied
+- **WHEN** calculations require converting sixteen-god positions to eight-palace positions
+- **THEN** the conversion SHALL map positions according to the orthodox sixteen-god to eight-palace mapping table.
+
+#### Scenario: Ding count provenance is explicit
+- **WHEN** a strategy emits `dingCount`
+- **THEN** it SHALL also emit whether the value is proven to correspond to classical `定算`.
+
+#### Scenario: Tong Zong hour endpoint changes by dun
+- **WHEN** Tong Zong hour count is calculated under yang dun
+- **THEN** the endpoint SHALL be Taiyi previous palace.
+- **WHEN** Tong Zong hour count is calculated under yin dun
+- **THEN** the endpoint SHALL be Taiyi next palace.
+
+### Requirement: Solar Term Provider Controls Dun Boundaries
+The product SHALL route yin/yang dun resolution through a `SolarTermProvider`.
+
+#### Scenario: Precise boundary is available
+- **WHEN** winter or summer solstice data is available for the requested year
+- **THEN** the provider SHALL use the precise boundary rather than fixed calendar dates.
+
+#### Scenario: Precise boundary is unavailable
+- **WHEN** precise solstice data is unavailable
+- **THEN** the provider SHALL return a result that identifies the fallback status so tests and metadata can detect it.
+
+### Requirement: Fu Ying Jing And Tao Jin Ge Are Vector-Gated
+The product SHALL include Fu Ying Jing and Tao Jin Ge as first-class profiles without inventing unverified numeric outputs.
+
+#### Scenario: Fu Ying Jing lacks numeric vectors
+- **WHEN** Fu Ying Jing is calculated without user-confirmed vectors
+- **THEN** tests SHALL assert profile and rule behavior only and SHALL NOT assert invented pan values.
+
+#### Scenario: Tao Jin Ge lacks numeric vectors
+- **WHEN** Tao Jin Ge is calculated without user-confirmed vectors
+- **THEN** tests SHALL assert near-era Jia Zi and mnemonic wheel behavior only and SHALL NOT assert invented pan values.
+
+#### Scenario: User vectors are later supplied
+- **WHEN** the user supplies authoritative Fu Ying Jing or Tao Jin Ge vectors
+- **THEN** this change or a follow-up change SHALL add numeric regression tests before claiming parity.
+
+### Requirement: Regression Evidence Is Required Before Completion
+The implementation SHALL provide validation evidence before being marked complete.
+
+#### Scenario: Implementation is proposed for review
+- **WHEN** the algorithm platform implementation is proposed for review
+- **THEN** evidence SHALL include OpenSpec validation, readiness scan, focused vector tests, analyzer result, and GitNexus detect-changes output.
