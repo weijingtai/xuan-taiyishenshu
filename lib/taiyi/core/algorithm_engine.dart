@@ -358,10 +358,10 @@ class DeityAlgorithmEngine {
           const PalaceStep(palace: '离'),
           const PalaceStep(palace: '艮'),
           const PalaceStep(palace: '震'),
-          const PalaceStep(palace: '巽'),
           const PalaceStep(palace: '兑'),
           const PalaceStep(palace: '坤'),
           const PalaceStep(palace: '坎'),
+          const PalaceStep(palace: '巽'),
         ],
       PalaceSystem.sixteenZhengJian => [
           const PalaceStep(palace: '子'),
@@ -386,10 +386,10 @@ class DeityAlgorithmEngine {
           const PalaceStep(palace: '离'),
           const PalaceStep(palace: '艮'),
           const PalaceStep(palace: '震'),
-          const PalaceStep(palace: '巽'),
           const PalaceStep(palace: '兑'),
           const PalaceStep(palace: '坤'),
           const PalaceStep(palace: '坎'),
+          const PalaceStep(palace: '巽'),
         ],
     };
   }

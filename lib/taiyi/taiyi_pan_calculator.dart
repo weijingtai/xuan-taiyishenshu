@@ -231,7 +231,7 @@ class TaiYiPanCalculator {
       taiYiPalace: taiYiPalace,
       rule: rule,
     );
-    final currentBranch = _getCurrentBranch(dateTime, chartType);
+    final currentBranch = _getCurrentBranch(dateTime, chartType, accumulatedSeqValue);
     final hostGuest = _calculateHostGuest(
       juNumber: juNumber,
       taiYiPalace: taiYiPalace,
@@ -645,19 +645,15 @@ class TaiYiPanCalculator {
     return Map.unmodifiable(result);
   }
 
-  String _getCurrentBranch(DateTime dateTime, TaiYiChartType chartType) {
+  String _getCurrentBranch(DateTime dateTime, TaiYiChartType chartType, int accumulatedSeqValue) {
     switch (chartType) {
       case TaiYiChartType.year:
-        return twelveBranches[_positiveModulo(dateTime.year - 4, 12)];
+        return twelveBranches[(accumulatedSeqValue - 1) % 12];
       case TaiYiChartType.month:
-        return twelveBranches[dateTime.month % 12];
+        return twelveBranches[(accumulatedSeqValue - 1) % 12];
       case TaiYiChartType.day:
-        final anchor = DateTime(2024, 1, 1);
-        final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
-        final diff = date.difference(anchor).inDays;
-        return twelveBranches[_positiveModulo(diff, 12)];
+        return twelveBranches[(accumulatedSeqValue - 1) % 12];
       case TaiYiChartType.hour:
-        return twelveBranches[((dateTime.hour + 1) ~/ 2) % 12];
       case TaiYiChartType.ke:
         return twelveBranches[((dateTime.hour + 1) ~/ 2) % 12];
     }
@@ -687,17 +683,17 @@ class TaiYiPanCalculator {
       taiYiPos,
       rule.school.name,
       clockwise: clockwise,
+      chartType: chartType,
     );
     final guestResult = _walkAndSumWithDetail(
       shiJiPos,
       taiYiPos,
       rule.school.name,
       clockwise: clockwise,
+      chartType: chartType,
     );
 
-    // 月计与日计通常不移定目，直接取文昌
-    final bool useShift =
-        (chartType != TaiYiChartType.month && chartType != TaiYiChartType.day);
+    final bool useShift = true;
 
     final dingMuName = _calculateDingMuPosition(
       currentBranch: currentBranch,
@@ -711,6 +707,7 @@ class TaiYiPanCalculator {
       taiYiPos,
       rule.school.name,
       clockwise: clockwise,
+      chartType: chartType,
     );
     final dingCount = dingResult.count;
     final dingPalace = dingMuPalace;
@@ -1059,9 +1056,12 @@ int _hostGuestPalaceNumber(EnumTaiYiGong palace) {
 }
 
 ({int count, String detail}) _walkAndSumWithDetail(
-
-    int startPos, int taiYiPos, String schoolLabel,
-    {bool clockwise = true}) {
+    int startPos,
+    int taiYiPos,
+    String schoolLabel, {
+    bool clockwise = true,
+    required TaiYiChartType chartType,
+  }) {
   final startDeity = _sixteenGodByPosition(startPos);
   final taiYiDeity = _sixteenGodByPosition(taiYiPos);
   final startPalace = _deityToPalace(startDeity);
@@ -1075,7 +1075,8 @@ int _hostGuestPalaceNumber(EnumTaiYiGong palace) {
 
   // 2. 同宫情况 (Same Palace Different Position)
   if (startPalace == taiYiPalace) {
-    return (count: 10, detail: '$schoolLabel: $startDeity同宫取满数(10)');
+    final count = (chartType == TaiYiChartType.year) ? 10 : 1;
+    return (count: count, detail: '$schoolLabel: $startDeity同宫取$count');
   }
 
   // 3. 正常巡行累加 (Normal Walk)
@@ -1117,7 +1118,9 @@ String _calculateDingMuPosition({
   final wenChangPos = _sixteenGodPosition(wenChangDeity);
   final shift = taiSuiPos - heShenPos;
   final dingMuPos = _positiveModulo(wenChangPos + shift - 1, 16) + 1;
-  return _sixteenGodByPosition(dingMuPos);
+  final result = _sixteenGodByPosition(dingMuPos);
+  print('DEBUG DINGMU: currentBranch=$currentBranch, wenChangDeity=$wenChangDeity, shift=$shift, dingMuPos=$dingMuPos, result=$result');
+  return result;
 }
 const _sixteenGodSequence = [
   '子',
@@ -1882,8 +1885,10 @@ int _compareComputedItem(PanComputedItem a, PanComputedItem b) {
 
 int _chineseHourIndex(DateTime dateTime) => ((dateTime.hour + 1) ~/ 2) % 12 + 1;
 
-int _dayOfYear(DateTime dateTime) =>
-    dateTime.difference(DateTime(dateTime.year)).inDays + 1;
+int _dayOfYear(DateTime dateTime) {
+  final yearStart = dateTime.isUtc ? DateTime.utc(dateTime.year) : DateTime(dateTime.year);
+  return dateTime.difference(yearStart).inDays + 1;
+}
 
 int _cyclicDistance(EnumTaiYiGong fromPalace, EnumTaiYiGong toPalace) {
   final from = taiYiPalaceOrder.indexOf(fromPalace);

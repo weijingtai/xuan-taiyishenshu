@@ -11,10 +11,10 @@ const List<EnumTaiYiGong> taiYiPalaceOrder = [
   EnumTaiYiGong.Li,     // 2 离
   EnumTaiYiGong.Gen,    // 3 艮
   EnumTaiYiGong.Zhen,   // 4 震
-  EnumTaiYiGong.Xun,    // 5 巽
   EnumTaiYiGong.Dui,    // 6 兑
   EnumTaiYiGong.Kun,    // 7 坤
   EnumTaiYiGong.Kan,    // 8 坎
+  EnumTaiYiGong.Xun,    // 9 巽
 ];
 
 /// 开休生伤杜景死惊八门顺序。

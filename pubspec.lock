@@ -414,6 +414,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  host_adapter_taiyishenshu:
+    dependency: "direct dev"
+    description:
+      path: "../host-adapter-taiyishenshu"
+      relative: true
+    source: path
+    version: "1.0.0"
   http:
     dependency: transitive
     description:
@@ -764,6 +771,13 @@ packages:
     dependency: transitive
     description:
       path: "../repository-interface-account"
+      relative: true
+    source: path
+    version: "0.0.0"
+  repository_interface_ai:
+    dependency: transitive
+    description:
+      path: "../repository-interface-ai"
       relative: true
     source: path
     version: "0.0.0"
