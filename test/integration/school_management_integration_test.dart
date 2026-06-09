@@ -164,7 +164,7 @@ void main() {
       expect(reloaded.source, 'user');
     });
 
-    test('c) switchSchool: jingMirror -> tongZong, accumulatedYear 必须不同',
+    test('c) switchSchool: jingMirror -> jiCheng, accumulatedYear 必须不同',
         () async {
       final db = TaiYiDatabase.memory();
       addTearDown(db.close);
@@ -183,7 +183,7 @@ void main() {
       final jmJu = jingMirrorPan.juNumber;
       final jmHostPalace = jingMirrorPan.hostGuest.hostPalace.name;
 
-      await controller.switchSchool('tongZong');
+      await controller.switchSchool('jiCheng');
       final tongZongPan = controller.panData!;
       final tzAccumulated = tongZongPan.accumulatedYear;
       final tzJu = tongZongPan.juNumber;
@@ -192,14 +192,13 @@ void main() {
       // 关键 numeric assertion: 不同流派 epoch 必然产生不同 accumulatedYear
       // jingMirror: ancientBase=1937281, epochYear=724
       //   -> 1937281 + (2024-724) = 1938581
-      // tongZong:   ancientBase=10155219, epochYear=1303
-      //   -> 10155219 + (2024-1303) = 10155940
+      // jiCheng: Y - 1683 = 2024 - 1683 = 341
       expect(jmAccumulated, isNot(equals(tzAccumulated)),
-          reason: 'jingMirror 与 tongZong 的 accumulatedYear 必须不同');
+          reason: 'jingMirror 与 jiCheng 的 accumulatedYear 必须不同');
       expect(jmAccumulated, 1938581);
-      expect(tzAccumulated, 10155940);
+      expect(tzAccumulated, 341);
 
-      // 至少有一个可观察的盘面差异 (juNumber 或主算落宫)
+      // 至少有一个可观察 of 盘面差异 (juNumber 或主算落宫)
       final differs = jmJu != tzJu || jmHostPalace != tzHostPalace;
       expect(differs, isTrue,
           reason:
@@ -240,7 +239,7 @@ void main() {
       addTearDown(controller.dispose);
 
       final userRepoSchools =
-          await controller.assembly.officialRepo.loadAllSchools();
+          await controller.assembly.userRepo.loadUserSchools();
       expect(userRepoSchools, isEmpty,
           reason: '初次打开时 Drift userSchools 必须为空，官方流派不可能写入用户表');
     });

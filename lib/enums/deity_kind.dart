@@ -46,7 +46,17 @@ enum EnumDeityKind {
   guiShenZhiShi('贵神值事'),
   feiLu('飞禄'),
   feiMa('飞马'),
-  heiFu('黑符');
+  heiFu('黑符'),
+  tianHuang('天皇'),
+  ziWei('紫微'),
+  sheTi('摄提'),
+  xuanYuan('轩辕'),
+  zhaoYao('招摇'),
+  tianFu('天符'),
+  xianChi('咸池'),
+  jiangGong('绛宫'),
+  mingTang('明堂'),
+  yuTang('玉堂');
 
   const EnumDeityKind(this.label);
   final String label;

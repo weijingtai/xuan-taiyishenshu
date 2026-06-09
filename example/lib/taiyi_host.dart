@@ -26,6 +26,8 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
       'qingLong', 'zhuQue', 'baiHu', 'xuanWu', 'fengBo', 'yuShi',
       'qingLongQi', 'heiQi', 'chiQi', 'guiShenZhiShi',
       'wenChang', 'jiShen', 'shiJi',
+      'tianHuang', 'ziWei', 'sheTi', 'xuanYuan', 'zhaoYao',
+      'tianFu', 'xianChi', 'jiangGong', 'mingTang', 'yuTang',
     ],
   );
 

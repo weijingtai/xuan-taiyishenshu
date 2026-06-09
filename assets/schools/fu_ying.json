@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "id": "fu_ying",
+    "name": "福应经派",
+    "version": 1,
+    "source": "景祐太乙福应经",
+    "owner": "official"
+  },
+  "palace": "taiyi9",
+  "rules": [
+    {
+      "id": "accumulation.year",
+      "kind": "scalar",
+      "output": "scalar",
+      "tree": {
+        "op": "+",
+        "a": {
+          "int": 10153917
+        },
+        "b": {
+          "op": "-",
+          "a": {
+            "var": "Y"
+          },
+          "b": {
+            "int": 742
+          }
+        }
+      }
+    },
+    {
+      "id": "ruJu.year",
+      "kind": "scalar",
+      "output": "scalar",
+      "tree": {
+        "op": "%",
+        "a": {
+          "var": "accumulation.year"
+        },
+        "b": {
+          "int": 360
+        }
+      },
+      "zeroAsCycle": 360
+    },
+    {
+      "id": "ju.year",
+      "kind": "scalar",
+      "output": "scalar",
+      "tree": {
+        "op": "%",
+        "a": {
+          "var": "ruJu.year"
+        },
+        "b": {
+          "int": 360
+        }
+      },
+      "zeroAsCycle": 72
+    },
+    {
+      "id": "foundation.taiYi",
+      "kind": "table",
+      "output": "palace",
+      "table": [1, 2, 3, 4, 6, 7, 8, 9],
+      "indexTree": {
+        "op": "+",
+        "a": {
+          "op": "%",
+          "a": {
+            "op": "~/",
+            "a": {
+              "op": "-",
+              "a": {
+                "var": "ju.year"
+              },
+              "b": {
+                "int": 1
+              }
+            },
+            "b": {
+              "int": 3
+            }
+          },
+          "b": {
+            "int": 8
+          }
+        },
+        "b": {
+          "int": 1
+        }
+      }
+    },
+    {
+      "id": "foundation.wenChang",
+      "kind": "walk",
+      "output": "deity",
+      "palaceSystem": "sixteenGods",
+      "start": "武德",
+      "direction": "forward",
+      "steps": {
+        "op": "%",
+        "a": {
+          "var": "ruJu.year"
+        },
+        "b": {
+          "int": 18
+        }
+      },
+      "restAt": {
+        "values": ["阴德", "大武", "乾", "坤"],
+        "source": "5_in_one_classes_alg.md §4.1"
+      }
+    },
+    {
+      "id": "foundation.jiShen",
+      "kind": "walk",
+      "output": "deity",
+      "palaceSystem": "twelveBranch",
+      "start": {
+        "yang": "寅",
+        "yin": "申"
+      },
+      "direction": "reverse",
+      "steps": {
+        "op": "%",
+        "a": {
+          "var": "ruJu.year"
+        },
+        "b": {
+          "int": 12
+        }
+      }
+    },
+    {
+      "id": "foundation.shiJi",
+      "kind": "relative",
+      "output": "deity",
+      "baseRef": "foundation.jiShen",
+      "mode": "opposition",
+      "palaceSystem": "twelveBranch"
+    },
+    {
+      "id": "calc.host",
+      "kind": "walkSum",
+      "output": "scalar",
+      "startRef": "foundation.wenChang",
+      "endpoint": {
+        "yang": "taiYiPrev",
+        "yin": "taiYiPrev"
+      },
+      "normalize": "满十去十",
+      "wuSuan": {
+        "samePalace": 0,
+        "oneStep": 0,
+        "sameEnd": 0
+      }
+    },
+    {
+      "id": "calc.guest",
+      "kind": "walkSum",
+      "output": "scalar",
+      "startRef": "foundation.shiJi",
+      "endpoint": {
+        "yang": "taiYiPrev",
+        "yin": "taiYiPrev"
+      },
+      "normalize": "满十去十",
+      "wuSuan": {
+        "samePalace": 0,
+        "oneStep": 0,
+        "sameEnd": 0
+      }
+    },
+    {
+      "id": "general.hostMajor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.host",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      }
+    },
+    {
+      "id": "foundation.dingStart",
+      "kind": "relative",
+      "output": "palace",
+      "baseRef": "general.hostMajor",
+      "mode": "offset",
+      "offset": 1,
+      "palaceSystem": "eight8"
+    },
+    {
+      "id": "calc.ding",
+      "kind": "walkSum",
+      "output": "scalar",
+      "startRef": "foundation.dingStart",
+      "endpoint": {
+        "yang": "taiYiPrev",
+        "yin": "taiYiPrev"
+      },
+      "normalize": "满十去十",
+      "wuSuan": {
+        "samePalace": 0,
+        "oneStep": 0,
+        "sameEnd": 0
+      }
+    },
+    {
+      "id": "general.hostMinor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.host",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      },
+      "minorTree": {
+        "op": "%",
+        "a": {
+          "op": "*",
+          "a": {
+            "var": "general.hostMajor"
+          },
+          "b": {
+            "int": 3
+          }
+        },
+        "b": {
+          "int": 10
+        }
+      }
+    },
+    {
+      "id": "general.guestMajor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.guest",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      }
+    },
+    {
+      "id": "general.guestMinor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.guest",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      },
+      "minorTree": {
+        "op": "%",
+        "a": {
+          "op": "*",
+          "a": {
+            "var": "general.guestMajor"
+          },
+          "b": {
+            "int": 3
+          }
+        },
+        "b": {
+          "int": 10
+        }
+      }
+    },
+    {
+      "id": "general.dingMajor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.ding",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      }
+    },
+    {
+      "id": "general.dingMinor",
+      "kind": "deriveCount",
+      "output": "palace",
+      "countRef": "calc.ding",
+      "daMap": {
+        "1": "乾",
+        "2": "离",
+        "3": "艮",
+        "4": "震",
+        "6": "兑",
+        "7": "坤",
+        "8": "坎",
+        "9": "巽",
+        "10": "巽"
+      },
+      "minorTree": {
+        "op": "%",
+        "a": {
+          "op": "*",
+          "a": {
+            "var": "general.dingMajor"
+          },
+          "b": {
+            "int": 3
+          }
+        },
+        "b": {
+          "int": 10
+        }
+      }
+    }
+  ],
+  "charts": {
+    "year": {
+      "enabled": true,
+      "ruJuRef": "ruJu.year",
+      "appliesTo": [
+        "year"
+      ]
+    }
+  },
+  "dun": {
+    "resolver": "metaphysicsCoreJieQi",
+    "termMode": "stabilizing",
+    "calibration": "winterReset"
+  },
+  "foundation": {
+    "taiYiRef": "foundation.taiYi",
+    "wenChangRef": "foundation.wenChang",
+    "jiShenRef": "foundation.jiShen",
+    "shiJiRef": "foundation.shiJi"
+  },
+  "threeCalc": {
+    "hostRef": "calc.host",
+    "guestRef": "calc.guest",
+    "dingRef": "calc.ding"
+  },
+  "generals": {
+    "hostMajorRef": "general.hostMajor",
+    "hostMinorRef": "general.hostMinor",
+    "guestMajorRef": "general.guestMajor",
+    "guestMinorRef": "general.guestMinor",
+    "dingMajorRef": "general.dingMajor",
+    "dingMinorRef": "general.dingMinor"
+  },
+  "deities": [],
+  "geJu": []
+}

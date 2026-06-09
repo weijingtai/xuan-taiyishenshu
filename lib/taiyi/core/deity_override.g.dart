@@ -22,5 +22,5 @@ Map<String, dynamic> _$DeityOverrideToJson(DeityOverride instance) =>
       'active': instance.active,
       'correction': instance.correction,
       'params': instance.params,
-      'algorithm': instance.algorithm,
+      'algorithm': instance.algorithm?.toJson(),
     };

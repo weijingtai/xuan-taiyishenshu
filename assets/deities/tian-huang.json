@@ -1,0 +1,85 @@
+{
+  "id": "tianHuang",
+  "name": "天皇",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 200,
+          "step": 20,
+          "label": "周"
+        },
+        {
+          "cycle": 20,
+          "step": 1,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "sixteenZhengJian",
+      "palaceSeq": [
+        {
+          "palace": "申"
+        },
+        {
+          "palace": "酉"
+        },
+        {
+          "palace": "戌"
+        },
+        {
+          "palace": "乾",
+          "staySteps": 2
+        },
+        {
+          "palace": "亥"
+        },
+        {
+          "palace": "子"
+        },
+        {
+          "palace": "丑"
+        },
+        {
+          "palace": "艮",
+          "staySteps": 2
+        },
+        {
+          "palace": "寅"
+        },
+        {
+          "palace": "卯"
+        },
+        {
+          "palace": "辰"
+        },
+        {
+          "palace": "巽",
+          "staySteps": 2
+        },
+        {
+          "palace": "巳"
+        },
+        {
+          "palace": "午"
+        },
+        {
+          "palace": "未"
+        },
+        {
+          "palace": "坤",
+          "staySteps": 2
+        }
+      ],
+      "direction": "forward",
+      "startPalace": "申"
+    }
+  },
+  "priority": 30,
+  "source": "official",
+  "tier": "auspicious",
+  "chartTypes": ["year", "month", "day"],
+  "schoolScopes": ["jingMirror", "tongZong", "jiCheng", "fuYing"]
+}

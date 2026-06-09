@@ -1,5 +1,8 @@
 # OpenSpec Change: taiyi-algorithm-config-management
 
+> [!IMPORTANT]
+> **SUPERSEDED**: This change has been superseded by [taiyi-rule-engine](../taiyi-rule-engine/README.md).
+
 This change defines an implementable, extensible algorithm platform for TaiYiShenShu traditions.
 
 ## Scope

@@ -1,5 +1,8 @@
 # Proposal: Taiyi Algorithm Configuration Management
 
+> [!IMPORTANT]
+> **SUPERSEDED**: This proposal has been superseded by [taiyi-rule-engine](../taiyi-rule-engine/proposal.md).
+
 ## Why
 
 TaiYiShenShu currently mixes accumulated sequence, chart entry, Tian Mu / Shi Ji / Ji Shen placement, and host / guest / ding count logic inside `TaiYiPanCalculator`. That makes it difficult to represent different source traditions correctly.

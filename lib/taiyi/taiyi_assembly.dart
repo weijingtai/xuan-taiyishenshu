@@ -49,7 +49,11 @@ class TaiYiDataAssembly {
     required this.deityRepo,
     required this.preferenceRepo,
   }) {
-    compositeRepo = _MultiSchoolAdapter([officialRepo]);
+    compositeRepo = _MultiSchoolAdapter([
+      officialRepo,
+      _UserSchoolRepositoryAdapter(userRepo),
+      _UserDeityRepositoryAdapter(deityRepo),
+    ]);
 
     loadSchoolsUseCase = LoadSchoolsUseCase(officialRepo, userRepo);
     copySchoolUseCase = CopySchoolUseCase(officialRepo, userRepo);
@@ -132,4 +136,62 @@ class _MultiSchoolAdapter implements product.SchoolRepository {
   Future<void> deleteDeity(String id) async {
     throw UnimplementedError('Use specific repository to delete');
   }
+}
+
+class _UserSchoolRepositoryAdapter implements product.SchoolRepository {
+  final product.UserSchoolRepository _userRepo;
+  _UserSchoolRepositoryAdapter(this._userRepo);
+
+  @override
+  Future<List<TaiYiSchool>> loadAllSchools() => _userRepo.loadUserSchools();
+
+  @override
+  Future<TaiYiSchool?> loadSchool(String id) => _userRepo.loadSchool(id);
+
+  @override
+  Future<List<DeityDefinition>> loadAllDeities() async => [];
+
+  @override
+  Future<DeityDefinition?> loadDeity(String id) async => null;
+
+  @override
+  Future<void> saveSchool(TaiYiSchool school) => _userRepo.saveUserSchool(school);
+
+  @override
+  Future<void> deleteSchool(String id) => _userRepo.deleteUserSchool(id);
+
+  @override
+  Future<void> saveDeity(DeityDefinition deity) async {}
+
+  @override
+  Future<void> deleteDeity(String id) async {}
+}
+
+class _UserDeityRepositoryAdapter implements product.SchoolRepository {
+  final product.DeityRepository _deityRepo;
+  _UserDeityRepositoryAdapter(this._deityRepo);
+
+  @override
+  Future<List<TaiYiSchool>> loadAllSchools() async => [];
+
+  @override
+  Future<TaiYiSchool?> loadSchool(String id) async => null;
+
+  @override
+  Future<List<DeityDefinition>> loadAllDeities() => _deityRepo.loadUserDeities();
+
+  @override
+  Future<DeityDefinition?> loadDeity(String id) => _deityRepo.loadDeity(id);
+
+  @override
+  Future<void> saveSchool(TaiYiSchool school) async {}
+
+  @override
+  Future<void> deleteSchool(String id) async {}
+
+  @override
+  Future<void> saveDeity(DeityDefinition deity) => _deityRepo.saveUserDeity(deity);
+
+  @override
+  Future<void> deleteDeity(String id) => _deityRepo.deleteUserDeity(id);
 }

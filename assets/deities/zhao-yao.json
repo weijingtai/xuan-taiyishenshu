@@ -1,0 +1,26 @@
+{
+  "id": "zhaoYao",
+  "name": "招摇",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 48,
+          "step": 6,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "nineGong",
+      "direction": "forward",
+      "startPalace": "震"
+    }
+  },
+  "priority": 34,
+  "source": "official",
+  "tier": "auspicious",
+  "chartTypes": ["year", "month", "day"],
+  "schoolScopes": ["jingMirror", "tongZong", "jiCheng", "fuYing"]
+}

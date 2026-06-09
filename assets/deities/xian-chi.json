@@ -1,0 +1,26 @@
+{
+  "id": "xianChi",
+  "name": "咸池",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 120,
+          "step": 15,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "nineGong",
+      "direction": "forward",
+      "startPalace": "坎"
+    }
+  },
+  "priority": 36,
+  "source": "official",
+  "tier": "auspicious",
+  "chartTypes": ["year", "month", "day"],
+  "schoolScopes": ["jingMirror", "tongZong", "jiCheng", "fuYing"]
+}
