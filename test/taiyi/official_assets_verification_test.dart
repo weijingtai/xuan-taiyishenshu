@@ -1,63 +1,48 @@
 import 'dart:convert';
-import 'dart:io' as import_io;
-import 'package:flutter/services.dart';
+import 'dart:io' as io;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_engine.dart';
 import 'package:taiyishenshu/taiyi/core/calculation_context.dart';
-import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
-import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
-import 'package:taiyishenshu/taiyi/core/school_repository.dart' show SchoolEpochConfigContractProductMapper, DeityDefinitionContractProductMapper;
+import 'package:taiyishenshu/taiyi/core/school_config.dart';
+import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/enums/gong.dart';
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  late OfficialJsonSchoolRepository repository;
   late DeityAlgorithmEngine engine;
-
-  final mockAssets = <String, String>{};
 
   setUpAll(() {
     engine = DeityAlgorithmEngine();
-    repository = OfficialJsonSchoolRepository(
-      schoolIds: ['jingMirror', 'tongZong', 'jiCheng'],
-      deityIds: ['taiYi', 'wenChang'],
-    );
-
-    mockAssets['assets/schools/jing-mirror.json'] =
-        _readFile('assets/schools/jing-mirror.json');
-    mockAssets['assets/schools/tong-zong.json'] =
-        _readFile('assets/schools/tong-zong.json');
-    mockAssets['assets/schools/ji-cheng.json'] =
-        _readFile('assets/schools/ji-cheng.json');
-    mockAssets['assets/deities/tai-yi.json'] =
-        _readFile('assets/deities/tai-yi.json');
-    mockAssets['assets/deities/wen-chang.json'] =
-        _readFile('assets/deities/wen-chang.json');
-
-    ServicesBinding.instance.defaultBinaryMessenger.setMockMessageHandler(
-      'flutter/assets',
-      (message) async {
-        if (message == null) return null;
-        final String key = utf8.decode(message.buffer.asUint8List());
-        if (mockAssets.containsKey(key)) {
-          return utf8.encoder.convert(mockAssets[key]!).buffer.asByteData();
-        }
-        return null;
-      },
-    );
   });
 
+  /// 从文件直接加载 TaiYiSchool
+  TaiYiSchool loadSchool(String id) {
+    final filename = id.replaceAllMapped(
+      RegExp(r'([a-z0-9])([A-Z])'),
+      (m) => '${m.group(1)}-${m.group(2)!.toLowerCase()}',
+    ).toLowerCase();
+    final file = io.File('assets/schools/$filename.json');
+    final json = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    return TaiYiSchool.fromJson(json);
+  }
+
+  /// 从文件直接加载 DeityDefinition
+  DeityDefinition loadDeity(String id) {
+    final filename = id.replaceAllMapped(
+      RegExp(r'([a-z0-9])([A-Z])'),
+      (m) => '${m.group(1)}-${m.group(2)!.toLowerCase()}',
+    ).toLowerCase();
+    final file = io.File('assets/deities/$filename.json');
+    final json = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    return DeityDefinition.fromJson(json);
+  }
+
   group('Official Assets Verification', () {
-    test('太乙在金镜派2026年位置验证', () async {
-      final school = await repository.loadSchool('jingMirror');
-      final deity = await repository.loadDeity('taiYi');
+    test('太乙在金镜派2026年位置验证', () {
+      final school = loadSchool('jingMirror');
+      final deity = loadDeity('taiYi');
 
-      expect(school, isNotNull);
-      expect(deity, isNotNull);
-
-      final accumulatedYear = school!.epoch.toModel().calculateAccumulatedYear(2026);
+      final accumulatedYear = school.epoch.calculateAccumulatedYear(2026);
       expect(accumulatedYear, 1938583);
 
       final ctx = CalculationContext(
@@ -68,15 +53,15 @@ void main() {
         chartType: TaiYiChartType.year,
       );
 
-      final result = engine.execute(deity!.toModel(), ctx);
+      final result = engine.execute(deity, ctx);
       expect(result.gong, EnumTaiYiGong.Gen);
     });
 
-    test('文昌在金镜派2026年位置验证', () async {
-      final school = await repository.loadSchool('jingMirror');
-      final deity = await repository.loadDeity('wenChang');
+    test('文昌在金镜派2026年位置验证', () {
+      final school = loadSchool('jingMirror');
+      final deity = loadDeity('wenChang');
 
-      final accumulatedYear = school!.epoch.toModel().calculateAccumulatedYear(2026);
+      final accumulatedYear = school.epoch.calculateAccumulatedYear(2026);
       final juNumber = (accumulatedYear - 1) % 60 + 1;
 
       final ctx = CalculationContext(
@@ -87,27 +72,18 @@ void main() {
         chartType: TaiYiChartType.year,
       );
 
-      final result = engine.execute(deity!.toModel(), ctx);
+      final result = engine.execute(deity, ctx);
       expect(result.gong, EnumTaiYiGong.Kun);
     });
 
-   group('Regression - Official File Paths', () {
-    test('OfficialJsonSchoolRepository follows kebab-case convention', () async {
-      final repo = OfficialJsonSchoolRepository(
-        schoolIds: ['jingMirror'],
-        deityIds: ['taiYi'],
-      );
-      
-      final school = await repo.loadSchool('jingMirror');
-      final deity = await repo.loadDeity('taiYi');
-      
-      expect(school, isNotNull, reason: 'Should load jingMirror from assets/schools/jing-mirror.json');
-      expect(deity, isNotNull, reason: 'Should load taiYi from assets/deities/tai-yi.json');
+    group('Regression - Official File Paths', () {
+      test('kebab-case 文件存在且可加载', () {
+        final school = loadSchool('jingMirror');
+        final deity = loadDeity('taiYi');
+
+        expect(school.id, isNotEmpty);
+        expect(deity.id, isNotEmpty);
+      });
     });
   });
-  });
-}
-
-String _readFile(String path) {
-  return import_io.File(path).readAsStringSync();
 }

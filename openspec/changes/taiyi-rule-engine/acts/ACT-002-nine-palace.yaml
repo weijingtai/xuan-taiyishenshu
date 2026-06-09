@@ -1,0 +1,45 @@
+TASK_ID: "TAIYI-RULE-ENGINE-R3-NINE-PALACE-WALK"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/taiyi/rules/nine_palace.dart"
+CONTEXT:
+  DOMAIN: "太乙神数 · 太乙九宫 + 三算走盘 R3(主/客/定算累加)"
+  STRATEGY: "太乙八宫顺行序=[乾,离,艮,震,兑,坤,坎,巽];宫本数 乾1离2艮3震4(中5不入,映射跳过)兑6坤7坎8巽9。walkAndSum:从 start 顺行(索引 mod 8,不含中五)累加宫本数到 endPalace(默认太乙前一宫,终点本身不计入)后做 formatCount。无算返 0 当:start==taiYiPalace,或 start 顺行一步即抵 taiYiPalace,或 start==endPalace。formatCount=满十去十 ((sum-1)%10)+1 且 10 归 9;sum==0(无算)返 0。纯函数。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS: []
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  /// 太乙八宫顺行序(剔除中五宫)。索引 0..7。
+  const List<String> kTaiYiPalaceOrder = ['乾', '离', '艮', '震', '兑', '坤', '坎', '巽'];
+
+  /// 八宫宫本数(中=5 不入,故映射中跳过 5)。
+  const Map<String, int> kGongBenShu = {
+    '乾': 1, '离': 2, '艮': 3, '震': 4, '兑': 6, '坤': 7, '坎': 8, '巽': 9,
+  };
+
+  /// 满十去十:((sum-1) % 10) + 1,且结果 10 归 9;sum==0(无算)返 0。
+  int formatCount(int sum);
+
+  /// 太乙前一宫(在 kTaiYiPalaceOrder 上 -1,mod 8)。
+  String prevPalace(String taiYiPalace);
+
+  /// 太乙后一宫(在 kTaiYiPalaceOrder 上 +1,mod 8)。
+  String nextPalace(String taiYiPalace);
+
+  /// 顺行从 [start] 累加宫本数至 [endPalace](默认 prevPalace(taiYiPalace);终点本身不计入)后 formatCount。
+  /// 无算返 0:start==taiYiPalace;或 start 顺行一步即抵 taiYiPalace;或 start==endPalace。
+  /// 入参宫名须属于 kTaiYiPalaceOrder。
+  int walkAndSum(String start, String taiYiPalace, {String? endPalace});
+ASSERTIONS:
+  EXECENV: "flutter test;测试文件需 import 'package:flutter_test/flutter_test.dart'; 与 'package:taiyishenshu/taiyi/rules/nine_palace.dart';"
+  CASES:
+    - "test('formatCount 满十去十 / 10归9 / 无算', () { expect(formatCount(3), 3); expect(formatCount(10), 9); expect(formatCount(20), 9); expect(formatCount(28), 8); expect(formatCount(0), 0); });"
+    - "test('prevPalace', () { expect(prevPalace('震'), '艮'); expect(prevPalace('乾'), '巽'); });"
+    - "test('nextPalace', () { expect(nextPalace('乾'), '离'); expect(nextPalace('巽'), '乾'); });"
+    - "test('主算正常累加 文昌乾→太乙震 = 乾1+离2 = 3', () { expect(walkAndSum('乾', '震'), 3); });"
+    - "test('满十去十 文昌艮→太乙乾 累加28 → 8', () { expect(walkAndSum('艮', '乾'), 8); });"
+    - "test('无算① 起点同太乙宫 → 0', () { expect(walkAndSum('震', '震'), 0); });"
+    - "test('无算② 一步即到太乙(乾→离) → 0', () { expect(walkAndSum('乾', '离'), 0); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/taiyi/rules/nine_palace.dart 一个文件,无任何解释文字"

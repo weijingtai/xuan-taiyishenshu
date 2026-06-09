@@ -16,5 +16,49 @@
   "wenChangStayRule": false,
   "useTwelveJiShen": false,
   "palaceFormula": "jingMirror",
-  "eightDoorMode": "dynamic"
+  "eightDoorMode": "dynamic",
+  "deityConfigs": {
+    "tianHuang": {
+      "active": true,
+      "algorithm": {
+        "templateId": "steppedCycle",
+        "params": {
+          "correction": 0,
+          "steps": [
+            {
+              "cycle": 240,
+              "step": 24,
+              "label": "周"
+            },
+            {
+              "cycle": 24,
+              "step": 1,
+              "label": "宫"
+            }
+          ],
+          "palaceSystem": "sixteenZhengJian",
+          "palaceSeq": [
+            { "palace": "子" },
+            { "palace": "丑" },
+            { "palace": "艮", "staySteps": 3 },
+            { "palace": "寅" },
+            { "palace": "卯" },
+            { "palace": "辰" },
+            { "palace": "巽", "staySteps": 3 },
+            { "palace": "巳" },
+            { "palace": "午" },
+            { "palace": "未" },
+            { "palace": "坤", "staySteps": 3 },
+            { "palace": "申" },
+            { "palace": "酉" },
+            { "palace": "戌" },
+            { "palace": "乾", "staySteps": 3 },
+            { "palace": "亥" }
+          ],
+          "direction": "forward",
+          "startPalace": "子"
+        }
+      }
+    }
+  }
 }
