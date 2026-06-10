@@ -1,0 +1,26 @@
+{
+  "id": "tianFu",
+  "name": "天符",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 72,
+          "step": 9,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "nineGong",
+      "direction": "forward",
+      "startPalace": "兑"
+    }
+  },
+  "priority": 35,
+  "source": "official",
+  "tier": "auspicious",
+  "chartTypes": ["year", "month", "day"],
+  "schoolScopes": ["jingMirror", "tongZong", "jiCheng", "fuYing"]
+}

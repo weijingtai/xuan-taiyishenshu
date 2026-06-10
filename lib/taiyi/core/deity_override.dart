@@ -3,7 +3,7 @@ import 'deity_definition.dart';
 
 part 'deity_override.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class DeityOverride {
   final bool active;
   final int correction;

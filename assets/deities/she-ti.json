@@ -1,0 +1,26 @@
+{
+  "id": "sheTi",
+  "name": "摄提",
+  "layer": "tianPan",
+  "algorithm": {
+    "templateId": "steppedCycle",
+    "params": {
+      "correction": 0,
+      "steps": [
+        {
+          "cycle": 32,
+          "step": 4,
+          "label": "宫"
+        }
+      ],
+      "palaceSystem": "nineGong",
+      "direction": "forward",
+      "startPalace": "乾"
+    }
+  },
+  "priority": 32,
+  "source": "official",
+  "tier": "auspicious",
+  "chartTypes": ["year", "month", "day"],
+  "schoolScopes": ["jingMirror", "tongZong", "jiCheng", "fuYing"]
+}

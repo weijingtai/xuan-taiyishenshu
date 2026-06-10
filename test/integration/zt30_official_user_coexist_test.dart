@@ -198,15 +198,15 @@ void main() {
 
       // 三类基础实现 runtime 可识别
       expect(assembly.officialRepo.runtimeType.toString(),
-          'OfficialJsonSchoolRepository',
+          'ContractOfficialSchoolAdapter',
           reason: 'AC5: 官方仓库具体实现 (assets 来源)');
-      expect(assembly.userRepo.runtimeType.toString(), 'DriftUserRepository',
+      expect(assembly.userRepo.runtimeType.toString(), 'ContractUserSchoolAdapter',
           reason: 'AC5: 用户仓库具体实现 (Drift 来源)');
       expect(assembly.preferenceRepo.runtimeType.toString(),
-          'SharedPreferencesDeityPreferenceRepository',
+          'SharedPreferenceAdapter',
           reason: 'AC5: 偏好仓库具体实现 (SP 来源)');
       expect(assembly.compositeRepo.runtimeType.toString(),
-          'MultiSchoolRepository',
+          '_MultiSchoolAdapter',
           reason: 'AC7: UseCase 通过 compositeRepo (SchoolRepository 接口) 访问合并视图');
 
       await db.close();

@@ -9,8 +9,8 @@
       "flutter"
     ],
     "description": "Taiyi Shenshu divination module",
-    "analyzedAt": "2026-06-04T21:51:14.069Z",
-    "gitCommitHash": "1206c4bb3bfb8ac43e343f2528848c735fbceaac"
+    "analyzedAt": "2026-06-10T12:00:00.000Z",
+    "gitCommitHash": "de77f23b416d69dd6f38895e3b102366d4a4f04d"
   },
   "nodes": [
     {
@@ -2940,6 +2940,481 @@
         "widget"
       ],
       "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/taiyi/rules/arithmetic_tree.dart",
+      "type": "file",
+      "name": "arithmetic_tree.dart",
+      "filePath": "lib/taiyi/rules/arithmetic_tree.dart",
+      "summary": "Recursive evaluator for JSON arithmetic trees used by the rule engine. Supports int/num literals, variables, binary ops (+,-,*,~/,%), and floor.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "arithmetic"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/taiyi/rules/dun_resolver.dart",
+      "type": "file",
+      "name": "dun_resolver.dart",
+      "filePath": "lib/taiyi/rules/dun_resolver.dart",
+      "summary": "Resolves yin/yang dun (局) based on date, solar term, and school-specific strategy configuration.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "calendar"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/taiyi/rules/foundation_result.dart",
+      "type": "file",
+      "name": "foundation_result.dart",
+      "filePath": "lib/taiyi/rules/foundation_result.dart",
+      "summary": "Bridge between RuleEngine output and legacy PanDataModel. Extracts ji-nian, ru-ju, and taiyi-gong parameters from school rules.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "bridge"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/taiyi/rules/nine_palace.dart",
+      "type": "file",
+      "name": "nine_palace.dart",
+      "filePath": "lib/taiyi/rules/nine_palace.dart",
+      "summary": "Constants and utilities for Taiyi eight-palace traversal order and palace-number mappings (乾1离2艮3震4兑6坤7坎8巽9).",
+      "tags": [
+        "code",
+        "rule-engine",
+        "nine-palace"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/taiyi/rules/rule_engine.dart",
+      "type": "file",
+      "name": "rule_engine.dart",
+      "filePath": "lib/taiyi/rules/rule_engine.dart",
+      "summary": "Core rule engine that evaluates SchoolDocument rules. Resolves rule dependencies, evaluates arithmetic trees, and produces typed RuleValue results.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "core"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/taiyi/rules/rule_models.dart",
+      "type": "file",
+      "name": "rule_models.dart",
+      "filePath": "lib/taiyi/rules/rule_models.dart",
+      "summary": "Typed value classes for rule engine outputs: ScalarRuleValue, PalaceRuleValue, DeityRuleValue, PredicateRuleValue, RecordRuleValue.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "models"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/taiyi/rules/school_document.dart",
+      "type": "file",
+      "name": "school_document.dart",
+      "filePath": "lib/taiyi/rules/school_document.dart",
+      "summary": "In-memory representation of a school JSON document. Parses metadata, parameters, rules, deity definitions, and validation logic.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "school"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/taiyi/rules/school_repository.dart",
+      "type": "file",
+      "name": "school_repository.dart",
+      "filePath": "lib/taiyi/rules/school_repository.dart",
+      "summary": "Repository for loading, caching, and managing official and user-defined school documents. Embeds official school JSON as constants for sync access.",
+      "tags": [
+        "code",
+        "rule-engine",
+        "repository"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/taiyi/rules/zhi_fu_calculator.dart",
+      "type": "file",
+      "name": "zhi_fu_calculator.dart",
+      "filePath": "lib/taiyi/rules/zhi_fu_calculator.dart",
+      "summary": "Calculator for 直符太乙 position using 12-palace traversal (3-year cycle, 36-year period).",
+      "tags": [
+        "code",
+        "rule-engine",
+        "deity-calculator"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/deities/jiang-gong.json",
+      "type": "config",
+      "name": "jiang-gong.json",
+      "filePath": "assets/deities/jiang-gong.json",
+      "summary": "JSON definition for the Jiang Gong (绛宫) deity — one of the Ten Essences (十精).",
+      "tags": [
+        "asset",
+        "deity",
+        "ten-essences"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/ming-tang.json",
+      "type": "config",
+      "name": "ming-tang.json",
+      "filePath": "assets/deities/ming-tang.json",
+      "summary": "JSON definition for the Ming Tang (明堂) deity — one of the Ten Essences (十精).",
+      "tags": [
+        "asset",
+        "deity",
+        "ten-essences"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/she-ti.json",
+      "type": "config",
+      "name": "she-ti.json",
+      "filePath": "assets/deities/she-ti.json",
+      "summary": "JSON definition for the She Ti (摄提) deity — auxiliary deity (辅神).",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/tian-fu.json",
+      "type": "config",
+      "name": "tian-fu.json",
+      "filePath": "assets/deities/tian-fu.json",
+      "summary": "JSON definition for the Tian Fu (天辅) deity — auxiliary deity (辅神).",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/tian-huang.json",
+      "type": "config",
+      "name": "tian-huang.json",
+      "filePath": "assets/deities/tian-huang.json",
+      "summary": "JSON definition for the Tian Huang (天皇) deity — auxiliary deity (辅神) with arithmetic formula.",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/deities/xian-chi.json",
+      "type": "config",
+      "name": "xian-chi.json",
+      "filePath": "assets/deities/xian-chi.json",
+      "summary": "JSON definition for the Xian Chi (咸池) deity — auxiliary deity (辅神).",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/xuan-yuan.json",
+      "type": "config",
+      "name": "xuan-yuan.json",
+      "filePath": "assets/deities/xuan-yuan.json",
+      "summary": "JSON definition for the Xuan Yuan (轩辕) deity — auxiliary deity (辅神).",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/yu-tang.json",
+      "type": "config",
+      "name": "yu-tang.json",
+      "filePath": "assets/deities/yu-tang.json",
+      "summary": "JSON definition for the Yu Tang (玉堂) deity — one of the Ten Essences (十精).",
+      "tags": [
+        "asset",
+        "deity",
+        "ten-essences"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/zhao-yao.json",
+      "type": "config",
+      "name": "zhao-yao.json",
+      "filePath": "assets/deities/zhao-yao.json",
+      "summary": "JSON definition for the Zhao Yao (招摇) deity — auxiliary deity (辅神).",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:assets/deities/zi-wei.json",
+      "type": "config",
+      "name": "zi-wei.json",
+      "filePath": "assets/deities/zi-wei.json",
+      "summary": "JSON definition for the Zi Wei (紫微) deity — auxiliary deity (辅神) with arithmetic formula.",
+      "tags": [
+        "asset",
+        "deity",
+        "auxiliary"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/schools/fu_ying.json",
+      "type": "config",
+      "name": "fu_ying.json",
+      "filePath": "assets/schools/fu_ying.json",
+      "summary": "School configuration for Fu Ying Jing (福应经) tradition with full rule definitions.",
+      "tags": [
+        "asset",
+        "school",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/schools/ji_cheng.json",
+      "type": "config",
+      "name": "ji_cheng.json",
+      "filePath": "assets/schools/ji_cheng.json",
+      "summary": "School configuration for Ji Cheng (集成) tradition with full rule definitions.",
+      "tags": [
+        "asset",
+        "school",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/schools/jing_mirror.json",
+      "type": "config",
+      "name": "jing_mirror.json",
+      "filePath": "assets/schools/jing_mirror.json",
+      "summary": "School configuration for Jing Mirror (金镜) tradition with full rule definitions.",
+      "tags": [
+        "asset",
+        "school",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/schools/tao_jin_ge.json",
+      "type": "config",
+      "name": "tao_jin_ge.json",
+      "filePath": "assets/schools/tao_jin_ge.json",
+      "summary": "School configuration for Tao Jin Ge (韬金歌) tradition with full rule definitions.",
+      "tags": [
+        "asset",
+        "school",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:assets/schools/tong_zong.json",
+      "type": "config",
+      "name": "tong_zong.json",
+      "filePath": "assets/schools/tong_zong.json",
+      "summary": "School configuration for Tong Zong (统宗) tradition with full rule definitions.",
+      "tags": [
+        "asset",
+        "school",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/taiyi/rules/arithmetic_tree_test.dart",
+      "type": "file",
+      "name": "arithmetic_tree_test.dart",
+      "filePath": "test/taiyi/rules/arithmetic_tree_test.dart",
+      "summary": "Unit tests for the JSON arithmetic tree evaluator.",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/calculator_api_contract_test.dart",
+      "type": "file",
+      "name": "calculator_api_contract_test.dart",
+      "filePath": "test/taiyi/rules/calculator_api_contract_test.dart",
+      "summary": "Contract tests verifying rule engine API stability.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "contract"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/calculator_integration_test.dart",
+      "type": "file",
+      "name": "calculator_integration_test.dart",
+      "filePath": "test/taiyi/rules/calculator_integration_test.dart",
+      "summary": "Integration tests for end-to-end calculation through rule engine and school documents.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "integration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/taiyi/rules/dun_resolver_test.dart",
+      "type": "file",
+      "name": "dun_resolver_test.dart",
+      "filePath": "test/taiyi/rules/dun_resolver_test.dart",
+      "summary": "Unit tests for the yin/yang dun resolver logic.",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/metaphysics_core_contract_test.dart",
+      "type": "file",
+      "name": "metaphysics_core_contract_test.dart",
+      "filePath": "test/taiyi/rules/metaphysics_core_contract_test.dart",
+      "summary": "Contract tests ensuring compatibility with the metaphysics_core package.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "contract"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/new_deities_verification_test.dart",
+      "type": "file",
+      "name": "new_deities_verification_test.dart",
+      "filePath": "test/taiyi/rules/new_deities_verification_test.dart",
+      "summary": "Verification tests for the 10 newly added deity JSON definitions (十精+辅神).",
+      "tags": [
+        "test",
+        "rule-engine",
+        "deities"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/no_runtime_execution_test.dart",
+      "type": "file",
+      "name": "no_runtime_execution_test.dart",
+      "filePath": "test/taiyi/rules/no_runtime_execution_test.dart",
+      "summary": "Security test ensuring rule engine never executes arbitrary code at runtime.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/official_schools_test.dart",
+      "type": "file",
+      "name": "official_schools_test.dart",
+      "filePath": "test/taiyi/rules/official_schools_test.dart",
+      "summary": "Tests loading and validating all official school JSON files.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "schools"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/rule_engine_test.dart",
+      "type": "file",
+      "name": "rule_engine_test.dart",
+      "filePath": "test/taiyi/rules/rule_engine_test.dart",
+      "summary": "Core unit tests for rule evaluation, dependency resolution, and caching.",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/taiyi/rules/rule_kinds_test.dart",
+      "type": "file",
+      "name": "rule_kinds_test.dart",
+      "filePath": "test/taiyi/rules/rule_kinds_test.dart",
+      "summary": "Tests for all supported rule kinds (scalar, palace, deity, predicate, record, etc.).",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/taiyi/rules/school_document_test.dart",
+      "type": "file",
+      "name": "school_document_test.dart",
+      "filePath": "test/taiyi/rules/school_document_test.dart",
+      "summary": "Tests for SchoolDocument parsing, validation, and serialization.",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/school_repository_test.dart",
+      "type": "file",
+      "name": "school_repository_test.dart",
+      "filePath": "test/taiyi/rules/school_repository_test.dart",
+      "summary": "Tests for school loading, caching, and user-school persistence.",
+      "tags": [
+        "test",
+        "rule-engine"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/taiyi/rules/school_schema_contract_test.dart",
+      "type": "file",
+      "name": "school_schema_contract_test.dart",
+      "filePath": "test/taiyi/rules/school_schema_contract_test.dart",
+      "summary": "Contract tests validating school JSON schema compliance across all official schools.",
+      "tags": [
+        "test",
+        "rule-engine",
+        "contract"
+      ],
+      "complexity": "moderate"
     }
   ],
   "edges": [
@@ -3082,6 +3557,174 @@
       "type": "imports",
       "weight": 0.7,
       "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/rule_engine.dart",
+      "target": "file:lib/taiyi/rules/school_document.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/rule_engine.dart",
+      "target": "file:lib/taiyi/rules/rule_models.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/rule_engine.dart",
+      "target": "file:lib/taiyi/rules/arithmetic_tree.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/rule_engine.dart",
+      "target": "file:lib/taiyi/rules/nine_palace.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/foundation_result.dart",
+      "target": "file:lib/taiyi/rules/rule_engine.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/foundation_result.dart",
+      "target": "file:lib/taiyi/rules/rule_models.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/foundation_result.dart",
+      "target": "file:lib/taiyi/rules/school_document.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/foundation_result.dart",
+      "target": "file:lib/taiyi/rules/school_repository.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/foundation_result.dart",
+      "target": "file:lib/taiyi/rules/nine_palace.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "file:lib/taiyi/rules/school_document.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/dun_resolver.dart",
+      "target": "file:lib/taiyi/rules/school_document.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "config:assets/schools/jing_mirror.json",
+      "type": "loads",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "config:assets/schools/tong_zong.json",
+      "type": "loads",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "config:assets/schools/tao_jin_ge.json",
+      "type": "loads",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "config:assets/schools/fu_ying.json",
+      "type": "loads",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/rules/school_repository.dart",
+      "target": "config:assets/schools/ji_cheng.json",
+      "type": "loads",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:lib/taiyi/taiyi_pan_calculator.dart",
+      "target": "file:lib/taiyi/rules/foundation_result.dart",
+      "type": "imports",
+      "weight": 0.7,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/rule_engine_test.dart",
+      "target": "file:lib/taiyi/rules/rule_engine.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/arithmetic_tree_test.dart",
+      "target": "file:lib/taiyi/rules/arithmetic_tree.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/dun_resolver_test.dart",
+      "target": "file:lib/taiyi/rules/dun_resolver.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/school_document_test.dart",
+      "target": "file:lib/taiyi/rules/school_document.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/school_repository_test.dart",
+      "target": "file:lib/taiyi/rules/school_repository.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/calculator_integration_test.dart",
+      "target": "file:lib/taiyi/rules/foundation_result.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:test/taiyi/rules/rule_kinds_test.dart",
+      "target": "file:lib/taiyi/rules/rule_models.dart",
+      "type": "tests",
+      "weight": 0.9,
+      "direction": "forward"
     }
   ],
   "layers": [
@@ -3119,7 +3762,16 @@
         "file:lib/models/year_ji_model.dart",
         "file:lib/taiyi/pan_data_model.dart",
         "file:lib/taiyi/pan_enums.dart",
-        "file:lib/taiyi/taiyi_pan_calculator.dart"
+        "file:lib/taiyi/taiyi_pan_calculator.dart",
+        "file:lib/taiyi/rules/arithmetic_tree.dart",
+        "file:lib/taiyi/rules/dun_resolver.dart",
+        "file:lib/taiyi/rules/foundation_result.dart",
+        "file:lib/taiyi/rules/nine_palace.dart",
+        "file:lib/taiyi/rules/rule_engine.dart",
+        "file:lib/taiyi/rules/rule_models.dart",
+        "file:lib/taiyi/rules/school_document.dart",
+        "file:lib/taiyi/rules/school_repository.dart",
+        "file:lib/taiyi/rules/zhi_fu_calculator.dart"
       ]
     },
     {
@@ -3180,9 +3832,24 @@
         "config:assets/deities/tai-yi.json",
         "config:assets/deities/wen-chang.json",
         "config:assets/deities/zhi-fu.json",
+        "config:assets/deities/jiang-gong.json",
+        "config:assets/deities/ming-tang.json",
+        "config:assets/deities/she-ti.json",
+        "config:assets/deities/tian-fu.json",
+        "config:assets/deities/tian-huang.json",
+        "config:assets/deities/xian-chi.json",
+        "config:assets/deities/xuan-yuan.json",
+        "config:assets/deities/yu-tang.json",
+        "config:assets/deities/zhao-yao.json",
+        "config:assets/deities/zi-wei.json",
         "config:assets/schools/ji-cheng.json",
         "config:assets/schools/jing-mirror.json",
         "config:assets/schools/tong-zong.json",
+        "config:assets/schools/fu_ying.json",
+        "config:assets/schools/ji_cheng.json",
+        "config:assets/schools/jing_mirror.json",
+        "config:assets/schools/tao_jin_ge.json",
+        "config:assets/schools/tong_zong.json",
         "config:pubspec.yaml",
         "config:build.yaml",
         "config:analysis_options.yaml",
@@ -3224,7 +3891,20 @@
         "file:test/taiyi_pan_calculator_smoke.dart",
         "file:test/taiyi/core/algorithm_engine_test.dart",
         "file:test/bdd/features/deity_dialog.feature",
-        "file:test/integration/school_management_integration_test.dart"
+        "file:test/integration/school_management_integration_test.dart",
+        "file:test/taiyi/rules/arithmetic_tree_test.dart",
+        "file:test/taiyi/rules/calculator_api_contract_test.dart",
+        "file:test/taiyi/rules/calculator_integration_test.dart",
+        "file:test/taiyi/rules/dun_resolver_test.dart",
+        "file:test/taiyi/rules/metaphysics_core_contract_test.dart",
+        "file:test/taiyi/rules/new_deities_verification_test.dart",
+        "file:test/taiyi/rules/no_runtime_execution_test.dart",
+        "file:test/taiyi/rules/official_schools_test.dart",
+        "file:test/taiyi/rules/rule_engine_test.dart",
+        "file:test/taiyi/rules/rule_kinds_test.dart",
+        "file:test/taiyi/rules/school_document_test.dart",
+        "file:test/taiyi/rules/school_repository_test.dart",
+        "file:test/taiyi/rules/school_schema_contract_test.dart"
       ]
     }
   ],
@@ -3259,6 +3939,17 @@
       },
       {
         "order": 4,
+        "title": "Rule Engine",
+        "description": "JSON-driven rule engine that replaces hardcoded school logic. SchoolDocuments define arithmetic trees, deity formulas, and dun strategies; the RuleEngine evaluates them into typed RuleValues without runtime code execution.",
+        "nodeIds": [
+          "file:lib/taiyi/rules/rule_engine.dart",
+          "file:lib/taiyi/rules/school_document.dart",
+          "file:lib/taiyi/rules/arithmetic_tree.dart",
+          "file:lib/taiyi/rules/foundation_result.dart"
+        ]
+      },
+      {
+        "order": 5,
         "title": "BDD Tests",
         "description": "Verification of system behavior using Gherkin features and Playwright/Flutter tests. These tests ensure that both the divination logic and the UI interactions meet the specified requirements.",
         "nodeIds": [

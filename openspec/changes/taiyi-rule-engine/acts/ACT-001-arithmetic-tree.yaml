@@ -1,0 +1,42 @@
+TASK_ID: "TAIYI-RULE-ENGINE-R1-ARITHMETIC-TREE"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/taiyi/rules/arithmetic_tree.dart"
+CONTEXT:
+  DOMAIN: "太乙神数 · 规则引擎 R1 算术叶子(JSON 算术树求值器,取代字符串表达式解析)"
+  STRATEGY: "递归求值白名单 JSON-AST 节点:{int:n}=整数 / {num:x}=实数(仅作 * 操作数) / {var:name}=从 vars 取(缺失抛错) / {op:(+,-,*,~/,%),a,b}=二元运算(整除只用 ~/,出现 / 抛错) / {floor:node}=向下取整。深度>maxDepth 抛错;非白名单节点抛错。纯函数:无 IO、无字符串解析、无运行时代码执行。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS: []
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  /// 递归求值「JSON 算术树」(规则引擎 R1 的算术叶子)。
+  ///
+  /// 节点形状(均为 Map<String, dynamic>):
+  ///   {"int": int}                                整数字面量
+  ///   {"num": num}                                实数字面量(仅应作为 * 的操作数,最终须由 floor 收成整数)
+  ///   {"var": String}                             变量,从 [vars] 取值;缺失 → ArgumentError
+  ///   {"op": "+|-|*|~/|%", "a": <node>, "b": <node>}  二元运算(整除一律 "~/";不支持 "/")
+  ///   {"floor": <node>}                           向下取整为 int
+  ///
+  /// 约束:
+  /// - 非上述形状/未知键 → ArgumentError('非法 AST 节点: ...')
+  /// - op 不在白名单(含 "/") → ArgumentError
+  /// - 递归深度 > [maxDepth] → ArgumentError('AST 超过最大深度 $maxDepth')
+  ///
+  /// 返回 num(纯整数运算返回 int;floor 返回 int)。不做字符串解析、不访问 IO、不执行代码。
+  num evalArithmeticTree(Object? node, Map<String, num> vars, {int maxDepth = 16});
+ASSERTIONS:
+  EXECENV: "flutter test;测试文件需 import 'package:flutter_test/flutter_test.dart'; 与 'package:taiyishenshu/taiyi/rules/arithmetic_tree.dart';"
+  CASES:
+    - "test('金镜古法积年 10153917+(Y-751)@2026=10155192', () { expect(evalArithmeticTree({'op':'+','a':{'int':10153917},'b':{'op':'-','a':{'var':'Y'},'b':{'int':751}}}, {'Y':2026}), 10155192); });"
+    - "test('金镜现行积年 1937281+(Y-724)@2026=1938583', () { expect(evalArithmeticTree({'op':'+','a':{'int':1937281},'b':{'op':'-','a':{'var':'Y'},'b':{'int':724}}}, {'Y':2026}), 1938583); });"
+    - "test('floor(365.2425*J)@J=10=3652', () { expect(evalArithmeticTree({'floor':{'op':'*','a':{'num':365.2425},'b':{'var':'J'}}}, {'J':10}), 3652); });"
+    - "test('取模 J%360 @1938583=343', () { expect(evalArithmeticTree({'op':'%','a':{'var':'J'},'b':{'int':360}}, {'J':1938583}), 343); });"
+    - "test('整除 23 ~/ 3 = 7', () { expect(evalArithmeticTree({'op':'~/','a':{'int':23},'b':{'int':3}}, {}), 7); });"
+    - "test('未声明变量抛 ArgumentError', () { expect(() => evalArithmeticTree({'var':'Z'}, {'Y':1}), throwsArgumentError); });"
+    - "test('未知节点抛 ArgumentError', () { expect(() => evalArithmeticTree({'bogus':1}, {}), throwsArgumentError); });"
+    - "test('禁用 / 抛 ArgumentError', () { expect(() => evalArithmeticTree({'op':'/','a':{'int':6},'b':{'int':2}}, {}), throwsArgumentError); });"
+    - "test('超过 maxDepth 抛 ArgumentError', () { Object n = {'int':1}; for (var i=0;i<20;i++){ n = {'op':'+','a':n,'b':{'int':1}}; } expect(() => evalArithmeticTree(n, {}, maxDepth: 16), throwsArgumentError); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/taiyi/rules/arithmetic_tree.dart 一个文件,无任何解释文字"

@@ -18,10 +18,18 @@ import 'core/algorithm_enums.dart';
 import 'core/calculation_context.dart';
 import 'core/chart_config.dart';
 import 'core/deity_definition.dart';
+import 'rules/nine_palace.dart' as np;
 import 'core/school_config.dart';
 import 'pan_data_model.dart';
 import 'pan_enums.dart';
 import 'taiyi_constants.dart';
+import 'rules/school_repository.dart';
+import 'rules/school_document.dart';
+import 'rules/rule_engine.dart';
+import 'rules/rule_models.dart';
+import 'rules/dun_resolver.dart';
+import 'rules/zhi_fu_calculator.dart';
+import 'rules/foundation_result.dart';
 
 class TaiYiPanCalculator {
   const TaiYiPanCalculator();
@@ -176,24 +184,57 @@ class TaiYiPanCalculator {
     );
 
     final rule = _RuleProfile.fromConfig(school);
-    final accumulatedYear = _calculateAccumulatedYear(dateTime, rule);
-    final yearJi = chartType == TaiYiChartType.year
-        ? _computeYearJi(accumulatedYear)
-        : null;
-    final int juNumber;
-    final int accumulatedSeqValue;
+
+    FoundationResult? engineResult;
     if (chartType == TaiYiChartType.year) {
-      juNumber = yearJi!.juShu;
-      accumulatedSeqValue = accumulatedYear;
-    } else {
-      accumulatedSeqValue = _calculateAccumulatedSequenceValue(
-        dateTime: dateTime,
-        chartType: chartType,
-        accumulatedYear: accumulatedYear,
-        rule: rule,
-      );
-      juNumber = _computeJuNumberFromAccumulatedValue(accumulatedSeqValue);
+      final doc = SchoolRepository.loadOfficialSchoolSync(schoolId);
+      if (doc != null) {
+        engineResult = FoundationResult.fromSchoolDocument(
+          doc: doc,
+          year: dateTime.year,
+          isYang: true,
+        );
+      }
     }
+
+    final accumulatedYear = engineResult?.accumulatedYear ?? _calculateAccumulatedYear(dateTime, rule);
+    final yearJi = chartType == TaiYiChartType.year
+        ? (engineResult != null
+            ? YearJiDataModel(
+                jiNian: engineResult.accumulatedYear,
+                juShu: engineResult.juNumber,
+                taiYiRuGongNianShu: (engineResult.juNumber - 1) % 3,
+                taiYiRuGongNianShuLabel: engineResult.ruGongLabel,
+                wuZiYuanJu: engineResult.wuZiYuanJu,
+                yuanShu: engineResult.yuanShu,
+                wuZiYuanName: engineResult.yuanName,
+                ruJiJiShu: engineResult.ruJiJiShu,
+                ruJiNianShu: engineResult.ruJiNianShu,
+                nianGuaBianHao: engineResult.accumulatedYear % 64,
+                taiYiXingGongNianShu: engineResult.accumulatedYear % 24,
+                taiYiXingGongGongShu: (engineResult.accumulatedYear % 24) ~/ 3 + 1,
+              )
+            : _computeYearJi(accumulatedYear))
+        : null;
+
+    final int juNumber = engineResult?.juNumber ?? (chartType == TaiYiChartType.year
+        ? yearJi!.juShu
+        : _computeJuNumberFromAccumulatedValue(_calculateAccumulatedSequenceValue(
+            dateTime: dateTime,
+            chartType: chartType,
+            accumulatedYear: accumulatedYear,
+            rule: rule,
+          )));
+
+    final int accumulatedSeqValue = engineResult?.accumulatedYear ?? (chartType == TaiYiChartType.year
+        ? accumulatedYear
+        : _calculateAccumulatedSequenceValue(
+            dateTime: dateTime,
+            chartType: chartType,
+            accumulatedYear: accumulatedYear,
+            rule: rule,
+          ));
+
     final dunType = _resolveDunType(dateTime, chartType);
 
     final ctx = CalculationContext(
@@ -210,21 +251,21 @@ class TaiYiPanCalculator {
       school: school,
     );
 
-    final taiYiPalace = engineResults['taiYi']?.gong ??
-        _calculateTaiYiPalace(juNumber, rule);
-    final wenChangPalace = engineResults['wenChang']?.gong ??
+    final taiYiPalace = engineResult?.taiYiGong ?? (engineResults['taiYi']?.gong ??
+        _calculateTaiYiPalace(juNumber, rule));
+    final wenChangPalace = engineResult?.wenChangGong ?? (engineResults['wenChang']?.gong ??
         _calculateWenChangPalace(
           juNumber: juNumber,
           dunType: dunType,
           rule: rule,
-        );
-    final jiShenPalace = engineResults['jiShen']?.gong ??
+        ));
+    final jiShenPalace = engineResult?.jiShenGong ?? (engineResults['jiShen']?.gong ??
         _calculateJiShenPalace(
           dateTime: dateTime,
           juNumber: juNumber,
           chartType: chartType,
           rule: rule,
-        );
+        ));
     final eightDoorsByPalace = _calculateEightDoors(
       accumulatedYear: accumulatedYear,
       chartType: chartType,
@@ -232,15 +273,58 @@ class TaiYiPanCalculator {
       rule: rule,
     );
     final currentBranch = _getCurrentBranch(dateTime, chartType, accumulatedSeqValue);
-    final hostGuest = _calculateHostGuest(
-      juNumber: juNumber,
-      taiYiPalace: taiYiPalace,
-      wenChangPalace: wenChangPalace,
-      currentBranch: currentBranch,
-      rule: rule,
-      dunType: dunType,
-      chartType: chartType,
-    );
+
+    final HostGuestDataModel hostGuest;
+    if (engineResult != null) {
+      final hostPalace = engineResult.wenChangGong ?? EnumTaiYiGong.Center;
+      final guestPalace = engineResult.shiJiGong ?? EnumTaiYiGong.Center;
+      final wenChangDeity = _findWenChangDeity(juNumber);
+      final shiJiDeity = _findShiJiDeity(juNumber);
+      final dingMuName = _calculateDingMuPosition(
+        currentBranch: currentBranch,
+        wenChangDeity: wenChangDeity,
+        useShift: true,
+      );
+      final dingMuPalace = _deityToPalace(dingMuName);
+      
+      final hostDetail = '${rule.school.name}: 主算 ${engineResult.wenChangName ?? wenChangPalace.gua.name}→${engineResult.taiYiPalaceName ?? taiYiPalace.gua.name} = ${engineResult.hostCount ?? 0}';
+      final guestDetail = '${rule.school.name}: 客算 ${engineResult.shiJiName ?? guestPalace.gua.name}→${engineResult.taiYiPalaceName ?? taiYiPalace.gua.name} = ${engineResult.guestCount ?? 0}';
+      final dingDetail = '${rule.school.name}: 定算 ${dingMuName}→${engineResult.taiYiPalaceName ?? taiYiPalace.gua.name} = ${engineResult.dingCount ?? 0}';
+
+      hostGuest = HostGuestDataModel(
+        hostCount: engineResult.hostCount ?? 0,
+        guestCount: engineResult.guestCount ?? 0,
+        dingCount: engineResult.dingCount ?? 0,
+        hostPalace: hostPalace,
+        guestPalace: guestPalace,
+        dingPalace: dingMuPalace,
+        dingMuPalace: dingMuPalace,
+        dingMuName: dingMuName,
+        method: '${rule.school.name}基数: ${engineResult.accumulatedYear} · ${rule.methodNote}',
+        hostCountDetail: HostCountDetail(
+          isZhengGong: !_isJianShen(wenChangDeity),
+          detail: hostDetail,
+        ),
+        guestCountDetail: HostCountDetail(
+          isZhengGong: !_isJianShen(shiJiDeity),
+          detail: guestDetail,
+        ),
+        dingCountDetail: HostCountDetail(
+          isZhengGong: !_isJianShen(dingMuName),
+          detail: dingDetail,
+        ),
+      );
+    } else {
+      hostGuest = _calculateHostGuest(
+        juNumber: juNumber,
+        taiYiPalace: taiYiPalace,
+        wenChangPalace: wenChangPalace,
+        currentBranch: currentBranch,
+        rule: rule,
+        dunType: dunType,
+        chartType: chartType,
+      );
+    }
 
     final diPan = createDiPan();
     final renPan = _buildRenPan(
@@ -1055,6 +1139,9 @@ int _hostGuestPalaceNumber(EnumTaiYiGong palace) {
   return palace.order >= 5 ? palace.order + 1 : palace.order;
 }
 
+/// @deprecated 使用 nine_palace.dart 的 walkAndSum 替代（太乙九宫序 + 满十去十）。
+/// 此方法使用 16 神地理序列，不符合太乙九宫规范。
+@Deprecated('Use nine_palace.dart walkAndSum instead — correct per 太乙九宫 spec')
 ({int count, String detail}) _walkAndSumWithDetail(
     int startPos,
     int taiYiPos,
@@ -1542,6 +1629,25 @@ TianPanModel _buildTianPan({
   );
 }
 
+/// 直符宫名 → EnumTaiYiGong 映射
+EnumTaiYiGong _zhiFuPalaceToGong(String palace) {
+  return switch (palace) {
+    '中' => EnumTaiYiGong.Center,
+    '兑' => EnumTaiYiGong.Dui,
+    '坤' => EnumTaiYiGong.Kun,
+    '坎' => EnumTaiYiGong.Kan,
+    '巽' => EnumTaiYiGong.Xun,
+    '绛宫' => EnumTaiYiGong.Li,   // 绛宫寄离
+    '明堂' => EnumTaiYiGong.Kun,  // 明堂寄坤
+    '玉堂' => EnumTaiYiGong.Gen,  // 玉堂寄艮
+    '乾' => EnumTaiYiGong.Qian,
+    '离' => EnumTaiYiGong.Li,
+    '艮' => EnumTaiYiGong.Gen,
+    '震' => EnumTaiYiGong.Zhen,
+    _ => EnumTaiYiGong.Center,
+  };
+}
+
 ShenPanModel _buildShenPan({
   required int accumulatedYear,
   required DateTime dateTime,
@@ -1594,7 +1700,7 @@ ShenPanModel _buildShenPan({
   return ShenPanModel(
     taiSuiGong: taiSuiGong,
     suiPoGong: suiPoGong,
-    zhiFuGong: engineResults['zhiFu']?.gong ?? (gongClash[taiYiPalace] ?? taiYiPalace),
+    zhiFuGong: engineResults['zhiFu']?.gong ?? _zhiFuPalaceToGong(ZhiFuCalculator.calculatePalace(accumulatedYear)),
     heShenGong: heShenGong,
     qingLongQiGong: qingLongQiGong,
     heiQiGong: heiQiGong,

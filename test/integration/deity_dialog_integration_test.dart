@@ -228,7 +228,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Drift 必须真有行
-      final userDeities = await assembly.officialRepo.loadAllDeities();
+      final userDeities = await assembly.deityRepo.loadUserDeities();
       expect(
         userDeities.any((d) => d.id == 'user_taiYi_integration_copy'),
         isTrue,
@@ -375,7 +375,7 @@ void main() {
       );
       // 确认 Drift 中有
       expect(
-        (await assembly.officialRepo.loadAllDeities())
+        (await assembly.deityRepo.loadUserDeities())
             .any((d) => d.id == 'user_taiYi_for_delete'),
         isTrue,
       );
@@ -409,7 +409,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Drift 行必须消失
-      final after = await assembly.officialRepo.loadAllDeities();
+      final after = await assembly.deityRepo.loadUserDeities();
       expect(
         after.any((d) => d.id == 'user_taiYi_for_delete'),
         isFalse,

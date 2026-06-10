@@ -9,6 +9,8 @@ import 'package:persistence_assets/taiyishenshu/taiyishenshu_assets.dart';
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
+import 'package:taiyishenshu/taiyi/core/school_config.dart';
+import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'fakes/memory_school_repository.dart';
@@ -45,6 +47,8 @@ class TaiYiTestHarness {
       'qing-long', 'zhu-que', 'bai-hu', 'xuan-wu', 'feng-bo', 'yu-shi',
       'qing-long-qi', 'hei-qi', 'chi-qi', 'gui-shen-zhi-shi',
       'wen-chang', 'ji-shen', 'shi-ji',
+      'tian-huang', 'zi-wei', 'she-ti', 'xuan-yuan', 'zhao-yao',
+      'tian-fu', 'xian-chi', 'jiang-gong', 'ming-tang', 'yu-tang',
     ];
     for (final id in deityAssets) {
       final path = 'assets/deities/$id.json';
@@ -59,12 +63,48 @@ class TaiYiTestHarness {
   static Future<TaiYiDataAssembly> createAssembly({Map<String, Object>? initialPrefs}) async {
     final bundle = createMockBundle();
 
-    final memoryRepo = MemorySchoolRepository();
+    final officialMemoryRepo = MemorySchoolRepository();
+    final userMemoryRepo = MemorySchoolRepository();
+
+    // Pre-populate officialMemoryRepo with official schools from mock assets
+    final schoolAssets = ['jing-mirror', 'tong-zong', 'ji-cheng'];
+    for (final id in schoolAssets) {
+      final path = 'assets/schools/$id.json';
+      final jsonStr = _mockAssets[path];
+      if (jsonStr != null) {
+        final json = jsonDecode(jsonStr);
+        final school = TaiYiSchool.fromJson(json);
+        await officialMemoryRepo.saveSchool(school);
+      }
+    }
+
+    // Pre-populate officialMemoryRepo with official deities from mock assets
+    final deityAssets = [
+      'tai-yi', 'zhu-da-jiang', 'ke-da-jiang', 'zhu-can-jiang', 'ke-can-jiang',
+      'ding-da-jiang', 'ding-can-jiang', 'jun-ji', 'chen-ji', 'min-ji',
+      'wu-fu', 'da-you', 'xiao-you', 'fei-fu', 'si-shen',
+      'tian-yi-star', 'di-yi', 'zhi-fu-star', 'yang-jiu', 'bai-liu',
+      'tai-sui', 'sui-po', 'zhi-fu', 'he-shen',
+      'qing-long', 'zhu-que', 'bai-hu', 'xuan-wu', 'feng-bo', 'yu-shi',
+      'qing-long-qi', 'hei-qi', 'chi-qi', 'gui-shen-zhi-shi',
+      'wen-chang', 'ji-shen', 'shi-ji',
+      'tian-huang', 'zi-wei', 'she-ti', 'xuan-yuan', 'zhao-yao',
+      'tian-fu', 'xian-chi', 'jiang-gong', 'ming-tang', 'yu-tang',
+    ];
+    for (final id in deityAssets) {
+      final path = 'assets/deities/$id.json';
+      final jsonStr = _mockAssets[path];
+      if (jsonStr != null) {
+        final json = jsonDecode(jsonStr);
+        final deity = DeityDefinition.fromJson(json);
+        await officialMemoryRepo.saveDeity(deity);
+      }
+    }
 
     return TaiYiDataAssembly(
-      officialRepo: memoryRepo,
-      userRepo: memoryRepo,
-      deityRepo: memoryRepo,
+      officialRepo: officialMemoryRepo,
+      userRepo: userMemoryRepo,
+      deityRepo: userMemoryRepo,
       preferenceRepo: DummyDeityPreferenceRepository(),
     );
   }
@@ -86,6 +126,8 @@ class TaiYiTestHarness {
         'qingLong', 'zhuQue', 'baiHu', 'xuanWu', 'fengBo', 'yuShi',
         'qingLongQi', 'heiQi', 'chiQi', 'guiShenZhiShi',
         'wenChang', 'jiShen', 'shiJi',
+        'tianHuang', 'ziWei', 'sheTi', 'xuanYuan', 'zhaoYao',
+        'tianFu', 'xianChi', 'jiangGong', 'mingTang', 'yuTang',
       ],
       bundle: bundle,
     );

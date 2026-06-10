@@ -1,12 +1,19 @@
 # OpenSpec Change: taiyi-algorithm-config-management
 
-This change defines the governance-ready plan for turning TaiYiShenShu core algorithm foundations into configuration-backed, typed domain logic.
+> [!IMPORTANT]
+> **SUPERSEDED** (2026-06-08): This change has been superseded by [taiyi-rule-engine](../taiyi-rule-engine/README.md).
+> The rule engine approach was adopted because this plan's "fixed templates + immutable profiles + no expressions" design could not support user-authored schools.
+> For the full development timeline and decision record, see [ARCHIVE.md](../taiyi-rule-engine/ARCHIVE.md).
+
+This change defines an implementable, extensible algorithm platform for TaiYiShenShu traditions.
 
 ## Scope
 
-- Layer 1 is implementation scope: accumulated sequence, ju number, wuzi yuan-ju, ji-yuan, yuan labels, and ru-gong label.
-- Layer 2 is planning scope: palace derivation, host/guest/ding counts, host/guest generals, and derived pan placements.
-- The plan is deliberately separate from repository boundary purification so each change can be executed and reviewed independently.
+- Implement option C: strategy registry + typed profiles + finite pluggable Dart engines.
+- Model four first-class traditions: Jing Mirror, Fu Ying Jing, Tong Zong, and Tao Jin Ge.
+- Implement Jing Mirror and Tong Zong against `docs/classes/金镜_统宗_四计_三算_alg.md`.
+- Include Fu Ying Jing and Tao Jin Ge profiles and rule-level tests now; require user-confirmed numeric vectors before claiming full algorithm parity.
+- Preserve synchronous calculator behavior during the first implementation pass.
 
 ## Validation
 
@@ -16,10 +23,14 @@ Run from the package root:
 openspec validate taiyi-algorithm-config-management --strict --no-interactive
 ```
 
-Run the gStack readiness scan:
+Run the readiness scan:
 
 ```bash
 rg -n "[T]BD|[T]ODO|[F]IXME|[p]laceholder|[i]mplement later|[f]ill in|[s]kip:|@[S]kip|[F]akeRepository|[F]akeViewModel|[f]akeAsync" openspec/changes/taiyi-algorithm-config-management
 ```
 
 The scan should return no matches.
+
+## Discussion Gates
+
+Stop and ask the user before converting Fu Ying Jing or Tao Jin Ge from rule-only tests to numeric assertions unless the vector source is already present in repository docs or tests.

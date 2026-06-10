@@ -63,23 +63,18 @@ class TaiYiPanGrid extends StatelessWidget {
       addByGodName(zhengName, deity);
     }
 
-    // 特殊神煞按准确名字入局
+    // 1. 人盘特殊神煞按精确名字入局
     addByGodName(panData.renPan.tianMuName, '文昌');
     addByGodName(panData.renPan.shiJiName, '始击');
     addByGodName(panData.renPan.jiShenName, '计神');
     
-    // 天盘星神
-    for (final p in panData.tianPan.toPlacements()) {
-      if (p.kind == EnumDeityKind.taiYi) {
-        addByGong(p.gong, '太乙');
-      } else {
-        addByGong(p.gong, p.kind.label);
+    // 2. 动态收集其它所有在 palaces 中计算出的星煞并落入八正宫
+    for (final palace in panData.palaces) {
+      if (palace.gong == EnumTaiYiGong.Center) continue;
+      for (final star in palace.stars) {
+        if (star == '文昌' || star == '始击' || star == '计神') continue;
+        addByGong(palace.gong, star);
       }
-    }
-    
-    // 神盘星神
-    for (final p in panData.shenPan.toPlacements()) {
-      addByGong(p.gong, p.kind.label);
     }
     
     return outerTexts.map((l) => l.join(' ')).toList();
