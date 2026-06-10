@@ -1,7 +1,9 @@
 # OpenSpec Change: taiyi-algorithm-config-management
 
 > [!IMPORTANT]
-> **SUPERSEDED**: This change has been superseded by [taiyi-rule-engine](../taiyi-rule-engine/README.md).
+> **SUPERSEDED** (2026-06-08): This change has been superseded by [taiyi-rule-engine](../taiyi-rule-engine/README.md).
+> The rule engine approach was adopted because this plan's "fixed templates + immutable profiles + no expressions" design could not support user-authored schools.
+> For the full development timeline and decision record, see [ARCHIVE.md](../taiyi-rule-engine/ARCHIVE.md).
 
 This change defines an implementable, extensible algorithm platform for TaiYiShenShu traditions.
 
