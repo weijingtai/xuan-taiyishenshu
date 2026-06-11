@@ -1,0 +1,39 @@
+id: ACT-015
+title: "NianMingGuaResultContract DTO (interface package)"
+type: coding
+branch: feat/taiyi-minggua-destiny
+priority: P0
+depends_on: [ACT-013]
+
+context: |
+  在 repository-interface-taiyishenshu 包中新增年命卦结果 DTO，
+  遵循已有 freezed 模式（参考 MingGuaResultContract）。
+
+acceptance_criteria:
+  - repository-interface-taiyishenshu/lib/src/contracts/nian_ming_gua_contracts.dart 存在
+  - NianMingGuaResultContract 包含字段:
+      accumulatedYear: int       # 积年
+      guaIndex: int              # 卦序 1-64
+      guaName: String            # 本卦名
+      yao: List<bool>            # 六爻阴阳 [初..上]
+      yangYaoCount: int          # 阳爻数
+      yinYaoCount: int           # 阴爻数
+      ceCount: int               # 策数
+      stems: List<String>        # 六爻天干 [初..上]
+      branch: String             # 地支（固定"子"）
+      yunIndex: int              # 所属十二运编号 1-12
+      yunName: String            # 运名
+  - NianMingGuaConfigContract 包含字段:
+      guaName: String
+      startStemIndex: int
+      repeatAtYao4: bool
+      yunIndex: int
+      yunName: String
+  - freezed 代码生成正确 (dart run build_runner build)
+  - barrel export 已更新 (repository_interface_taiyishenshu.dart)
+
+deliverables:
+  - repository-interface-taiyishenshu/lib/src/contracts/nian_ming_gua_contracts.dart
+  - repository-interface-taiyishenshu/lib/src/contracts/nian_ming_gua_contracts.freezed.dart
+  - repository-interface-taiyishenshu/lib/src/contracts/nian_ming_gua_contracts.g.dart
+  - repository-interface-taiyishenshu/lib/repository_interface_taiyishenshu.dart (updated export)

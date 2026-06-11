@@ -1,0 +1,510 @@
+[
+  {
+    "guaName": "乾",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 1,
+    "yunName": "天地否泰之运"
+  },
+  {
+    "guaName": "坤",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 1,
+    "yunName": "天地否泰之运"
+  },
+  {
+    "guaName": "屯",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "蒙",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "需",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "讼",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "师",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "比",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "小畜",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "履",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "泰",
+    "startStemIndex": 4,
+    "repeatAtYao4": true,
+    "yunIndex": 1,
+    "yunName": "天地否泰之运"
+  },
+  {
+    "guaName": "否",
+    "startStemIndex": 1,
+    "repeatAtYao4": true,
+    "yunIndex": 1,
+    "yunName": "天地否泰之运"
+  },
+  {
+    "guaName": "同人",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "大有",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "谦",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "豫",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 2,
+    "yunName": "男女交亲之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "随",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "蛊",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "临",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "观",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "噬嗑",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "贲",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 3,
+    "yunName": "阳晶守政之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "剥",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "复",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "无妄",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "大畜",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "颐",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "大过",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 4,
+    "yunName": "阴毳权衡之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "坎",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "离",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "咸",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "恒",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "遁",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "大壮",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 5,
+    "yunName": "资育还本之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "晋",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "明夷",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "家人",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "睽",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "蹇",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "解",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 6,
+    "yunName": "造化符天之运",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "损",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 7,
+    "yunName": "运七",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "益",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 7,
+    "yunName": "运七",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "姤",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 7,
+    "yunName": "运七",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "夬",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 7,
+    "yunName": "运七",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "萃",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 7,
+    "yunName": "运七",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "升",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 8,
+    "yunName": "运八",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "困",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 8,
+    "yunName": "运八",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "井",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 8,
+    "yunName": "运八",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "革",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 8,
+    "yunName": "运八",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "鼎",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 8,
+    "yunName": "运八",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "震",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 9,
+    "yunName": "运九",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "艮",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 9,
+    "yunName": "运九",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "渐",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 9,
+    "yunName": "运九",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "归妹",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 9,
+    "yunName": "运九",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "丰",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 9,
+    "yunName": "运九",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "旅",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 10,
+    "yunName": "运十",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "巽",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 10,
+    "yunName": "运十",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "兑",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 10,
+    "yunName": "运十",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "涣",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 10,
+    "yunName": "运十",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "节",
+    "startStemIndex": 4,
+    "repeatAtYao4": false,
+    "yunIndex": 10,
+    "yunName": "运十",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "中孚",
+    "startStemIndex": 0,
+    "repeatAtYao4": false,
+    "yunIndex": 11,
+    "yunName": "运十一",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "小过",
+    "startStemIndex": 1,
+    "repeatAtYao4": false,
+    "yunIndex": 11,
+    "yunName": "运十一",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "既济",
+    "startStemIndex": 2,
+    "repeatAtYao4": false,
+    "yunIndex": 11,
+    "yunName": "运十一",
+    "_TODO": "配爻参数待卷十三原文校对"
+  },
+  {
+    "guaName": "未济",
+    "startStemIndex": 3,
+    "repeatAtYao4": false,
+    "yunIndex": 12,
+    "yunName": "运十二",
+    "_TODO": "配爻参数待卷十三原文校对"
+  }
+]

@@ -1,0 +1,83 @@
+TASK_ID: "MINGGUA-005-REPOSITORY-IMPL"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/minggua/repository/ming_gua_repository_impl.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · Repository 具体实现(读 JSON assets + 用户配置持久化)"
+  STRATEGY: "OfficialMingGuaRepository:从 assets/minggua/ 读取 JSON 配置文件(Flutter rootBundle);readOnly,save/delete 抛 UnsupportedError。UserMingGuaRepository:从 SharedPreferences 或 app documents 目录读写用户配置(JSON 序列化)。MergedMingGuaRepository:聚合 official+user,user 优先(id 覆盖)。遵循现有 SchoolRepository 模式。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "dart:convert"
+    - "package:flutter/services.dart"
+    - "package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart"
+    - "package:shared_preferences/shared_preferences.dart"
+  EXTERNAL_LIBS:
+    - "shared_preferences: ^2.2.0"
+SIGNATURE: |
+  import 'dart:convert';
+  import 'package:flutter/services.dart';
+  import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+
+  /// 从 assets/minggua/ 加载官方配置(只读)。
+  class OfficialMingGuaRepository implements MingGuaRepository {
+    static const String _assetPath = 'assets/minggua';
+
+    @override
+    Future<List<MingGuaConfigContract>> loadAllConfigs();
+
+    @override
+    Future<MingGuaConfigContract?> loadConfig(String id);
+
+    @override
+    Future<void> saveConfig(MingGuaConfigContract config) =>
+        throw UnsupportedError('Official configs are read-only');
+
+    @override
+    Future<void> deleteConfig(String id) =>
+        throw UnsupportedError('Official configs are read-only');
+  }
+
+  /// 用户自定义配置存取(SharedPreferences)。
+  class UserMingGuaRepository implements MingGuaRepository {
+    static const String _storageKey = 'user_ming_gua_configs';
+
+    @override
+    Future<List<MingGuaConfigContract>> loadAllConfigs();
+
+    @override
+    Future<MingGuaConfigContract?> loadConfig(String id);
+
+    @override
+    Future<void> saveConfig(MingGuaConfigContract config);
+
+    @override
+    Future<void> deleteConfig(String id);
+  }
+
+  /// 合并官方+用户配置(用户 id 覆盖官方)。
+  class MergedMingGuaRepository implements MingGuaRepository {
+    final OfficialMingGuaRepository official;
+    final UserMingGuaRepository user;
+    MergedMingGuaRepository({required this.official, required this.user});
+
+    @override
+    Future<List<MingGuaConfigContract>> loadAllConfigs();
+
+    @override
+    Future<MingGuaConfigContract?> loadConfig(String id);
+
+    @override
+    Future<void> saveConfig(MingGuaConfigContract config) => user.saveConfig(config);
+
+    @override
+    Future<void> deleteConfig(String id) => user.deleteConfig(id);
+  }
+ASSERTIONS:
+  EXECENV: "flutter test;需 mock rootBundle(使用 TestWidgetsFlutterBinding)与 SharedPreferences(SharedPreferences.setMockInitialValues)"
+  CASES:
+    - "test('OfficialMingGuaRepository.saveConfig throws UnsupportedError', () { final repo = OfficialMingGuaRepository(); expect(() => repo.saveConfig(MingGuaConfigContract(id:'x',name:'x',epochBase:0,guaSequence:[])), throwsUnsupportedError); });"
+    - "test('UserMingGuaRepository CRUD roundtrip', () async { SharedPreferences.setMockInitialValues({}); final repo = UserMingGuaRepository(); final cfg = MingGuaConfigContract(id:'test',name:'测试',epochBase:100,guaSequence:List.generate(64,(i)=>'卦$i')); await repo.saveConfig(cfg); final loaded = await repo.loadConfig('test'); expect(loaded?.id, 'test'); expect(loaded?.epochBase, 100); await repo.deleteConfig('test'); final deleted = await repo.loadConfig('test'); expect(deleted, null); });"
+    - "test('MergedMingGuaRepository user overrides official', () async { /* user config with same id as official → merged returns user version */ });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅该实现文件,无任何解释文字"

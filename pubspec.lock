@@ -1139,6 +1139,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  xuan_gua_core:
+    dependency: "direct main"
+    description:
+      path: "../xuan-gua-core"
+      relative: true
+    source: path
+    version: "0.1.0"
   xuan_time_location:
     dependency: transitive
     description:

@@ -1,0 +1,37 @@
+TASK_ID: "MINGGUA-007-SAMPLE-UI"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/pages/ming_gua_sample_page.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · MVP 展示页面(Flutter Widget)"
+  STRATEGY: "StatefulWidget:顶部年份输入(TextField+NumberPicker 或 Slider,默认当年);点击'起卦'按钮触发 MingGuaViewModel.calculate;结果区展示:积年/余数/本卦(卦名+六爻图示用━和╴╴字符)/动爻位置(红色标记)/变卦(卦名+六爻图示)/所属十二运。加载中显示 CircularProgressIndicator。错误显示红色 Text。纯 MVP,不追求设计美感。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:flutter/material.dart"
+    - "package:provider/provider.dart"
+    - "package:taiyishenshu/minggua/viewmodels/ming_gua_view_model.dart"
+    - "package:taiyishenshu/minggua/core/ming_gua_engine.dart"
+  EXTERNAL_LIBS:
+    - "provider: ^6.0.0"
+SIGNATURE: |
+  import 'package:flutter/material.dart';
+  import 'package:provider/provider.dart';
+  import '../minggua/viewmodels/ming_gua_view_model.dart';
+  import '../minggua/core/ming_gua_engine.dart';
+
+  /// 太乙命卦 MVP 展示页面。
+  class MingGuaSamplePage extends StatefulWidget {
+    const MingGuaSamplePage({super.key});
+
+    @override
+    State<MingGuaSamplePage> createState() => _MingGuaSamplePageState();
+  }
+ASSERTIONS:
+  EXECENV: "flutter test(widget test)"
+  CASES:
+    - "testWidgets('页面渲染不崩溃', (tester) async { await tester.pumpWidget(MaterialApp(home: ChangeNotifierProvider(create: (_) => mockMingGuaViewModel, child: MingGuaSamplePage()))); expect(find.text('太乙命卦'), findsOneWidget); });"
+    - "testWidgets('输入年份后显示结果', (tester) async { /* 输入2026→点击起卦→验证显示本卦名 */ });"
+    - "testWidgets('六爻图示正确渲染', (tester) async { /* 验证阳爻显示━,阴爻显示╴╴ */ });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/pages/ming_gua_sample_page.dart 一个文件,无任何解释文字"

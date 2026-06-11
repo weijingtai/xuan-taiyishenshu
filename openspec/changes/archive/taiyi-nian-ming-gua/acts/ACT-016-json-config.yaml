@@ -1,0 +1,42 @@
+id: ACT-016
+title: "64卦天干配爻 JSON 配置 + 配置加载器"
+type: coding
+branch: feat/taiyi-minggua-destiny
+priority: P1
+depends_on: [ACT-014, ACT-015]
+
+context: |
+  64卦各自的天干配爻参数（起始天干、重复规则、所属运）需要配置化，
+  以 JSON 资产文件存储。同时提供 Dart 加载器。
+
+  十二运分组（每运含卦数）:
+    运1 天地否泰之运: 4卦 (乾坤否泰)
+    运2 男女交亲之运: 12卦
+    运3 阳晶守政之运: 6卦
+    运4 阴毳权衡之运: 6卦
+    运5 资育还本之运: 6卦
+    运6 造化符天之运: 6卦
+    运7-12: 各若干卦，合计64
+
+  JSON 中每卦需有:
+    guaName, startStemIndex (0=甲,1=戊,2=壬,3=丙,4=庚), repeatAtYao4, yunIndex, yunName
+
+  前4卦已知:
+    乾: start=0, repeat=false, yun=1
+    坤: start=4, repeat=false, yun=1
+    否: start=1, repeat=true, yun=1
+    泰: start=4, repeat=true, yun=1
+
+acceptance_criteria:
+  - assets/nian_ming_gua/sixty_four_gua_stems.json 存在，含64条记录
+  - 前4卦（乾坤否泰）配置与设计文档一致
+  - 其余60卦的 startStemIndex 和 repeatAtYao4 需根据卷十三原文规则推算填入
+    （如无法确定全部，至少前4卦正确，其余用合理默认值并标注 TODO）
+  - lib/nian_ming_gua/repository/nian_ming_gua_config_loader.dart 存在
+  - 加载函数: Future<List<NianMingGuaConfigContract>> loadConfigs() 从 assets 读取
+  - pubspec.yaml 中 assets 路径已注册
+
+deliverables:
+  - assets/nian_ming_gua/sixty_four_gua_stems.json
+  - lib/nian_ming_gua/repository/nian_ming_gua_config_loader.dart
+  - pubspec.yaml (assets entry added)

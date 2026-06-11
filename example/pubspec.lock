@@ -422,7 +422,7 @@ packages:
     source: hosted
     version: "1.17.0"
   metaphysics_core:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../xuan-metaphysics-core"
       relative: true
@@ -903,6 +903,13 @@ packages:
     dependency: "direct overridden"
     description:
       path: "../../xuan-four-zhu-card"
+      relative: true
+    source: path
+    version: "0.1.0"
+  xuan_gua_core:
+    dependency: transitive
+    description:
+      path: "../../xuan-gua-core"
       relative: true
     source: path
     version: "0.1.0"

@@ -1,0 +1,32 @@
+id: ACT-017
+title: "NianMingGuaEngine 主引擎"
+type: coding
+branch: feat/taiyi-minggua-destiny
+priority: P1
+depends_on: [ACT-013, ACT-014, ACT-015, ACT-016]
+
+context: |
+  主引擎将所有部分组装：输入年份 → 输出 NianMingGuaResultContract。
+
+  流程:
+    1. accYear = year + epochBase (默认 10153917)
+    2. remainder = accYear % 64 (余0视为64)
+    3. guaName = kTaiYiGuaSequence[remainder - 1]
+    4. 从配置中查找该卦的 (startStemIndex, repeatAtYao4, yunIndex, yunName)
+    5. stems = assignStems(startStemIndex, repeatAtYao4)
+    6. yao = kGuaYaoMap[guaName]
+    7. yangCount = yangYaoCount(guaName)
+    8. ce = ceCount(guaName)
+    9. 组装返回 NianMingGuaResultContract
+
+acceptance_criteria:
+  - lib/nian_ming_gua/core/nian_ming_gua_engine.dart 存在
+  - class NianMingGuaEngine 构造参数: epochBase (默认10153917), configs (List<NianMingGuaConfigContract>)
+  - 方法: NianMingGuaResultContract calculate({required int year})
+  - 验证: year=公元前10153917年 → accYear=0 → guaIndex=64 → 未济
+  - 验证: year=1 → accYear=10153918 → remainder=10153918%64=30 → 离
+  - 配置中找不到卦时抛 StateError
+  - import 使用 gua_core/gua_sequence.dart
+
+deliverables:
+  - lib/nian_ming_gua/core/nian_ming_gua_engine.dart

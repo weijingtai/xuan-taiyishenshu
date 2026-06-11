@@ -1,0 +1,37 @@
+TASK_ID: "DESTINY-004-SAMPLE-UI"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/pages/destiny_sample_page.dart"
+CONTEXT:
+  DOMAIN: "太乙人道命法 · MVP 展示页面(Flutter Widget)"
+  STRATEGY: "StatefulWidget:顶部日期时间输入(DateTimePicker 或两个按钮分别选日期和时辰);点击'排盘'按钮触发 DestinyViewModel.calculate;结果区展示:时局信息(局数/阴阳遁)、天目/始击/太乙宫位、主算/客算数值、十二宫列表(ListView:每宫一行=宫名+所落八宫+落入星神)。加载中显示 CircularProgressIndicator。纯 MVP。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:flutter/material.dart"
+    - "package:provider/provider.dart"
+    - "package:taiyishenshu/destiny/viewmodels/destiny_view_model.dart"
+    - "package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart"
+  EXTERNAL_LIBS:
+    - "provider: ^6.0.0"
+SIGNATURE: |
+  import 'package:flutter/material.dart';
+  import 'package:provider/provider.dart';
+  import '../destiny/viewmodels/destiny_view_model.dart';
+  import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+
+  /// 太乙人道命法 MVP 展示页面。
+  class DestinySamplePage extends StatefulWidget {
+    const DestinySamplePage({super.key});
+
+    @override
+    State<DestinySamplePage> createState() => _DestinySamplePageState();
+  }
+ASSERTIONS:
+  EXECENV: "flutter test(widget test)"
+  CASES:
+    - "testWidgets('页面渲染不崩溃', (tester) async { await tester.pumpWidget(MaterialApp(home: ChangeNotifierProvider(create: (_) => mockDestinyViewModel, child: DestinySamplePage()))); expect(find.text('太乙命法'), findsOneWidget); });"
+    - "testWidgets('显示十二宫列表', (tester) async { /* 排盘后验证显示命宫/相貌/父母等宫名 */ });"
+    - "testWidgets('显示主客算', (tester) async { /* 验证主算/客算数值区域 */ });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/pages/destiny_sample_page.dart 一个文件,无任何解释文字"

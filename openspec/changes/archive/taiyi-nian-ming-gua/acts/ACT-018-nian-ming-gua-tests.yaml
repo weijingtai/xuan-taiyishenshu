@@ -1,0 +1,51 @@
+id: ACT-018
+title: "年命卦全模块测试套件"
+type: coding_for_test
+branch: feat/taiyi-minggua-destiny
+priority: P1
+depends_on: [ACT-013, ACT-014, ACT-015, ACT-016, ACT-017]
+
+context: |
+  为年命卦全模块编写测试。分组：
+  1. gua_core 扩展函数测试（yangYaoCount, ceCount）
+  2. stem_assignment 算法测试（乾坤否泰 + 边界情况）
+  3. nian_ming_gua_engine 集成测试（年份→完整结果）
+  4. gua_core re-export 兼容性测试（原 minggua 路径 import 仍能编译）
+  5. JSON 配置加载测试
+
+test_vectors:
+  gua_core:
+    - yangYaoCount('乾') == 6
+    - yangYaoCount('坤') == 0
+    - yangYaoCount('否') == 3  # 乾下坤上
+    - ceCount('乾') == 216     # 6×36
+    - ceCount('坤') == 144     # 6×24
+    - ceCount('否') == 180     # 3×36+3×24
+    - ceCount('泰') == 180
+
+  stem_assignment:
+    - assignStems(0, false) == ['甲','戊','壬','丙','庚','甲']  # 乾
+    - assignStems(4, false) == ['庚','甲','戊','壬','丙','庚']  # 坤
+    - assignStems(1, true) → 验证匹配否卦原文 '戊壬丙壬戊甲'
+    - assignStems(4, true) → 验证匹配泰卦原文 '庚丙壬丙庚甲'
+
+  engine_integration:
+    - year=1, epochBase=10153917 → accYear=10153918, remainder=30, guaName='离'
+    - year=2026 → 手算验证 guaIndex 和 guaName
+    - 乾卦年份验证: 找一个使 remainder=1 的年份，验证完整输出
+
+acceptance_criteria:
+  - test/gua_core/gua_sequence_extension_test.dart 存在，覆盖 yangYaoCount 和 ceCount
+  - test/nian_ming_gua/core/stem_assignment_test.dart 存在，覆盖4+卦的天干配爻
+  - test/nian_ming_gua/core/nian_ming_gua_engine_test.dart 存在，覆盖主流程
+  - test/nian_ming_gua/repository/config_loader_test.dart 存在
+  - test/minggua/core/gua_sequence_reexport_test.dart 验证 re-export 兼容
+  - 所有测试硬编码期望值，不使用"把输出当期望"的伪测试模式
+  - flutter test 全部通过，0 failures
+
+deliverables:
+  - test/gua_core/gua_sequence_extension_test.dart
+  - test/nian_ming_gua/core/stem_assignment_test.dart
+  - test/nian_ming_gua/core/nian_ming_gua_engine_test.dart
+  - test/nian_ming_gua/repository/config_loader_test.dart
+  - test/minggua/core/gua_sequence_reexport_test.dart

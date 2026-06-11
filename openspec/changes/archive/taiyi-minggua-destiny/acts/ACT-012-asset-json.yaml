@@ -1,0 +1,28 @@
+TASK_ID: "MINGGUA-008-ASSET-JSON"
+LANG: "JSON"
+TARGET_FILE: "assets/minggua/tong_zong_sequence.json"
+CONTEXT:
+  DOMAIN: "太乙命卦 · 统宗六十四卦序配置文件(资产数据)"
+  STRATEGY: "JSON 对象包含:id='tongZong',name='统宗卷十三',epochBase=10153917,guaSequence=[64个卦名严格按卷十三顺序],dongYaoRule='standard',source='official'。第43项(index42)='姤'(非'夬')。此文件被 OfficialMingGuaRepository 读取。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS: []
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  {
+    "id": "tongZong",
+    "name": "统宗卷十三",
+    "epochBase": 10153917,
+    "guaSequence": ["乾","坤",...64个卦名...,"未济"],
+    "dongYaoRule": "standard",
+    "source": "official"
+  }
+ASSERTIONS:
+  EXECENV: "dart test(JSON schema 验证)"
+  CASES:
+    - "test('JSON可解析为MingGuaConfigContract', () { final json = jsonDecode(File('assets/minggua/tong_zong_sequence.json').readAsStringSync()); final config = MingGuaConfigContract.fromJson(json); expect(config.guaSequence.length, 64); expect(config.epochBase, 10153917); });"
+    - "test('第43位=姤', () { final json = jsonDecode(File('assets/minggua/tong_zong_sequence.json').readAsStringSync()); expect((json['guaSequence'] as List)[42], '姤'); });"
+    - "test('第1位=乾,第64位=未济', () { final seq = (json['guaSequence'] as List); expect(seq[0], '乾'); expect(seq[63], '未济'); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ```json 中的完整 JSON 文件,无任何解释文字"

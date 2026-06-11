@@ -1,0 +1,90 @@
+TASK_ID: "DESTINY-001-CONTRACTS"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/src/contracts/destiny_contracts.dart"
+CONTEXT:
+  DOMAIN: "太乙人道命法 · Repository Interface 层 Contract DTO(freezed 不可变数据类)"
+  STRATEGY: "DestinyConfigContract=命法配置:id+name+epoch(复用SchoolEpochConfigContract)+palaceMappings(List<DestinyPalaceMappingContract>)+source+rules(Map)。DestinyPalaceMappingContract=十二宫映射规则:index(1-12)+name(宫名)+mappingRule(规则引用字符串)。DestinyResultContract=计算结果:accumulatedHour+juNumber(1-72)+dunType+taiYiPalace+wenChangPalace+shiJiPalace+hostCount+guestCount+twelvePalaces(List<DestinyPalaceResultContract>)。DestinyPalaceResultContract=单宫结果:index+name+deities(List<String>)+interpretation(String?)。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:freezed_annotation/freezed_annotation.dart"
+    - "taiyi_contracts.dart"
+  EXTERNAL_LIBS:
+    - "freezed_annotation: ^2.4.0"
+SIGNATURE: |
+  import 'package:freezed_annotation/freezed_annotation.dart';
+  import 'taiyi_contracts.dart';
+
+  part 'destiny_contracts.freezed.dart';
+  part 'destiny_contracts.g.dart';
+
+  /// 太乙人道命法配置 Contract。
+  @freezed
+  class DestinyConfigContract with _$DestinyConfigContract {
+    const factory DestinyConfigContract({
+      required String id,
+      required String name,
+      required SchoolEpochConfigContract epoch,
+      required List<DestinyPalaceMappingContract> palaceMappings,
+      @Default('official') String source,
+      @Default({}) Map<String, dynamic> rules,
+    }) = _DestinyConfigContract;
+
+    factory DestinyConfigContract.fromJson(Map<String, dynamic> json) =>
+        _$DestinyConfigContractFromJson(json);
+  }
+
+  /// 十二人身宫映射规则 Contract。
+  @freezed
+  class DestinyPalaceMappingContract with _$DestinyPalaceMappingContract {
+    const factory DestinyPalaceMappingContract({
+      required int index,
+      required String name,
+      required String mappingRule,
+    }) = _DestinyPalaceMappingContract;
+
+    factory DestinyPalaceMappingContract.fromJson(Map<String, dynamic> json) =>
+        _$DestinyPalaceMappingContractFromJson(json);
+  }
+
+  /// 太乙人道命法计算结果 Contract。
+  @freezed
+  class DestinyResultContract with _$DestinyResultContract {
+    const factory DestinyResultContract({
+      required int accumulatedHour,
+      required int juNumber,
+      required String dunType,
+      required String taiYiPalace,
+      required String wenChangPalace,
+      required String shiJiPalace,
+      required int hostCount,
+      required int guestCount,
+      required List<DestinyPalaceResultContract> twelvePalaces,
+    }) = _DestinyResultContract;
+
+    factory DestinyResultContract.fromJson(Map<String, dynamic> json) =>
+        _$DestinyResultContractFromJson(json);
+  }
+
+  /// 十二宫单宫结果 Contract。
+  @freezed
+  class DestinyPalaceResultContract with _$DestinyPalaceResultContract {
+    const factory DestinyPalaceResultContract({
+      required int index,
+      required String name,
+      required List<String> deities,
+      String? interpretation,
+    }) = _DestinyPalaceResultContract;
+
+    factory DestinyPalaceResultContract.fromJson(Map<String, dynamic> json) =>
+        _$DestinyPalaceResultContractFromJson(json);
+  }
+ASSERTIONS:
+  EXECENV: "flutter test(在 repository-interface-taiyishenshu 项目中);运行 dart run build_runner build 后测试"
+  CASES:
+    - "test('DestinyConfigContract fromJson roundtrip', () { final json = {'id':'tongZong','name':'统宗命法','epoch':{'ancientBase':10155219,'epochYear':1303,'correction':1},'palaceMappings':[{'index':1,'name':'命宫','mappingRule':'birthBranchPalace'}],'source':'official','rules':{}}; final c = DestinyConfigContract.fromJson(json); expect(c.id, 'tongZong'); expect(c.palaceMappings.length, 1); expect(c.palaceMappings[0].name, '命宫'); });"
+    - "test('DestinyResultContract fromJson', () { final json = {'accumulatedHour':99999,'juNumber':36,'dunType':'yang','taiYiPalace':'乾','wenChangPalace':'离','shiJiPalace':'坤','hostCount':5,'guestCount':3,'twelvePalaces':[{'index':1,'name':'命宫','deities':['太乙'],'interpretation':null}]}; final r = DestinyResultContract.fromJson(json); expect(r.juNumber, 36); expect(r.twelvePalaces[0].deities, ['太乙']); });"
+    - "test('DestinyPalaceMappingContract default', () { final m = DestinyPalaceMappingContract(index:1,name:'命宫',mappingRule:'birthBranchPalace'); expect(m.index, 1); expect(m.mappingRule, 'birthBranchPalace'); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅该 contracts 文件,无任何解释文字"
