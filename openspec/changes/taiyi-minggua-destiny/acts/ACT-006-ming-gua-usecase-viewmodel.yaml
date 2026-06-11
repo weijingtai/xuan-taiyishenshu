@@ -1,0 +1,57 @@
+TASK_ID: "MINGGUA-006-USECASE-VIEWMODEL"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/minggua/usecases/calculate_ming_gua_usecase.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · UseCase + ViewModel(MVVM 应用层)"
+  STRATEGY: "CalculateMingGuaUseCase:注入 MingGuaRepository,call(year,configId?)→MingGuaResult。加载指定(或默认 tongZong)配置,构造 MingGuaEngine,计算并返回结果。MingGuaViewModel extends ChangeNotifier:持有 result/isLoading/error,暴露 calculate(year) 方法触发 usecase,notifyListeners 驱动 UI。遵循现有 deity_view_model/school_view_model 模式。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:flutter/foundation.dart"
+    - "package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart"
+    - "package:taiyishenshu/minggua/core/ming_gua_engine.dart"
+    - "package:taiyishenshu/minggua/core/gua_sequence.dart"
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  // --- calculate_ming_gua_usecase.dart ---
+  import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+  import '../core/ming_gua_engine.dart';
+  import '../core/gua_sequence.dart';
+
+  class CalculateMingGuaUseCase {
+    final MingGuaRepository repository;
+    CalculateMingGuaUseCase({required this.repository});
+
+    /// 计算命卦。[configId] 为空则使用默认配置 'tongZong'。
+    Future<MingGuaResult> call({required int year, String? configId});
+  }
+
+  // --- ming_gua_view_model.dart (同一 ACT 输出第二个文件) ---
+  import 'package:flutter/foundation.dart';
+  import '../core/ming_gua_engine.dart';
+  import 'calculate_ming_gua_usecase.dart';
+
+  class MingGuaViewModel extends ChangeNotifier {
+    final CalculateMingGuaUseCase calculateUseCase;
+
+    MingGuaResult? _result;
+    bool _isLoading = false;
+    String? _error;
+
+    MingGuaViewModel({required this.calculateUseCase});
+
+    MingGuaResult? get result => _result;
+    bool get isLoading => _isLoading;
+    String? get error => _error;
+
+    Future<void> calculate({required int year, String? configId});
+  }
+ASSERTIONS:
+  EXECENV: "flutter test;需 mock MingGuaRepository"
+  CASES:
+    - "test('UseCase returns valid result', () async { final mockRepo = MockMingGuaRepository(); final usecase = CalculateMingGuaUseCase(repository: mockRepo); final result = await usecase(year: 2026); expect(result.accumulatedYear, 10155943); });"
+    - "test('ViewModel notifies on calculate', () async { final mockRepo = MockMingGuaRepository(); final usecase = CalculateMingGuaUseCase(repository: mockRepo); final vm = MingGuaViewModel(calculateUseCase: usecase); var notified = false; vm.addListener(() { notified = true; }); await vm.calculate(year: 2026); expect(notified, true); expect(vm.result, isNotNull); expect(vm.isLoading, false); });"
+    - "test('ViewModel error state on invalid config', () async { final mockRepo = MockMingGuaRepository(throwOnLoad: true); final usecase = CalculateMingGuaUseCase(repository: mockRepo); final vm = MingGuaViewModel(calculateUseCase: usecase); await vm.calculate(year: 2026, configId: 'nonexistent'); expect(vm.error, isNotNull); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,输出两个文件:1)lib/minggua/usecases/calculate_ming_gua_usecase.dart 2)lib/minggua/viewmodels/ming_gua_view_model.dart,各用 ```dart 和文件路径注释分隔"

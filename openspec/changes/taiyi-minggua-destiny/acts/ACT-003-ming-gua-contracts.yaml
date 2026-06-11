@@ -1,0 +1,62 @@
+TASK_ID: "MINGGUA-003-CONTRACTS"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/src/contracts/ming_gua_contracts.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · Repository Interface 层 Contract DTO(freezed 不可变数据类)"
+  STRATEGY: "MingGuaConfigContract=配置:id+name+epochBase(int)+guaSequence(List<String> 64项)+dongYaoRule(String default 'standard')+source(String default 'official')。MingGuaResultContract=计算结果:accumulatedYear+remainder+guaIndex+benGuaName+benGuaYao(List<bool> 6项)+dongYaoPosition(1-6)+isYangChen+bianGuaName+bianGuaYao+yunIndex(int? 可选)。遵循 repository-interface-taiyishenshu 现有 freezed 模式。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:freezed_annotation/freezed_annotation.dart"
+  EXTERNAL_LIBS:
+    - "freezed_annotation: ^2.4.0"
+SIGNATURE: |
+  import 'package:freezed_annotation/freezed_annotation.dart';
+
+  part 'ming_gua_contracts.freezed.dart';
+  part 'ming_gua_contracts.g.dart';
+
+  /// 太乙命卦配置 Contract。
+  @freezed
+  class MingGuaConfigContract with _$MingGuaConfigContract {
+    const factory MingGuaConfigContract({
+      required String id,
+      required String name,
+      required int epochBase,
+      required List<String> guaSequence,
+      @Default('standard') String dongYaoRule,
+      @Default('official') String source,
+    }) = _MingGuaConfigContract;
+
+    factory MingGuaConfigContract.fromJson(Map<String, dynamic> json) =>
+        _$MingGuaConfigContractFromJson(json);
+  }
+
+  /// 太乙命卦计算结果 Contract。
+  @freezed
+  class MingGuaResultContract with _$MingGuaResultContract {
+    const factory MingGuaResultContract({
+      required int accumulatedYear,
+      required int remainder,
+      required int guaIndex,
+      required String benGuaName,
+      required List<bool> benGuaYao,
+      required int dongYaoPosition,
+      required bool isYangChen,
+      required String bianGuaName,
+      required List<bool> bianGuaYao,
+      int? yunIndex,
+    }) = _MingGuaResultContract;
+
+    factory MingGuaResultContract.fromJson(Map<String, dynamic> json) =>
+        _$MingGuaResultContractFromJson(json);
+  }
+ASSERTIONS:
+  EXECENV: "flutter test(在 repository-interface-taiyishenshu 项目中);运行 dart run build_runner build 后测试 import 正常"
+  CASES:
+    - "test('MingGuaConfigContract fromJson roundtrip', () { final json = {'id':'tongZong','name':'统宗','epochBase':10153917,'guaSequence':List.generate(64,(i)=>'卦$i'),'dongYaoRule':'standard','source':'official'}; final c = MingGuaConfigContract.fromJson(json); expect(c.id, 'tongZong'); expect(c.epochBase, 10153917); expect(c.guaSequence.length, 64); expect(c.toJson(), json); });"
+    - "test('MingGuaResultContract fromJson roundtrip', () { final json = {'accumulatedYear':10155943,'remainder':55,'guaIndex':55,'benGuaName':'丰','benGuaYao':[true,false,true,false,false,true],'dongYaoPosition':1,'isYangChen':true,'bianGuaName':'噬嗑','bianGuaYao':[false,false,true,false,false,true],'yunIndex':null}; final r = MingGuaResultContract.fromJson(json); expect(r.accumulatedYear, 10155943); expect(r.dongYaoPosition, 1); });"
+    - "test('MingGuaConfigContract default values', () { final c = MingGuaConfigContract(id:'t',name:'t',epochBase:0,guaSequence:[]); expect(c.dongYaoRule, 'standard'); expect(c.source, 'official'); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅该 contracts 文件,无任何解释文字。注意:freezed generated 文件(.freezed.dart/.g.dart)由 build_runner 生成,不需在输出中包含"

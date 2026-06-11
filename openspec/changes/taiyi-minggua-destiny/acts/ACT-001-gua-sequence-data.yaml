@@ -1,0 +1,56 @@
+TASK_ID: "MINGGUA-001-GUA-SEQUENCE-DATA"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/minggua/core/gua_sequence.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · 统宗六十四卦序常量数据 + 八卦六爻编码"
+  STRATEGY: "kTaiYiGuaSequence=《统宗》卷十三64卦序(第43位=姤,非夬);kGuaYaoMap=64卦的六爻编码(初爻→上爻,true=阳/false=阴);kBaGuaYao=八经卦三爻(乾☰=TTT,坤☷=FFF,震☳=TFF,艮☶=FFT,离☲=TFT,坎☵=FTF,兑☱=TTF,巽☴=FTT);重卦由下卦+上卦组合(下经卦占爻1-3,上经卦占爻4-6)。每卦名唯一,64个不重复。纯常量,无IO。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS: []
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  /// 《太乙统宗宝鉴》卷十三专属六十四卦序。
+  /// 索引 0..63,对应卦序 1..64。
+  /// 第 42 位(序号43)为'姤',与周易通行序(夬)不同。
+  const List<String> kTaiYiGuaSequence = [...]; // 64 elements
+
+  /// 八经卦三爻编码。true=阳(━),false=阴(╴╴)。
+  /// 顺序:初爻→上爻(从下往上)。
+  const Map<String, List<bool>> kBaGuaYao = {
+    '乾': [true, true, true],
+    '坤': [false, false, false],
+    '震': [true, false, false],
+    '艮': [false, false, true],
+    '离': [true, false, true],
+    '坎': [false, true, false],
+    '兑': [true, true, false],
+    '巽': [false, true, true],
+  };
+
+  /// 六十四卦的六爻编码(由下卦+上卦组合)。
+  /// key=卦名, value=[初爻,二爻,三爻,四爻,五爻,上爻]。
+  const Map<String, List<bool>> kGuaYaoMap = {...}; // 64 entries
+
+  /// 六十四卦分解表:卦名→(下卦名,上卦名)。
+  const Map<String, (String, String)> kGuaDecompose = {...}; // 64 entries
+
+  /// 根据六爻编码反查卦名。找不到返回 null。
+  String? findGuaNameByYao(List<bool> yao);
+ASSERTIONS:
+  EXECENV: "flutter test;测试文件需 import 'package:flutter_test/flutter_test.dart'; 与 'package:taiyishenshu/minggua/core/gua_sequence.dart';"
+  CASES:
+    - "test('卦序长度=64', () { expect(kTaiYiGuaSequence.length, 64); });"
+    - "test('第1位=乾', () { expect(kTaiYiGuaSequence[0], '乾'); });"
+    - "test('第2位=坤', () { expect(kTaiYiGuaSequence[1], '坤'); });"
+    - "test('第43位(index42)=姤(非夬)', () { expect(kTaiYiGuaSequence[42], '姤'); });"
+    - "test('第64位=未济', () { expect(kTaiYiGuaSequence[63], '未济'); });"
+    - "test('无重复卦名', () { expect(kTaiYiGuaSequence.toSet().length, 64); });"
+    - "test('kGuaYaoMap有64条', () { expect(kGuaYaoMap.length, 64); });"
+    - "test('乾卦六爻全阳', () { expect(kGuaYaoMap['乾'], [true,true,true,true,true,true]); });"
+    - "test('坤卦六爻全阴', () { expect(kGuaYaoMap['坤'], [false,false,false,false,false,false]); });"
+    - "test('findGuaNameByYao 乾', () { expect(findGuaNameByYao([true,true,true,true,true,true]), '乾'); });"
+    - "test('findGuaNameByYao 翻转初爻=姤(天风姤:巽下乾上)', () { expect(findGuaNameByYao([false,true,true,true,true,true]), '姤'); });"
+    - "test('findGuaNameByYao 无效返null', () { expect(findGuaNameByYao([true,true,true,true,true,true,true]), null); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/minggua/core/gua_sequence.dart 一个文件,无任何解释文字"

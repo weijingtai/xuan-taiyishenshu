@@ -1,0 +1,49 @@
+TASK_ID: "DESTINY-003-ENGINE"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/destiny/core/destiny_engine.dart"
+CONTEXT:
+  DOMAIN: "太乙人道命法 · 核心调度引擎(时计入局→星神→十二宫)"
+  STRATEGY: "DestinyEngine 调用现有 TaiYiPanCalculator(chartType=hour)获取时计盘面,提取核心星神位置(太乙/文昌/始击/主算/客算),然后调用 TwelvePalaceMapper 执行十二宫映射。输入=DateTime(出生时间)+DestinyConfigContract(配置)。输出=DestinyResultContract。不修改 taiyi_pan_calculator,仅只读调用。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart"
+    - "package:taiyishenshu/taiyi/taiyi_pan_calculator.dart"
+    - "package:taiyishenshu/taiyi/pan_data_model.dart"
+    - "package:taiyishenshu/taiyi/pan_enums.dart"
+    - "package:taiyishenshu/destiny/core/twelve_palaces.dart"
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+  import 'package:taiyishenshu/taiyi/taiyi_pan_calculator.dart';
+  import 'package:taiyishenshu/taiyi/pan_data_model.dart';
+  import 'package:taiyishenshu/taiyi/pan_enums.dart';
+  import 'twelve_palaces.dart';
+
+  /// 太乙人道命法核心引擎。
+  /// 调度流程:时计入局(复用) → 提取星神 → 十二宫映射(可配置)。
+  class DestinyEngine {
+    final TaiYiPanCalculator _calculator;
+
+    const DestinyEngine({TaiYiPanCalculator? calculator})
+        : _calculator = calculator ?? const TaiYiPanCalculator();
+
+    /// 计算人道命法命盘。
+    /// [birthTime]: 出生时间(精确到时辰)。
+    /// [config]: 命法配置(含积年参数+十二宫映射)。
+    /// [schoolId]: 使用的流派 ID(默认 'tongZong')。
+    DestinyResultContract calculate({
+      required DateTime birthTime,
+      required DestinyConfigContract config,
+      String schoolId = 'tongZong',
+    });
+  }
+ASSERTIONS:
+  EXECENV: "flutter test;需 mock 或使用真实 TaiYiPanCalculator + 配置"
+  CASES:
+    - "test('DestinyEngine 返回有效结果', () { final engine = DestinyEngine(); final config = DestinyConfigContract(id:'test',name:'测试',epoch:SchoolEpochConfigContract(ancientBase:10155219,epochYear:1303,correction:1),palaceMappings:List.generate(12,(i)=>DestinyPalaceMappingContract(index:i+1,name:kTwelvePalaceNames[i],mappingRule:i==0?'birthBranchPalace':'sequentialNext($i)'))); final result = engine.calculate(birthTime:DateTime(1990,6,15,14,30),config:config); expect(result.juNumber, greaterThan(0)); expect(result.juNumber, lessThanOrEqualTo(72)); expect(result.twelvePalaces.length, 12); });"
+    - "test('DestinyEngine dunType 冬至后=阳', () { final engine = DestinyEngine(); final config = DestinyConfigContract(id:'test',name:'测试',epoch:SchoolEpochConfigContract(ancientBase:10155219,epochYear:1303,correction:1),palaceMappings:[]); final result = engine.calculate(birthTime:DateTime(2026,1,15,10,0),config:config); expect(result.dunType, 'yang'); });"
+    - "test('DestinyEngine 十二宫结果有效', () { final engine = DestinyEngine(); final config = DestinyConfigContract(id:'test',name:'测试',epoch:SchoolEpochConfigContract(ancientBase:10155219,epochYear:1303,correction:1),palaceMappings:List.generate(12,(i)=>DestinyPalaceMappingContract(index:i+1,name:kTwelvePalaceNames[i],mappingRule:i==0?'birthBranchPalace':'sequentialNext($i)'))); final result = engine.calculate(birthTime:DateTime(1985,3,20,8,0),config:config); expect(result.twelvePalaces[0].name, '命宫'); expect(result.twelvePalaces[0].palace, isNotEmpty); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/destiny/core/destiny_engine.dart 一个文件,无任何解释文字"

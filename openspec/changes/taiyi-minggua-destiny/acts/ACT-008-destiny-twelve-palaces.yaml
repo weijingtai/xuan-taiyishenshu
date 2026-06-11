@@ -1,0 +1,71 @@
+TASK_ID: "DESTINY-002-TWELVE-PALACES"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/destiny/core/twelve_palaces.dart"
+CONTEXT:
+  DOMAIN: "太乙人道命法 · 十二人身宫模型 + 可配置映射解释器"
+  STRATEGY: "十二宫=[命宫,相貌,父母,兄弟,妻妾,子孙,财帛,田宅,官禄,奴仆,疾厄,福德]。映射规则类型:birthBranchPalace=出生时支→对应八宫(子丑→坎,寅→艮,卯→震,辰巳→巽,午→离,未→坤,申→兑,酉戌→乾,亥→坎);sequentialNext(refIndex)=上一宫在八宫顺行+1;fixedPalace(name)=固定宫位。PalaceMapper:解析 DestinyPalaceMappingContract 列表,根据出生时支+星神位置列表,输出十二宫分配结果。纯函数。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart"
+    - "package:taiyishenshu/taiyi/rules/nine_palace.dart"
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+  import 'package:taiyishenshu/taiyi/rules/nine_palace.dart';
+
+  /// 十二宫名称常量(统宗人道命法)。
+  const List<String> kTwelvePalaceNames = [
+    '命宫', '相貌', '父母', '兄弟', '妻妾', '子孙',
+    '财帛', '田宅', '官禄', '奴仆', '疾厄', '福德',
+  ];
+
+  /// 地支→八宫映射。
+  const Map<String, String> kBranchToPalace = {
+    '子': '坎', '丑': '艮', '寅': '艮', '卯': '震',
+    '辰': '巽', '巳': '巽', '午': '离', '未': '坤',
+    '申': '兑', '酉': '乾', '戌': '乾', '亥': '坎',
+  };
+
+  /// 十二宫映射结果(单宫)。
+  class PalaceSlot {
+    final int index;          // 1-12
+    final String name;        // 宫名
+    final String palace;      // 所落八宫
+    final List<String> deities; // 落入此宫的星神
+    PalaceSlot({required this.index, required this.name, required this.palace, this.deities = const []});
+  }
+
+  /// 十二宫映射引擎。
+  /// 根据配置的 palaceMappings 和输入参数,计算十二宫分布。
+  class TwelvePalaceMapper {
+    final List<DestinyPalaceMappingContract> mappings;
+    TwelvePalaceMapper(this.mappings);
+
+    /// 执行映射。
+    /// [birthBranch]: 出生时支(如'寅')。
+    /// [deityPlacements]: 星神→所落宫位 map(如{'太乙':'乾','文昌':'离'})。
+    List<PalaceSlot> map({
+      required String birthBranch,
+      required Map<String, String> deityPlacements,
+    });
+  }
+
+  /// 解析单条映射规则,返回对应八宫名。
+  /// [rule]: 如 'birthBranchPalace', 'sequentialNext(1)', 'fixedPalace(乾)'
+  /// [context]: 已解析的宫位(index→palace)用于 sequentialNext 引用。
+  /// [birthBranch]: 出生时支。
+  String resolveMappingRule(String rule, {required String birthBranch, required Map<int, String> context});
+ASSERTIONS:
+  EXECENV: "flutter test"
+  CASES:
+    - "test('kBranchToPalace 寅→艮', () { expect(kBranchToPalace['寅'], '艮'); });"
+    - "test('kBranchToPalace 午→离', () { expect(kBranchToPalace['午'], '离'); });"
+    - "test('resolveMappingRule birthBranchPalace', () { expect(resolveMappingRule('birthBranchPalace', birthBranch: '寅', context: {}), '艮'); });"
+    - "test('resolveMappingRule sequentialNext(1) from 艮', () { final ctx = {1: '艮'}; expect(resolveMappingRule('sequentialNext(1)', birthBranch: '寅', context: ctx), '震'); });"
+    - "test('resolveMappingRule fixedPalace(乾)', () { expect(resolveMappingRule('fixedPalace(乾)', birthBranch: '寅', context: {}), '乾'); });"
+    - "test('TwelvePalaceMapper produces 12 slots', () { final mappings = List.generate(12, (i) => DestinyPalaceMappingContract(index: i+1, name: kTwelvePalaceNames[i], mappingRule: i==0 ? 'birthBranchPalace' : 'sequentialNext($i)')); final mapper = TwelvePalaceMapper(mappings); final result = mapper.map(birthBranch: '寅', deityPlacements: {'太乙':'乾'}); expect(result.length, 12); expect(result[0].palace, '艮'); });"
+    - "test('Deities assigned to correct palace', () { final mappings = [DestinyPalaceMappingContract(index:1,name:'命宫',mappingRule:'birthBranchPalace')]; final mapper = TwelvePalaceMapper(mappings); final result = mapper.map(birthBranch:'午', deityPlacements:{'太乙':'离','文昌':'坤'}); expect(result[0].deities.contains('太乙'), true); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/destiny/core/twelve_palaces.dart 一个文件,无任何解释文字"

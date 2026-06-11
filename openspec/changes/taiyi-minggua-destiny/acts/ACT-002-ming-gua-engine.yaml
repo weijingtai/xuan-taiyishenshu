@@ -1,0 +1,50 @@
+TASK_ID: "MINGGUA-002-ENGINE"
+LANG: "Dart 3.10.7 (stable) / Flutter 3.38.6"
+TARGET_FILE: "lib/minggua/core/ming_gua_engine.dart"
+CONTEXT:
+  DOMAIN: "太乙命卦 · 核心计算引擎(统运入卦四步:积年→定卦→定动爻→变卦)"
+  STRATEGY: "accYear=year+epochBase;remainder=accYear%64;guaIndex=(remainder==0)?64:remainder;benGua=guaSequence[guaIndex-1]。阴阳辰:ganZhiIndex=(accYear-1)%60,偶=阳辰。动爻:yaoNum=(remainder==0)?64:remainder;阳辰position=((yaoNum-1)%6)+1(初爻向上);阴辰position=6-((yaoNum-1)%6)(上爻向下)。变卦:翻转动爻位的阴阳。纯函数无IO。"
+DEPENDENCY_ALLOWANCE:
+  IMPORTS:
+    - "package:taiyishenshu/minggua/core/gua_sequence.dart"
+  EXTERNAL_LIBS: []
+SIGNATURE: |
+  /// 太乙命卦计算结果(内部模型)。
+  class MingGuaResult {
+    final int accumulatedYear;    // 总积年
+    final int remainder;          // accYear % 64 (0..63,0映射为64)
+    final int guaIndex;           // 1-64(卦序编号)
+    final String benGuaName;      // 本卦名
+    final List<bool> benGuaYao;   // 本卦六爻 [初..上]
+    final int dongYaoPosition;    // 动爻位 1-6
+    final bool isYangChen;        // 是否阳辰
+    final String bianGuaName;     // 变卦名
+    final List<bool> bianGuaYao;  // 变卦六爻
+    const MingGuaResult({required this.accumulatedYear, required this.remainder, required this.guaIndex, required this.benGuaName, required this.benGuaYao, required this.dongYaoPosition, required this.isYangChen, required this.bianGuaName, required this.bianGuaYao});
+  }
+
+  /// 太乙命卦核心引擎。
+  /// [guaSequence]: 64卦序(默认统宗卷十三序)。
+  /// [epochBase]: 积年基数(统宗=10153917)。
+  class MingGuaEngine {
+    final List<String> guaSequence;
+    final int epochBase;
+    const MingGuaEngine({this.guaSequence = kTaiYiGuaSequence, this.epochBase = 10153917});
+
+    /// 计算命卦。[year]=公元年份(正数为公元后)。
+    MingGuaResult calculate({required int year});
+  }
+ASSERTIONS:
+  EXECENV: "flutter test;测试文件需 import 'package:flutter_test/flutter_test.dart'; 与 'package:taiyishenshu/minggua/core/ming_gua_engine.dart';"
+  CASES:
+    - "test('2026年统宗命卦: accYear=10155943, remainder=10155943%64=55, guaIndex=55', () { final e = MingGuaEngine(); final r = e.calculate(year: 2026); expect(r.accumulatedYear, 10155943); expect(r.remainder, 10155943 % 64); expect(r.guaIndex, 10155943 % 64 == 0 ? 64 : 10155943 % 64); });"
+    - "test('余数=0时guaIndex=64=未济', () { final e = MingGuaEngine(); final testYear = 64 - 10153917 % 64; final acc = testYear + 10153917; expect(acc % 64, 0); final r = e.calculate(year: testYear); expect(r.guaIndex, 64); expect(r.benGuaName, '未济'); });"
+    - "test('阳辰从初爻向上数', () { final e = MingGuaEngine(); final r = e.calculate(year: 2026); if (r.isYangChen) { expect(r.dongYaoPosition, ((r.remainder == 0 ? 64 : r.remainder) - 1) % 6 + 1); } });"
+    - "test('阴辰从上爻向下数', () { final e = MingGuaEngine(); final r = e.calculate(year: 2027); if (!r.isYangChen) { final yaoNum = r.remainder == 0 ? 64 : r.remainder; expect(r.dongYaoPosition, 6 - ((yaoNum - 1) % 6)); } });"
+    - "test('变卦仅动爻位翻转', () { final e = MingGuaEngine(); final r = e.calculate(year: 2026); for (int i = 0; i < 6; i++) { if (i == r.dongYaoPosition - 1) { expect(r.bianGuaYao[i], !r.benGuaYao[i]); } else { expect(r.bianGuaYao[i], r.benGuaYao[i]); } } });"
+    - "test('变卦名有效(能在卦序中找到)', () { final e = MingGuaEngine(); final r = e.calculate(year: 2026); expect(kTaiYiGuaSequence.contains(r.bianGuaName) || findGuaNameByYao(r.bianGuaYao) != null, true); });"
+    - "test('自定义卦序生效', () { final custom = List<String>.from(kTaiYiGuaSequence); custom[0] = '测试卦'; final e = MingGuaEngine(guaSequence: custom, epochBase: 0); final r = e.calculate(year: 1); expect(r.benGuaName, '测试卦'); });"
+PROTOCOL:
+  MODE: "FULL_FILE"
+  NO_PROSE: true
+  OUTPUT_FORMAT: "强制返回包裹在 ``` 中的 Dart 源码,仅 lib/minggua/core/ming_gua_engine.dart 一个文件,无任何解释文字"
