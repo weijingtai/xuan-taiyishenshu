@@ -1,0 +1,24 @@
+id: ACT-013
+title: "抽取 gua_core 共享层 + 扩展 ceCount"
+type: coding
+branch: feat/taiyi-minggua-destiny
+priority: P0
+depends_on: []
+
+context: |
+  当前 lib/minggua/core/gua_sequence.dart 包含 64 卦序列、八卦爻编码、分解表、
+  kGuaYaoMap、findGuaNameByYao 等共享数据。需要将其移至 lib/gua_core/ 作为
+  共享层，原文件改为 re-export 保持兼容。同时扩展两个工具函数。
+
+acceptance_criteria:
+  - lib/gua_core/gua_sequence.dart 存在，内容为原 minggua/core/gua_sequence.dart 的全部内容
+  - lib/gua_core/gua_sequence.dart 新增函数 yangYaoCount(String guaName) → int
+  - lib/gua_core/gua_sequence.dart 新增函数 ceCount(String guaName) → int（阳×36 + 阴×24）
+  - lib/minggua/core/gua_sequence.dart 改为单行 "export 'package:taiyishenshu/gua_core/gua_sequence.dart';"
+  - lib/minggua/core/ming_gua_engine.dart 的 import 改为 gua_core 路径
+  - 所有现有测试仍然通过（flutter test 0 failures）
+
+deliverables:
+  - lib/gua_core/gua_sequence.dart
+  - lib/minggua/core/gua_sequence.dart (re-export)
+  - lib/minggua/core/ming_gua_engine.dart (import path update)

@@ -1,0 +1,54 @@
+id: ACT-014
+title: "天干配爻算法 stem_assignment.dart"
+type: coding
+branch: feat/taiyi-minggua-destiny
+priority: P0
+depends_on: [ACT-013]
+
+context: |
+  卷十三"天地否泰之运"体系的核心——五阳干循环配爻算法。
+  五阳干序列: G = [甲, 戊, 壬, 丙, 庚]（固定）
+  地支: 全爻固定 = 子
+  规则: 给定起始天干索引 startIndex 和 repeatAtYao4 布尔值，
+  按 G 顺序循环赋值六爻天干。若 repeatAtYao4=true，第4爻(index=3)
+  不前进cursor，重复当前天干。
+
+algorithm: |
+  List<String> assignStems(int startIndex, bool repeatAtYao4) {
+    const G = ['甲', '戊', '壬', '丙', '庚'];
+    final stems = <String>[];
+    int cursor = startIndex;
+    for (int i = 0; i < 6; i++) {
+      stems.add(G[cursor % 5]);
+      if (i == 3 && repeatAtYao4) {
+        // 不推进 cursor，下一爻将重复
+      } else {
+        cursor++;
+      }
+    }
+    // 注意: repeatAtYao4 的语义是"第4爻重复第3爻天干"
+    // 实现方式: 第3爻(i=2)正常推进后，第4爻(i=3)不推进 cursor
+    return stems;
+  }
+
+acceptance_criteria:
+  - lib/nian_ming_gua/core/stem_assignment.dart 存在
+  - 导出常量 kYangStems = ['甲', '戊', '壬', '丙', '庚']
+  - 导出常量 kFixedBranch = '子'
+  - 导出函数 assignStems(int startIndex, bool repeatAtYao4) → List<String>
+  - 乾卦验证: assignStems(0, false) == ['甲','戊','壬','丙','庚','甲']
+  - 坤卦验证: assignStems(4, false) == ['庚','甲','戊','壬','丙','庚']
+  - 否卦验证: assignStems(1, true) == ['戊','壬','丙','壬','戊','甲']
+    注意: 原文否卦从戊起，三爻后回退。实际算法中 repeatAtYao4=true 使 i=3 不推进。
+    需要验证此算法是否精确匹配原文"戊、壬、丙、壬、戊、甲"。如不匹配需调整。
+  - 泰卦验证: assignStems(4, true) == ['庚','丙','壬','丙','庚','甲']
+    同上验证"庚、丙、壬、丙、庚、甲"是否匹配。
+
+deliverables:
+  - lib/nian_ming_gua/core/stem_assignment.dart
+
+notes: |
+  否卦原文序列: 戊→壬→丙→壬→戊→甲
+  泰卦原文序列: 庚→丙→壬→丙→庚→甲
+  算法需精确复现。如果简单的 "i==3不推进" 无法匹配，可能需要
+  "i==3时 cursor 回退1步"。请根据实际验证调整实现。
