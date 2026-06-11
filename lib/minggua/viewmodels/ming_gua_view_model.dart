@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
-import '../core/ming_gua_engine.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import '../usecases/calculate_ming_gua_usecase.dart';
 
 class MingGuaViewModel extends ChangeNotifier {
   final CalculateMingGuaUseCase calculateUseCase;
 
-  MingGuaResult? _result;
+  MingGuaResultContract? _result;
   bool _isLoading = false;
   String? _error;
 
   MingGuaViewModel({required this.calculateUseCase});
 
-  MingGuaResult? get result => _result;
+  MingGuaResultContract? get result => _result;
   bool get isLoading => _isLoading;
   String? get error => _error;
 

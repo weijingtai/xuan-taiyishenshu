@@ -14,21 +14,6 @@ const Map<String, String> kBranchToPalace = {
   '申': '兑', '酉': '乾', '戌': '乾', '亥': '坎',
 };
 
-/// 十二宫映射结果(单宫)。
-class PalaceSlot {
-  final int index;
-  final String name;
-  final String palace;
-  final List<String> deities;
-
-  PalaceSlot({
-    required this.index,
-    required this.name,
-    required this.palace,
-    this.deities = const [],
-  });
-}
-
 /// 十二宫映射引擎。
 /// 根据配置的 palaceMappings 和输入参数,计算十二宫分布。
 class TwelvePalaceMapper {
@@ -40,7 +25,7 @@ class TwelvePalaceMapper {
   /// [birthBranch]: 出生时支(如'寅')。
   /// [deityPlacements]: 星神→所落宫位 map(如{'太乙':'乾','文昌':'离'})。
   /// mappings 为空时返回空列表;birthBranch 非法或规则格式错误时抛出 [ArgumentError]。
-  List<PalaceSlot> map({
+  List<PalaceSlotContract> map({
     required String birthBranch,
     required Map<String, String> deityPlacements,
   }) {
@@ -50,7 +35,7 @@ class TwelvePalaceMapper {
     }
 
     final context = <int, String>{};
-    final result = <PalaceSlot>[];
+    final result = <PalaceSlotContract>[];
 
     for (final mapping in mappings) {
       final palace = resolveMappingRule(
@@ -68,7 +53,7 @@ class TwelvePalaceMapper {
         }
       }
 
-      result.add(PalaceSlot(
+      result.add(PalaceSlotContract(
         index: mapping.index,
         name: mapping.name,
         palace: palace,

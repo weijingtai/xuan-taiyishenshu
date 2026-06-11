@@ -10,7 +10,7 @@ class CalculateMingGuaUseCase {
   CalculateMingGuaUseCase({required this.repository});
 
   /// 计算命卦。[configId] 为空则使用默认配置 'tongZong'。
-  Future<MingGuaResult> call({required int year, String? configId}) async {
+  Future<MingGuaResultContract> call({required int year, String? configId}) async {
     final id = configId ?? 'tongZong';
     final config = await repository.loadConfig(id);
     if (config == null) {

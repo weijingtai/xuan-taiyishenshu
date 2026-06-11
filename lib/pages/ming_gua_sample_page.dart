@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import '../minggua/viewmodels/ming_gua_view_model.dart';
-import '../minggua/core/ming_gua_engine.dart';
 
 /// 太乙命卦 MVP 展示页面。
 class MingGuaSamplePage extends StatefulWidget {
@@ -90,7 +90,7 @@ class _MingGuaSamplePageState extends State<MingGuaSamplePage> {
     context.read<MingGuaViewModel>().calculate(year: year);
   }
 
-  Widget _buildResult(MingGuaResult r) {
+  Widget _buildResult(MingGuaResultContract r) {
     return ListView(
       children: [
         _infoTile('积年', '${r.accumulatedYear}'),
