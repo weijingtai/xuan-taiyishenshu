@@ -23,6 +23,10 @@ void main() {
       expect(kTaiYiGuaSequence[63], '未济');
     });
 
+    test('第44位(index43)=夬(统宗:43姤44夬;通行:43夬44姤)', () {
+      expect(kTaiYiGuaSequence[43], '夬');
+    });
+
     test('无重复卦名', () {
       expect(kTaiYiGuaSequence.toSet().length, 64);
     });

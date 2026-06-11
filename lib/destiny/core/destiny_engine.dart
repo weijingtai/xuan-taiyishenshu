@@ -72,7 +72,7 @@ class DestinyEngine {
         .toList();
 
     return DestinyResultContract(
-      accumulatedHour: pan.accumulatedYear, // 复用积年字段
+      accumulatedHour: pan.sequenceIndex, // 积时值
       juNumber: pan.juNumber,
       dunType: pan.dunType == DunType.yang ? 'yang' : 'yin',
       taiYiPalace: taiYiPalaceName,

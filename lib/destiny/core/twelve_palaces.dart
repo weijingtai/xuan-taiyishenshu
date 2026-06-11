@@ -39,10 +39,16 @@ class TwelvePalaceMapper {
   /// 执行映射。
   /// [birthBranch]: 出生时支(如'寅')。
   /// [deityPlacements]: 星神→所落宫位 map(如{'太乙':'乾','文昌':'离'})。
+  /// mappings 为空时返回空列表;birthBranch 非法或规则格式错误时抛出 [ArgumentError]。
   List<PalaceSlot> map({
     required String birthBranch,
     required Map<String, String> deityPlacements,
   }) {
+    if (mappings.isEmpty) return const [];
+    if (!kBranchToPalace.containsKey(birthBranch)) {
+      throw ArgumentError.value(birthBranch, 'birthBranch', '未知地支');
+    }
+
     final context = <int, String>{};
     final result = <PalaceSlot>[];
 
@@ -78,33 +84,55 @@ class TwelvePalaceMapper {
 /// [rule]: 如 'birthBranchPalace', 'sequentialNext(1)', 'fixedPalace(乾)'
 /// [context]: 已解析的宫位(index→palace)用于 sequentialNext 引用。
 /// [birthBranch]: 出生时支。
+/// 规则格式非法时抛出 [ArgumentError]。
 String resolveMappingRule(
   String rule, {
   required String birthBranch,
   required Map<int, String> context,
 }) {
   if (rule == 'birthBranchPalace') {
-    return kBranchToPalace[birthBranch] ?? '坎';
+    final palace = kBranchToPalace[birthBranch];
+    if (palace == null) {
+      throw ArgumentError.value(birthBranch, 'birthBranch', '未知地支,无法映射八宫');
+    }
+    return palace;
   }
 
   if (rule.startsWith('sequentialNext(')) {
-    final refIndex = int.parse(
-      rule.substring('sequentialNext('.length, rule.length - 1),
-    );
-    final refPalace = context[refIndex] ?? '坎';
+    if (!rule.endsWith(')')) {
+      throw ArgumentError.value(rule, 'rule', 'sequentialNext 缺少右括号');
+    }
+    final inner = rule.substring('sequentialNext('.length, rule.length - 1);
+    final refIndex = int.tryParse(inner);
+    if (refIndex == null) {
+      throw ArgumentError.value(rule, 'rule', 'sequentialNext 参数非整数');
+    }
+    final refPalace = context[refIndex];
+    if (refPalace == null) {
+      throw ArgumentError.value(refIndex, 'refIndex', '上下文中不存在该宫位(尚未计算)');
+    }
     return _nextPalace(refPalace);
   }
 
   if (rule.startsWith('fixedPalace(')) {
-    return rule.substring('fixedPalace('.length, rule.length - 1);
+    if (!rule.endsWith(')')) {
+      throw ArgumentError.value(rule, 'rule', 'fixedPalace 缺少右括号');
+    }
+    final palaceName = rule.substring('fixedPalace('.length, rule.length - 1);
+    if (!kTaiYiPalaceOrder.contains(palaceName)) {
+      throw ArgumentError.value(palaceName, 'palaceName', '不在八宫序列中');
+    }
+    return palaceName;
   }
 
-  return '坎'; // fallback
+  throw ArgumentError.value(rule, 'rule', '未知映射规则(支持: birthBranchPalace / sequentialNext(n) / fixedPalace(X))');
 }
 
 /// 在 kTaiYiPalaceOrder 顺行序列中取下一个宫。
 String _nextPalace(String current) {
   final idx = kTaiYiPalaceOrder.indexOf(current);
-  if (idx < 0) return kTaiYiPalaceOrder[0];
+  if (idx < 0) {
+    throw StateError('宫位 "$current" 不在 kTaiYiPalaceOrder 中,无法求后继');
+  }
   return kTaiYiPalaceOrder[(idx + 1) % kTaiYiPalaceOrder.length];
 }
