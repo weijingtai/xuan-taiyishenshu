@@ -1,5 +1,5 @@
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
-import 'package:taiyishenshu/minggua/core/gua_sequence.dart';
+import 'package:taiyishenshu/gua_core/gua_sequence.dart';
 
 /// 太乙命卦核心引擎。
 /// [guaSequence]: 64卦序(默认统宗卷十三序)。
