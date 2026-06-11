@@ -29,6 +29,8 @@ dependency_overrides:
     path: ../../xuan-four-zhu-card
   persistence_core:
     path: ../../xuan-storage/core
+  metaphysics_core:
+    path: ../../xuan-metaphysics-core
 
 dev_dependencies:
   flutter_test:

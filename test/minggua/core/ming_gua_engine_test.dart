@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:taiyishenshu/minggua/core/gua_sequence.dart';
+import 'package:xuan_gua_core/xuan_gua_core.dart';
+import 'package:taiyishenshu/gua_core/gua_sequence.dart';
 import 'package:taiyishenshu/minggua/core/ming_gua_engine.dart';
 
 void main() {
@@ -15,9 +16,6 @@ void main() {
 
     test('余数=0时guaIndex=64=未济', () {
       final e = MingGuaEngine();
-      // Find a year where (year + epochBase) % 64 == 0.
-      // epochBase = 10153917; we need year such that (year + 10153917) % 64 == 0.
-      // 10153917 % 64 == ?  -> solve: 64 - (10153917 % 64) gives the offset.
       final testYear = 64 - 10153917 % 64;
       final acc = testYear + 10153917;
       expect(acc % 64, 0);
@@ -62,15 +60,15 @@ void main() {
       final e = MingGuaEngine();
       final r = e.calculate(year: 2026);
       expect(
-        kTaiYiGuaSequence.contains(r.bianGuaName) ||
+        kTaiYiGuaSequence.map((g) => g.name).contains(r.bianGuaName) ||
             findGuaNameByYao(r.bianGuaYao) != null,
         true,
       );
     });
 
     test('自定义卦序生效', () {
-      final custom = List<String>.from(kTaiYiGuaSequence);
-      custom[0] = '遁';
+      final custom = List<Enum64Gua>.from(kTaiYiGuaSequence);
+      custom[0] = Enum64Gua.tian_shan_dun;
       final e = MingGuaEngine(guaSequence: custom, epochBase: 0);
       final r = e.calculate(year: 1);
       expect(r.benGuaName, '遁');

@@ -1,4 +1,5 @@
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_gua_core/xuan_gua_core.dart';
 import 'package:taiyishenshu/gua_core/gua_sequence.dart';
 import 'package:taiyishenshu/nian_ming_gua/core/stem_assignment.dart';
 
@@ -9,12 +10,12 @@ import 'package:taiyishenshu/nian_ming_gua/core/stem_assignment.dart';
 /// 流程:
 /// 1. accYear = year + epochBase
 /// 2. remainder = accYear % 64 (余0视为64)
-/// 3. guaName = kTaiYiGuaSequence[remainder - 1]
+/// 3. gua = kTaiYiGuaSequence[remainder - 1]
 /// 4. 从配置中查找该卦的 (startStemIndex, repeatAtYao4, yunIndex, yunName)
 /// 5. stems = assignStems(startStemIndex, repeatAtYao4)
-/// 6. yao = kGuaYaoMap[guaName]
-/// 7. yangCount = yangYaoCount(guaName)
-/// 8. ce = ceCount(guaName)
+/// 6. yao = gua.yaoBoolList
+/// 7. yangCount = gua.yangYaoCount
+/// 8. ce = gua.ceCount
 /// 9. 组装返回 NianMingGuaResultContract
 class NianMingGuaEngine {
   final int epochBase;
@@ -31,7 +32,8 @@ class NianMingGuaEngine {
     final accYear = year + epochBase;
     final rawRemainder = accYear % 64;
     final guaIndex = rawRemainder == 0 ? 64 : rawRemainder;
-    final guaName = kTaiYiGuaSequence[guaIndex - 1];
+    final gua = kTaiYiGuaSequence[guaIndex - 1];
+    final guaName = gua.standardName;
 
     final config = _configMap[guaName];
     if (config == null) {
@@ -39,9 +41,9 @@ class NianMingGuaEngine {
     }
 
     final stems = assignStems(config.startStemIndex, config.repeatAtYao4);
-    final yao = kGuaYaoMap[guaName]!;
-    final yang = yangYaoCount(guaName);
-    final ce = ceCount(guaName);
+    final yao = gua.yaoBoolList;
+    final yang = gua.yangYaoCount;
+    final ce = gua.ceCount;
 
     return NianMingGuaResultContract(
       accumulatedYear: accYear,

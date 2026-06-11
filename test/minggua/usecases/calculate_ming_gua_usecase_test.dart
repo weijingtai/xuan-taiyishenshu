@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_gua_core/xuan_gua_core.dart';
 import 'package:taiyishenshu/minggua/core/ming_gua_engine.dart';
-import 'package:taiyishenshu/minggua/core/gua_sequence.dart';
+import 'package:taiyishenshu/gua_core/gua_sequence.dart';
 import 'package:taiyishenshu/minggua/usecases/calculate_ming_gua_usecase.dart';
 import 'package:taiyishenshu/minggua/viewmodels/ming_gua_view_model.dart';
 
@@ -18,7 +19,7 @@ class MockMingGuaRepository implements MingGuaRepository {
     id: 'tongZong',
     name: '统宗',
     epochBase: 10153917,
-    guaSequence: kTaiYiGuaSequence,
+    guaSequence: kTaiYiGuaSequence.map((g) => g.name).toList(),
     source: 'official',
   );
 

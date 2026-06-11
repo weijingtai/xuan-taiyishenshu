@@ -1,115 +1,121 @@
-/// 《太乙统宗宝鉴》卷十三专属六十四卦序。
-/// 索引 0..63,对应卦序 1..64。
-/// 第 42 位(序号43)为'姤',与周易通行序(夬)不同。
-const List<String> kTaiYiGuaSequence = [
-  '乾', '坤', '屯', '蒙', '需', '讼', '师', '比',
-  '小畜', '履', '泰', '否', '同人', '大有', '谦', '豫',
-  '随', '蛊', '临', '观', '噬嗑', '贲', '剥', '复',
-  '无妄', '大畜', '颐', '大过', '坎', '离', '咸', '恒',
-  '遁', '大壮', '晋', '明夷', '家人', '睽', '蹇', '解',
-  '损', '益', '姤', '夬', '萃', '升', '困', '井', '革',
-  '鼎', '震', '艮', '渐', '归妹', '丰', '旅', '巽',
-  '兑', '涣', '节', '中孚', '小过', '既济', '未济',
-];
+import 'package:xuan_gua_core/xuan_gua_core.dart';
 
-/// 六十四卦的六爻编码(由下卦+上卦组合)。
-/// key=卦名, value=[初爻,二爻,三爻,四爻,五爻,上爻]。
-const Map<String, List<bool>> kGuaYaoMap = {
-  '乾': [true, true, true, true, true, true],
-  '坤': [false, false, false, false, false, false],
-  '屯': [true, false, false, false, true, false],
-  '蒙': [false, true, false, false, false, true],
-  '需': [true, true, true, false, true, false],
-  '讼': [false, true, false, true, true, true],
-  '师': [false, false, false, false, true, false],
-  '比': [false, true, false, false, false, false],
-  '小畜': [true, true, true, false, true, true],
-  '履': [true, true, false, true, true, true],
-  '泰': [false, false, false, true, true, true],
-  '否': [true, true, true, false, false, false],
-  '同人': [true, false, true, true, true, true],
-  '大有': [true, true, true, true, false, true],
-  '谦': [false, false, true, false, false, false],
-  '豫': [false, false, false, true, false, false],
-  '随': [true, false, false, true, true, false],
-  '蛊': [false, true, true, false, false, true],
-  '临': [false, false, false, true, true, false],
-  '观': [false, true, true, false, false, false],
-  '噬嗑': [true, false, false, true, false, true],
-  '贲': [true, false, true, false, false, true],
-  '剥': [false, false, false, false, false, true],
-  '复': [true, false, false, false, false, false],
-  '无妄': [true, false, false, true, true, true],
-  '大畜': [true, true, true, false, false, true],
-  '颐': [true, false, false, false, false, true],
-  '大过': [false, true, true, true, true, false],
-  '坎': [false, true, false, false, true, false],
-  '离': [true, false, true, true, false, true],
-  '咸': [false, false, true, true, true, false],
-  '恒': [false, true, true, true, false, false],
-  '遁': [false, false, true, true, true, true],
-  '大壮': [true, false, false, true, true, true],
-  '晋': [false, false, false, true, false, true],
-  '明夷': [true, false, true, false, false, false],
-  '家人': [true, false, true, false, true, true],
-  '睽': [true, true, false, true, false, true],
-  '蹇': [false, false, true, false, true, false],
-  '解': [false, true, false, true, false, false],
-  '损': [true, true, false, false, false, true],
-  '益': [true, false, false, false, true, true],
-  '姤': [false, true, true, true, true, true],
-  '夬': [true, true, true, true, true, false],
-  '萃': [false, false, false, true, true, false],
-  '升': [false, true, true, false, false, false],
-  '困': [false, true, false, true, true, false],
-  '井': [false, true, true, false, true, false],
-  '革': [true, false, true, true, true, false],
-  '鼎': [false, true, true, true, false, true],
-  '震': [true, false, false, true, false, false],
-  '艮': [false, false, true, false, false, true],
-  '渐': [false, true, true, false, false, true],
-  '归妹': [true, false, false, true, true, false],
-  '丰': [true, false, false, true, false, true],
-  '旅': [true, false, true, false, false, true],
-  '巽': [false, true, true, false, true, true],
-  '兑': [true, true, false, true, true, false],
-  '涣': [false, true, true, false, true, false],
-  '节': [true, true, false, false, true, false],
-  '中孚': [true, true, false, false, true, true],
-  '小过': [true, false, false, false, false, true],
-  '既济': [true, false, true, false, true, false],
-  '未济': [false, true, false, true, false, true],
-};
+/// 《太乙统宗宝鉴》卷十三专属六十四卦序。
+/// 索引 0..63, 对应卦序 1..64。
+/// 第 42 位(序号43)为 Enum64Gua.tian_feng_gou(姤), 与周易通行序(夬)不同。
+final List<Enum64Gua> kTaiYiGuaSequence = [
+  // --- 运1 天地否泰之运 ---
+  Enum64Gua.qian_wei_tian,     // 乾
+  Enum64Gua.kun_wei_di,        // 坤
+  Enum64Gua.shui_lei_tun,      // 屯
+  Enum64Gua.shan_shui_meng,    // 蒙
+  Enum64Gua.shui_tian_xu,      // 需
+  Enum64Gua.tian_shui_song,    // 讼
+  Enum64Gua.di_shui_shi,       // 师
+  Enum64Gua.shui_di_bi,        // 比
+  Enum64Gua.feng_tian_xiao_xu, // 小畜
+  Enum64Gua.tian_ze_lv,        // 履
+  Enum64Gua.di_tian_tai,       // 泰
+  Enum64Gua.tian_di_pi,        // 否
+  Enum64Gua.tian_huo_tong_ren, // 同人
+  Enum64Gua.huo_tian_da_you,   // 大有
+  Enum64Gua.di_shan_qian,      // 谦
+  Enum64Gua.lei_di_yu,         // 豫
+  Enum64Gua.ze_lei_sui,        // 随
+  Enum64Gua.shan_feng_gu,      // 蛊
+  Enum64Gua.di_ze_lin,         // 临
+  Enum64Gua.feng_di_guan,      // 观
+  Enum64Gua.huo_lei_shi_he,    // 噬嗑
+  Enum64Gua.shan_huo_bi,       // 贲
+  Enum64Gua.shan_di_bo,        // 剥
+  Enum64Gua.di_lei_fu,         // 复
+  Enum64Gua.tian_lei_wu_wang,  // 无妄
+  Enum64Gua.shan_tian_da_xu,   // 大畜
+  Enum64Gua.shan_lei_yi,       // 颐
+  Enum64Gua.ze_feng_da_guo,    // 大过
+  Enum64Gua.kan_wei_shui,      // 坎
+  Enum64Gua.li_wei_huo,        // 离
+  Enum64Gua.ze_shan_xian,      // 咸
+  Enum64Gua.lei_feng_heng,     // 恒
+  Enum64Gua.tian_shan_dun,     // 遁
+  Enum64Gua.lei_tian_da_zhuang,// 大壮
+  Enum64Gua.huo_di_jin,        // 晋
+  Enum64Gua.di_huo_ming_yi,    // 明夷
+  Enum64Gua.feng_huo_jia_ren,  // 家人
+  Enum64Gua.huo_ze_kui,        // 睽
+  Enum64Gua.shui_shan_jian,    // 蹇
+  Enum64Gua.lei_shui_jie,      // 解
+  Enum64Gua.shan_ze_sun,       // 损
+  Enum64Gua.feng_lei_yi,       // 益
+  Enum64Gua.tian_feng_gou,     // 姤
+  Enum64Gua.ze_tian_guai,      // 夬
+  Enum64Gua.ze_di_cui,         // 萃
+  Enum64Gua.di_feng_sheng,     // 升
+  Enum64Gua.ze_shui_kun,       // 困
+  Enum64Gua.shui_feng_jing,    // 井
+  Enum64Gua.ze_huo_ge,         // 革
+  Enum64Gua.huo_feng_ding,     // 鼎
+  Enum64Gua.zhen_wei_lei,      // 震
+  Enum64Gua.gen_wei_shan,      // 艮
+  Enum64Gua.feng_shan_jian,    // 渐
+  Enum64Gua.lei_ze_gui_mei,    // 归妹
+  Enum64Gua.lei_huo_feng,      // 丰
+  Enum64Gua.huo_shan_lv,       // 旅
+  Enum64Gua.xun_wei_feng,      // 巽
+  Enum64Gua.dui_wei_ze,        // 兑
+  Enum64Gua.feng_shui_huan,    // 涣
+  Enum64Gua.shui_ze_jie,       // 节
+  Enum64Gua.feng_ze_zhong_fu,  // 中孚
+  Enum64Gua.lei_shan_xiao_gu,  // 小过
+  Enum64Gua.shui_huo_ji_ji,    // 既济
+  Enum64Gua.huo_shui_wei_ji,   // 未济
+];
 
 /// 根据六爻编码反查卦名。找不到返回 null。
 String? findGuaNameByYao(List<bool> yao) {
   if (yao.length != 6) return null;
-  for (final entry in kGuaYaoMap.entries) {
-    if (_listEquals(entry.value, yao)) return entry.key;
+  final binaryStr = yao.map((b) => b ? '1' : '0').join();
+  try {
+    return Enum64Gua.fromBinaryStr(binaryStr).name;
+  } catch (_) {
+    return null;
   }
-  return null;
-}
-
-bool _listEquals(List<bool> a, List<bool> b) {
-  if (a.length != b.length) return false;
-  for (int i = 0; i < a.length; i++) {
-    if (a[i] != b[i]) return false;
-  }
-  return true;
 }
 
 /// 返回 [guaName] 六爻中阳爻的数量。
 int yangYaoCount(String guaName) {
-  final yao = kGuaYaoMap[guaName];
-  if (yao == null) throw ArgumentError('Unknown gua: $guaName');
-  return yao.where((y) => y).length;
+  try {
+    return Enum64Gua.fromName(guaName).yangYaoCount;
+  } catch (_) {
+    throw ArgumentError('Unknown gua: $guaName');
+  }
 }
 
 /// 返回 [guaName] 的策数：阳爻×36 + 阴爻×24。
 int ceCount(String guaName) {
-  final yao = kGuaYaoMap[guaName];
-  if (yao == null) throw ArgumentError('Unknown gua: $guaName');
-  final yang = yao.where((y) => y).length;
-  final yin = 6 - yang;
-  return yang * 36 + yin * 24;
+  try {
+    return Enum64Gua.fromName(guaName).ceCount;
+  } catch (_) {
+    throw ArgumentError('Unknown gua: $guaName');
+  }
+}
+
+/// Enum64Gua 扩展：六爻编码工具。
+extension Enum64GuaYaoX on Enum64Gua {
+  /// 六爻 bool 编码 [初爻..上爻]，true=阳, false=阴。
+  List<bool> get yaoBoolList =>
+      bottomTopBinaryStr.split('').map((c) => c == '1').toList();
+
+  /// 阳爻数量。
+  int get yangYaoCount =>
+      bottomTopBinaryStr.split('').where((c) => c == '1').length;
+
+  /// 策数：阳爻×36 + 阴爻×24。
+  int get ceCount {
+    final yang = yangYaoCount;
+    return yang * 36 + (6 - yang) * 24;
+  }
+
+  /// 标准卦名（现在 Enum64Gua.name 已是标准卦名，直接返回）。
+  String get standardName => name;
 }

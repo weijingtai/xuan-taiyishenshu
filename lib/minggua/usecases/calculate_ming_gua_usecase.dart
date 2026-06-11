@@ -1,6 +1,7 @@
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_gua_core/xuan_gua_core.dart';
 import '../core/ming_gua_engine.dart';
-import '../core/gua_sequence.dart';
+import 'package:taiyishenshu/gua_core/gua_sequence.dart';
 
 /// 计算命卦 UseCase。
 /// 注入 MingGuaRepository,加载配置后调用引擎计算。
@@ -18,7 +19,7 @@ class CalculateMingGuaUseCase {
     }
 
     final engine = MingGuaEngine(
-      guaSequence: config.guaSequence,
+      guaSequence: config.guaSequence.map(Enum64Gua.fromName).toList(),
       epochBase: config.epochBase,
     );
 

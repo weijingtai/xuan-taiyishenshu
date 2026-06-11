@@ -25,7 +25,7 @@ void main() {
       expect(r.accumulatedYear, 10153918);
       expect(r.guaIndex, 62);
       expect(r.guaName, '小过');
-      expect(r.yao, [true, false, false, false, false, true]);
+      expect(r.yao, [false, false, true, true, false, false]); // 小过=震上艮下
       expect(r.yangYaoCount, 2);
       expect(r.yinYaoCount, 4);
       expect(r.ceCount, 168);
