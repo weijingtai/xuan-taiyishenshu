@@ -1,6 +1,7 @@
 import "../theme/taiyi_classic_theme.dart";
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:theme/theme.dart';
 
 import '../../enums/deity_kind.dart';
 import '../../enums/gong.dart';
@@ -83,11 +84,14 @@ class TaiYiPanGridV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final outerDeities = _getOuterDeities();
+    final style = XuanThemeData.maybeOf(context)?.component('taiyi_pan_grid_v2');
+    final strokeColor = Colors.black87;
+    final textColor = Colors.black87;
     
     return Container(
       width: totalWidth,
       height: totalWidth,
-      color: Colors.white,
+      color: style?.background ?? Colors.white,
       child: Stack(
         children: [
           CustomPaint(
@@ -95,6 +99,8 @@ class TaiYiPanGridV2 extends StatelessWidget {
             painter: _TaiYiPanPainterV2(
               outerDeities: outerDeities,
               ring16Gods: _ring16Gods,
+              strokeColor: strokeColor,
+              textColor: textColor,
             ),
           ),
           Center(
@@ -128,10 +134,14 @@ class TaiYiPanGridV2 extends StatelessWidget {
 class _TaiYiPanPainterV2 extends CustomPainter {
   final List<String> outerDeities;
   final List<String> ring16Gods;
+  final Color strokeColor;
+  final Color textColor;
 
   _TaiYiPanPainterV2({
     required this.outerDeities,
     required this.ring16Gods,
+    required this.strokeColor,
+    required this.textColor,
   });
 
   void _drawDashedLine(Canvas canvas, Offset p1, Offset p2, Paint paint) {
@@ -154,7 +164,7 @@ class _TaiYiPanPainterV2 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black87
+      ..color = strokeColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
@@ -206,10 +216,10 @@ class _TaiYiPanPainterV2 extends CustomPainter {
   }
 
   void _drawTexts(Canvas canvas, double W, Offset center, double R1, double R2, double R3, double R4) {
-    final outerStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.02, color: Colors.black87);
-    final godSingleStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: Colors.black87);
+    final outerStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.02, color: textColor);
+    final godSingleStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: textColor);
     final gateStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.025, color: Colors.red[800]);
-    final luoshuStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: Colors.black87);
+    final luoshuStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.035, color: textColor);
     final centerStyle = TaiYiClassicTheme.getSerifStyle(fontSize: W * 0.030, color: Colors.purple[800]);
 
     void drawCenterText(String text, TextStyle style, double cx, double cy) {

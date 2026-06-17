@@ -29,6 +29,8 @@ dependencies:
     path: ../xuan-metaphysics-core
   xuan_gua_core:
     path: ../xuan-gua-core
+  theme:
+    path: ../theme
   flutter:
     sdk: flutter
 
