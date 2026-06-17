@@ -85,8 +85,8 @@ class TaiYiPanGridV2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final outerDeities = _getOuterDeities();
     final style = XuanThemeData.maybeOf(context)?.component('taiyi_pan_grid_v2');
-    final strokeColor = Colors.black87;
-    final textColor = Colors.black87;
+    final strokeColor = style?.border?.color ?? Colors.black87;
+    final textColor = style?.border?.color ?? Colors.black87;
     
     return Container(
       width: totalWidth,
