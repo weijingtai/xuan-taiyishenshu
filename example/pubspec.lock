@@ -634,6 +634,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  repository_interface_qizhengsiyu:
+    dependency: transitive
+    description:
+      path: "../../repository-interface-qizhengsiyu"
+      relative: true
+    source: path
+    version: "0.0.0"
   repository_interface_taiyishenshu:
     dependency: "direct main"
     description:
@@ -899,6 +906,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  xuan_config:
+    dependency: transitive
+    description:
+      path: "../../xuan_config"
+      relative: true
+    source: path
+    version: "0.1.0"
   xuan_four_zhu_card:
     dependency: "direct overridden"
     description:
