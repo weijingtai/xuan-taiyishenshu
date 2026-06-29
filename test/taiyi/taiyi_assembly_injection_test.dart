@@ -3,6 +3,7 @@ import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart' show TaiyiRecordRepository, TaiyiDivinationRecordContract;
 
 class FakeSchoolRepository implements SchoolRepository {
   @override
@@ -45,6 +46,23 @@ class FakeDeityRepository implements DeityRepository {
   Future<void> saveUserDeity(DeityDefinition deity) async {}
 }
 
+class FakeTaiyiRecordRepository implements TaiyiRecordRepository {
+  @override
+  Future<String> saveRecord(TaiyiDivinationRecordContract record) async => record.uuid;
+
+  @override
+  Future<List<TaiyiDivinationRecordContract>> getAllRecords() async => const [];
+
+  @override
+  Future<TaiyiDivinationRecordContract?> getRecordByUuid(String uuid) async => null;
+
+  @override
+  Future<bool> softDeleteRecord(String uuid) async => true;
+
+  @override
+  Stream<List<TaiyiDivinationRecordContract>> watchAllRecords() => Stream.value(const []);
+}
+
 void main() {
   test('TaiYiDataAssembly injects fake repositories successfully', () {
     final assembly = TaiYiDataAssembly(
@@ -52,11 +70,13 @@ void main() {
       userRepo: FakeUserSchoolRepository(),
       deityRepo: FakeDeityRepository(),
       preferenceRepo: DummyDeityPreferenceRepository(),
+      recordRepo: FakeTaiyiRecordRepository(),
     );
 
     expect(assembly.officialRepo, isA<FakeSchoolRepository>());
     expect(assembly.userRepo, isA<FakeUserSchoolRepository>());
     expect(assembly.deityRepo, isA<FakeDeityRepository>());
     expect(assembly.preferenceRepo, isA<DummyDeityPreferenceRepository>());
+    expect(assembly.recordRepo, isA<FakeTaiyiRecordRepository>());
   });
 }

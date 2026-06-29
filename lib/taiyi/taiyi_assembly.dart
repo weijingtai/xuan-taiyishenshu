@@ -1,3 +1,4 @@
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'core/school_repository.dart' as product;
 import 'core/school_config.dart';
 import 'core/deity_definition.dart';
@@ -29,6 +30,7 @@ class TaiYiDataAssembly {
   final product.UserSchoolRepository userRepo;
   final product.DeityRepository deityRepo;
   final product.DeityPreferenceRepository preferenceRepo;
+  final TaiyiRecordRepository recordRepo;
   late final product.SchoolRepository compositeRepo;
 
   // UseCases
@@ -48,6 +50,7 @@ class TaiYiDataAssembly {
     required this.userRepo,
     required this.deityRepo,
     required this.preferenceRepo,
+    required this.recordRepo,
   }) {
     compositeRepo = _MultiSchoolAdapter([
       officialRepo,

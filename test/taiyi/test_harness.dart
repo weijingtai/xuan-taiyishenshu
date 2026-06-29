@@ -13,6 +13,7 @@ import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart' show TaiyiRecordRepository, TaiyiDivinationRecordContract;
 import 'fakes/memory_school_repository.dart';
 import 'fakes/taiyi_contract_adapters.dart';
 
@@ -106,6 +107,7 @@ class TaiYiTestHarness {
       userRepo: userMemoryRepo,
       deityRepo: userMemoryRepo,
       preferenceRepo: DummyDeityPreferenceRepository(),
+      recordRepo: FakeTaiyiRecordRepository(),
     );
   }
 
@@ -145,6 +147,7 @@ class TaiYiTestHarness {
       userRepo: productUser,
       deityRepo: productDeity,
       preferenceRepo: productPreference,
+      recordRepo: FakeTaiyiRecordRepository(),
     );
   }
 
@@ -193,4 +196,21 @@ class MockAssetBundle extends Fake implements AssetBundle {
     if (key.contains('AssetManifest')) return ByteData(0);
     throw FlutterError('Asset not found in MockAssetBundle: $key');
   }
+}
+
+class FakeTaiyiRecordRepository implements TaiyiRecordRepository {
+  @override
+  Future<String> saveRecord(TaiyiDivinationRecordContract record) async => record.uuid;
+
+  @override
+  Future<List<TaiyiDivinationRecordContract>> getAllRecords() async => const [];
+
+  @override
+  Future<TaiyiDivinationRecordContract?> getRecordByUuid(String uuid) async => null;
+
+  @override
+  Future<bool> softDeleteRecord(String uuid) async => true;
+
+  @override
+  Stream<List<TaiyiDivinationRecordContract>> watchAllRecords() => Stream.value(const []);
 }

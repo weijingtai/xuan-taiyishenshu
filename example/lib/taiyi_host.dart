@@ -4,6 +4,10 @@ import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
+import 'package:persistence_drift/persistence_drift.dart';
+import 'package:persistence_preferences/persistence_preferences.dart';
+import 'package:drift/native.dart';
+import 'package:persistence_drift/taiyishenshu/taiyishenshu_module_registry.dart';
 
 /// Constructs the three concrete backends and builds an injectable
 /// [TaiYiDataAssembly]. This is the P2 host seam — backend construction
@@ -35,6 +39,25 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
   final driftRepo = DriftUserRepository(db);
   final preferenceRepo = SharedPreferencesDeityPreferenceRepository(prefs);
 
+  final newDb = PersistenceDriftDatabase(NativeDatabase.memory());
+  final sessionRepo = PreferencesAccountSessionRepository(prefs);
+  final accountDb = AccountDatabase(NativeDatabase.memory());
+  final identityLinkRepo = DriftAccountIdentityLinkRepository(accountDb);
+  
+  final bootstrapStore = DriftScopeBootstrapStore(newDb);
+  final ledger = DriftScopeLedger(db: newDb, bootstrapStore: bootstrapStore);
+  final resolver = ScopeResolver(
+    sessionRepository: sessionRepo,
+    identityLinkRepository: identityLinkRepo,
+    ledger: ledger,
+  );
+  final resolvedScope = await resolver.resolve();
+  final scopeUid = resolvedScope.scopeUid;
+
+  final ds = DriftRecordDataSource(newDb, scopeUid: scopeUid);
+  final store = LocalRecordRepository(ds, RecordAdapterRegistry([TaiyishenshuModuleRegistry.codec()]));
+  final recordBackedRepository = TaiyishenshuModuleRegistry.repository(store: store);
+
   // Wrap contract repos into product-typed ports
   final productOfficial = ContractOfficialSchoolAdapter(officialRepo);
   final productUser = ContractUserSchoolAdapter(driftRepo);
@@ -46,5 +69,6 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
     userRepo: productUser,
     deityRepo: productDeity,
     preferenceRepo: productPreference,
+    recordRepo: recordBackedRepository,
   );
 }

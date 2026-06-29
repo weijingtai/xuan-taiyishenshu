@@ -26,7 +26,8 @@ dependencies:
   xuan_four_zhu_card:
     path: ../xuan-four-zhu-card
   metaphysics_core:
-    path: ../xuan-metaphysics-core
+    git:
+      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
   xuan_gua_core:
     path: ../xuan-gua-core
   theme:
@@ -52,12 +53,16 @@ dependencies:
 dependency_overrides:
   persistence_core:
     path: ../xuan-storage/core
+  persistence_drift:
+    path: ../xuan-storage/drift
   xuan_four_zhu_card:
     path: ../xuan-four-zhu-card
   repository_interface_taiyishenshu:
     path: ../repository-interface-taiyishenshu
   metaphysics_core:
     path: ../xuan-metaphysics-core
+  xuan_gua_core:
+    path: ../xuan-gua-core
 
 dev_dependencies:
   host_adapter_taiyishenshu:
