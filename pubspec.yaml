@@ -26,8 +26,7 @@ dependencies:
   xuan_four_zhu_card:
     path: ../xuan-four-zhu-card
   metaphysics_core:
-    git:
-      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
+    path: ../xuan-metaphysics-core
   xuan_gua_core:
     path: ../xuan-gua-core
   theme:
