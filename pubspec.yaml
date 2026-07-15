@@ -24,13 +24,17 @@ dependencies:
   persistence_core:
     path: ../xuan-storage/core
   xuan_four_zhu_card:
-    path: ../xuan-four-zhu-card
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
   metaphysics_core:
-    path: ../xuan-metaphysics-core
+    git:
+      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
   xuan_gua_core:
-    path: ../xuan-gua-core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-gua-core.git
   theme:
-    path: ../theme
+    git:
+      url: http://192.168.0.165:3000/xuan/theme.git
   flutter:
     sdk: flutter
 
@@ -55,17 +59,23 @@ dependency_overrides:
   persistence_drift:
     path: ../xuan-storage/drift
   xuan_four_zhu_card:
-    path: ../xuan-four-zhu-card
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
   repository_interface_taiyishenshu:
-    path: ../repository-interface-taiyishenshu
+    git:
+      url: http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git
   metaphysics_core:
-    path: ../xuan-metaphysics-core
+    git:
+      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
   xuan_gua_core:
-    path: ../xuan-gua-core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-gua-core.git
   theme:
-    path: ../theme
+    git:
+      url: http://192.168.0.165:3000/xuan/theme.git
   persistence_domain:
-    path: ../xuan-domain
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-domain.git
 
 dev_dependencies:
   flutter_test:
