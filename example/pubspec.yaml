@@ -11,8 +11,6 @@ dependencies:
     sdk: flutter
   taiyishenshu:
     path: ../
-  host_adapter_taiyishenshu:
-    path: ../../host-adapter-taiyishenshu
   google_fonts: ^6.2.1
   repository_interface_taiyishenshu:
     path: ../../repository-interface-taiyishenshu
@@ -35,6 +33,10 @@ dependency_overrides:
     path: ../../xuan-metaphysics-core
   xuan_gua_core:
     path: ../../xuan-gua-core
+  theme:
+    path: ../../theme
+  persistence_domain:
+    path: ../../xuan-domain
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
 
 import '../taiyi/test_harness.dart';
-import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
+import 'package:taiyishenshu/src/adapters/taiyi_contract_adapters.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

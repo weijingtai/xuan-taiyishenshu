@@ -63,10 +63,12 @@ dependency_overrides:
     path: ../xuan-metaphysics-core
   xuan_gua_core:
     path: ../xuan-gua-core
+  theme:
+    path: ../theme
+  persistence_domain:
+    path: ../xuan-domain
 
 dev_dependencies:
-  host_adapter_taiyishenshu:
-    path: ../host-adapter-taiyishenshu
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0

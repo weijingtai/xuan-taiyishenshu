@@ -7,7 +7,7 @@ import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart' as contract;
-import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
+import 'package:taiyishenshu/src/adapters/taiyi_contract_adapters.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart' show SchoolRepository, TaiYiSchoolProductMapper, TaiYiSchoolContractProductMapper, DeityDefinitionProductMapper, DeityDefinitionContractProductMapper;
 import '../mocks/mock_repositories.dart';
 

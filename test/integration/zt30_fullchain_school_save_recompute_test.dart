@@ -26,7 +26,7 @@ import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import '../taiyi/test_harness.dart';
-import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
+import 'package:taiyishenshu/src/adapters/taiyi_contract_adapters.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin

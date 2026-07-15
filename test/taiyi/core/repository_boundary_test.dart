@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
-import 'package:host_adapter_taiyishenshu/host_adapter_taiyishenshu.dart';
+import 'package:taiyishenshu/src/adapters/taiyi_contract_adapters.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 
 class FakePathProviderPlatform extends Fake
