@@ -22,7 +22,9 @@ environment:
 
 dependencies:
   persistence_core:
-    path: ../xuan-storage/core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: core
   xuan_four_zhu_card:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
@@ -55,9 +57,13 @@ dependencies:
 
 dependency_overrides:
   persistence_core:
-    path: ../xuan-storage/core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: core
   persistence_drift:
-    path: ../xuan-storage/drift
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: drift
   xuan_four_zhu_card:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
@@ -88,11 +94,17 @@ dev_dependencies:
   path_provider_platform_interface: ^2.1.2
 
   persistence_drift:
-    path: ../xuan-storage/drift
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: drift
   persistence_assets:
-    path: ../xuan-storage/assets
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: assets
   persistence_preferences:
-    path: ../xuan-storage/preferences
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: preferences
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
