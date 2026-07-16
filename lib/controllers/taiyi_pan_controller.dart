@@ -130,7 +130,7 @@ class TaiYiPanController extends ChangeNotifier {
       );
       _error = null;
 
-      assembly.saveRecordUseCase(_panData!);
+      assembly.saveRecordUseCase(_panData!).catchError((_) {});
     } catch (e) {
       _error = e.toString();
       _panData = null;
