@@ -12,6 +12,7 @@ import 'usecases/delete_user_deity_usecase.dart';
 import 'usecases/toggle_deity_preference_usecase.dart';
 import 'usecases/deity_availability_usecase.dart';
 import 'usecases/calculate_pan_usecase.dart';
+import 'usecases/save_record_usecase.dart';
 
 // ---------------------------------------------------------------------------
 // TaiYiDataAssembly — injectable, backend-agnostic
@@ -44,6 +45,7 @@ class TaiYiDataAssembly {
   late final ToggleDeityPreferenceUseCase toggleDeityPreferenceUseCase;
   late final DeityAvailabilityUseCase deityAvailabilityUseCase;
   late final CalculatePanUseCase calculatePanUseCase;
+  late final SaveRecordUseCase saveRecordUseCase;
 
   TaiYiDataAssembly({
     required this.officialRepo,
@@ -73,6 +75,8 @@ class TaiYiDataAssembly {
       schoolRepository: compositeRepo,
       deityPreferenceRepository: preferenceRepo,
     );
+
+    saveRecordUseCase = SaveRecordUseCase(recordRepo);
   }
 }
 

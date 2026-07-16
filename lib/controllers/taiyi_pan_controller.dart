@@ -129,6 +129,8 @@ class TaiYiPanController extends ChangeNotifier {
         chartType: chartType,
       );
       _error = null;
+
+      assembly.saveRecordUseCase(_panData!);
     } catch (e) {
       _error = e.toString();
       _panData = null;

@@ -50,9 +50,9 @@ dependencies:
   meta: ^1.17.0
   collection: ^1.19.1
   json_annotation: ^4.9.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  repository_interface_taiyishenshu:
+    git:
+      url: http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git
   cupertino_icons: ^1.0.8
 
 dependency_overrides:
