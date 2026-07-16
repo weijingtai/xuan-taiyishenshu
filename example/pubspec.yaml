@@ -4,40 +4,56 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: '>=3.11.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   taiyishenshu:
-    path: ../
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-taiyishenshu.git
   google_fonts: ^6.2.1
   repository_interface_taiyishenshu:
-    path: ../../repository-interface-taiyishenshu
+    git:
+      url: http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git
   persistence_drift:
-    path: ../../xuan-storage/drift
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: drift
   persistence_preferences:
-    path: ../../xuan-storage/preferences
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: preferences
   persistence_assets:
-    path: ../../xuan-storage/assets
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: assets
   shared_preferences: ^2.0.0
 
 dependency_overrides:
   xuan_four_zhu_card:
-    path: ../../xuan-four-zhu-card
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
   persistence_core:
-    path: ../../xuan-storage/core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: core
   persistence_drift:
-    path: ../../xuan-storage/drift
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: drift
   metaphysics_core:
-    path: ../../xuan-metaphysics-core
+    git:
+      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
   xuan_gua_core:
-    path: ../../xuan-gua-core
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-gua-core.git
   theme:
-    path: ../../theme
+    git:
+      url: http://192.168.0.165:3000/xuan/theme.git
   persistence_domain:
-    path: ../../xuan-domain
-
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-domain.git
 dev_dependencies:
   flutter_test:
     sdk: flutter
