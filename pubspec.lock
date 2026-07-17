@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "8d7ff3948166b8ec5da0fbb5962000926b8e02f2ed9b3e51d1738905fbd4c98d"
+      sha256: "3b19a47f6ea7c2632760777c78174f47f6aec1e05f0cd611380d4593b8af1dbc"
       url: "https://pub.dev"
     source: hosted
-    version: "93.0.0"
+    version: "96.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: de7148ed2fcec579b19f122c1800933dfa028f6d9fd38a152b04b1516cec120b
+      sha256: "0c516bc4ad36a1a75759e54d5047cb9d15cded4459df01aa35a0b5ec7db2c2a0"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.1"
+    version: "10.2.0"
   args:
     dependency: transitive
     description:
@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.0"
+    version: "2.13.1"
   auto_size_text:
     dependency: transitive
     description:
@@ -61,34 +61,34 @@ packages:
     dependency: transitive
     description:
       name: build
-      sha256: "275bf6bb2a00a9852c28d4e0b410da1d833a734d57d39d44f94bfc895a484ec3"
+      sha256: "45d14a0fb23e018d8287c32fc98d726ce466b231928ed9b9200f29bd3ccd39ae"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.7"
   build_config:
     dependency: transitive
     description:
       name: build_config
-      sha256: "4f64382b97504dc2fcdf487d5aae33418e08b4703fc21249e4db6d804a4d0187"
+      sha256: f2c223156a26eea323e6244b85141d76413a80aeee9fe0b380773789fabaf8ae
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.1"
   build_daemon:
     dependency: transitive
     description:
       name: build_daemon
-      sha256: bf05f6e12cfea92d3c09308d7bcdab1906cd8a179b023269eed00c071004b957
+      sha256: fd754058c342243718d5171a95f352cfc9fcf0cba8cfa26df67cb13a5836db78
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.1"
+    version: "4.1.2"
   build_runner:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "39ad4ca8a2876779737c60e4228b4bcd35d4352ef7e14e47514093edc012c734"
+      sha256: "5367e521935b102bdf1e735d2aab461e36b2edca6517662d088dd04cc39f8d16"
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.1"
+    version: "2.15.1"
   built_collection:
     dependency: transitive
     description:
@@ -158,10 +158,10 @@ packages:
     dependency: transitive
     description:
       name: code_assets
-      sha256: "83ccdaa064c980b5596c35dd64a8d3ecc68620174ab9b90b6343b753aa721687"
+      sha256: bf394f466ba9205f1812a0433b392d6af280f155f56651eda7c18cc32ed493b8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.2.1"
   code_builder:
     dependency: transitive
     description:
@@ -198,40 +198,40 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
+      sha256: "41e005c33bd814be4d3096aff55b1908d419fde52ca656c8c47719ec745873cd"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.9"
   dart_style:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "15a7db352c8fc6a4d2bc475ba901c25b39fe7157541da4c16eacce6f8be83e49"
+      sha256: "29f7ecc274a86d32920b1d9cfc7502fa87220da41ec60b55f329559d5732e2b2"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.5"
+    version: "3.1.7"
   dio:
     dependency: transitive
     description:
       name: dio
-      sha256: b9d46faecab38fc8cc286f80bc4d61a3bb5d4ac49e51ed877b4d6706efe57b25
+      sha256: ea2bad3c89a27635ce2d85cce4d6b199da49a5a48ec77b03e45b65a3b90922b0
       url: "https://pub.dev"
     source: hosted
-    version: "5.9.1"
+    version: "5.10.0"
   dio_web_adapter:
     dependency: transitive
     description:
       name: dio_web_adapter
-      sha256: "7586e476d70caecaf1686d21eee7247ea43ef5c345eab9e0cc3583ff13378d78"
+      sha256: dd58dc3861eb36edb13b217efc006a1c21e5bbc341de8c229b85634fa5e362e4
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   divination_case:
     dependency: transitive
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ecaacfd7e3d362c65a1e497078d201388bc33ee3
+      resolved-ref: a11a429b57447ef632e008d61f146e3362e49162
       url: "http://192.168.0.165:3000/xuan/xuan-divination-case.git"
     source: git
     version: "0.1.0"
@@ -247,10 +247,10 @@ packages:
     dependency: transitive
     description:
       name: drift
-      sha256: "5ea2f718558c0b31d4b8c36a3d8e5b7016f1265f46ceb5a5920e16117f0c0d6a"
+      sha256: "970cd188fddb111b26ea6a9b07a62bf5c2432d74147b8122c67044ae3b97e99e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.30.1"
+    version: "2.31.0"
   drift_dev:
     dependency: "direct dev"
     description:
@@ -271,10 +271,10 @@ packages:
     dependency: transitive
     description:
       name: equatable
-      sha256: "3e0141505477fd8ad55d6eb4e7776d3fe8430be8e497ccb1521370c3f21a3e2b"
+      sha256: "3bce007a596ff8b3119c45d68aaef631272537c03d30e5d4534dd24bf4c5eaa2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.8"
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -287,10 +287,10 @@ packages:
     dependency: transitive
     description:
       name: ffi
-      sha256: d07d37192dbf97461359c1518788f203b0c9102cfd2c35a716b823741219542c
+      sha256: "6d7fd89431262d8f3125e81b50d3847a091d846eafcd4fdb88dd06f36d705a45"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.0"
   file:
     dependency: transitive
     description:
@@ -336,6 +336,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_shakemywidget:
     dependency: transitive
     description:
@@ -414,10 +419,10 @@ packages:
     dependency: transitive
     description:
       name: hooks
-      sha256: "5d309c86e7ce34cd8e37aa71cb30cb652d3829b900ab145e4d9da564b31d59f7"
+      sha256: "9a62a50b50b769a737bc0a8ff381f333529df3ab746b2f6b02e83760231455ba"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "2.0.2"
   http:
     dependency: transitive
     description:
@@ -458,6 +463,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  jni:
+    dependency: transitive
+    description:
+      name: jni
+      sha256: c2230682d5bc2362c1c9e8d3c7f406d9cbba23ab3f2e203a025dd47e0fb2e68f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  jni_flutter:
+    dependency: transitive
+    description:
+      name: jni_flutter
+      sha256: "8b59e590786050b1cd866677dddaf76b1ade5e7bc751abe04b86e84d379d3ba6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   json_annotation:
     dependency: "direct main"
     description:
@@ -518,10 +539,10 @@ packages:
     dependency: "direct main"
     description:
       name: logger
-      sha256: a7967e31b703831a893bbc3c3dd11db08126fe5f369b5c648a36f821979f5be3
+      sha256: "25aee487596a6257655a1e091ec2ae66bc30e7af663592cc3a27e6591e05035c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.2"
+    version: "2.7.0"
   logging:
     dependency: transitive
     description:
@@ -559,7 +580,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "18d1ede07e5789650e8be23a0cff97999ca8cb7a"
+      resolved-ref: "41efe45f2cfc39a56f044cdf8fc6ceef12e6d79f"
       url: "http://192.168.0.165:3000/xuan/metaphysics-core.git"
     source: git
     version: "0.1.1"
@@ -579,14 +600,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.6.4"
-  native_toolchain_c:
-    dependency: transitive
-    description:
-      name: native_toolchain_c
-      sha256: "89e83885ba09da5fdf2cdacc8002a712ca238c28b7f717910b34bcd27b0d03ac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.17.4"
   nested:
     dependency: transitive
     description:
@@ -599,10 +612,10 @@ packages:
     dependency: transitive
     description:
       name: objective_c
-      sha256: "983c7fa1501f6dcc0cb7af4e42072e9993cb28d73604d25ebf4dab08165d997e"
+      sha256: "6cb691c686fa2838c6deb34980d426145c2a5d537491cb83d463c33cdbc726ed"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.5"
+    version: "9.4.1"
   package_config:
     dependency: transitive
     description:
@@ -623,18 +636,18 @@ packages:
     dependency: transitive
     description:
       name: path_provider
-      sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
+      sha256: a7f4874f987173da295a61c181b8ee71dab59b332a486b391babf26a1b884825
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   path_provider_android:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: f2c65e21139ce2c3dad46922be8272bb5963516045659e71bb16e151c93b580e
+      sha256: "69cbd515a62b94d32a7944f086b2f82b4ac40a1d45bebfc00813a430ab2dabcd"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.22"
+    version: "2.3.1"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -647,18 +660,18 @@ packages:
     dependency: transitive
     description:
       name: path_provider_linux
-      sha256: f7a1fe3a634fe7734c8d3f2766ad746ae2a2884abe22e241a8b301bf5cac3279
+      sha256: "58c2005f147315b11e9b4a7bc889cd5203e250cba8e3f012dae259b4972b5c16"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   path_provider_platform_interface:
     dependency: "direct dev"
     description:
       name: path_provider_platform_interface
-      sha256: "88f5779f72ba699763fa3a3b06aa4bf6de76c8e5de842cf6f29e2e06476c2334"
+      sha256: "484838772624c3a4b94f1e44a3e19897fee738f2d5c4ce448443b0417f7c9dda"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   path_provider_windows:
     dependency: transitive
     description:
@@ -672,7 +685,7 @@ packages:
     description:
       path: assets
       ref: HEAD
-      resolved-ref: ed862f13def035335f2145be8bb5a0689560c53f
+      resolved-ref: b9895b96cc4f9c6e6275d76696732ace26f1be89
       url: "http://192.168.0.165:3000/xuan/xuan-storage.git"
     source: git
     version: "0.0.1"
@@ -681,7 +694,7 @@ packages:
     description:
       path: core
       ref: HEAD
-      resolved-ref: ed862f13def035335f2145be8bb5a0689560c53f
+      resolved-ref: b9895b96cc4f9c6e6275d76696732ace26f1be89
       url: "http://192.168.0.165:3000/xuan/xuan-storage.git"
     source: git
     version: "0.0.1"
@@ -690,7 +703,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e1e6606f39f4ebea8d7b925f368c7b0401067e97
+      resolved-ref: d3a89d36e38bfe9ad1e8f6828abe0e1c8a5dc2b1
       url: "http://192.168.0.165:3000/xuan/xuan-domain.git"
     source: git
     version: "0.1.0"
@@ -699,7 +712,7 @@ packages:
     description:
       path: drift
       ref: HEAD
-      resolved-ref: ed862f13def035335f2145be8bb5a0689560c53f
+      resolved-ref: b9895b96cc4f9c6e6275d76696732ace26f1be89
       url: "http://192.168.0.165:3000/xuan/xuan-storage.git"
     source: git
     version: "0.0.1"
@@ -708,7 +721,7 @@ packages:
     description:
       path: preferences
       ref: HEAD
-      resolved-ref: ed862f13def035335f2145be8bb5a0689560c53f
+      resolved-ref: b9895b96cc4f9c6e6275d76696732ace26f1be89
       url: "http://192.168.0.165:3000/xuan/xuan-storage.git"
     source: git
     version: "0.0.0"
@@ -776,6 +789,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  record_use:
+    dependency: transitive
+    description:
+      name: record_use
+      sha256: "2551bd8eecfe95d14ae75f6021ad0248be5c27f138c2ec12fcb52b500b3ba1ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   repository_interface_account:
     dependency: transitive
     description:
@@ -790,7 +811,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4e09f68cfdd66b3eae0686bf2c977566c0486769"
+      resolved-ref: "6d6630bd7243adc71e831f96deae43f0183b3a6e"
       url: "http://192.168.0.165:3000/xuan/repository-interface-ai.git"
     source: git
     version: "0.0.0"
@@ -798,8 +819,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "03e4133705bb1f44b7826fbaded0e84a5b4a7c70"
+      ref: main
+      resolved-ref: e7fc164195f71f1c782b2bb370ef83dd17a5424e
       url: "http://192.168.0.165:3000/xuan/repository-interface-daliuren.git"
     source: git
     version: "0.0.0"
@@ -808,7 +829,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: f110801fae757aa3f3b981fb945ce0d35e115245
+      resolved-ref: "58df3bb7f4f4d20f7ef04b7e0ae4f4f4399ce25e"
       url: "http://192.168.0.165:3000/xuan/repository-interface-four-zhu-card.git"
     source: git
     version: "0.0.0"
@@ -817,7 +838,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "51db6dc4301ce0d0d4e005929ef5de69e56a5017"
+      resolved-ref: "039fc9a55f630ef5927fa220ef6fe6b99dcddb84"
       url: "http://192.168.0.165:3000/xuan/repository-interface-liuyao.git"
     source: git
     version: "0.0.0"
@@ -835,7 +856,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "503e18271a1b8aea9826c907ac77592721a349a1"
+      resolved-ref: a121ff82b6405c04511781aed1b330a498b91f54
       url: "http://192.168.0.165:3000/xuan/repository-interface-qimendunjia.git"
     source: git
     version: "0.0.0"
@@ -853,16 +874,16 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e07ec5f1eb3fe4e653ad559a7d00ab1d816d635d
+      resolved-ref: "2fd7c1c2c7e8aefaac6a8a9a79a4d7ab5a1cb7d2"
       url: "http://192.168.0.165:3000/xuan/repository-interface-record.git"
     source: git
     version: "0.0.0"
   repository_interface_taiyishenshu:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ac2d5782516cc1ed9fcdb3dee90f5a0bf0273852
+      resolved-ref: "16cce149a37164718950bdb0295450c9f4155d61"
       url: "http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git"
     source: git
     version: "0.0.0"
@@ -871,7 +892,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: dc040501ec16ddeaa76243bb1b4c996523667a27
+      resolved-ref: "99ae19a96cb35f6d6160c31db3c7a619e3601f51"
       url: "http://192.168.0.165:3000/xuan/repository-interface-tiebanshenshu.git"
     source: git
     version: "0.0.0"
@@ -880,7 +901,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8c69436ef2e319f8b81baae12c326107966902a6"
+      resolved-ref: "4d5b45cf13a587ba866d1ca1843f202b8d7ff798"
       url: "http://192.168.0.165:3000/xuan/repository-interface-ziweidoushu.git"
     source: git
     version: "0.0.0"
@@ -904,10 +925,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: cbc40be9be1c5af4dab4d6e0de4d5d3729e6f3d65b89d21e1815d57705644a6f
+      sha256: "0634e64bd719f89c012f392938e173521f535d3ecaf66558fa94a056d22b5cc7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.20"
+    version: "2.4.27"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -928,10 +949,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "57cbf196c486bc2cf1f02b85784932c6094376284b3ad5779d1b1c6c6a816b80"
+      sha256: "649dc798a33931919ea356c4305c2d1f81619ea6e92244070b520187b5140ef9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -981,26 +1002,26 @@ packages:
     dependency: transitive
     description:
       name: source_gen
-      sha256: "1d562a3c1f713904ebbed50d2760217fd8a51ca170ac4b05b0db490699dbac17"
+      sha256: ec37cc0e6694374cbef59ed79685572c870a54ede6fa30a3e420feb3adffea02
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.3"
   source_helper:
     dependency: transitive
     description:
       name: source_helper
-      sha256: "4a85e90b50694e652075cbe4575665539d253e6ec10e46e76b45368ab5e3caae"
+      sha256: "4227d54ceefd0bb8ca4c8fcb96e1719dc53f1ee1b6e2ca9d7a6069da160e4eae"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.10"
+    version: "1.3.12"
   source_span:
     dependency: transitive
     description:
       name: source_span
-      sha256: "254ee5351d6cb365c859e20ee823c3bb479bf4a293c22d17a9f1bf144ce86f7c"
+      sha256: "56a02f1f4cd1a2d96303c0144c93bd6d909eea6bee6bf5a0e0b685edbd4c47ab"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.1"
+    version: "1.10.2"
   sqlite3:
     dependency: transitive
     description:
@@ -1086,7 +1107,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a7c68b3546cf0336728e0f389960ca3180f448c5
+      resolved-ref: e16f2670de20c8ee5ed7ab9d92118ac97a375a80
       url: "http://192.168.0.165:3000/xuan/theme.git"
     source: git
     version: "1.0.0"
@@ -1110,10 +1131,10 @@ packages:
     dependency: "direct main"
     description:
       name: tyme
-      sha256: dd8a0bd58eb0691953827268d68e3f15493234b8f733badb7dfecd2ca9d02145
+      sha256: "1c336e5a8b97d394a0c030ce5e685b8b3881a4d3dfb698f3ea8816f359011b14"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.3"
+    version: "1.5.0"
   typed_data:
     dependency: transitive
     description:
@@ -1126,10 +1147,10 @@ packages:
     dependency: transitive
     description:
       name: universal_ffi
-      sha256: "8f0e28bab34709e94541ff8c39d86294b686a6cc112561dd2aa071d4a4179609"
+      sha256: a4071511e11b96fc741a91f89dd6891ffce196c45e85f89983beb31cde695dee
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.3"
+    version: "1.5.0"
   uuid:
     dependency: transitive
     description:
@@ -1150,18 +1171,18 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "45caa6c5917fa127b5dbcfbd1fa60b14e583afdc08bfc96dda38886ca252eb60"
+      sha256: "0016aef94fc66495ac78af5859181e3f3bf2026bd8eecc72b9565601e19ab360"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.2"
+    version: "15.2.0"
   wasm_ffi:
     dependency: transitive
     description:
       name: wasm_ffi
-      sha256: f4539052e4d80575bb4820c836a2d6400af061b71c1605af60ebfb30b7c5369a
+      sha256: "950238f09e2d18b85c5c4356833a06319b049c1d19f936db32c3f0d8194e30b5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.3.0"
   watcher:
     dependency: transitive
     description:
@@ -1207,7 +1228,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "78de09082a6e28bd88c14443271b41ff2c06ff3a"
+      resolved-ref: "71f491de16cbc778b2a215e6176ccb7993002398"
       url: "http://192.168.0.165:3000/xuan/xuan-common-ui.git"
     source: git
     version: "1.0.0"
@@ -1216,7 +1237,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a6c7408a9bea8dcc6b5354d7ccce615a0df64709
+      resolved-ref: "9264c3cc81f5199163e03b379bf8091378f2a061"
       url: "http://192.168.0.165:3000/xuan/xuan_config.git"
     source: git
     version: "0.1.0"
@@ -1225,7 +1246,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "00366ccd804ae09a87047560cfe988340e9d12c5"
+      resolved-ref: "6ea08d4c551542bfbf9a271381e81abab5391b00"
       url: "http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git"
     source: git
     version: "0.1.0"
@@ -1234,7 +1255,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "35c2ae9a567f026f44585192c45a94fd07f9a21b"
+      resolved-ref: eddaaa944476ee5b7dc55d5d154312e39d28185e
       url: "http://192.168.0.165:3000/xuan/xuan-gua-core.git"
     source: git
     version: "0.1.0"
@@ -1243,7 +1264,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "299623b52051470919ac41931a58aa3283edb715"
+      resolved-ref: "846fa5f169535753eb770129b6e33c9962908b08"
       url: "http://192.168.0.165:3000/xuan/xuan-time-location.git"
     source: git
     version: "0.1.0"
@@ -1256,5 +1277,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.11.0 <4.0.0"
-  flutter: ">=3.38.4"
+  dart: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"

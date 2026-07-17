@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../theme/taiyi_classic_theme.dart';
@@ -94,9 +95,9 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
                 child: const ChineseSectionHeader(title: '系统内置'),
               ),
               if (officialDeities.isEmpty)
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(16),
-                  child: Text('未载入官方星神'),
+                  child: Text(AppLocalizations.of(context)!.noOfficialDeityLoaded),
                 )
               else
                 ...sortedTiers.map(
@@ -141,7 +142,7 @@ class _DeityManagementDialogState extends State<DeityManagementDialog> {
           button: true,
           child: TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('关闭'),
+            child: Text(AppLocalizations.of(context)!.close),
           ),
         ),
       ],
@@ -558,19 +559,19 @@ class _UserDeityTile extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: TaiYiClassicTheme.ricePaper,
-        title: const Text('删除星神'),
+        title: Text(AppLocalizations.of(context)!.deleteDeity),
         content: Text('确定要删除「${deity.name}」吗?该操作不可撤销。'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('取消'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
             style: TextButton.styleFrom(
               foregroundColor: TaiYiClassicTheme.cinnabar,
             ),
-            child: const Text('删除'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),

@@ -1,3 +1,10 @@
+> **架构方向 · 盘面渲染统一到 `metaphysics-chart-ui`（Chart-UI）**
+>
+> 本模块的「排盘 / 盘面」渲染将迁移到共享的专用排盘包 `metaphysics-chart-ui`（4 个通用渲染器 + 自带 5 级优先级 token 主题系统），**替换当前模块内自有的盘面实现**。
+> - 不要再扩展或重写模块自有的盘面 Canvas painter / 盘面级主题；新的盘面工作一律经 Chart-UI 的中性模型 + 渲染器 + 模块适配器接入。
+> - 盘面样式**不走** `XuanThemeData.component()` / `ComponentStyle` 通用主题迁移；那条通路只负责非盘面的 card / 组件（这些组件不退役，照常迁移）。
+> - 背景见 `openspec/changes/create-metaphysics-chart-ui-package`（QiZhengSiYu 为首个迁移消费者）。
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 

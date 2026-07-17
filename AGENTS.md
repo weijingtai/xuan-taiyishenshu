@@ -1,18 +1,8 @@
 > **注意**：本文件中的所有规则同等适用于从 `xuan-migration/` 根目录启动的 AI agents。详见根目录 AGENTS.md「启动约定」。
 
-     1|     1|
-     2|
-     3|## 铁律：程序标识符前缀策略（2026-05-26 调整）
-     4|
-     5|`xuan-` / `xuan_` 前缀主要用于给人区分项目（目录名、仓库名）。程序标识符默认避免 `xuan_` 前缀。
-     6|白名单（允许程序标识符使用 `xuan_` 前缀）：
-     7|- `xuan_common`：共享基础包。`common` 过于宽泛，与 dart pub 生态及 CI 工具链冲突；
-     8|  2026-05 起统一为 `xuan_common` 作为 pubspec name 与 import 路径（`package:xuan_common/...`）。
-     9|- `XuanLogger` 等功能品牌名；`tai_xuan` 等玄学术语；Git URL、目录名。
-    10|白名单之外的程序标识符（pubspec name、library 声明、import 文件名、依赖 key）保持直接名字，例如 `account`、`four_zhu_card`、`taiyishenshu`。
-    11|历史：原规则全面禁止 `xuan_` 前缀（参见根目录 AGENTS.md 旧条款）。本次调整由 ecosystem consistency 决策驱动（commits b8e533a/f04a277/fa6c1eb）。
-     9|     2|
-    10|     3|## 铁律：主分支代码保护
+## 铁律：主分支代码操作
+当需要进行操作的时候，只有人类下达命令让他们操作的时候，才可以进行操作。
+
     11|     4|
     12|     5|**所有 AI agents 绝对禁止在主分支（main/master）上直接编写、修改、删除任何代码。**
     13|     6|
@@ -31,45 +21,3 @@
     26|    19|- git pull / git fetch 等同步操作允许
 
 <!-- gitnexus:start -->
-# GitNexus — Code Intelligence
-
-This project is indexed by GitNexus as **xuan-taiyishenshu** (6856 symbols, 13609 relationships, 300 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
-
-> Index stale? Run `node .gitnexus/run.cjs analyze` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? `npx gitnexus analyze` (npm 11 crash → `npm i -g gitnexus`; #1939).
-
-## Always Do
-
-- **MUST run impact analysis before editing any symbol.** Before modifying a function, class, or method, run `impact({target: "symbolName", direction: "upstream"})` and report the blast radius (direct callers, affected processes, risk level) to the user.
-- **MUST run `detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows. For regression review, compare against the default branch: `detect_changes({scope: "compare", base_ref: "main"})`.
-- **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
-- When exploring unfamiliar code, use `query({query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
-- When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `context({name: "symbolName"})`.
-
-## Never Do
-
-- NEVER edit a function, class, or method without first running `impact` on it.
-- NEVER ignore HIGH or CRITICAL risk warnings from impact analysis.
-- NEVER rename symbols with find-and-replace — use `rename` which understands the call graph.
-- NEVER commit changes without running `detect_changes()` to check affected scope.
-
-## Resources
-
-| Resource | Use for |
-|----------|---------|
-| `gitnexus://repo/xuan-taiyishenshu/context` | Codebase overview, check index freshness |
-| `gitnexus://repo/xuan-taiyishenshu/clusters` | All functional areas |
-| `gitnexus://repo/xuan-taiyishenshu/processes` | All execution flows |
-| `gitnexus://repo/xuan-taiyishenshu/process/{name}` | Step-by-step execution trace |
-
-## CLI
-
-| Task | Read this skill file |
-|------|---------------------|
-| Understand architecture / "How does X work?" | `.claude/skills/gitnexus/gitnexus-exploring/SKILL.md` |
-| Blast radius / "What breaks if I change X?" | `.claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md` |
-| Trace bugs / "Why is X failing?" | `.claude/skills/gitnexus/gitnexus-debugging/SKILL.md` |
-| Rename / extract / split / refactor | `.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md` |
-| Tools, resources, schema reference | `.claude/skills/gitnexus/gitnexus-guide/SKILL.md` |
-| Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
-
-<!-- gitnexus:end -->
