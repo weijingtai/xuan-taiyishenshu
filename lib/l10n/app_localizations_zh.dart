@@ -131,4 +131,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String deletedDeity(String name) {
     return '已删除星神: $name';
   }
+
+  @override
+  String get keepMetadata => '保留元数据 (保存时原样保留)';
 }

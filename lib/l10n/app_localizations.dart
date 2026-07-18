@@ -285,6 +285,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'已删除星神: {name}'**
   String deletedDeity(String name);
+
+  /// No description provided for @keepMetadata.
+  ///
+  /// In zh, this message translates to:
+  /// **'保留元数据 (保存时原样保留)'**
+  String get keepMetadata;
 }
 
 class _AppLocalizationsDelegate

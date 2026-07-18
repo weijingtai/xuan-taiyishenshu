@@ -101,5 +101,6 @@
     "placeholders": {
       "name": { "type": "String" }
     }
-  }
+  },
+  "keepMetadata": "保留元数据 (保存时原样保留)"
 }

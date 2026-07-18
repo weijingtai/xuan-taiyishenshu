@@ -4,6 +4,7 @@ import '../../theme/taiyi_classic_theme.dart';
 import '../../taiyi/core/chart_config.dart';
 import '../../taiyi/core/deity_override.dart';
 import '../ink_wash_widgets.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Read-only banner shown when an official school is opened in view mode.
 class OfficialReadOnlyBanner extends StatelessWidget {
@@ -39,7 +40,7 @@ class OfficialReadOnlyBanner extends StatelessWidget {
             key: const Key('copy_and_edit_button'),
             onPressed: onCopyAndEdit,
             icon: const Icon(Icons.copy, size: 18),
-            label: const Text('复制并编辑'),
+            label: Text(AppLocalizations.of(context)!.copyAndEdit),
             style: ElevatedButton.styleFrom(
               backgroundColor: TaiYiClassicTheme.cinnabar,
               foregroundColor: Colors.white,
@@ -464,7 +465,7 @@ class PreservedMetadataSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ChineseSectionHeader(title: '保留元数据 (保存时原样保留)'),
+        ChineseSectionHeader(title: AppLocalizations.of(context)!.keepMetadata),
         InkyBorder(
           padding: 16,
           child: Column(
