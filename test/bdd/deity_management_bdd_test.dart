@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/entity_editor_page.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
@@ -19,7 +20,10 @@ void main() {
       final assembly = await TaiYiTestHarness.createAssembly();
       final controller = TaiYiPanController(assembly: assembly);
 
-      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpWidget(MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: TaiYiPanPage(controller: controller)));
       await tester.pump(const Duration(milliseconds: 500));
 
       // Find by icon is safer if we know which one it is
@@ -41,7 +45,10 @@ void main() {
     testWidgets('AC10: Copy deity shows SnackBar', (tester) async {
       final assembly = await TaiYiTestHarness.createAssembly();
       final controller = TaiYiPanController(assembly: assembly);
-      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpWidget(MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: TaiYiPanPage(controller: controller)));
       await tester.pump(const Duration(milliseconds: 500));
 
       final managementBtn = find.byIcon(Icons.auto_awesome);
@@ -66,7 +73,10 @@ void main() {
         newName: '太乙(我的)',
       );
 
-      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpWidget(MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: TaiYiPanPage(controller: controller)));
       await tester.pump(const Duration(milliseconds: 500));
 
       await tester.tap(find.byIcon(Icons.auto_awesome));
@@ -86,6 +96,8 @@ void main() {
         final assembly = await TaiYiTestHarness.createAssembly();
         await tester.pumpWidget(
           MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             home: EntityEditorPage(
               type: EntityType.deity,
               initialName: '我的太乙',

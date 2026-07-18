@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/pages/entity_editor_page.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
@@ -23,7 +24,10 @@ void main() {
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
 
-      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpWidget(MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: TaiYiPanPage(controller: controller)));
       await tester.pump(const Duration(milliseconds: 500));
 
       // Open Dialog
@@ -57,7 +61,10 @@ void main() {
       final controller = TaiYiPanController(assembly: assembly);
       await controller.loadSchools();
       
-      await tester.pumpWidget(MaterialApp(home: TaiYiPanPage(controller: controller)));
+      await tester.pumpWidget(MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: TaiYiPanPage(controller: controller)));
       await tester.pump(const Duration(milliseconds: 500));
 
       // Click add school

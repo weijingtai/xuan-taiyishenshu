@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../theme/taiyi_classic_theme.dart';
 import '../widgets/ink_wash_widgets.dart';
@@ -84,7 +85,7 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
             key: const Key('save_button'),
             icon: const Icon(Icons.save),
             onPressed: _save,
-            tooltip: '保存',
+            tooltip: AppLocalizations.of(context)!.save,
           ),
         ],
       ),
@@ -246,7 +247,7 @@ class _EntityEditorPageState extends State<EntityEditorPage> {
     if (mounted) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('保存成功')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.saveSuccess)),
       );
     }
   }
