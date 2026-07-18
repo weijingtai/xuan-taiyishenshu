@@ -9,13 +9,18 @@ import 'package:taiyishenshu/pages/school_editor_page.dart';
 import 'package:taiyishenshu/pages/taiyi_pan_page.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/deity_view_model.dart';
 import 'package:taiyishenshu/taiyi/viewmodels/school_view_model.dart';
+import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 
 class NavigatorGenerator {
 static final RouteObserver<PageRoute> routeObserver =
 RouteObserver<PageRoute>();
 static Logger logger = Logger();
 static final routes = {
-"/taiyishenshu": (context, {arguments}) => const TaiYiPanPage(),
+"/taiyishenshu": (context, {arguments}) {
+  final controller = context.read<TaiYiPanController>();
+  final assembly = context.read<TaiYiDataAssembly>();
+  return TaiYiPanPage(controller: controller, assembly: assembly);
+},
 "/taiyishenshu/legacy": (context, {arguments}) => const RectanglePanel(),
 "/taiyishenshu/demo": (context, {arguments}) => MyHomePage(title: "太乙神数"),
 "/taiyishenshu/school-editor": _buildSchoolEditor,
