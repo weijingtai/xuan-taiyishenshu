@@ -129,6 +129,30 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'删除'**
   String get delete;
+
+  /// No description provided for @saveSuccess.
+  ///
+  /// In zh, this message translates to:
+  /// **'保存成功'**
+  String get saveSuccess;
+
+  /// No description provided for @copiedAsMyDeity.
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制为我的星神：{name}'**
+  String copiedAsMyDeity(String name);
+
+  /// No description provided for @save.
+  ///
+  /// In zh, this message translates to:
+  /// **'保存'**
+  String get save;
+
+  /// No description provided for @copyAndEdit.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制并编辑'**
+  String get copyAndEdit;
 }
 
 class _AppLocalizationsDelegate

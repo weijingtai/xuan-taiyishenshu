@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../enums/deity_kind.dart';
 import '../taiyi/core/algorithm_enums.dart';
 import '../taiyi/core/deity_definition.dart';
@@ -234,7 +235,7 @@ class _DeityEditorPageState extends State<DeityEditorPage> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('保存成功')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.saveSuccess)),
       );
       Navigator.of(context).pop(updated);
     } catch (e) {
@@ -277,7 +278,7 @@ class _DeityEditorPageState extends State<DeityEditorPage> {
         _hydrateFromDeity(copy);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已复制为我的星神：${copy.name}')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.copiedAsMyDeity(copy.name))),
       );
     } catch (e) {
       _showError('复制失败：$e');
@@ -322,7 +323,7 @@ class _DeityEditorPageState extends State<DeityEditorPage> {
         actions: <Widget>[
           IconButton(
             key: const Key('deity_editor_save_button'),
-            tooltip: '保存',
+            tooltip: AppLocalizations.of(context)!.save,
             icon: _saving
                 ? const SizedBox(
                     width: 18,
@@ -485,7 +486,7 @@ class _OfficialReadOnlyBanner extends StatelessWidget {
                     ),
                     onPressed: onCopyAndEdit,
                     icon: const Icon(Icons.copy, size: 16),
-                    label: const Text('复制并编辑'),
+                    label: Text(AppLocalizations.of(context)!.copyAndEdit),
                   ),
                 ),
               ],

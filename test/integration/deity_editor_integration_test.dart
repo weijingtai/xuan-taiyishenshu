@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/pages/deity_editor_page.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
@@ -115,6 +116,8 @@ Future<void> _pumpEditor(
 }) async {
   await tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider<DeityViewModel>.value(value: deityVM),
@@ -515,7 +518,9 @@ void main() {
       // Mount the editor with NO providers — the save handler must refuse to
       // write through and instead show an error SnackBar.
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: DeityEditorPage(
             deity: null,
             availableSchools: <TaiYiSchool>[],

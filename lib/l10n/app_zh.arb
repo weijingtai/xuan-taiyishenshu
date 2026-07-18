@@ -5,5 +5,14 @@
   "close": "关闭",
   "deleteDeity": "删除星神",
   "cancel": "取消",
-  "delete": "删除"
+  "delete": "删除",
+  "saveSuccess": "保存成功",
+  "copiedAsMyDeity": "已复制为我的星神：{name}",
+  "@copiedAsMyDeity": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "save": "保存",
+  "copyAndEdit": "复制并编辑"
 }

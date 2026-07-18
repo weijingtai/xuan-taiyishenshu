@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
 import 'package:taiyishenshu/pages/deity_editor_page.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
@@ -130,6 +131,8 @@ class _StubPrefRepo implements DeityPreferenceRepository {
 Widget _wrap(Widget child,
     {required DeityViewModel deityVM, required SchoolViewModel schoolVM}) {
   return MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: MultiProvider(
       providers: [
         ChangeNotifierProvider<DeityViewModel>.value(value: deityVM),

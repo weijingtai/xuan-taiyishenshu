@@ -25,4 +25,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get delete => '删除';
+
+  @override
+  String get saveSuccess => '保存成功';
+
+  @override
+  String copiedAsMyDeity(String name) {
+    return '已复制为我的星神：$name';
+  }
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get copyAndEdit => '复制并编辑';
 }
