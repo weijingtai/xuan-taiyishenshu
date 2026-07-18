@@ -95,4 +95,40 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get schoolEditorTitle => '流派编辑器';
+
+  @override
+  String copyDeityToMyDeities(String name) {
+    return '复制 $name 到我的星神';
+  }
+
+  @override
+  String get copyToMyDeities => '复制到我的星神';
+
+  @override
+  String copiedToMyDeities(String name) {
+    return '已复制到我的星神: $name';
+  }
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String editDeity(String name) {
+    return '编辑 $name';
+  }
+
+  @override
+  String deleteDeityLabel(String name) {
+    return '删除 $name';
+  }
+
+  @override
+  String confirmDeleteDeity(String name) {
+    return '确定要删除「$name」吗?该操作不可撤销。';
+  }
+
+  @override
+  String deletedDeity(String name) {
+    return '已删除星神: $name';
+  }
 }

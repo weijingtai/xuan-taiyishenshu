@@ -63,5 +63,43 @@
       "name": { "type": "String" }
     }
   },
-  "schoolEditorTitle": "流派编辑器"
+  "schoolEditorTitle": "流派编辑器",
+  "copyDeityToMyDeities": "复制 {name} 到我的星神",
+  "@copyDeityToMyDeities": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "copyToMyDeities": "复制到我的星神",
+  "copiedToMyDeities": "已复制到我的星神: {name}",
+  "@copiedToMyDeities": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "edit": "编辑",
+  "editDeity": "编辑 {name}",
+  "@editDeity": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "deleteDeityLabel": "删除 {name}",
+  "@deleteDeityLabel": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "confirmDeleteDeity": "确定要删除「{name}」吗?该操作不可撤销。",
+  "@confirmDeleteDeity": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "deletedDeity": "已删除星神: {name}",
+  "@deletedDeity": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
 }

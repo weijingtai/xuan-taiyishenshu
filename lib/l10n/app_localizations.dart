@@ -237,6 +237,54 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'流派编辑器'**
   String get schoolEditorTitle;
+
+  /// No description provided for @copyDeityToMyDeities.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制 {name} 到我的星神'**
+  String copyDeityToMyDeities(String name);
+
+  /// No description provided for @copyToMyDeities.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制到我的星神'**
+  String get copyToMyDeities;
+
+  /// No description provided for @copiedToMyDeities.
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制到我的星神: {name}'**
+  String copiedToMyDeities(String name);
+
+  /// No description provided for @edit.
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑'**
+  String get edit;
+
+  /// No description provided for @editDeity.
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑 {name}'**
+  String editDeity(String name);
+
+  /// No description provided for @deleteDeityLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'删除 {name}'**
+  String deleteDeityLabel(String name);
+
+  /// No description provided for @confirmDeleteDeity.
+  ///
+  /// In zh, this message translates to:
+  /// **'确定要删除「{name}」吗?该操作不可撤销。'**
+  String confirmDeleteDeity(String name);
+
+  /// No description provided for @deletedDeity.
+  ///
+  /// In zh, this message translates to:
+  /// **'已删除星神: {name}'**
+  String deletedDeity(String name);
 }
 
 class _AppLocalizationsDelegate

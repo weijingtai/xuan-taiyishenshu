@@ -338,11 +338,11 @@ class _OfficialDeityTile extends StatelessWidget {
           child: Semantics(
             identifier: 'deity-copy-${deity.id}',
             button: true,
-            label: '复制 ${deity.name} 到我的星神',
+            label: AppLocalizations.of(context)!.copyDeityToMyDeities(deity.name),
             child: IconButton(
               icon: const Icon(Icons.copy, size: 16),
               color: TaiYiClassicTheme.goldLeaf,
-              tooltip: '复制到我的星神',
+              tooltip: AppLocalizations.of(context)!.copyToMyDeities,
               onPressed: () => _onCopy(context),
             ),
           ),
@@ -365,7 +365,7 @@ class _OfficialDeityTile extends StatelessWidget {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('已复制到我的星神: $newName'),
+          content: Text(AppLocalizations.of(context)!.copiedToMyDeities(newName)),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -507,11 +507,11 @@ class _UserDeityTile extends StatelessWidget {
               child: Semantics(
                 identifier: 'deity-edit-${deity.id}',
                 button: true,
-                label: '编辑 ${deity.name}',
+                label: AppLocalizations.of(context)!.editDeity(deity.name),
                 child: IconButton(
                   icon: const Icon(Icons.edit, size: 16),
                   color: TaiYiClassicTheme.darkWood,
-                  tooltip: '编辑',
+                  tooltip: AppLocalizations.of(context)!.edit,
                   onPressed: () => _onEdit(context),
                 ),
               ),
@@ -521,12 +521,12 @@ class _UserDeityTile extends StatelessWidget {
               child: Semantics(
                 identifier: 'deity-delete-${deity.id}',
                 button: true,
-                label: '删除 ${deity.name}',
-                child: IconButton(
-                  key: ValueKey('delete-user-deity-${deity.id}'),
-                  icon: const Icon(Icons.delete_outline, size: 16),
-                  color: TaiYiClassicTheme.cinnabar,
-                  tooltip: '删除',
+              label: AppLocalizations.of(context)!.deleteDeityLabel(deity.name),
+              child: IconButton(
+                key: ValueKey('delete-user-deity-${deity.id}'),
+                icon: const Icon(Icons.delete_outline, size: 16),
+                color: TaiYiClassicTheme.cinnabar,
+                tooltip: AppLocalizations.of(context)!.delete,
                   onPressed: () => _onDelete(context),
                 ),
               ),
@@ -560,7 +560,7 @@ class _UserDeityTile extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         backgroundColor: TaiYiClassicTheme.ricePaper,
         title: Text(AppLocalizations.of(context)!.deleteDeity),
-        content: Text('确定要删除「${deity.name}」吗?该操作不可撤销。'),
+        content: Text(AppLocalizations.of(context)!.confirmDeleteDeity(deity.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
@@ -581,7 +581,7 @@ class _UserDeityTile extends StatelessWidget {
       await controller.deityViewModel.deleteDeity(deity.id);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('已删除星神: ${deity.name}')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.deletedDeity(deity.name))),
         );
       }
     }
