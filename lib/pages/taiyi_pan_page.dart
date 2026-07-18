@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../enums/gong.dart';
 import '../taiyi/pan_data_model.dart';
@@ -703,7 +704,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(ctx).pop(),
-                  child: Text('取消', style: TextStyle(color: TaiYiClassicTheme.inkWash)),
+                  child: Text(AppLocalizations.of(ctx)!.cancel, style: TextStyle(color: TaiYiClassicTheme.inkWash)),
                 ),
                 Semantics(
                   identifier: 'settings-submit-button',
