@@ -56,5 +56,12 @@
       "name": { "type": "String" }
     }
   },
-  "editUserSchool": "编辑用户流派"
+  "editUserSchool": "编辑用户流派",
+  "copiedAsNewName": "已复制为「{name}」,可以开始编辑",
+  "@copiedAsNewName": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "schoolEditorTitle": "流派编辑器"
 }

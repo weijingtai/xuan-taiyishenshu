@@ -87,4 +87,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get editUserSchool => '编辑用户流派';
+
+  @override
+  String copiedAsNewName(String name) {
+    return '已复制为「$name」,可以开始编辑';
+  }
+
+  @override
+  String get schoolEditorTitle => '流派编辑器';
 }

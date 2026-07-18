@@ -225,6 +225,18 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'编辑用户流派'**
   String get editUserSchool;
+
+  /// No description provided for @copiedAsNewName.
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制为「{name}」,可以开始编辑'**
+  String copiedAsNewName(String name);
+
+  /// No description provided for @schoolEditorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'流派编辑器'**
+  String get schoolEditorTitle;
 }
 
 class _AppLocalizationsDelegate

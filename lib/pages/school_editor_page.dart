@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../taiyi/core/school_config.dart';
 import '../taiyi/viewmodels/school_view_model.dart';
 import '../theme/taiyi_classic_theme.dart';
@@ -191,7 +192,7 @@ class _SchoolEditorPageState extends State<SchoolEditorPage> {
       _original = updated;
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('保存成功')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.saveSuccess)),
       );
     } catch (e) {
       setState(() => _saveError = e.toString());
@@ -222,7 +223,7 @@ class _SchoolEditorPageState extends State<SchoolEditorPage> {
       _bootstrap(copy);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已复制为「$newName」,可以开始编辑')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.copiedAsNewName(newName))),
       );
     } catch (e) {
       setState(() => _saveError = e.toString());
@@ -239,7 +240,7 @@ class _SchoolEditorPageState extends State<SchoolEditorPage> {
         appBar: AppBar(
           backgroundColor: TaiYiClassicTheme.darkWood,
           foregroundColor: TaiYiClassicTheme.paleGold,
-          title: const Text('流派编辑器'),
+          title: Text(AppLocalizations.of(context)!.schoolEditorTitle),
         ),
         body: const Center(child: CircularProgressIndicator()),
       );
@@ -251,7 +252,7 @@ class _SchoolEditorPageState extends State<SchoolEditorPage> {
         appBar: AppBar(
           backgroundColor: TaiYiClassicTheme.darkWood,
           foregroundColor: TaiYiClassicTheme.paleGold,
-          title: const Text('流派编辑器'),
+          title: Text(AppLocalizations.of(context)!.schoolEditorTitle),
         ),
         body: Center(
           child: Padding(
@@ -290,7 +291,7 @@ class _SchoolEditorPageState extends State<SchoolEditorPage> {
                     )
                   : const Icon(Icons.save),
               onPressed: _saving ? null : _onSavePressed,
-              tooltip: '保存',
+              tooltip: AppLocalizations.of(context)!.save,
             ),
         ],
       ),

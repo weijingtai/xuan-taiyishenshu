@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/pages/school_editor_page.dart';
 import 'package:taiyishenshu/taiyi/core/chart_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
@@ -46,6 +47,8 @@ TaiYiSchool _userSchool() => _officialSchool().copyWith(
 
 Widget _wrap(Widget child, SchoolViewModel vm) {
   return MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: ChangeNotifierProvider<SchoolViewModel>.value(
       value: vm,
       child: child,
