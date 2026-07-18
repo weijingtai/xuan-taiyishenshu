@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../controllers/taiyi_pan_controller.dart';
 import '../taiyi/core/school_config.dart';
 import '../taiyi/taiyi_assembly.dart';
@@ -140,7 +141,7 @@ class _SchoolManagerScaffold extends StatelessWidget {
                       onShowLineage: () => _showLineageSheet(context, s),
                     )),
                 const SizedBox(height: 16),
-                const ChineseSectionHeader(title: '我的流派 (可编辑)'),
+                ChineseSectionHeader(title: AppLocalizations.of(context)!.mySchoolsEditable),
                 if (user.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -190,7 +191,7 @@ class _SchoolManagerScaffold extends StatelessWidget {
       );
     } else if (controller.error != null) {
       messenger.showSnackBar(
-        SnackBar(content: Text('切换失败: ${controller.error}')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.switchFailed(controller.error.toString()))),
       );
     }
   }
@@ -244,16 +245,16 @@ class _SchoolManagerScaffold extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('取消'),
+            child: Text(AppLocalizations.of(ctx)!.cancel),
           ),
           Semantics(
             identifier: 'copy-confirm-button',
             button: true,
-            label: '确认复制',
+            label: AppLocalizations.of(ctx)!.confirmCopy,
             child: TextButton(
               key: const Key('copy-confirm-button'),
               onPressed: () => Navigator.of(ctx).pop(textController.text.trim()),
-              child: const Text('复制'),
+              child: Text(AppLocalizations.of(ctx)!.copy),
             ),
           ),
         ],
@@ -274,7 +275,7 @@ class _SchoolManagerScaffold extends StatelessWidget {
       );
     } catch (e) {
       messenger.showSnackBar(
-        SnackBar(content: Text('复制失败: $e')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.copyFailed(e.toString()))),
       );
     }
   }
@@ -301,7 +302,7 @@ class _SchoolManagerScaffold extends StatelessWidget {
           child: Semantics(
             identifier: 'school-lineage-sheet-${school.id}',
             container: true,
-            label: '${school.name} 详情与传承链',
+            label: AppLocalizations.of(ctx)!.schoolDetailAndLineage(school.name),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,12 +507,12 @@ class SchoolListItem extends StatelessWidget {
                 Semantics(
                   identifier: 'school-info-${school.id}',
                   button: true,
-                  label: '查看 ${school.name} 详情与传承链',
+                  label: AppLocalizations.of(context)!.viewSchoolDetailAndLineage(school.name),
                   child: IconButton(
                     key: Key('info-${school.id}'),
                     icon: const Icon(Icons.info_outline, size: 20),
                     color: TaiYiClassicTheme.inkWash,
-                    tooltip: '详情与传承链',
+                    tooltip: AppLocalizations.of(context)!.detailAndLineage,
                     onPressed: onShowLineage,
                     constraints: const BoxConstraints(
                       minWidth: 44,
@@ -522,12 +523,12 @@ class SchoolListItem extends StatelessWidget {
                 Semantics(
                   identifier: 'school-copy-${school.id}',
                   button: true,
-                  label: '复制 ${school.name} 为用户流派',
+                  label: AppLocalizations.of(context)!.copySchoolAsUser(school.name),
                   child: IconButton(
                     key: Key('copy-${school.id}'),
                     icon: const Icon(Icons.copy, size: 20),
                     color: TaiYiClassicTheme.darkWood,
-                    tooltip: '复制为用户流派',
+                    tooltip: AppLocalizations.of(context)!.copyAsUserSchool,
                     onPressed: onCopy,
                     constraints: const BoxConstraints(
                       minWidth: 44,
@@ -539,12 +540,12 @@ class SchoolListItem extends StatelessWidget {
                   Semantics(
                     identifier: 'school-edit-${school.id}',
                     button: true,
-                    label: '编辑 ${school.name}',
+                    label: AppLocalizations.of(context)!.editSchool(school.name),
                     child: IconButton(
                       key: Key('edit-${school.id}'),
                       icon: const Icon(Icons.edit, size: 20),
                       color: TaiYiClassicTheme.cinnabar,
-                      tooltip: '编辑用户流派',
+                      tooltip: AppLocalizations.of(context)!.editUserSchool,
                       onPressed: onEdit,
                       constraints: const BoxConstraints(
                         minWidth: 44,

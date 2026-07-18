@@ -14,5 +14,47 @@
     }
   },
   "save": "保存",
-  "copyAndEdit": "复制并编辑"
+  "copyAndEdit": "复制并编辑",
+  "mySchoolsEditable": "我的流派 (可编辑)",
+  "switchFailed": "切换失败: {error}",
+  "@switchFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "confirmCopy": "确认复制",
+  "copy": "复制",
+  "copyFailed": "复制失败: {error}",
+  "@copyFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "schoolDetailAndLineage": "{name} 详情与传承链",
+  "@schoolDetailAndLineage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "viewSchoolDetailAndLineage": "查看 {name} 详情与传承链",
+  "@viewSchoolDetailAndLineage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "detailAndLineage": "详情与传承链",
+  "copySchoolAsUser": "复制 {name} 为用户流派",
+  "@copySchoolAsUser": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "copyAsUserSchool": "复制为用户流派",
+  "editSchool": "编辑 {name}",
+  "@editSchool": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "editUserSchool": "编辑用户流派"
 }

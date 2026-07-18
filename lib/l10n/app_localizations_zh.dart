@@ -39,4 +39,52 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get copyAndEdit => '复制并编辑';
+
+  @override
+  String get mySchoolsEditable => '我的流派 (可编辑)';
+
+  @override
+  String switchFailed(String error) {
+    return '切换失败: $error';
+  }
+
+  @override
+  String get confirmCopy => '确认复制';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String copyFailed(String error) {
+    return '复制失败: $error';
+  }
+
+  @override
+  String schoolDetailAndLineage(String name) {
+    return '$name 详情与传承链';
+  }
+
+  @override
+  String viewSchoolDetailAndLineage(String name) {
+    return '查看 $name 详情与传承链';
+  }
+
+  @override
+  String get detailAndLineage => '详情与传承链';
+
+  @override
+  String copySchoolAsUser(String name) {
+    return '复制 $name 为用户流派';
+  }
+
+  @override
+  String get copyAsUserSchool => '复制为用户流派';
+
+  @override
+  String editSchool(String name) {
+    return '编辑 $name';
+  }
+
+  @override
+  String get editUserSchool => '编辑用户流派';
 }

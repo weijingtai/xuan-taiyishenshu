@@ -153,6 +153,78 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'复制并编辑'**
   String get copyAndEdit;
+
+  /// No description provided for @mySchoolsEditable.
+  ///
+  /// In zh, this message translates to:
+  /// **'我的流派 (可编辑)'**
+  String get mySchoolsEditable;
+
+  /// No description provided for @switchFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'切换失败: {error}'**
+  String switchFailed(String error);
+
+  /// No description provided for @confirmCopy.
+  ///
+  /// In zh, this message translates to:
+  /// **'确认复制'**
+  String get confirmCopy;
+
+  /// No description provided for @copy.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制'**
+  String get copy;
+
+  /// No description provided for @copyFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制失败: {error}'**
+  String copyFailed(String error);
+
+  /// No description provided for @schoolDetailAndLineage.
+  ///
+  /// In zh, this message translates to:
+  /// **'{name} 详情与传承链'**
+  String schoolDetailAndLineage(String name);
+
+  /// No description provided for @viewSchoolDetailAndLineage.
+  ///
+  /// In zh, this message translates to:
+  /// **'查看 {name} 详情与传承链'**
+  String viewSchoolDetailAndLineage(String name);
+
+  /// No description provided for @detailAndLineage.
+  ///
+  /// In zh, this message translates to:
+  /// **'详情与传承链'**
+  String get detailAndLineage;
+
+  /// No description provided for @copySchoolAsUser.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制 {name} 为用户流派'**
+  String copySchoolAsUser(String name);
+
+  /// No description provided for @copyAsUserSchool.
+  ///
+  /// In zh, this message translates to:
+  /// **'复制为用户流派'**
+  String get copyAsUserSchool;
+
+  /// No description provided for @editSchool.
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑 {name}'**
+  String editSchool(String name);
+
+  /// No description provided for @editUserSchool.
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑用户流派'**
+  String get editUserSchool;
 }
 
 class _AppLocalizationsDelegate

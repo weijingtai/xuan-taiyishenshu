@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/pages/school_manager_page.dart';
 import '../taiyi/test_harness.dart';
@@ -31,7 +32,11 @@ void main() {
       await controller.loadSchools();
 
       await tester.pumpWidget(
-        MaterialApp(home: SchoolManagerPage(controller: controller)),
+        MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: SchoolManagerPage(controller: controller),
+            ),
       );
       await tester.pumpAndSettle();
 
@@ -52,7 +57,11 @@ void main() {
       await controller.loadSchools();
 
       await tester.pumpWidget(
-        MaterialApp(home: SchoolManagerPage(controller: controller)),
+        MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: SchoolManagerPage(controller: controller),
+            ),
       );
       await tester.pumpAndSettle();
 
@@ -75,7 +84,11 @@ void main() {
       await controller.loadSchools();
 
       await tester.pumpWidget(
-        MaterialApp(home: SchoolManagerPage(controller: controller)),
+        MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: SchoolManagerPage(controller: controller),
+            ),
       );
       await tester.pumpAndSettle();
 
@@ -113,7 +126,11 @@ void main() {
       expect(controller.panData?.input.schoolId, 'jingMirror');
 
       await tester.pumpWidget(
-        MaterialApp(home: SchoolManagerPage(controller: controller)),
+        MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: SchoolManagerPage(controller: controller),
+            ),
       );
       await tester.pumpAndSettle();
 
