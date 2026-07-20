@@ -6,7 +6,7 @@ import 'package:tyme/tyme.dart';
 void main() {
   group('metaphysics_core contract gate', () {
     test('verify metaphysics_core imports and JieQiType usage', () {
-      expect(JieQiType.values.length, greaterThanOrEqualTo(2));
+      expect(JieQiType.values.length, 3);
       expect(JieQiType.leveling.name, '平气法');
       expect(JieQiType.stabilizing.name, '定气法');
     });
