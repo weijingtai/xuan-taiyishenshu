@@ -19,7 +19,7 @@ void main() {
     test('All 10 new deity JSON configs can be parsed correctly', () async {
       final bundle = TaiYiTestHarness.createMockBundle();
       for (final id in newDeities) {
-        final path = 'assets/deities/$id.json';
+        final path = 'packages/taiyishenshu/assets/deities/$id.json';
         final jsonStr = await bundle.loadString(path);
         final json = jsonDecode(jsonStr);
         final deity = DeityDefinition.fromJson(json);

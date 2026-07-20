@@ -36,7 +36,8 @@ class TaiYiTestHarness {
     final schoolAssets = ['jing-mirror', 'tong-zong', 'ji-cheng'];
     for (final id in schoolAssets) {
       final path = 'assets/schools/$id.json';
-      _mockAssets[path] = File(path).readAsStringSync();
+      final bundlePath = 'packages/taiyishenshu/assets/schools/$id.json';
+      _mockAssets[bundlePath] = File(path).readAsStringSync();
     }
     
     final deityAssets = [
@@ -53,7 +54,8 @@ class TaiYiTestHarness {
     ];
     for (final id in deityAssets) {
       final path = 'assets/deities/$id.json';
-      _mockAssets[path] = File(path).readAsStringSync();
+      final bundlePath = 'packages/taiyishenshu/assets/deities/$id.json';
+      _mockAssets[bundlePath] = File(path).readAsStringSync();
     }
 
     _initialized = true;
@@ -71,7 +73,8 @@ class TaiYiTestHarness {
     final schoolAssets = ['jing-mirror', 'tong-zong', 'ji-cheng'];
     for (final id in schoolAssets) {
       final path = 'assets/schools/$id.json';
-      final jsonStr = _mockAssets[path];
+      final bundlePath = 'packages/taiyishenshu/assets/schools/$id.json';
+      final jsonStr = _mockAssets[bundlePath];
       if (jsonStr != null) {
         final json = jsonDecode(jsonStr);
         final school = TaiYiSchool.fromJson(json);
@@ -94,7 +97,8 @@ class TaiYiTestHarness {
     ];
     for (final id in deityAssets) {
       final path = 'assets/deities/$id.json';
-      final jsonStr = _mockAssets[path];
+      final bundlePath = 'packages/taiyishenshu/assets/deities/$id.json';
+      final jsonStr = _mockAssets[bundlePath];
       if (jsonStr != null) {
         final json = jsonDecode(jsonStr);
         final deity = DeityDefinition.fromJson(json);

@@ -5,6 +5,8 @@ import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/widgets/deity_management_dialog.dart';
 import '../taiyi/test_harness.dart';
 
+import 'package:taiyishenshu/l10n/app_localizations.dart';
+
 void main() {
   setUpAll(() async {
     await TaiYiTestHarness.setup();
@@ -16,6 +18,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: TaiYiPanPage(controller: controller),
       ),
     );

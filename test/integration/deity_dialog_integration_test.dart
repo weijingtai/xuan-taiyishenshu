@@ -16,6 +16,7 @@ import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import '../taiyi/test_harness.dart';
 import 'package:taiyishenshu/widgets/deity_management_dialog.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 
 /// Deity Dialog 真集成测试。
 ///
@@ -79,7 +80,8 @@ Future<_RealAssetBundle> _loadBundle() async {
   const schoolIds = ['jing-mirror', 'tong-zong', 'ji-cheng'];
   for (final id in schoolIds) {
     final path = 'assets/schools/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    final bundlePath = 'packages/taiyishenshu/assets/schools/$id.json';
+    assets[bundlePath] = File(path).readAsStringSync();
   }
   const deityIds = [
     'tai-yi',
@@ -119,10 +121,21 @@ Future<_RealAssetBundle> _loadBundle() async {
     'wen-chang',
     'ji-shen',
     'shi-ji',
+    'tian-huang',
+    'zi-wei',
+    'she-ti',
+    'xuan-yuan',
+    'zhao-yao',
+    'tian-fu',
+    'xian-chi',
+    'jiang-gong',
+    'ming-tang',
+    'yu-tang',
   ];
   for (final id in deityIds) {
     final path = 'assets/deities/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    final bundlePath = 'packages/taiyishenshu/assets/deities/$id.json';
+    assets[bundlePath] = File(path).readAsStringSync();
   }
   return _RealAssetBundle(assets);
 }
@@ -130,6 +143,8 @@ Future<_RealAssetBundle> _loadBundle() async {
 /// Helper: 把 Dialog 包进可用的 Widget tree。
 Widget _wrapDialog(TaiYiPanController controller) {
   return MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: ChangeNotifierProvider<TaiYiPanController>.value(
       value: controller,
       child: Builder(

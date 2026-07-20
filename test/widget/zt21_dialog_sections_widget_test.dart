@@ -32,6 +32,7 @@ import 'package:persistence_drift/taiyishenshu/taiyishenshu_drift.dart';
 import 'package:taiyishenshu/taiyi/pan_enums.dart';
 import 'package:taiyishenshu/taiyi/taiyi_assembly.dart';
 import '../taiyi/test_harness.dart';
+import 'package:taiyishenshu/l10n/app_localizations.dart';
 import 'package:taiyishenshu/widgets/deity_management_dialog.dart';
 
 class _FakePathProviderPlatform extends Fake
@@ -98,17 +99,19 @@ Future<_RealAssetBundle> _loadBundle() async {
   const schoolIds = ['jing-mirror', 'tong-zong', 'ji-cheng'];
   for (final id in schoolIds) {
     final path = 'assets/schools/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    assets["packages/taiyishenshu/" + path] = File(path).readAsStringSync();
   }
   for (final id in _deityKebabIds) {
     final path = 'assets/deities/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    assets["packages/taiyishenshu/" + path] = File(path).readAsStringSync();
   }
   return _RealAssetBundle(assets);
 }
 
 Widget _wrapDialog(TaiYiPanController controller) {
   return MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     home: ChangeNotifierProvider<TaiYiPanController>.value(
       value: controller,
       child: Builder(

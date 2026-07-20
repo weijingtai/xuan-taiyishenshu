@@ -59,6 +59,8 @@ dependencies:
   provider: ^6.1.2
 
 dependency_overrides:
+  persistence_assets:
+    path: ../xuan-storage/assets
   persistence_core:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-storage.git

@@ -87,11 +87,11 @@ Future<_RealAssetBundle> _loadBundle() async {
   const schoolIds = ['jing-mirror', 'tong-zong', 'ji-cheng'];
   for (final id in schoolIds) {
     final path = 'assets/schools/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    assets["packages/taiyishenshu/" + path] = File(path).readAsStringSync();
   }
   for (final id in _deityKebabIds) {
     final path = 'assets/deities/$id.json';
-    assets[path] = File(path).readAsStringSync();
+    assets["packages/taiyishenshu/" + path] = File(path).readAsStringSync();
   }
   return _RealAssetBundle(assets);
 }

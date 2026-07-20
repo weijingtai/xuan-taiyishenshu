@@ -96,11 +96,11 @@ Map<String, String> _loadOfficialAssets() {
   ];
   final m = <String, String>{};
   for (final id in schoolFiles) {
-    m['assets/schools/$id.json'] =
+    m['packages/taiyishenshu/assets/schools/$id.json'] =
         File('assets/schools/$id.json').readAsStringSync();
   }
   for (final id in deityFiles) {
-    m['assets/deities/$id.json'] =
+    m['packages/taiyishenshu/assets/deities/$id.json'] =
         File('assets/deities/$id.json').readAsStringSync();
   }
   return m;
