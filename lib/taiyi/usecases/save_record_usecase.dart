@@ -12,7 +12,7 @@ class SaveRecordUseCase {
     final record = TaiyiDivinationRecordContract(
       uuid: _generateUuid(),
       question: null,
-      datetimeJson: jsonEncode(panData.input.dateTime.toIso8601String()),
+      datetimeJson: panData.input.dateTime.toIso8601String(),
       schoolId: panData.input.schoolId,
       juNumber: panData.juNumber,
       taiYiPalaceJson: jsonEncode(panData.taiYiPalace.id),
