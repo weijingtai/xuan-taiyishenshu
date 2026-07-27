@@ -1,0 +1,3 @@
+class TaiyiCalculationContext {
+  const TaiyiCalculationContext();
+}
