@@ -60,7 +60,9 @@ dependencies:
 
 dependency_overrides:
   persistence_assets:
-    path: ../xuan-storage/assets
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-storage.git
+      path: assets
   persistence_core:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-storage.git
@@ -95,7 +97,7 @@ dev_dependencies:
   mockito: ^5.4.4
   build_runner: ^2.15.0
   json_serializable: ^6.8.0
-  drift_dev:  ^2.30.1
+  drift_dev: ^2.30.1
   path_provider_platform_interface: ^2.1.2
 
   persistence_drift:
