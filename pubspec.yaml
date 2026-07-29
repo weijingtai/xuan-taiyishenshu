@@ -55,10 +55,27 @@ dependencies:
   repository_interface_taiyishenshu:
     git:
       url: http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git
+  repository_interface_divination_pipeline:
+    git:
+      url: http://192.168.0.165:3000/xuan/repository-interface-divination-pipeline.git
+  repository_interface_record:
+    git:
+      url: http://192.168.0.165:3000/xuan/repository-interface-record.git
+  equatable: ^2.0.8
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
 
 dependency_overrides:
+  repository_interface_divination_pipeline:
+    path: ../repository-interface-divination-pipeline
+  repository_interface_record:
+    path: ../repository-interface-record
+  divination_case:
+    path: ../xuan-divination-case
+  repository_interface_taiyishenshu:
+    path: ../repository-interface-taiyishenshu
+  metaphysics_core:
+    path: ../xuan-metaphysics-core
   persistence_assets:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-storage.git
@@ -74,12 +91,6 @@ dependency_overrides:
   xuan_four_zhu_card:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
-  repository_interface_taiyishenshu:
-    git:
-      url: http://192.168.0.165:3000/xuan/repository-interface-taiyishenshu.git
-  metaphysics_core:
-    git:
-      url: http://192.168.0.165:3000/xuan/metaphysics-core.git
   xuan_gua_core:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-gua-core.git
