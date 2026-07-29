@@ -1,0 +1,111 @@
+import 'dart:convert';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:metaphysics_core/enums.dart';
+import 'package:metaphysics_core/models/divination_datetime.dart';
+import 'package:metaphysics_core/models/eight_chars.dart';
+import 'package:metaphysics_core/models/jie_qi_info.dart';
+import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:taiyishenshu/domain/pipeline/taiyi_chart_params.dart';
+import 'package:taiyishenshu/domain/pipeline/taiyi_pipeline_executor.dart';
+import 'package:taiyishenshu/taiyi/pan_enums.dart';
+
+ResolvedMoment _buildMoment({
+  required DateTime nominalTime,
+  required double latitude,
+  required double longitude,
+}) {
+  final source = DivinationMoment(
+    instantUtc: nominalTime.toUtc(),
+    place: GeoPoint(latitude: latitude, longitude: longitude),
+    reckoning: EnumDatetimeType.standard,
+  );
+  return ResolvedMoment(
+    source: source,
+    nominalTime: nominalTime,
+    eightChars: EightChars(
+      year: JiaZi.BING_YIN,
+      month: JiaZi.GENG_CHEN,
+      day: JiaZi.JIA_SHEN,
+      time: JiaZi.WU_CHEN,
+    ),
+    lunar: const LunarDate(month: 4, day: 26, isLeapMonth: false),
+    jieQi: JieQiInfo(
+      jieQi: TwentyFourJieQi.XIAO_MAN,
+      startAt: DateTime(2026, 5, 21),
+      endAt: DateTime(2026, 6, 5),
+    ),
+  );
+}
+
+void main() {
+  group('TaiyiPipelineExecutor', () {
+    late TaiyiPipelineExecutor executor;
+    late ResolvedMoment moment;
+    late TaiyiChartParams params;
+
+    setUpAll(() {
+      executor = const TaiyiPipelineExecutor();
+      moment = _buildMoment(
+        nominalTime: DateTime(2026, 5, 23, 8, 25),
+        latitude: 31.2304,
+        longitude: 121.4737,
+      );
+      params = const TaiyiChartParams(
+        latitude: 31.2304,
+        longitude: 121.4737,
+        altitude: 4.0,
+        timezone: 'Asia/Shanghai',
+        isMale: true,
+        schoolId: 'jingMirror',
+        chartType: TaiYiChartType.year,
+      );
+    });
+
+    test('execute 跑通完整排盘并返回正确字段与具体数值', () async {
+      final result = await executor.execute(moment: moment, params: params);
+      final chart = result.chart;
+
+      expect(chart.question, '太乙神数排盘');
+      expect(chart.schoolId, 'jingMirror');
+      expect(chart.juNumber, 55);
+      expect(chart.createdAt, DateTime(2026, 5, 23, 8, 25));
+      expect(chart.datetimeJson, '2026-05-23T08:25:00.000');
+    });
+
+    test('产出 contract 满足 Chart 契约且支持 toJson/jsonDecode 往返', () async {
+      final result = await executor.execute(moment: moment, params: params);
+      final chart = result.chart;
+
+      expect(chart is Chart, true);
+      final jsonMap = chart.toJson();
+      expect(jsonMap.isNotEmpty, true);
+      expect(jsonMap['question'], '太乙神数排盘');
+      expect(jsonMap['schoolId'], 'jingMirror');
+      expect(jsonMap['juNumber'], 55);
+
+      final jsonString = jsonEncode(jsonMap);
+      final decodedMap = jsonDecode(jsonString) as Map<String, dynamic>;
+      expect(decodedMap['schoolId'], 'jingMirror');
+      expect(decodedMap['juNumber'], 55);
+      expect(decodedMap['question'], '太乙神数排盘');
+    });
+
+    test('相同输入两次执行产出稳定一致的盘块数据', () async {
+      final res1 = await executor.execute(moment: moment, params: params);
+      final res2 = await executor.execute(moment: moment, params: params);
+
+      expect(res1.chart.juNumber, 55);
+      expect(res2.chart.juNumber, 55);
+      expect(res1.chart.juNumber, res2.chart.juNumber);
+      expect(res1.chart.schoolId, res2.chart.schoolId);
+      expect(res1.chart.taiYiPalaceJson, res2.chart.taiYiPalaceJson);
+      expect(res1.chart.ninePalaceJson, res2.chart.ninePalaceJson);
+      expect(res1.chart.paramsJson, res2.chart.paramsJson);
+      expect(res1.chart.datetimeJson, res2.chart.datetimeJson);
+      expect(res1.chart.createdAt, res2.chart.createdAt);
+      expect(res1.chart.question, res2.chart.question);
+    });
+  });
+}
