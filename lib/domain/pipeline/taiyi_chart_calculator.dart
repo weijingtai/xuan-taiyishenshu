@@ -4,11 +4,16 @@ import 'package:repository_interface_divination_pipeline/repository_interface_di
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 
 import '../../taiyi/taiyi_pan_calculator.dart';
+import 'taiyi_calculation_context.dart';
 import 'taiyi_chart_params.dart';
 
 final class TaiyiChartCalculator
     implements ChartCalculator<TaiyiChartParams, TaiyiDivinationRecordContract> {
-  const TaiyiChartCalculator();
+  final TaiyiCalculationContext context;
+
+  const TaiyiChartCalculator({
+    this.context = const TaiyiCalculationContext(),
+  });
 
   @override
   String get module => 'taiyishenshu';
