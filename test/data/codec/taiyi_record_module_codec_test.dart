@@ -63,7 +63,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -78,7 +78,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -93,13 +93,13 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
       final encoded = codec.encode(contract, scopeUid: 'test-scope');
 
-      expect(encoded.meta.timezoneStr, 'Asia/Shanghai');
+      expect(encoded.meta.timezoneStr, 'Asia/Beijing');
     });
 
     test('encode 提取公共列：gender（男性）', () {
@@ -108,7 +108,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -123,7 +123,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: false,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -138,7 +138,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -153,7 +153,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -170,7 +170,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -185,7 +185,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -202,7 +202,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -218,7 +218,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -236,7 +236,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -253,7 +253,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -269,7 +269,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -295,7 +295,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -322,7 +322,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -345,7 +345,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
       final contract = calculator.calculate(_buildMoment(), params);
@@ -362,7 +362,7 @@ void main() {
         latitude: 31.2304,
         longitude: 121.4737,
         altitude: 4.0,
-        timezone: 'Asia/Shanghai',
+        timezone: 'Asia/Beijing',
         isMale: true,
       );
 

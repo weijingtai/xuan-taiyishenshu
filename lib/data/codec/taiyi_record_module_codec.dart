@@ -67,7 +67,7 @@ class TaiyiRecordModuleCodec
       question: contract.question,
       occurredAtUtc: contract.createdAt,
       reckoningType: '标准时间',
-      timezoneStr: params?['timezone'] ?? 'Asia/Shanghai',
+      timezoneStr: params?['timezone'] ?? 'Asia/Beijing',
       latitude: params?['latitude'],
       longitude: params?['longitude'],
       locationName: params?['locationName'],
