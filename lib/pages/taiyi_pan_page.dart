@@ -63,7 +63,7 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     _selectedTime = TimeOfDay.now();
     _selectedSchoolId = 'jingMirror';
     _selectedChartType = TaiYiChartType.year;
-    
+
     _initController();
   }
 
@@ -78,15 +78,22 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
         'See storage-refactor §12-E2.',
       );
     }
-    
-    if (mounted) {
+
+    if (!mounted) return;
+
+    // 数据加载 / 排盘会触发 notifyListeners → _onPanDataChanged → setState。
+    // 若在 initState 同步链里执行，会踩中 flutter 断言
+    // "setState() or markNeedsBuild() called during build"（notify 期间 rebuild）。
+    // 延后到首帧之后执行，保证第一个 build 完整结束再触发刷新。
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       setState(() {
         _isAssemblyLoading = false;
       });
       _controller.addListener(_onPanDataChanged);
       _controller.loadSchools();
       _calculate();
-    }
+    });
   }
 
   @override
