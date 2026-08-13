@@ -76,6 +76,21 @@ void main() {
       expect(saved, hasLength(1));
       expect(saved.single.uuid, pipelineRecord.uuid);
 
+      // ── 执行证据：executor 真实执行 + 落库 uuid 同源 ──
+      final evidence = controller.lastPipelineEvidence;
+      expect(evidence, isNotNull, reason: 'pipeline 路径必须产出执行证据');
+      expect(evidence!.callCount, 1, reason: 'executor 恰好执行一次');
+      expect(evidence.requestId, pipelineRecord.uuid,
+          reason: 'requestId 取 Record uuid');
+      expect(evidence.resultUuid, pipelineRecord.uuid,
+          reason: 'resultUuid 与落库 Record uuid 同源');
+      expect(evidence.module, 'taiyishenshu');
+      expect(evidence.error, isNull, reason: '成功执行无异常');
+      expect(evidence.keyResult, isNotNull, reason: '局数是页面可观察结果');
+      // 落库的 Record 就是 lastPipelineRecord（同 uuid）
+      expect(saved.single.uuid, pipelineRecord.uuid,
+          reason: '落库 Record uuid 与排盘 uuid 同源');
+
       // 与直接调用 executor 的产出逐字段一致
       final direct = await executor.execute(
         ChartRequest<TaiyiChartParams>(

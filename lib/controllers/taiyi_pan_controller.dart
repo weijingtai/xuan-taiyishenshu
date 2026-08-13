@@ -10,6 +10,7 @@ import '../taiyi/usecases/calculate_pan_usecase.dart';
 import '../taiyi/taiyi.dart';
 import '../domain/pipeline/taiyi_pipeline_executor.dart';
 import '../domain/pipeline/taiyi_chart_params.dart';
+import '../domain/pipeline/pipeline_evidence.dart';
 
 class TaiYiPanController extends ChangeNotifier {
   final TaiYiDataAssembly assembly;
@@ -23,6 +24,15 @@ class TaiYiPanController extends ChangeNotifier {
 
   /// 最后一次统一入参排盘产出的 Record。
   TaiyiDivinationRecordContract? lastPipelineRecord;
+
+  /// 本次排盘执行证据（供壳侧 E2E 测试断言 executor 真实执行）。
+  /// 只读：不参与生产逻辑判断、不影响渲染。
+  PipelineEvidence? _lastPipelineEvidence;
+  int _pipelineCallCount = 0;
+
+  /// 最后一次走统一入参排盘的执行证据；未走 pipeline 路径时为 null。
+  @visibleForTesting
+  PipelineEvidence? get lastPipelineEvidence => _lastPipelineEvidence;
 
   late final SchoolViewModel schoolViewModel;
   late final DeityViewModel deityViewModel;
@@ -154,10 +164,27 @@ class TaiYiPanController extends ChangeNotifier {
       final executor = pipelineExecutor;
       if (executor != null) {
         try {
+          _pipelineCallCount++;
           final record = await _runPipeline(executor, dateTime, schoolId, chartType);
           lastPipelineRecord = record;
+          _lastPipelineEvidence = PipelineEvidence(
+            callCount: _pipelineCallCount,
+            requestId: record.uuid,
+            resultUuid: record.uuid,
+            module: 'taiyishenshu',
+            keyResult: _keyResultOf(record),
+            error: null,
+          );
           await assembly.recordRepo.saveRecord(record);
         } catch (error, stack) {
+          _lastPipelineEvidence = PipelineEvidence(
+            callCount: _pipelineCallCount,
+            requestId: null,
+            resultUuid: null,
+            module: 'taiyishenshu',
+            keyResult: null,
+            error: error,
+          );
           debugPrint('Pipeline 排盘失败，已回退老路径: $error\n$stack');
         }
       }
@@ -206,6 +233,22 @@ class TaiYiPanController extends ChangeNotifier {
     );
     lastPipelineRequest = request;
     return executor.execute(request);
+  }
+
+  /// 提取页面可观察的关键结果（局数 juNumber + 太乙所在宫），
+  /// 作为执行证据的 keyResult。
+  ///
+  /// 局数由本次排盘决定（calculator 计算产出），且直接显示在盘面顶部，
+  /// 因此能代表「这次执行真的发生了」。
+  Object? _keyResultOf(TaiyiDivinationRecordContract record) {
+    final ju = record.juNumber;
+    if (ju == null) {
+      return null;
+    }
+    return {
+      'juNumber': ju,
+      'taiYiPalace': record.taiYiPalaceJson,
+    };
   }
 
   @override
