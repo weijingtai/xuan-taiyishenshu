@@ -1,26 +1,26 @@
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_time_location/xuan_time_location.dart';
 
 import 'taiyi_calculation_context.dart';
 import 'taiyi_chart_calculator.dart';
 import 'taiyi_chart_params.dart';
 
-class TaiyiPipelineResult {
-  final TaiyiDivinationRecordContract chart;
+final class TaiyiPipelineExecutor {
+  final TaiyiCalculationContext _context;
+  final MomentResolver _momentResolver;
 
-  const TaiyiPipelineResult({required this.chart});
-}
+  TaiyiPipelineExecutor({
+    TaiyiCalculationContext? context,
+    MomentResolver? momentResolver,
+  }) : _context = context ?? const TaiyiCalculationContext(),
+       _momentResolver = momentResolver ?? const DefaultMomentResolver();
 
-class TaiyiPipelineExecutor {
-  const TaiyiPipelineExecutor();
-
-  Future<TaiyiPipelineResult> execute({
-    required ResolvedMoment moment,
-    required TaiyiChartParams params,
-  }) async {
-    final context = await TaiyiCalculationContext.load();
-    final calculator = TaiyiChartCalculator(context: context);
-    final chart = calculator.calculate(moment, params);
-    return TaiyiPipelineResult(chart: chart);
+  Future<TaiyiDivinationRecordContract> execute(
+    ChartRequest<TaiyiChartParams> request,
+  ) async {
+    final moment = _momentResolver.resolve(request.moment);
+    final calculator = TaiyiChartCalculator(context: _context);
+    return calculator.calculate(moment, request.params);
   }
 }

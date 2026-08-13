@@ -46,7 +46,7 @@ void main() {
     late TaiyiChartParams params;
 
     setUpAll(() {
-      executor = const TaiyiPipelineExecutor();
+      executor = TaiyiPipelineExecutor(momentResolver: _FixedMomentResolver());
       moment = _buildMoment(
         nominalTime: DateTime(2026, 5, 23, 8, 25),
         latitude: 31.2304,
@@ -64,8 +64,12 @@ void main() {
     });
 
     test('execute 跑通完整排盘并返回正确字段与具体数值', () async {
-      final result = await executor.execute(moment: moment, params: params);
-      final chart = result.chart;
+      final chart = await executor.execute(
+        ChartRequest<TaiyiChartParams>(
+          moment: moment.source,
+          params: params,
+        ),
+      );
 
       expect(chart.question, '太乙神数排盘');
       expect(chart.schoolId, 'jingMirror');
@@ -75,8 +79,12 @@ void main() {
     });
 
     test('产出 contract 满足 Chart 契约且支持 toJson/jsonDecode 往返', () async {
-      final result = await executor.execute(moment: moment, params: params);
-      final chart = result.chart;
+      final chart = await executor.execute(
+        ChartRequest<TaiyiChartParams>(
+          moment: moment.source,
+          params: params,
+        ),
+      );
 
       expect(chart is Chart, true);
       final jsonMap = chart.toJson();
@@ -93,19 +101,52 @@ void main() {
     });
 
     test('相同输入两次执行产出稳定一致的盘块数据', () async {
-      final res1 = await executor.execute(moment: moment, params: params);
-      final res2 = await executor.execute(moment: moment, params: params);
+      final req = ChartRequest<TaiyiChartParams>(
+        moment: moment.source,
+        params: params,
+      );
+      final res1 = await executor.execute(req);
+      final res2 = await executor.execute(req);
 
-      expect(res1.chart.juNumber, 55);
-      expect(res2.chart.juNumber, 55);
-      expect(res1.chart.juNumber, res2.chart.juNumber);
-      expect(res1.chart.schoolId, res2.chart.schoolId);
-      expect(res1.chart.taiYiPalaceJson, res2.chart.taiYiPalaceJson);
-      expect(res1.chart.ninePalaceJson, res2.chart.ninePalaceJson);
-      expect(res1.chart.paramsJson, res2.chart.paramsJson);
-      expect(res1.chart.datetimeJson, res2.chart.datetimeJson);
-      expect(res1.chart.createdAt, res2.chart.createdAt);
-      expect(res1.chart.question, res2.chart.question);
+      expect(res1.juNumber, 55);
+      expect(res2.juNumber, 55);
+      expect(res1.juNumber, res2.juNumber);
+      expect(res1.schoolId, res2.schoolId);
+      expect(res1.taiYiPalaceJson, res2.taiYiPalaceJson);
+      expect(res1.ninePalaceJson, res2.ninePalaceJson);
+      expect(res1.paramsJson, res2.paramsJson);
+      expect(res1.datetimeJson, res2.datetimeJson);
+      expect(res1.createdAt, res2.createdAt);
+      expect(res1.question, res2.question);
     });
   });
+}
+
+/// 固定 ResolvedMoment，隔离真实历法计算，专注验证接线与入参透传。
+class _FixedMomentResolver implements MomentResolver {
+  const _FixedMomentResolver();
+
+  @override
+  ResolvedMoment resolve(DivinationMoment moment) => ResolvedMoment(
+    source: moment,
+    nominalTime: DateTime(2026, 5, 23, 8, 25),
+    eightChars: EightChars(
+      year: JiaZi.BING_YIN,
+      month: JiaZi.GENG_CHEN,
+      day: JiaZi.JIA_SHEN,
+      time: JiaZi.WU_CHEN,
+    ),
+    lunar: const LunarDate(month: 4, day: 26, isLeapMonth: false),
+    jieQi: JieQiInfo(
+      jieQi: TwentyFourJieQi.XIAO_MAN,
+      startAt: DateTime(2026, 5, 21),
+      endAt: DateTime(2026, 6, 5),
+    ),
+  );
+
+  @override
+  List<ResolvedMoment> resolveCandidates(
+    DivinationMoment moment,
+    CandidateSpec spec,
+  ) => [];
 }

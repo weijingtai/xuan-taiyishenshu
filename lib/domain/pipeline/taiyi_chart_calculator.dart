@@ -43,7 +43,7 @@ final class TaiyiChartCalculator
     };
 
     return TaiyiDivinationRecordContract(
-      uuid: '',
+      uuid: params.uuid,
       question: '太乙神数排盘',
       datetimeJson: moment.nominalTime.toIso8601String(),
       schoolId: params.schoolId,

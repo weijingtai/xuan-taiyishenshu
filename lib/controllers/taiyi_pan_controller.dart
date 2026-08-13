@@ -1,19 +1,37 @@
 import 'package:flutter/foundation.dart';
+import 'package:metaphysics_core/enums.dart';
+import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
+import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 
 import '../taiyi/taiyi_assembly.dart';
 import '../taiyi/viewmodels/school_view_model.dart';
 import '../taiyi/viewmodels/deity_view_model.dart';
 import '../taiyi/usecases/calculate_pan_usecase.dart';
 import '../taiyi/taiyi.dart';
+import '../domain/pipeline/taiyi_pipeline_executor.dart';
+import '../domain/pipeline/taiyi_chart_params.dart';
 
 class TaiYiPanController extends ChangeNotifier {
   final TaiYiDataAssembly assembly;
+
+  /// Pipeline 统一入参排盘执行器（可选注入）。注入后 calculate 走新路径，
+  /// 失败回退老路径，不打断 UI。
+  final TaiyiPipelineExecutor? pipelineExecutor;
+
+  /// 最后一次走统一入参排盘的 [ChartRequest]，供测试断言 executor 被真实调用。
+  ChartRequest<TaiyiChartParams>? lastPipelineRequest;
+
+  /// 最后一次统一入参排盘产出的 Record。
+  TaiyiDivinationRecordContract? lastPipelineRecord;
 
   late final SchoolViewModel schoolViewModel;
   late final DeityViewModel deityViewModel;
   late final CalculatePanUseCase calculatePanUseCase;
 
-  TaiYiPanController({required this.assembly}) {
+  TaiYiPanController({
+    required this.assembly,
+    this.pipelineExecutor,
+  }) {
 
     calculatePanUseCase = assembly.calculatePanUseCase;
 
@@ -130,7 +148,28 @@ class TaiYiPanController extends ChangeNotifier {
       );
       _error = null;
 
-      assembly.saveRecordUseCase(_panData!).catchError((_) {});
+      // ── 新路径：Pipeline 统一入参排盘 + 落库走 Record ──
+      // 注入 executor 时走统一入参排盘，产出 Record 落库；
+      // 失败只记日志回退老路径，不打断 UI。
+      final executor = pipelineExecutor;
+      if (executor != null) {
+        try {
+          final record = await _runPipeline(executor, dateTime, schoolId, chartType);
+          lastPipelineRecord = record;
+          await assembly.recordRepo.saveRecord(record);
+        } catch (error, stack) {
+          debugPrint('Pipeline 排盘失败，已回退老路径: $error\n$stack');
+        }
+      }
+
+      // ── 老路径落库：仅在未注入 executor（或新路径未产出）时执行，避免重复落库 ──
+      if (lastPipelineRecord == null) {
+        try {
+          await assembly.saveRecordUseCase(_panData!);
+        } catch (error, stack) {
+          debugPrint('老路径落库失败: $error\n$stack');
+        }
+      }
     } catch (e) {
       _error = e.toString();
       _panData = null;
@@ -138,6 +177,35 @@ class TaiYiPanController extends ChangeNotifier {
       _isCalculating = false;
       notifyListeners();
     }
+  }
+
+  /// 构建统一入参并调用 Pipeline executor 排盘，返回落库用的 Record。
+  Future<TaiyiDivinationRecordContract> _runPipeline(
+    TaiyiPipelineExecutor executor,
+    DateTime dateTime,
+    String schoolId,
+    TaiYiChartType chartType,
+  ) async {
+    final params = TaiyiChartParams(
+      timezone: 'Asia/Shanghai',
+      schoolId: schoolId,
+      chartType: chartType,
+      uuid: 'taiyi-${dateTime.millisecondsSinceEpoch}',
+    );
+    final request = ChartRequest<TaiyiChartParams>(
+      moment: DivinationMoment(
+        instantUtc: dateTime.toUtc(),
+        place: GeoPoint(
+          latitude: params.latitude,
+          longitude: params.longitude,
+          timeZoneId: params.timezone,
+        ),
+        reckoning: EnumDatetimeType.standard,
+      ),
+      params: params,
+    );
+    lastPipelineRequest = request;
+    return executor.execute(request);
   }
 
   @override

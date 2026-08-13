@@ -7,6 +7,7 @@ import 'taiyishenshu_storage_dependencies.dart';
 import '../../taiyi/taiyi_assembly.dart';
 import '../../taiyi/core/school_repository.dart' as product;
 import '../../controllers/taiyi_pan_controller.dart';
+import '../../domain/pipeline/taiyi_pipeline_executor.dart';
 import '../adapters/taiyi_contract_adapters.dart';
 
 /// Wraps contract-typed [contract.DeityPreferenceRepository] into product-typed
@@ -47,7 +48,10 @@ final class TaiyishenshuModuleManifest {
     return [
       Provider<TaiYiDataAssembly>.value(value: assembly),
       ChangeNotifierProvider<TaiYiPanController>(
-        create: (_) => TaiYiPanController(assembly: assembly),
+        create: (_) => TaiYiPanController(
+          assembly: assembly,
+          pipelineExecutor: TaiyiPipelineExecutor(),
+        ),
       ),
     ];
   }

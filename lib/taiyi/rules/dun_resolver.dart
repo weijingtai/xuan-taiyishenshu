@@ -1,5 +1,5 @@
 import 'package:metaphysics_core/enums.dart';
-import 'package:metaphysics_core/enums/datetime_strategy_enums.dart';
+import 'package:enumeration/enums.dart';
 import 'package:tyme/tyme.dart';
 import 'school_document.dart';
 
