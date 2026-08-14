@@ -16,6 +16,10 @@ import '../domain/pipeline/pipeline_evidence.dart';
 class TaiYiPanController extends ChangeNotifier {
   final TaiYiDataAssembly assembly;
 
+  /// 宿主解析的产品时区标识（用户偏好 > 地点 > 中国默认），
+  /// 用于运行路径排盘，不写死字面量。
+  final String _timezone;
+
   /// Pipeline 统一入参排盘执行器（可选注入）。注入后 calculate 走新路径，
   /// 失败回退老路径，不打断 UI。
   final TaiyiPipelineExecutor? pipelineExecutor;
@@ -42,7 +46,8 @@ class TaiYiPanController extends ChangeNotifier {
   TaiYiPanController({
     required this.assembly,
     this.pipelineExecutor,
-  }) {
+    String Function()? timezoneProvider,
+  }) : _timezone = timezoneProvider?.call() ?? chinaTimeZoneId {
 
     calculatePanUseCase = assembly.calculatePanUseCase;
 
@@ -215,7 +220,7 @@ class TaiYiPanController extends ChangeNotifier {
     TaiYiChartType chartType,
   ) async {
     final params = TaiyiChartParams(
-      timezone: chinaTimeZoneId,
+      timezone: _timezone,
       schoolId: schoolId,
       chartType: chartType,
       uuid: 'taiyi-${dateTime.millisecondsSinceEpoch}',

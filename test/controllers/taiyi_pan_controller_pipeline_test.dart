@@ -198,6 +198,28 @@ void main() {
         throwsFormatException,
       );
     });
+
+    test('D: 时区来自注入的宿主上下文，不落回 chinaTimeZoneId', () async {
+      final executor = TaiyiPipelineExecutor(
+        momentResolver: _FixedMomentResolver(),
+      );
+      final controller = TaiYiPanController(
+        assembly: assembly,
+        pipelineExecutor: executor,
+        timezoneProvider: () => 'America/New_York',
+      );
+
+      await controller.calculate(
+        dateTime: DateTime(2026, 5, 23, 8, 25),
+        schoolId: 'jingMirror',
+        chartType: TaiYiChartType.year,
+      );
+
+      expect(controller.error, isNull);
+      final request = controller.lastPipelineRequest;
+      expect(request, isNotNull, reason: 'executor 必须被真实调用');
+      expect(request!.params.timezone, equals('America/New_York'));
+    });
   });
 }
 
