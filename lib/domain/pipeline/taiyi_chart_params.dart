@@ -29,11 +29,14 @@ class TaiyiChartParams extends Equatable implements ModuleParams {
 
   /// JSON 解码器（与 [toJson] 互逆）。
   ///
-  /// - 缺字段套默认（坐标 0.0、时区 `Asia/Shanghai`、`isMale` false、
+  /// - 缺字段套默认（坐标 0.0、时区 [chinaTimeZoneId]、`isMale` false、
   ///   `schoolId` `jingMirror`、`chartType` year），不抛错。
   /// - 字段存在但类型不合法（如 `latitude: '39.9'`、`timezone: 42`、
   ///   `isMale: 'yes'`）或 `chartType` 非合法枚举名时抛 [FormatException]，
   ///   不静默兜底。
+  ///
+  /// ⚠ [chinaTimeZoneId] 仅用于反序列化旧数据兜底。
+  /// 运行路径必须由 ViewModel 从宿主解析的时区显式传入，不得依赖此默认值。
   factory TaiyiChartParams.fromJson(Map<String, dynamic> json) {
     final latitudeRaw = json['latitude'];
     if (latitudeRaw != null && latitudeRaw is! num) {

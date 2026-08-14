@@ -61,6 +61,7 @@ final class TaiyishenshuModuleManifest {
         create: (_) => TaiYiPanController(
           assembly: assembly,
           pipelineExecutor: TaiyiPipelineExecutor(),
+          timezoneProvider: deps.timezoneProvider,
         ),
       ),
     ];
