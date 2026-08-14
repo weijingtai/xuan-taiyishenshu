@@ -31,6 +31,9 @@ dependencies:
   metaphysics_core:
     git:
       url: http://192.168.0.165:3000/xuan/metaphysics-core.git
+  xuan_time_location:
+    git:
+      url: http://192.168.0.165:3000/xuan/xuan-time-location.git
   xuan_gua_core:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-gua-core.git
@@ -46,6 +49,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   logger: ^2.6.2
   tuple: ^2.0.2
+  timezone: ^0.9.4
   #  chinese_lunar_calendar: ^0.0.13
   tyme: ^1.4.1
   intl: ^0.20.2

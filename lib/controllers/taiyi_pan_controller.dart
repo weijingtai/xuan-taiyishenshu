@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:metaphysics_core/enums.dart';
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_time_location/xuan_time_location.dart';
 
 import '../taiyi/taiyi_assembly.dart';
 import '../taiyi/viewmodels/school_view_model.dart';
@@ -214,7 +215,7 @@ class TaiYiPanController extends ChangeNotifier {
     TaiYiChartType chartType,
   ) async {
     final params = TaiyiChartParams(
-      timezone: 'Asia/Shanghai',
+      timezone: chinaTimeZoneId,
       schoolId: schoolId,
       chartType: chartType,
       uuid: 'taiyi-${dateTime.millisecondsSinceEpoch}',

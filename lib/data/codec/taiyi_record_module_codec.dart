@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:repository_interface_record/repository_interface_record.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
+import 'package:xuan_time_location/xuan_time_location.dart';
 
 final _log = Logger();
 
@@ -67,7 +68,7 @@ class TaiyiRecordModuleCodec
       question: contract.question,
       occurredAtUtc: contract.createdAt,
       reckoningType: '标准时间',
-      timezoneStr: params?['timezone'] ?? 'Asia/Beijing',
+      timezoneStr: params?['timezone'] ?? chinaTimeZoneId,
       latitude: params?['latitude'],
       longitude: params?['longitude'],
       locationName: params?['locationName'],

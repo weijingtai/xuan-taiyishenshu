@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
+import 'package:xuan_time_location/xuan_time_location.dart';
 
 import '../../taiyi/pan_enums.dart';
 
@@ -19,7 +20,7 @@ class TaiyiChartParams extends Equatable implements ModuleParams {
     this.latitude = 0.0,
     this.longitude = 0.0,
     this.altitude = 0.0,
-    this.timezone = 'Asia/Shanghai',
+    this.timezone = chinaTimeZoneId,
     this.isMale = false,
     this.schoolId = 'jingMirror',
     this.chartType = TaiYiChartType.year,
@@ -79,7 +80,7 @@ class TaiyiChartParams extends Equatable implements ModuleParams {
       latitude: (latitudeRaw as num?)?.toDouble() ?? 0.0,
       longitude: (longitudeRaw as num?)?.toDouble() ?? 0.0,
       altitude: (altitudeRaw as num?)?.toDouble() ?? 0.0,
-      timezone: (timezoneRaw as String?) ?? 'Asia/Shanghai',
+      timezone: (timezoneRaw as String?) ?? chinaTimeZoneId,
       isMale: (isMaleRaw as bool?) ?? false,
       schoolId: (schoolIdRaw as String?) ?? 'jingMirror',
       chartType: chartTypeRaw == null

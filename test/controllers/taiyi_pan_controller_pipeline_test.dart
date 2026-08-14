@@ -6,6 +6,7 @@ import 'package:metaphysics_core/models/jie_qi_info.dart';
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
     hide DummyDeityPreferenceRepository;
+import 'package:xuan_time_location/xuan_time_location.dart';
 import 'package:taiyishenshu/controllers/taiyi_pan_controller.dart';
 import 'package:taiyishenshu/domain/pipeline/taiyi_chart_params.dart';
 import 'package:taiyishenshu/domain/pipeline/taiyi_pipeline_executor.dart';
@@ -164,7 +165,7 @@ void main() {
       expect(decoded.latitude, 0.0);
       expect(decoded.longitude, 0.0);
       expect(decoded.altitude, 0.0);
-      expect(decoded.timezone, 'Asia/Shanghai');
+      expect(decoded.timezone, chinaTimeZoneId);
       expect(decoded.isMale, false);
       expect(decoded.schoolId, 'jingMirror');
       expect(decoded.chartType, TaiYiChartType.year);
