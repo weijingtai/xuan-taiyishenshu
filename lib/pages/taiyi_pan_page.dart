@@ -235,6 +235,9 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     final gridWidth = isWide ? screenWidth * 0.6 : screenWidth - 24;
     final grid = Semantics(
+      // 盘面根容器：排盘成功（panData != null）时才会挂到树上，
+      // 供壳侧 E2E 断言"页面确实渲染出了盘面"。
+      key: const ValueKey('taiyishenshu.view.pan'),
       identifier: 'pan-grid',
       label: '当前盘面，流派 ${panData.input.schoolName}，积年 ${panData.accumulatedYear}',
       container: true,
@@ -396,6 +399,9 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
           ),
           ..._defaultSchoolOptions.map((s) {
             return ChoiceChip(
+              // 流派选择器：本组 chip 直接展开在 Wrap 里、没有独立容器，
+              // 另包一层容器会改布局，故按流派 id 分键（模块.类别.名称）。
+              key: ValueKey('taiyishenshu.input.school.${s.$1}'),
               label: Text(s.$2),
               selected: _selectedSchoolId == s.$1,
               onSelected: (_) {
@@ -475,6 +481,8 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _selectorButton(
+          // 日期选择器：点开 showDatePicker，选定后即触发一次重算。
+          key: const ValueKey('taiyishenshu.input.datetime'),
           icon: Icons.calendar_today,
           label: dateStr,
           onTap: () async {
@@ -527,6 +535,8 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
         ),
         const SizedBox(width: 4),
         _selectorButton(
+          // 重算触发器：本页唯一无需打开弹窗即可直接触发 _calculate() 的控件。
+          key: const ValueKey('taiyishenshu.action.calculate'),
           icon: Icons.refresh,
           label: '现在',
           onTap: () {
@@ -542,12 +552,16 @@ class _TaiYiPanPageState extends State<TaiYiPanPage> {
     );
   }
 
+  /// [key] 供壳侧 E2E 测试稳定定位（命名规约：模块.类别.名称），
+  /// 不参与布局/样式/回调，仅透传给最外层可点区域。
   Widget _selectorButton({
+    Key? key,
     required IconData icon,
     required String label,
     required VoidCallback onTap,
   }) {
     return InkWell(
+      key: key,
       onTap: onTap,
       borderRadius: BorderRadius.circular(6),
       child: Container(
