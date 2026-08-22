@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'package:xuan_gua_core/xuan_gua_core.dart';
 import 'package:taiyishenshu/minggua/core/ming_gua_engine.dart';
@@ -45,6 +46,29 @@ class MockMingGuaRepository implements MingGuaRepository {
   Future<void> deleteConfig(String id) async {
     throw UnsupportedError('read-only mock');
   }
+
+  // ── L0 slice methods ──
+
+  @override
+  Future<Result<MingGuaConfigContract?>> get(String id, RequestContext ctx) async {
+    if (throwOnLoad) throw Exception('config load failed');
+    return Ok(_defaultConfig);
+  }
+
+  @override
+  Future<Result<bool>> exists(String id, RequestContext ctx) async => const Ok(true);
+
+  @override
+  Future<Result<Rev>> put(MingGuaConfigContract entity, RequestContext ctx, {Precondition pre = const Unconditional()}) async => const Ok(Rev('rev_1'));
+
+  @override
+  Future<Result<Page<MingGuaConfigContract>>> query(Map<String, Object?> spec, PageRequest page, RequestContext ctx) async => Ok(Page(items: [_defaultConfig]));
+
+  @override
+  Future<Result<int>> count(Map<String, Object?> spec, RequestContext ctx) async => const Ok(1);
+
+  @override
+  Future<Result<R>> inTransaction<R>(Future<R> Function() body) async => Ok(await body());
 }
 
 void main() {

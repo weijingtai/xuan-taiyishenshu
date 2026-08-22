@@ -51,6 +51,7 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
     sessionRepository: sessionRepo,
     identityLinkRepository: identityLinkRepo,
     ledger: ledger,
+    handoverService: const _NoOpScopeHandoverService(),
   );
   final resolvedScope = await resolver.resolve();
   final scopeUid = resolvedScope.scopeUid;
@@ -72,4 +73,10 @@ Future<TaiYiDataAssembly> buildTaiYiAssembly() async {
     preferenceRepo: productPreference,
     recordRepo: recordBackedRepository,
   );
+}
+
+class _NoOpScopeHandoverService implements ScopeHandoverService {
+  const _NoOpScopeHandoverService();
+  @override
+  Future<void> handover({required String fromScope, required String toScope}) async {}
 }

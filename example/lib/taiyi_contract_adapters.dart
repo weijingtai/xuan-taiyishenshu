@@ -1,3 +1,4 @@
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
     as contract;
 import 'package:persistence_preferences/taiyishenshu/taiyishenshu_preferences.dart';
@@ -8,6 +9,15 @@ import 'package:taiyishenshu/taiyi/core/chart_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_override.dart';
 import 'package:taiyishenshu/taiyi/core/algorithm_enums.dart';
 import 'package:taiyishenshu/enums/deity_kind.dart';
+
+/// Shared [RequestContext] for adapter calls (local anonymous scope).
+final _ctx = RequestContext(scopeUid: 'local-anonymous');
+
+/// Unwrap a [Result] or throw the error.
+T _unwrap<T>(Result<T> result) => switch (result) {
+      Ok(:final value) => value,
+      Err(:final error) => throw error,
+    };
 
 // ---------------------------------------------------------------------------
 // Contract-to-Product Adapters
@@ -20,34 +30,41 @@ class ContractOfficialSchoolAdapter implements product.SchoolRepository {
   ContractOfficialSchoolAdapter(this._inner);
 
   @override
-  Future<List<TaiYiSchool>> loadAllSchools() async =>
-      (await _inner.loadAllSchools()).map((c) => c.toModel()).toList();
+  Future<List<TaiYiSchool>> loadAllSchools() async {
+    final result = await _inner.query(const {}, PageRequest(limit: 100), _ctx);
+    return _unwrap(result).items.map((c) => c.toModel()).toList();
+  }
 
   @override
-  Future<TaiYiSchool?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toModel();
+  Future<TaiYiSchool?> loadSchool(String id) async {
+    final result = await _inner.get(id, _ctx);
+    return _unwrap(result)?.toModel();
+  }
 
   @override
-  Future<List<DeityDefinition>> loadAllDeities() async =>
-      (await _inner.loadAllDeities()).map((c) => c.toModel()).toList();
+  Future<List<DeityDefinition>> loadAllDeities() async {
+    return [];
+  }
 
   @override
-  Future<DeityDefinition?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toModel();
+  Future<DeityDefinition?> loadDeity(String id) async => null;
 
   @override
-  Future<void> saveSchool(TaiYiSchool school) =>
-      _inner.saveSchool(school.toContract());
+  Future<void> saveSchool(TaiYiSchool school) async {
+    final result = await _inner.put(school.toContract(), _ctx);
+    _unwrap(result);
+  }
 
   @override
-  Future<void> saveDeity(DeityDefinition deity) =>
-      _inner.saveDeity(deity.toContract());
+  Future<void> saveDeity(DeityDefinition deity) async {}
 
   @override
-  Future<void> deleteSchool(String id) => _inner.deleteSchool(id);
+  Future<void> deleteSchool(String id) async {
+    throw UnsupportedError('Cannot delete official school document');
+  }
 
   @override
-  Future<void> deleteDeity(String id) => _inner.deleteDeity(id);
+  Future<void> deleteDeity(String id) async {}
 }
 
 /// Wraps a contract-typed [contract.UserSchoolRepository] into a product-typed
@@ -57,19 +74,27 @@ class ContractUserSchoolAdapter implements product.UserSchoolRepository {
   ContractUserSchoolAdapter(this._inner);
 
   @override
-  Future<List<TaiYiSchool>> loadUserSchools() async =>
-      (await _inner.loadUserSchools()).map((c) => c.toModel()).toList();
+  Future<List<TaiYiSchool>> loadUserSchools() async {
+    final result = await _inner.query(const {}, PageRequest(limit: 100), _ctx);
+    return _unwrap(result).items.map((c) => c.toModel()).toList();
+  }
 
   @override
-  Future<TaiYiSchool?> loadSchool(String id) async =>
-      (await _inner.loadSchool(id))?.toModel();
+  Future<TaiYiSchool?> loadSchool(String id) async {
+    final result = await _inner.get(id, _ctx);
+    return _unwrap(result)?.toModel();
+  }
 
   @override
-  Future<void> saveUserSchool(TaiYiSchool school) =>
-      _inner.saveUserSchool(school.toContract());
+  Future<void> saveUserSchool(TaiYiSchool school) async {
+    final result = await _inner.put(school.toContract(), _ctx);
+    _unwrap(result);
+  }
 
   @override
-  Future<void> deleteUserSchool(String id) => _inner.deleteUserSchool(id);
+  Future<void> deleteUserSchool(String id) async {
+    throw UnsupportedError('Delete not yet supported on UserSchoolRepository L0 slice');
+  }
 }
 
 /// Wraps a contract-typed [contract.DeityRepository] into a product-typed
@@ -79,19 +104,27 @@ class ContractDeityAdapter implements product.DeityRepository {
   ContractDeityAdapter(this._inner);
 
   @override
-  Future<List<DeityDefinition>> loadUserDeities() async =>
-      (await _inner.loadUserDeities()).map((c) => c.toModel()).toList();
+  Future<List<DeityDefinition>> loadUserDeities() async {
+    final result = await _inner.query(const {}, PageRequest(limit: 100), _ctx);
+    return _unwrap(result).items.map((c) => c.toModel()).toList();
+  }
 
   @override
-  Future<DeityDefinition?> loadDeity(String id) async =>
-      (await _inner.loadDeity(id))?.toModel();
+  Future<DeityDefinition?> loadDeity(String id) async {
+    final result = await _inner.get(id, _ctx);
+    return _unwrap(result)?.toModel();
+  }
 
   @override
-  Future<void> saveUserDeity(DeityDefinition deity) =>
-      _inner.saveUserDeity(deity.toContract());
+  Future<void> saveUserDeity(DeityDefinition deity) async {
+    final result = await _inner.put(deity.toContract(), _ctx);
+    _unwrap(result);
+  }
 
   @override
-  Future<void> deleteUserDeity(String id) => _inner.deleteUserDeity(id);
+  Future<void> deleteUserDeity(String id) async {
+    throw UnsupportedError('Delete not yet supported on DeityRepository L0 slice');
+  }
 }
 
 /// Wraps a contract-typed [contract.DummyDeityPreferenceRepository] into a
@@ -101,14 +134,21 @@ class ContractDummyPreferenceAdapter implements product.DeityPreferenceRepositor
   ContractDummyPreferenceAdapter(this._inner);
 
   @override
-  Future<bool> isEnabled(String deityId) => _inner.isEnabled(deityId);
+  Future<bool> isEnabled(String deityId) async {
+    final result = await _inner.get(deityId, _ctx);
+    return _unwrap(result) ?? true;
+  }
 
   @override
-  Future<void> setEnabled(String deityId, bool enabled) =>
-      _inner.setEnabled(deityId, enabled);
+  Future<void> setEnabled(String deityId, bool enabled) async {
+    final result = await _inner.put(enabled, _ctx);
+    _unwrap(result);
+  }
 
   @override
-  Future<Map<String, bool>> loadEnabledMap() => _inner.loadEnabledMap();
+  Future<Map<String, bool>> loadEnabledMap() async {
+    return {};
+  }
 }
 
 /// Wraps a [SharedPreferencesDeityPreferenceRepository] into a

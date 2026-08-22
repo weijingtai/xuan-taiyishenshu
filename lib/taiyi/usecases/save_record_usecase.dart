@@ -1,7 +1,17 @@
 import 'dart:convert';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import '../../enums/taiyi_enum_extensions.dart';
 import '../pan_data_model.dart';
+
+/// Shared [RequestContext] for record calls.
+final _ctx = RequestContext(scopeUid: 'local-anonymous');
+
+/// Unwrap a [Result] or throw the error.
+T _unwrap<T>(Result<T> result) => switch (result) {
+      Ok(:final value) => value,
+      Err(:final error) => throw error,
+    };
 
 class SaveRecordUseCase {
   final TaiyiRecordRepository _recordRepo;
@@ -21,7 +31,8 @@ class SaveRecordUseCase {
       paramsJson: jsonEncode(panData.toJson()),
       createdAt: DateTime.now(),
     );
-    return _recordRepo.saveRecord(record);
+    _unwrap(await _recordRepo.put(record, _ctx));
+    return record.uuid;
   }
 
   String _generateUuid() {

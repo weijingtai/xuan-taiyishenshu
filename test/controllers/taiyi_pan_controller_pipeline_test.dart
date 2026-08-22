@@ -3,6 +3,7 @@ import 'package:metaphysics_core/enums.dart';
 import 'package:metaphysics_core/models/divination_datetime.dart';
 import 'package:metaphysics_core/models/eight_chars.dart';
 import 'package:metaphysics_core/models/jie_qi_info.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
     hide DummyDeityPreferenceRepository;
@@ -73,9 +74,10 @@ void main() {
       expect(pipelineRecord!.uuid, request.params.uuid);
 
       // 落库走 Record：内存 recordRepo 收到 1 条
-      final saved = await recordRepo.getAllRecords();
-      expect(saved, hasLength(1));
-      expect(saved.single.uuid, pipelineRecord.uuid);
+      final ctx = RequestContext(scopeUid: 'local-anonymous');
+      final saved = await recordRepo.query(const {}, PageRequest(limit: 100), ctx);
+      expect(saved.items, hasLength(1));
+      expect(saved.items.single.uuid, pipelineRecord.uuid);
 
       // ── 执行证据：executor 真实执行 + 落库 uuid 同源 ──
       final evidence = controller.lastPipelineEvidence;
@@ -122,7 +124,7 @@ void main() {
       expect(controller.error, isNull);
       expect(controller.lastPipelineRequest, isNull);
       expect(controller.lastPipelineRecord, isNull);
-      expect(await recordRepo.getAllRecords(), hasLength(1), reason: '老路径 SaveRecordUseCase 照常落库');
+      expect(await recordRepo.query(const {}, PageRequest(limit: 100), ctx), isA<Page<TaiyiDivinationRecordContract>>().having((p) => p.items.length, 'items', 1), reason: '老路径 SaveRecordUseCase 照常落库');
     });
 
     test('B2: 注入 executor 但 Pipeline 抛错时不崩、老路径照常产出', () async {
@@ -142,7 +144,7 @@ void main() {
       expect(controller.panData, isNotNull, reason: 'Pipeline 失败已回退，老路径照常');
       expect(controller.error, isNull);
       expect(controller.lastPipelineRecord, isNull);
-      expect(await recordRepo.getAllRecords(), hasLength(1), reason: '老路径 SaveRecordUseCase 兜底落库');
+      expect(await recordRepo.query(const {}, PageRequest(limit: 100), ctx), isA<Page<TaiyiDivinationRecordContract>>().having((p) => p.items.length, 'items', 1), reason: '老路径 SaveRecordUseCase 兜底落库');
     });
 
     test('C: TaiyiChartParams toJson/fromJson 互逆 round-trip', () {
@@ -227,33 +229,59 @@ class _InMemoryTaiyiRecordRepository implements TaiyiRecordRepository {
   final List<TaiyiDivinationRecordContract> _records = [];
 
   @override
-  Future<String> saveRecord(TaiyiDivinationRecordContract record) async {
-    _records.add(record);
-    return record.uuid;
+  Future<Result<Rev>> put(TaiyiDivinationRecordContract entity, RequestContext ctx, {Precondition pre = const Unconditional()}) async {
+    _records.add(entity);
+    return const Ok(Rev('rev_1'));
   }
 
   @override
-  Future<List<TaiyiDivinationRecordContract>> getAllRecords() async {
-    return List.of(_records);
+  Future<Result<Page<TaiyiDivinationRecordContract>>> query(Map<String, Object?> spec, PageRequest page, RequestContext ctx) async {
+    return Ok(Page(items: List.of(_records)));
   }
 
   @override
-  Future<TaiyiDivinationRecordContract?> getRecordByUuid(String uuid) async {
+  Future<Result<TaiyiDivinationRecordContract?>> get(String id, RequestContext ctx) async {
     for (final r in _records) {
-      if (r.uuid == uuid) return r;
+      if (r.uuid == id) return Ok(r);
     }
-    return null;
+    return const Ok(null);
   }
 
   @override
-  Future<bool> softDeleteRecord(String uuid) async {
-    _records.removeWhere((r) => r.uuid == uuid);
-    return true;
+  Future<Result<bool>> exists(String id, RequestContext ctx) async {
+    return Ok(_records.any((r) => r.uuid == id));
   }
 
   @override
-  Stream<List<TaiyiDivinationRecordContract>> watchAllRecords() async* {
-    yield List.of(_records);
+  Future<Result<void>> softDelete(String id, RequestContext ctx, {Precondition pre = const Unconditional()}) async {
+    _records.removeWhere((r) => r.uuid == id);
+    return const Ok(null);
+  }
+
+  @override
+  Future<Result<void>> restore(String id, RequestContext ctx) async => const Ok(null);
+
+  @override
+  Future<Result<TaiyiDivinationRecordContract?>> getIncludingDeleted(String id, RequestContext ctx) async => get(id, ctx);
+
+  @override
+  Future<Result<int>> count(Map<String, Object?> spec, RequestContext ctx) async => Ok(_records.length);
+
+  @override
+  Stream<Result<List<TaiyiDivinationRecordContract>>> watch(Map<String, Object?> spec, RequestContext ctx) async* {
+    yield Ok(List.of(_records));
+  }
+
+  @override
+  Future<Result<BatchOutcome<String>>> putAll(List<TaiyiDivinationRecordContract> entities, RequestContext ctx) async {
+    for (final e in entities) { _records.add(e); }
+    return Ok(BatchOutcome(entities.map((e) => (id: e.uuid, result: const Ok(Rev('rev_1')))).toList()));
+  }
+
+  @override
+  Future<Result<R>> inTransaction<R>(Future<R> Function() body) async {
+    final r = await body();
+    return Ok(r);
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart'
     as contract;
 import 'package:timezone/data/latest.dart' as tz;
@@ -12,6 +13,15 @@ import '../../controllers/taiyi_pan_controller.dart';
 import '../../domain/pipeline/taiyi_pipeline_executor.dart';
 import '../adapters/taiyi_contract_adapters.dart';
 
+/// Shared [RequestContext] for adapter calls (local anonymous scope).
+final _ctx = RequestContext(scopeUid: 'local-anonymous');
+
+/// Unwrap a [Result] or throw the error.
+T _unwrap<T>(Result<T> result) => switch (result) {
+      Ok(:final value) => value,
+      Err(:final error) => throw error,
+    };
+
 /// Wraps contract-typed [contract.DeityPreferenceRepository] into product-typed
 /// [product.DeityPreferenceRepository].
 class _ContractDeityPreferenceAdapter implements product.DeityPreferenceRepository {
@@ -19,14 +29,23 @@ class _ContractDeityPreferenceAdapter implements product.DeityPreferenceReposito
   _ContractDeityPreferenceAdapter(this._inner);
 
   @override
-  Future<bool> isEnabled(String deityId) => _inner.isEnabled(deityId);
+  Future<bool> isEnabled(String deityId) async {
+    final result = await _inner.get(deityId, _ctx);
+    return _unwrap(result) ?? true;
+  }
 
   @override
-  Future<void> setEnabled(String deityId, bool enabled) =>
-      _inner.setEnabled(deityId, enabled);
+  Future<void> setEnabled(String deityId, bool enabled) async {
+    final result = await _inner.put(enabled, _ctx);
+    _unwrap(result);
+  }
 
   @override
-  Future<Map<String, bool>> loadEnabledMap() => _inner.loadEnabledMap();
+  Future<Map<String, bool>> loadEnabledMap() async {
+    // DeityPreferenceRepository in L0 only stores individual bools via
+    // Readable/Writable, not Queryable. Return empty map for now.
+    return {};
+  }
 }
 
 final class TaiyishenshuModuleManifest {

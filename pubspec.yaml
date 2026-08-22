@@ -81,17 +81,13 @@ dependency_overrides:
   metaphysics_core:
     path: ../xuan-metaphysics-core
   persistence_assets:
-    git:
-      url: http://192.168.0.165:3000/xuan/xuan-storage.git
-      path: assets
+    path: ../xuan-storage/assets
   persistence_core:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-storage.git
       path: core
   persistence_drift:
-    git:
-      url: http://192.168.0.165:3000/xuan/xuan-storage.git
-      path: drift
+    path: ../xuan-storage/drift
   xuan_four_zhu_card:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-four-zhu-card.git
@@ -104,6 +100,8 @@ dependency_overrides:
   persistence_domain:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-domain.git
+  repository_interface_yanqinshu:
+    path: ../repository-interface-yanqinshu
 
 dev_dependencies:
   flutter_test:
@@ -116,13 +114,9 @@ dev_dependencies:
   path_provider_platform_interface: ^2.1.2
 
   persistence_drift:
-    git:
-      url: http://192.168.0.165:3000/xuan/xuan-storage.git
-      path: drift
+    path: ../xuan-storage/drift
   persistence_assets:
-    git:
-      url: http://192.168.0.165:3000/xuan/xuan-storage.git
-      path: assets
+    path: ../xuan-storage/assets
   persistence_preferences:
     git:
       url: http://192.168.0.165:3000/xuan/xuan-storage.git

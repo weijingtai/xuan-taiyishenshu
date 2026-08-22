@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:taiyishenshu/taiyi/core/school_repository.dart';
 import 'package:taiyishenshu/taiyi/core/school_config.dart';
 import 'package:taiyishenshu/taiyi/core/deity_definition.dart';
@@ -48,19 +49,37 @@ class FakeDeityRepository implements DeityRepository {
 
 class FakeTaiyiRecordRepository implements TaiyiRecordRepository {
   @override
-  Future<String> saveRecord(TaiyiDivinationRecordContract record) async => record.uuid;
+  Future<Result<Rev>> put(TaiyiDivinationRecordContract entity, RequestContext ctx, {Precondition pre = const Unconditional()}) async => const Ok(Rev('rev_1'));
 
   @override
-  Future<List<TaiyiDivinationRecordContract>> getAllRecords() async => const [];
+  Future<Result<Page<TaiyiDivinationRecordContract>>> query(Map<String, Object?> spec, PageRequest page, RequestContext ctx) async => const Ok(Page(items: []));
 
   @override
-  Future<TaiyiDivinationRecordContract?> getRecordByUuid(String uuid) async => null;
+  Future<Result<TaiyiDivinationRecordContract?>> get(String id, RequestContext ctx) async => const Ok(null);
 
   @override
-  Future<bool> softDeleteRecord(String uuid) async => true;
+  Future<Result<bool>> exists(String id, RequestContext ctx) async => const Ok(false);
 
   @override
-  Stream<List<TaiyiDivinationRecordContract>> watchAllRecords() => Stream.value(const []);
+  Future<Result<void>> softDelete(String id, RequestContext ctx, {Precondition pre = const Unconditional()}) async => const Ok(null);
+
+  @override
+  Future<Result<void>> restore(String id, RequestContext ctx) async => const Ok(null);
+
+  @override
+  Future<Result<TaiyiDivinationRecordContract?>> getIncludingDeleted(String id, RequestContext ctx) async => const Ok(null);
+
+  @override
+  Future<Result<int>> count(Map<String, Object?> spec, RequestContext ctx) async => const Ok(0);
+
+  @override
+  Stream<Result<List<TaiyiDivinationRecordContract>>> watch(Map<String, Object?> spec, RequestContext ctx) => Stream.value(const Ok([]));
+
+  @override
+  Future<Result<BatchOutcome<String>>> putAll(List<TaiyiDivinationRecordContract> entities, RequestContext ctx) async => const Ok(BatchOutcome([]));
+
+  @override
+  Future<Result<R>> inTransaction<R>(Future<R> Function() body) async => Ok(await body());
 }
 
 void main() {

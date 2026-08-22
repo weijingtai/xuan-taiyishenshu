@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'package:taiyishenshu/minggua/core/gua_sequence.dart';
 
@@ -14,7 +15,7 @@ class MockMingGuaRepository implements MingGuaRepository {
       id: 'tongZong',
       name: '统宗宝鉴',
       epochBase: 10153917,
-      guaSequence: kTaiYiGuaSequence,
+      guaSequence: kTaiYiGuaSequence.map((g) => g.name).toList(),
       dongYaoRule: 'standard',
       source: 'official',
     );
@@ -48,5 +49,42 @@ class MockMingGuaRepository implements MingGuaRepository {
   @override
   Future<void> deleteConfig(String id) async {
     _configs.remove(id);
+  }
+
+  // ── L0 slice methods ──
+
+  @override
+  Future<Result<MingGuaConfigContract?>> get(String id, RequestContext ctx) async =>
+      throwOnLoad ? throw Exception('forced error') : Ok(_configs[id]);
+
+  @override
+  Future<Result<bool>> exists(String id, RequestContext ctx) async =>
+      Ok(_configs.containsKey(id));
+
+  @override
+  Future<Result<Rev>> put(
+    MingGuaConfigContract entity,
+    RequestContext ctx, {
+    Precondition pre = const Unconditional(),
+  }) async {
+    _configs[entity.id] = entity;
+    return const Ok(Rev('rev_1'));
+  }
+
+  @override
+  Future<Result<Page<MingGuaConfigContract>>> query(
+    Map<String, Object?> spec,
+    PageRequest page,
+    RequestContext ctx,
+  ) async => Ok(Page(items: _configs.values.toList()));
+
+  @override
+  Future<Result<int>> count(Map<String, Object?> spec, RequestContext ctx) async =>
+      Ok(_configs.length);
+
+  @override
+  Future<Result<R>> inTransaction<R>(Future<R> Function() body) async {
+    final r = await body();
+    return Ok(r);
   }
 }

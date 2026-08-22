@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:metaphysics_core/enums.dart';
+import 'package:repository_contract_kernel/repository_contract_kernel.dart';
 import 'package:repository_interface_divination_pipeline/repository_interface_divination_pipeline.dart';
 import 'package:repository_interface_taiyishenshu/repository_interface_taiyishenshu.dart';
 import 'package:xuan_time_location/xuan_time_location.dart';
@@ -180,7 +181,11 @@ class TaiYiPanController extends ChangeNotifier {
             keyResult: _keyResultOf(record),
             error: null,
           );
-          await assembly.recordRepo.saveRecord(record);
+          final ctx = RequestContext(scopeUid: 'local-anonymous');
+          await switch (await assembly.recordRepo.put(record, ctx)) {
+            Ok(:final value) => Future.value(value),
+            Err(:final error) => Future.error(error),
+          };
         } catch (error, stack) {
           _lastPipelineEvidence = PipelineEvidence(
             callCount: _pipelineCallCount,
